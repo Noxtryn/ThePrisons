@@ -115,14 +115,6 @@ public final class ThePrisonsConfigScreen extends Screen {
                         saveAndReload(0, 0);
                     });
                 } else if (selectedSubCategory == 1) {
-                    addContentRow(contentX, contentY, rowW, toggleText("Pickaxe drop protection", config.qol.pickaxeDropProtection), () -> {
-                        config.qol.pickaxeDropProtection = !config.qol.pickaxeDropProtection;
-                        saveAndReload(0, 1);
-                    });
-                    addContentRow(contentX, contentY, rowW, toggleText("Block inventory throws", config.qol.blockProtectedItemDragging), () -> {
-                        config.qol.blockProtectedItemDragging = !config.qol.blockProtectedItemDragging;
-                        saveAndReload(0, 1);
-                    });
                     addContentRow(contentX, contentY, rowW, toggleText("Peaceful mining safety", config.qol.peacefulMiningSafety), () -> {
                         config.qol.peacefulMiningSafety = !config.qol.peacefulMiningSafety;
                         saveAndReload(0, 1);
@@ -139,14 +131,10 @@ public final class ThePrisonsConfigScreen extends Screen {
                 }
             }
             case 1 -> {
-                addSubTabs(contentX, tabsY, rowW, new String[]{"HUDs", "Items", "Events", "Bandit", "Style"}, selectedSubCategory);
+                addSubTabs(contentX, tabsY, rowW, new String[]{"HUDs", "Items", "Events", "Style"}, selectedSubCategory);
                 if (selectedSubCategory == 0) {
-                    addContentRow(contentX, contentY, rowW, toggleText("Pet HUD", config.hud.petHudEnabled), () -> {
+                    addContentRow(contentX, contentY, rowW, toggleText("Pets & Trinkets HUD", config.hud.petHudEnabled), () -> {
                         config.hud.petHudEnabled = !config.hud.petHudEnabled;
-                        saveAndReload(1, 0);
-                    });
-                    addContentRow(contentX, contentY, rowW, toggleText("Show tracked pets", config.hud.showTrackedPets), () -> {
-                        config.hud.showTrackedPets = !config.hud.showTrackedPets;
                         saveAndReload(1, 0);
                     });
                     addContentRow(contentX, contentY, rowW, toggleText("Ready status", config.hud.showReadyStatus), () -> {
@@ -199,81 +187,34 @@ public final class ThePrisonsConfigScreen extends Screen {
                         config.hud.showArmorWarnings = !config.hud.showArmorWarnings;
                         saveAndReload(1, 2);
                     });
-                    addContentRow(contentX, contentY, rowW, toggleText("Show armor background", config.hud.armorHudShowBackground), () -> {
-                        config.hud.armorHudShowBackground = !config.hud.armorHudShowBackground;
-                        saveAndReload(1, 2);
-                    });
-                } else if (selectedSubCategory == 3) {
-                    addContentRow(contentX, contentY, rowW, toggleText("Remaining kills alert", config.bandit.showBanditProgressAlerts), () -> {
-                        config.bandit.showBanditProgressAlerts = !config.bandit.showBanditProgressAlerts;
-                        saveAndReload(1, 3);
-                    });
-                    addContentRow(contentX, contentY, rowW, toggleText("Bandit trace", config.bandit.showBanditTrace), () -> {
-                        config.bandit.showBanditTrace = !config.bandit.showBanditTrace;
-                        saveAndReload(1, 3);
-                    });
-                    addContentRow(contentX, contentY, rowW, "Bandit trace fill: #" + hex(config.bandit.banditTraceFillColor), () -> {
-                        config.bandit.banditTraceFillColor = cycle(config.bandit.banditTraceFillColor,
-                                0x7A2E8FFF,
-                                0x7A4D8DFF,
-                                0x7A26B6FF,
-                                0x7A2CD9C5,
-                                0x7A7C4DFF);
-                        saveAndReload(1, 3);
-                    });
-                    addContentRow(contentX, contentY, rowW, "Bandit trace line: #" + hex(config.bandit.banditTraceOutlineColor), () -> {
-                        config.bandit.banditTraceOutlineColor = cycle(config.bandit.banditTraceOutlineColor,
-                                0xCC64B7FF,
-                                0xCC92C5FF,
-                                0xCC56D0FF,
-                                0xCC3AE4D7,
-                                0xCCB39BFF);
-                        saveAndReload(1, 3);
-                    });
-                    addContentRow(contentX, contentY, rowW, "Scan interval: " + config.bandit.banditScanIntervalMs + "ms", () -> {
-                        config.bandit.banditScanIntervalMs = cycle(config.bandit.banditScanIntervalMs, 80, 120, 150, 200, 250);
-                        saveAndReload(1, 3);
-                    });
-                    addContentRow(contentX, contentY, rowW, "Scan range: " + formatFloat((float) config.bandit.banditScanRange), () -> {
-                        config.bandit.banditScanRange = cycle(config.bandit.banditScanRange, 48.0D, 64.0D, 80.0D, 96.0D, 128.0D);
-                        saveAndReload(1, 3);
-                    });
                 } else {
                     addContentRow(contentX, contentY, rowW, "Pet accent: #" + hex(config.hud.petHudColor), () -> {
                         config.hud.petHudColor = cycle(config.hud.petHudColor, 0xFFA8E8FF, 0xFF7DD3FC, 0xFFFFC14D, 0xFF65F59B);
-                        saveAndReload(1, 4);
+                        saveAndReload(1, 3);
                     });
                     addContentRow(contentX, contentY, rowW, "Trinket accent: #" + hex(config.hud.readyColor), () -> {
                         config.hud.readyColor = cycle(config.hud.readyColor, 0xFFF84EA8, 0xFFFFC14D, 0xFF22C55E, 0xFF38BDF8);
-                        saveAndReload(1, 4);
-                    });
-                    addContentRow(contentX, contentY, rowW, "Global panel: #" + hex(config.hud.backgroundColor), () -> {
-                        config.hud.backgroundColor = cycle(config.hud.backgroundColor, 0xAA0E1220, 0xAA111611, 0xAA1A1610, 0xAA171A1F);
-                        saveAndReload(1, 4);
-                    });
-                    addContentRow(contentX, contentY, rowW, "Global border: #" + hex(config.hud.borderColor), () -> {
-                        config.hud.borderColor = cycle(config.hud.borderColor, 0x44FFFFFF, 0x4488CCFF, 0x44FFC14D, 0x44A3E635);
-                        saveAndReload(1, 4);
+                        saveAndReload(1, 3);
                     });
                     addContentRow(contentX, contentY, rowW, "Alert title color: #" + hex(config.hud.alertTitleColor), () -> {
                         config.hud.alertTitleColor = cycle(config.hud.alertTitleColor, 0xFFFF3DBA, 0xFFF84EA8, 0xFFFF6AD5, 0xFFFF9EC6);
-                        saveAndReload(1, 4);
+                        saveAndReload(1, 3);
                     });
                     addContentRow(contentX, contentY, rowW, "Alert body color: #" + hex(config.hud.alertBodyColor), () -> {
                         config.hud.alertBodyColor = cycle(config.hud.alertBodyColor, 0xFF4D8DFF, 0xFF35C9FF, 0xFF6BA8FF, 0xFF9CC6FF);
-                        saveAndReload(1, 4);
+                        saveAndReload(1, 3);
                     });
                     addContentRow(contentX, contentY, rowW, "Armor HUD scale: " + formatFloat(config.hud.armorHudScale), () -> {
                         config.hud.armorHudScale = cycle(config.hud.armorHudScale, 0.85F, 1.0F, 1.10F, 1.20F, 1.35F);
-                        saveAndReload(1, 4);
+                        saveAndReload(1, 3);
                     });
                     addContentRow(contentX, contentY, rowW, "Armor icon size: " + config.hud.armorHudIconSize, () -> {
                         config.hud.armorHudIconSize = cycle(config.hud.armorHudIconSize, 10, 12, 14, 16, 18, 20);
-                        saveAndReload(1, 4);
+                        saveAndReload(1, 3);
                     });
                     addContentRow(contentX, contentY, rowW, "Armor spacing: " + config.hud.armorHudGap, () -> {
                         config.hud.armorHudGap = cycle(config.hud.armorHudGap, 0, 1, 2, 3, 4, 6, 8);
-                        saveAndReload(1, 4);
+                        saveAndReload(1, 3);
                     });
                 }
             }
@@ -369,21 +310,12 @@ public final class ThePrisonsConfigScreen extends Screen {
                 ? selectedSubCategory == 0 ? "HUD modules and tracked timers" :
                   selectedSubCategory == 1 ? "Inventory overlays and item tooltip insights" :
                   selectedSubCategory == 2 ? "Alerts and armor warning display settings" :
-                  selectedSubCategory == 3 ? "Bandit progress alerts and optional visual helpers" :
                   "HUD colors and density"
                 : selectedSubCategory == 0 ? "Screen positions and layout editor" : "HUD scale and reset actions";
 
         context.drawTextWithShadow(textRenderer, Text.literal(title), contentX, contentY - 14, ThePrisonsColors.FG_PRIMARY);
         context.drawTextWithShadow(textRenderer, Text.literal(subtitle), contentX, contentY, ThePrisonsColors.FG_MUTED);
         context.fill(contentX, contentY + 10, panelX + panelW - 24, contentY + 11, ThePrisonsColors.BORDER_HI);
-
-        if (selectedCategory == 1 && selectedSubCategory == 3) {
-            int previewX = panelX + panelW - 76;
-            int previewY = contentY - 14;
-            context.drawTextWithShadow(textRenderer, Text.literal("Line"), previewX - 24, previewY + 8, ThePrisonsColors.FG_MUTED);
-            context.fill(previewX, previewY + 8, previewX + 36, previewY + 10, config.bandit.banditTraceOutlineColor);
-            context.fill(previewX, previewY + 10, previewX + 36, previewY + 14, config.bandit.banditTraceFillColor);
-        }
 
         applyScroll();
         super.render(context, mouseX, mouseY, delta);

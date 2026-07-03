@@ -3,7 +3,6 @@ package com.freelocs.theprisons.config;
 public final class ThePrisonsConfig {
     public final GeneralConfig general = new GeneralConfig();
     public final HudConfig hud = new HudConfig();
-    public final BanditConfig bandit = new BanditConfig();
     public final QualityOfLifeConfig qol = new QualityOfLifeConfig();
     public final GuiConfig gui = new GuiConfig();
 
@@ -11,8 +10,6 @@ public final class ThePrisonsConfig {
         general.updateCheckIntervalHours = clamp(general.updateCheckIntervalHours, 1, 168);
         hud.petHudColor = clampColor(hud.petHudColor, 0xFFA8E8FF);
         hud.readyColor = clampColor(hud.readyColor, 0xFFF84EA8);
-        hud.backgroundColor = clampColor(hud.backgroundColor, 0xAA0E1220);
-        hud.borderColor = clampColor(hud.borderColor, 0x44FFFFFF);
         hud.armorHudScale = Math.max(0.75F, Math.min(1.35F, hud.armorHudScale));
         hud.armorHudIconSize = clamp(hud.armorHudIconSize, 10, 20);
         hud.armorHudGap = clamp(hud.armorHudGap, 0, 8);
@@ -20,8 +17,6 @@ public final class ThePrisonsConfig {
         hud.armorHudOffsetY = clamp(hud.armorHudOffsetY, -64, 64);
         hud.armorHudShowText = false;
         hud.showDurabilityOverlays = false;
-        hud.armorHudBackground = clampColor(hud.armorHudBackground, 0xAA0E1220);
-        hud.armorHudGlow = clampColor(hud.armorHudGlow, 0x3000E5FF);
         hud.satchelWarningPercent = clamp(hud.satchelWarningPercent, 50, 100);
         qol.messageNotificationVolume = Math.max(0.0F, Math.min(2.0F, qol.messageNotificationVolume));
         gui.gridSize = clamp(gui.gridSize, 6, 32);
@@ -37,10 +32,6 @@ public final class ThePrisonsConfig {
         gui.energyHudY = Math.max(0, gui.energyHudY);
         gui.armorHudX = Math.max(-1, gui.armorHudX);
         gui.armorHudY = Math.max(-1, gui.armorHudY);
-        gui.announcementX = Math.max(-1, gui.announcementX);
-        gui.announcementY = Math.max(0, gui.announcementY);
-        bandit.banditTraceFillColor = clampColor(bandit.banditTraceFillColor, 0x7A2E8FFF);
-        bandit.banditTraceOutlineColor = clampColor(bandit.banditTraceOutlineColor, 0xCC64B7FF);
         hud.alertTitleColor = clampColor(hud.alertTitleColor, 0xFFFF3DBA);
         hud.alertBodyColor = clampColor(hud.alertBodyColor, 0xFF4D8DFF);
     }
@@ -62,8 +53,6 @@ public final class ThePrisonsConfig {
 
     public static final class HudConfig {
         public boolean petHudEnabled = true;
-        public boolean showTrackedPets = true;
-        public boolean showTrinkets = true;
         public boolean showCommandCooldowns = true;
         public boolean showSatchelHud = true;
         public boolean showStatsHud = false;
@@ -77,41 +66,22 @@ public final class ThePrisonsConfig {
         public boolean showItemInsightTooltips = true;
         public boolean showSatchelWarnings = true;
         public boolean armorHudShowText = false;
-        public boolean armorHudShowBackground = false;
         public float armorHudScale = 1.0F;
         public int armorHudIconSize = 16;
         public int armorHudGap = 2;
         public int armorHudOffsetX = 0;
         public int armorHudOffsetY = 0;
-        public int armorHudBackground = 0xAA0E1220;
-        public int armorHudGlow = 0x3000E5FF;
         public int petHudColor = 0xFFA8E8FF;
         public int readyColor = 0xFFF84EA8;
-        public int backgroundColor = 0xAA0E1220;
-        public int borderColor = 0x44FFFFFF;
         public int alertTitleColor = 0xFFFF3DBA;
         public int alertBodyColor = 0xFF4D8DFF;
         public int satchelWarningPercent = 85;
-    }
-
-    public static final class BanditConfig {
-        public boolean showBanditTrace = false;
-        public boolean showBanditProgressAlerts = false;
-        public double banditScanRange = 96.0D;
-        public double banditTraceDistance = 3.0D;
-        public int banditScanIntervalMs = 150;
-        public float banditTraceWidth = 0.30F;
-        public float banditTraceGlowWidth = 8.0F;
-        public int banditTraceFillColor = 0x7A2E8FFF;
-        public int banditTraceOutlineColor = 0xCC64B7FF;
     }
 
     public static final class QualityOfLifeConfig {
         public boolean messageNotifications = true;
         public boolean messageNotificationSound = true;
         public float messageNotificationVolume = 0.85F;
-        public boolean pickaxeDropProtection = true;
-        public boolean blockProtectedItemDragging = true;
         public boolean peacefulMiningSafety = true;
     }
 
@@ -130,7 +100,5 @@ public final class ThePrisonsConfig {
         public float hudScale = 1.0f;
         public int armorHudX = -1;
         public int armorHudY = -1;
-        public int announcementX = -1;
-        public int announcementY = 18;
     }
 }

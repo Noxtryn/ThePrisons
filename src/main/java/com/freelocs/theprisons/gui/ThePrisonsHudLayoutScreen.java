@@ -34,7 +34,7 @@ public final class ThePrisonsHudLayoutScreen extends Screen {
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         updateDrag(mouseX, mouseY);
         context.fill(0, 0, width, height, ThePrisonsColors.BG_OVERLAY);
-        context.drawTextWithShadow(textRenderer, Text.literal("Drag HUD widgets and alerts. Hover a widget and use the mouse wheel to resize it."), 12, 12, ThePrisonsColors.FG_PRIMARY);
+        context.drawTextWithShadow(textRenderer, Text.literal("Drag HUD widgets. Alerts are fixed."), 12, 12, ThePrisonsColors.FG_PRIMARY);
         String hoveredWidget = insideHudWidget(mouseX, mouseY);
         String hoverScaleText = hoveredWidget == null
                 ? "Hover scale -"
@@ -59,20 +59,11 @@ public final class ThePrisonsHudLayoutScreen extends Screen {
         return ThePrisonsBanditManager.isInsideArmorHud(client, config, mouseX, mouseY);
     }
 
-    private boolean insideNotifications(int mouseX, int mouseY) {
-        return ThePrisonsHudRenderer.isInsideNotifications(client, config, mouseX, mouseY);
-    }
-
     private void updateDrag(int mouseX, int mouseY) {
         boolean mouseDown = GLFW.glfwGetMouseButton(client.getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS;
 
         if (mouseDown && !wasMouseDown) {
-            if (insideNotifications(mouseX, mouseY)) {
-                ThePrisonsHudRenderer.HudBounds bounds = ThePrisonsHudRenderer.notificationBounds(client, config, true);
-                dragTarget = DragTarget.ALERTS;
-                dragOffsetX = mouseX - bounds.x;
-                dragOffsetY = mouseY - bounds.y;
-            } else if (insideArmorHud(mouseX, mouseY)) {
+            if (insideArmorHud(mouseX, mouseY)) {
                 ThePrisonsHudRenderer.HudBounds bounds = ThePrisonsBanditManager.measureArmorHud(client, config);
                 dragTarget = DragTarget.ARMOR;
                 dragOffsetX = mouseX - bounds.x;
@@ -122,10 +113,6 @@ public final class ThePrisonsHudLayoutScreen extends Screen {
                 case ARMOR -> {
                     gui.armorHudX = Math.max(0, newX);
                     gui.armorHudY = Math.max(0, newY);
-                }
-                case ALERTS -> {
-                    gui.announcementX = Math.max(0, newX);
-                    gui.announcementY = Math.max(0, newY);
                 }
             }
             ThePrisonsClient.CONFIG.save();
@@ -195,8 +182,7 @@ public final class ThePrisonsHudLayoutScreen extends Screen {
         PET_TRINKET_HUD,
         SESSION_XP_HUD,
         ENERGY_HUD,
-        ARMOR,
-        ALERTS;
+        ARMOR;
 
         private static DragTarget fromWidget(String widgetId) {
             return switch (widgetId) {

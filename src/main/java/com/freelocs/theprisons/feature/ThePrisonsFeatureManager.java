@@ -23,12 +23,10 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipType;
-import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Formatting;
-import net.minecraft.util.math.BlockPos;
 import org.jspecify.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
 
@@ -48,7 +46,6 @@ import java.util.regex.Pattern;
 public final class ThePrisonsFeatureManager {
     private static final Pattern DURATION_PAIR = Pattern.compile("(?i)(\\d+(?:\\.\\d+)?)\\s*(h|hr|hrs|hour|hours|m|min|mins|minute|minutes|s|sec|secs|second|seconds)\\b");
     private static final Pattern CLOCK_TIME = Pattern.compile("\\b(\\d{1,2}):(\\d{2})(?::(\\d{2}))?\\b");
-    private static final Pattern COORDS = Pattern.compile("(?i)(?:x\\s*[:=]\\s*)?(-?\\d{2,6})\\D{1,12}(?:y\\s*[:=]\\s*)?(-?\\d{1,3})?\\D{1,12}(?:z\\s*[:=]\\s*)?(-?\\d{2,6})");
     private static final Pattern STAT_GAIN_SUFFIX = Pattern.compile("(?i)(?:\\+\\s*)?([\\d,.]+\\s*[kmb]?)\\s*(cosmic\\s+energy|energy|xp|experience)\\b");
     private static final Pattern STAT_GAIN_PREFIX = Pattern.compile("(?i)(cosmic\\s+energy|energy|xp|experience)\\s*(?:\\+\\s*)?([\\d,.]+\\s*[kmb]?)\\b");
     private static final String[] NON_PLAYER_STATS_CONTEXT = {
@@ -63,7 +60,6 @@ public final class ThePrisonsFeatureManager {
     private static final Map<String, Integer> DEFAULT_COMMAND_SECONDS = new LinkedHashMap<>();
     private static final Map<String, RuntimeCooldown> COMMAND_COOLDOWNS = new LinkedHashMap<>();
     private static final List<SatchelSummary> SATCHELS = new ArrayList<>();
-    private static final List<EventMarker> EVENTS = new ArrayList<>();
     private static final SessionStats STATS = new SessionStats();
     private static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("HH:mm");
 
@@ -74,10 +70,8 @@ public final class ThePrisonsFeatureManager {
     private static long lastSatchelWarningAtMs;
     private static long lastLowHealthWarningAtMs;
     private static long lastLowHungerWarningAtMs;
-    private static long lastProtectedDropAtMs;
     private static long lastChatXpGainAtMs;
     private static int lastApiTotalXp = -1;
-    private static String lastProtectedDropKey = "";
 
     static {
         DEFAULT_COMMAND_SECONDS.put("jet", 120);
@@ -144,7 +138,6 @@ public final class ThePrisonsFeatureManager {
 
         if (client.player == null || client.world == null) {
             SATCHELS.clear();
-            EVENTS.clear();
             lastApiTotalXp = -1;
             return;
         }
@@ -154,7 +147,6 @@ public final class ThePrisonsFeatureManager {
 
         if (tickCounter % 20 == 0) {
             scanInventory(client);
-            pruneEvents();
         }
     }
 
@@ -240,40 +232,6 @@ public final class ThePrisonsFeatureManager {
     }
 
 
-    public static boolean shouldCancelProtectedDrop(ItemStack stack) {
-        ThePrisonsConfig config = ThePrisonsClient.CONFIG.get();
-        if (!config.qol.pickaxeDropProtection || !isProtectedItem(stack)) {
-            return false;
-        }
-        long now = System.currentTimeMillis();
-        String key = itemKey(stack);
-        if (key.equals(lastProtectedDropKey) && now - lastProtectedDropAtMs <= 3_000L) {
-            lastProtectedDropAtMs = 0L;
-            lastProtectedDropKey = "";
-            return false;
-        }
-        lastProtectedDropAtMs = now;
-        lastProtectedDropKey = key;
-        ThePrisonsHudRenderer.pushNotification("Drop Protection", "Press drop again within 3s to confirm.", ThePrisonsColors.ACCENT_AMBER);
-        return true;
-    }
-
-    public static boolean shouldCancelSlotThrow(PlayerEntity player, int slotId, SlotActionType actionType) {
-        ThePrisonsConfig config = ThePrisonsClient.CONFIG.get();
-        if (!config.qol.blockProtectedItemDragging || actionType != SlotActionType.THROW || slotId < 0 || player == null) {
-            return false;
-        }
-        if (slotId >= player.currentScreenHandler.slots.size()) {
-            return false;
-        }
-        ItemStack stack = player.currentScreenHandler.getSlot(slotId).getStack();
-        if (!isProtectedItem(stack)) {
-            return false;
-        }
-        ThePrisonsHudRenderer.pushNotification("Drop Protection", "Protected item throw blocked in inventory.", ThePrisonsColors.ACCENT_AMBER);
-        return true;
-    }
-
     private static void handleKeys(MinecraftClient client) {
         if (client == null) {
             return;
@@ -327,7 +285,6 @@ public final class ThePrisonsFeatureManager {
         }
         parseCooldown(raw);
         parseStats(raw);
-        parseEvent(raw);
         maybeNotifyMessage(raw);
     }
 
@@ -428,45 +385,6 @@ public final class ThePrisonsFeatureManager {
             }
         }
         return false;
-    }
-
-    private static void parseEvent(String raw) {
-        String lower = raw.toLowerCase(Locale.ROOT);
-        String label = null;
-        long durationMs = 5 * 60_000L;
-        if (lower.contains("meteorite shower")) {
-            label = "Meteorite Shower";
-            durationMs = 7 * 60_000L;
-        } else if (lower.contains("meteor")) {
-            label = lower.contains("summoned") ? "Summoned Meteor" : "Meteor";
-            durationMs = lower.contains("summoned") ? 60_000L : 7 * 60_000L;
-        } else if (lower.contains("ore merchant") || lower.contains("merchant")) {
-            label = "Ore Merchant";
-            durationMs = 10 * 60_000L;
-        } else if (lower.contains("bandit rush")) {
-            label = "Bandit Rush";
-            durationMs = 5 * 60_000L;
-        }
-        if (label == null) {
-            return;
-        }
-        Matcher matcher = COORDS.matcher(raw);
-        if (!matcher.find()) {
-            return;
-        }
-        Integer x = parseInt(matcher.group(1));
-        Integer y = parseInt(matcher.group(2));
-        Integer z = parseInt(matcher.group(3));
-        if (x == null || z == null) {
-            return;
-        }
-        BlockPos pos = new BlockPos(x, y == null ? 64 : y, z);
-        long expires = System.currentTimeMillis() + durationMs;
-        String eventLabel = label;
-        EVENTS.removeIf(event -> event.label.equals(eventLabel) && event.pos.getSquaredDistance(pos) < 16.0D);
-        EVENTS.add(new EventMarker(eventLabel, pos, expires));
-        EVENTS.sort(Comparator.comparing(event -> event.label));
-        ThePrisonsHudRenderer.pushNotification(eventLabel, "Waypoint saved at " + x + ", " + pos.getY() + ", " + z + ".", ThePrisonsColors.ACCENT_CYAN);
     }
 
     private static void maybeNotifyMessage(String raw) {
@@ -732,11 +650,6 @@ public final class ThePrisonsFeatureManager {
         }
     }
 
-    private static void pruneEvents() {
-        long now = System.currentTimeMillis();
-        EVENTS.removeIf(event -> event.expiresAtMs <= now);
-    }
-
     private static void playNotificationSound(MinecraftClient client, ThePrisonsConfig config) {
         if (!config.qol.messageNotificationSound || config.qol.messageNotificationVolume <= 0.0F) {
             return;
@@ -763,24 +676,12 @@ public final class ThePrisonsFeatureManager {
         context.drawTextWithShadow(renderer, Text.literal(text), x, y, color);
     }
 
-    private static boolean isProtectedItem(ItemStack stack) {
-        if (stack == null || stack.isEmpty()) {
-            return false;
-        }
-        String text = (stack.getName().getString() + " " + stack.getItem().getTranslationKey()).toLowerCase(Locale.ROOT);
-        return text.contains("pickaxe") || text.contains("satchel");
-    }
-
     private static boolean isMiningTool(ItemStack stack) {
         if (stack == null || stack.isEmpty()) {
             return false;
         }
         String text = (stack.getName().getString() + " " + stack.getItem().getTranslationKey()).toLowerCase(Locale.ROOT);
         return text.contains("pickaxe") || text.contains("mace");
-    }
-
-    private static String itemKey(ItemStack stack) {
-        return stack.getItem().getTranslationKey() + ":" + clean(stack.getName().getString());
     }
 
     private static String commandName(String command) {
@@ -996,18 +897,6 @@ public final class ThePrisonsFeatureManager {
             private SatchelSummary freeze() {
                 return new SatchelSummary(displayName, amount, capacity, count);
             }
-        }
-    }
-
-    private record EventMarker(String label, BlockPos pos, long expiresAtMs) {
-        private String value(MinecraftClient client) {
-            long remaining = Math.max(0L, expiresAtMs - System.currentTimeMillis());
-            String time = formatRemaining(remaining);
-            if (client == null || client.player == null) {
-                return pos.getX() + "," + pos.getZ() + " " + time;
-            }
-            double distance = Math.sqrt(pos.getSquaredDistance(client.player.getBlockPos()));
-            return Math.round(distance) + "m " + time;
         }
     }
 
