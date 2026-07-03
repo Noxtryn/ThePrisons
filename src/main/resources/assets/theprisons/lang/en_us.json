@@ -1,8 +1,12 @@
 {
   "modmenu.nameTranslation.theprisons": "ThePrisons",
-  "modmenu.descriptionTranslation.theprisons": "Client-side CosmicPrisons HUDs, cooldowns, satchel tracking, item overlays, alerts, update checks, and local safety QoL.",
+  "modmenu.descriptionTranslation.theprisons": "Client-side CosmicPrisons HUDs, cooldowns, satchel tracking, item insights, alerts and an Ore Macro with a built-in pathfinder and failsafes.",
   "category.theprisons": "ThePrisons",
+  "key.category.theprisons.main": "ThePrisons",
   "key.theprisons.open_config": "Open config",
   "key.theprisons.reset_stats": "Reset stats HUD",
-  "key.theprisons.pause_stats": "Pause stats HUD"
+  "key.theprisons.pause_stats": "Pause stats HUD",
+  "key.theprisons.route_record_start": "Start route recording",
+  "key.theprisons.route_record_stop": "Stop route recording",
+  "key.theprisons.ore_macro": "Toggle Ore Macro"
 }

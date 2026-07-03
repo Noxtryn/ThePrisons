@@ -3,7 +3,7 @@
   "id": "theprisons",
   "version": "v.1.0",
   "name": "ThePrisons",
-  "description": "Client-side Fabric mod for CosmicPrisons HUDs, cooldowns, satchel tracking, inventory overlays, item insights, alerts, update checks, and local safety QoL.",
+  "description": "Client-side Fabric mod for CosmicPrisons HUDs, cooldowns, satchel tracking, item insights, alerts, update checks and a mining suite.",
   "authors": [
     "TrustTheCat"
   ],

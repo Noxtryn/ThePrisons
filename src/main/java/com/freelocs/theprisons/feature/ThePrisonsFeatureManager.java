@@ -2,12 +2,10 @@ package com.freelocs.theprisons.feature;
 
 import com.freelocs.theprisons.ThePrisonsClient;
 import com.freelocs.theprisons.config.ThePrisonsConfig;
-import com.freelocs.theprisons.gui.ThePrisonsConfigScreen;
+import com.freelocs.theprisons.core.ThePrisonsCore;
 import com.freelocs.theprisons.ui.ThePrisonsColors;
 import com.freelocs.theprisons.ui.ThePrisonsHudRenderer;
 import com.mojang.authlib.GameProfile;
-import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
-import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.message.v1.ClientSendMessageEvents;
@@ -23,12 +21,10 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipType;
-import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Formatting;
-import net.minecraft.util.math.BlockPos;
 import org.jspecify.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
 
@@ -48,7 +44,6 @@ import java.util.regex.Pattern;
 public final class ThePrisonsFeatureManager {
     private static final Pattern DURATION_PAIR = Pattern.compile("(?i)(\\d+(?:\\.\\d+)?)\\s*(h|hr|hrs|hour|hours|m|min|mins|minute|minutes|s|sec|secs|second|seconds)\\b");
     private static final Pattern CLOCK_TIME = Pattern.compile("\\b(\\d{1,2}):(\\d{2})(?::(\\d{2}))?\\b");
-    private static final Pattern COORDS = Pattern.compile("(?i)(?:x\\s*[:=]\\s*)?(-?\\d{2,6})\\D{1,12}(?:y\\s*[:=]\\s*)?(-?\\d{1,3})?\\D{1,12}(?:z\\s*[:=]\\s*)?(-?\\d{2,6})");
     private static final Pattern STAT_GAIN_SUFFIX = Pattern.compile("(?i)(?:\\+\\s*)?([\\d,.]+\\s*[kmb]?)\\s*(cosmic\\s+energy|energy|xp|experience)\\b");
     private static final Pattern STAT_GAIN_PREFIX = Pattern.compile("(?i)(cosmic\\s+energy|energy|xp|experience)\\s*(?:\\+\\s*)?([\\d,.]+\\s*[kmb]?)\\b");
     private static final String[] NON_PLAYER_STATS_CONTEXT = {
@@ -63,7 +58,6 @@ public final class ThePrisonsFeatureManager {
     private static final Map<String, Integer> DEFAULT_COMMAND_SECONDS = new LinkedHashMap<>();
     private static final Map<String, RuntimeCooldown> COMMAND_COOLDOWNS = new LinkedHashMap<>();
     private static final List<SatchelSummary> SATCHELS = new ArrayList<>();
-    private static final List<EventMarker> EVENTS = new ArrayList<>();
     private static final SessionStats STATS = new SessionStats();
     private static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("HH:mm");
 
@@ -74,10 +68,8 @@ public final class ThePrisonsFeatureManager {
     private static long lastSatchelWarningAtMs;
     private static long lastLowHealthWarningAtMs;
     private static long lastLowHungerWarningAtMs;
-    private static long lastProtectedDropAtMs;
     private static long lastChatXpGainAtMs;
     private static int lastApiTotalXp = -1;
-    private static String lastProtectedDropKey = "";
 
     static {
         DEFAULT_COMMAND_SECONDS.put("jet", 120);
@@ -97,6 +89,15 @@ public final class ThePrisonsFeatureManager {
         DEFAULT_COMMAND_SECONDS.put("super", 180);
     }
 
+    /** Compiled once instead of once per command and chat line. */
+    private static final Map<String, Pattern> COMMAND_PATTERNS = new LinkedHashMap<>();
+
+    static {
+        for (String command : DEFAULT_COMMAND_SECONDS.keySet()) {
+            COMMAND_PATTERNS.put(command, Pattern.compile("\\b/?(" + Pattern.quote(command) + ")\\b"));
+        }
+    }
+
     private ThePrisonsFeatureManager() {
     }
 
@@ -105,26 +106,22 @@ public final class ThePrisonsFeatureManager {
                 "key.theprisons.open_config",
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_I,
-                KeyBinding.Category.MISC
+                ThePrisonsCore.KEY_CATEGORY
         ));
         resetStatsKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
                 "key.theprisons.reset_stats",
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_R,
-                KeyBinding.Category.MISC
+                ThePrisonsCore.KEY_CATEGORY
         ));
         pauseStatsKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
                 "key.theprisons.pause_stats",
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_B,
-                KeyBinding.Category.MISC
+                ThePrisonsCore.KEY_CATEGORY
         ));
 
         ClientSendMessageEvents.COMMAND.register(ThePrisonsFeatureManager::onSendCommand);
-        ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
-            dispatcher.register(ClientCommandManager.literal("prisons").executes(context -> openConfig(context.getSource().getClient())));
-            dispatcher.register(ClientCommandManager.literal("theprisons").executes(context -> openConfig(context.getSource().getClient())));
-        });
         DrawItemStackOverlayCallback.EVENT.register(ThePrisonsFeatureManager::drawItemOverlay);
         ItemTooltipCallback.EVENT.register(ThePrisonsFeatureManager::appendTooltip);
         AttackEntityCallback.EVENT.register((player, world, hand, entity, hitResult) -> {
@@ -144,7 +141,6 @@ public final class ThePrisonsFeatureManager {
 
         if (client.player == null || client.world == null) {
             SATCHELS.clear();
-            EVENTS.clear();
             lastApiTotalXp = -1;
             return;
         }
@@ -154,7 +150,6 @@ public final class ThePrisonsFeatureManager {
 
         if (tickCounter % 20 == 0) {
             scanInventory(client);
-            pruneEvents();
         }
     }
 
@@ -181,6 +176,32 @@ public final class ThePrisonsFeatureManager {
 
     public static void onGameMessage(Text message, boolean overlay) {
         parseIncomingMessage(message);
+        if (!overlay) {
+            satchelChat(com.freelocs.theprisons.core.client.TextStrip.strip(message.getString()));
+        }
+    }
+
+    /** Satchels the server reported full ("(!) Your Redstone Ore Satchel is full!"), by normalized name. */
+    private static final java.util.Set<String> FULL_SATCHELS = java.util.concurrent.ConcurrentHashMap.newKeySet();
+    private static final Pattern SATCHEL_FULL = Pattern.compile("(?i)your (.+? satchel) is full");
+
+    static void satchelChat(String line) {
+        Matcher full = SATCHEL_FULL.matcher(line);
+        if (full.find()) {
+            FULL_SATCHELS.add(normalizeKey(full.group(1)));
+        } else if (line.toLowerCase(Locale.ROOT).contains("(satchel)") && line.toLowerCase(Locale.ROOT).contains("sold")) {
+            FULL_SATCHELS.clear(); // sold: the satchels are empty again
+        }
+    }
+
+    private static boolean reportedFull(String displayName) {
+        String key = normalizeKey(displayName.replaceAll("\\s+x\\d+$", ""));
+        for (String full : FULL_SATCHELS) {
+            if (key.contains(full) || full.contains(key)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static void onChatMessage(Text message, @Nullable GameProfile sender, Instant receptionTimestamp) {
@@ -229,50 +250,26 @@ public final class ThePrisonsFeatureManager {
             return List.of();
         }
         List<FeatureHudEntry> entries = new ArrayList<>();
-        entries.add(new FeatureHudEntry("XP", compact(STATS.sessionXp), ThePrisonsColors.ACCENT_LIME));
-        entries.add(new FeatureHudEntry("XP/h", compact(STATS.perHour(STATS.sessionXp)), ThePrisonsColors.ACCENT_CYAN));
-        entries.add(new FeatureHudEntry("Energy", compact(STATS.sessionEnergy), ThePrisonsColors.ACCENT_LIME));
-        entries.add(new FeatureHudEntry("Energy/h", compact(STATS.perHour(STATS.sessionEnergy)), ThePrisonsColors.ACCENT_CYAN));
+        // Cosmic shows no "+N XP" lines and keeps the vanilla XP at 0: the session HUD reads the sidebar instead.
+        long xp = STATS.sessionXp;
+        long energy = STATS.sessionEnergy;
+        double[] bar = {-1.0D, -1.0D};
+        com.freelocs.theprisons.core.ThePrisonsCore core = com.freelocs.theprisons.core.ThePrisonsCore.getOrNull();
+        if (core != null && core.modules().get("session_hud") instanceof com.freelocs.theprisons.modules.hud.SessionHudModule hud) {
+            xp = Math.max(xp, hud.sessionXp());
+            energy = Math.max(energy, hud.sessionEnergy());
+            bar = hud.barRates();
+        }
+        entries.add(new FeatureHudEntry("XP", compact(xp), ThePrisonsColors.ACCENT_LIME));
+        entries.add(new FeatureHudEntry("XP/h", compact(bar[0] >= 0.0D ? Math.round(bar[0]) : STATS.perHour(xp)), ThePrisonsColors.ACCENT_CYAN));
+        entries.add(new FeatureHudEntry("Energy", compact(energy), ThePrisonsColors.ACCENT_LIME));
+        entries.add(new FeatureHudEntry("Energy/h", compact(bar[1] >= 0.0D ? Math.round(bar[1]) : STATS.perHour(energy)), ThePrisonsColors.ACCENT_CYAN));
         if (config.hud.pauseStatsHud) {
             entries.add(new FeatureHudEntry("Stats", "Paused", ThePrisonsColors.ACCENT_AMBER));
         }
         return entries;
     }
 
-
-    public static boolean shouldCancelProtectedDrop(ItemStack stack) {
-        ThePrisonsConfig config = ThePrisonsClient.CONFIG.get();
-        if (!config.qol.pickaxeDropProtection || !isProtectedItem(stack)) {
-            return false;
-        }
-        long now = System.currentTimeMillis();
-        String key = itemKey(stack);
-        if (key.equals(lastProtectedDropKey) && now - lastProtectedDropAtMs <= 3_000L) {
-            lastProtectedDropAtMs = 0L;
-            lastProtectedDropKey = "";
-            return false;
-        }
-        lastProtectedDropAtMs = now;
-        lastProtectedDropKey = key;
-        ThePrisonsHudRenderer.pushNotification("Drop Protection", "Press drop again within 3s to confirm.", ThePrisonsColors.ACCENT_AMBER);
-        return true;
-    }
-
-    public static boolean shouldCancelSlotThrow(PlayerEntity player, int slotId, SlotActionType actionType) {
-        ThePrisonsConfig config = ThePrisonsClient.CONFIG.get();
-        if (!config.qol.blockProtectedItemDragging || actionType != SlotActionType.THROW || slotId < 0 || player == null) {
-            return false;
-        }
-        if (slotId >= player.currentScreenHandler.slots.size()) {
-            return false;
-        }
-        ItemStack stack = player.currentScreenHandler.getSlot(slotId).getStack();
-        if (!isProtectedItem(stack)) {
-            return false;
-        }
-        ThePrisonsHudRenderer.pushNotification("Drop Protection", "Protected item throw blocked in inventory.", ThePrisonsColors.ACCENT_AMBER);
-        return true;
-    }
 
     private static void handleKeys(MinecraftClient client) {
         if (client == null) {
@@ -282,20 +279,29 @@ public final class ThePrisonsFeatureManager {
             openConfig(client);
         }
         while (resetStatsKey != null && resetStatsKey.wasPressed()) {
-            STATS.reset();
-            ThePrisonsHudRenderer.pushNotification("Stats HUD", "Session totals reset.", ThePrisonsColors.ACCENT_CYAN);
+            resetStats();
         }
         while (pauseStatsKey != null && pauseStatsKey.wasPressed()) {
             ThePrisonsConfig config = ThePrisonsClient.CONFIG.get();
-            config.hud.pauseStatsHud = !config.hud.pauseStatsHud;
-            if (config.hud.pauseStatsHud) {
-                STATS.pause();
-            } else {
-                STATS.resume();
-            }
-            ThePrisonsClient.CONFIG.save();
-            ThePrisonsHudRenderer.pushNotification("Stats HUD", config.hud.pauseStatsHud ? "Tracking paused." : "Tracking resumed.", ThePrisonsColors.ACCENT_CYAN);
+            setStatsPaused(!config.hud.pauseStatsHud);
         }
+    }
+
+    public static void resetStats() {
+        STATS.reset();
+        ThePrisonsHudRenderer.pushNotification("Stats HUD", "Session totals reset.", ThePrisonsColors.ACCENT_CYAN);
+    }
+
+    public static void setStatsPaused(boolean paused) {
+        ThePrisonsConfig config = ThePrisonsClient.CONFIG.get();
+        config.hud.pauseStatsHud = paused;
+        if (paused) {
+            STATS.pause();
+        } else {
+            STATS.resume();
+        }
+        ThePrisonsClient.CONFIG.saveAsync();
+        ThePrisonsHudRenderer.pushNotification("Stats HUD", paused ? "Tracking paused." : "Tracking resumed.", ThePrisonsColors.ACCENT_CYAN);
     }
 
     private static void onSendCommand(String command) {
@@ -310,9 +316,17 @@ public final class ThePrisonsFeatureManager {
         addCooldown(name, displayCommand(name), defaultSeconds * 1000L, false);
     }
 
+    private static Runnable guiOpener = () -> {
+    };
+
+    /** The config key opens the module GUI of the core. */
+    public static void setGuiOpener(Runnable opener) {
+        guiOpener = opener;
+    }
+
     private static int openConfig(MinecraftClient client) {
         if (client != null) {
-            client.setScreen(new ThePrisonsConfigScreen(client.currentScreen));
+            guiOpener.run();
         }
         return 1;
     }
@@ -327,16 +341,15 @@ public final class ThePrisonsFeatureManager {
         }
         parseCooldown(raw);
         parseStats(raw);
-        parseEvent(raw);
         maybeNotifyMessage(raw);
     }
 
     private static void parseCooldown(String raw) {
         String lower = raw.toLowerCase(Locale.ROOT);
         String matched = "";
-        for (String command : DEFAULT_COMMAND_SECONDS.keySet()) {
-            if (lower.matches(".*\\b/?(" + Pattern.quote(command) + ")\\b.*")) {
-                matched = command;
+        for (Map.Entry<String, Pattern> command : COMMAND_PATTERNS.entrySet()) {
+            if (command.getValue().matcher(lower).find()) {
+                matched = command.getKey();
                 break;
             }
         }
@@ -430,45 +443,6 @@ public final class ThePrisonsFeatureManager {
         return false;
     }
 
-    private static void parseEvent(String raw) {
-        String lower = raw.toLowerCase(Locale.ROOT);
-        String label = null;
-        long durationMs = 5 * 60_000L;
-        if (lower.contains("meteorite shower")) {
-            label = "Meteorite Shower";
-            durationMs = 7 * 60_000L;
-        } else if (lower.contains("meteor")) {
-            label = lower.contains("summoned") ? "Summoned Meteor" : "Meteor";
-            durationMs = lower.contains("summoned") ? 60_000L : 7 * 60_000L;
-        } else if (lower.contains("ore merchant") || lower.contains("merchant")) {
-            label = "Ore Merchant";
-            durationMs = 10 * 60_000L;
-        } else if (lower.contains("bandit rush")) {
-            label = "Bandit Rush";
-            durationMs = 5 * 60_000L;
-        }
-        if (label == null) {
-            return;
-        }
-        Matcher matcher = COORDS.matcher(raw);
-        if (!matcher.find()) {
-            return;
-        }
-        Integer x = parseInt(matcher.group(1));
-        Integer y = parseInt(matcher.group(2));
-        Integer z = parseInt(matcher.group(3));
-        if (x == null || z == null) {
-            return;
-        }
-        BlockPos pos = new BlockPos(x, y == null ? 64 : y, z);
-        long expires = System.currentTimeMillis() + durationMs;
-        String eventLabel = label;
-        EVENTS.removeIf(event -> event.label.equals(eventLabel) && event.pos.getSquaredDistance(pos) < 16.0D);
-        EVENTS.add(new EventMarker(eventLabel, pos, expires));
-        EVENTS.sort(Comparator.comparing(event -> event.label));
-        ThePrisonsHudRenderer.pushNotification(eventLabel, "Waypoint saved at " + x + ", " + pos.getY() + ", " + z + ".", ThePrisonsColors.ACCENT_CYAN);
-    }
-
     private static void maybeNotifyMessage(String raw) {
         ThePrisonsConfig config = ThePrisonsClient.CONFIG.get();
         if (!config.qol.messageNotifications) {
@@ -505,6 +479,9 @@ public final class ThePrisonsFeatureManager {
                 continue;
             }
             SatchelSummary.Mutable summary = satchels.computeIfAbsent(info.key, ignored -> new SatchelSummary.Mutable(info.displayName));
+            if (summary.icon.isEmpty()) {
+                summary.icon = stack.copyWithCount(1);
+            }
             summary.amount += info.amount;
             summary.capacity += info.capacity;
             summary.count++;
@@ -541,6 +518,9 @@ public final class ThePrisonsFeatureManager {
             return;
         }
 
+        if (!ThePrisonsClient.CONFIG.get().hud.lowVitalsWarnings) {
+            return;
+        }
         long now = System.currentTimeMillis();
         if (player.getHealth() <= 8.0F && now - lastLowHealthWarningAtMs >= 15_000L) {
             lastLowHealthWarningAtMs = now;
@@ -604,6 +584,8 @@ public final class ThePrisonsFeatureManager {
     }
 
 
+    private static final java.util.Set<String> LOGGED_SATCHELS = java.util.concurrent.ConcurrentHashMap.newKeySet();
+
     @Nullable
     private static SatchelInfo detectSatchel(ItemStack stack, List<String> lines) {
         String name = clean(stack.getName().getString());
@@ -619,6 +601,25 @@ public final class ThePrisonsFeatureManager {
                 amount = Math.max(amount, parseNumber(fraction.group(1)));
                 capacity = Math.max(capacity, parseNumber(fraction.group(2)));
             }
+        }
+        if (capacity <= 0L) {
+            // "Stored: 1,234" / "Capacity: 6,912" on separate lines
+            for (String line : lines) {
+                String lower = line.toLowerCase(Locale.ROOT);
+                Matcher number = java.util.regex.Pattern.compile("([\\d,.]+\\s*[kmb]?)").matcher(line);
+                if (!number.find()) {
+                    continue;
+                }
+                if (lower.contains("capacity") || lower.contains("max")) {
+                    capacity = Math.max(capacity, parseNumber(number.group(1)));
+                } else if (lower.contains("stored") || lower.contains("amount") || lower.contains("ores") || lower.contains("contains")) {
+                    amount = Math.max(amount, parseNumber(number.group(1)));
+                }
+            }
+        }
+        if (LOGGED_SATCHELS.add(name)) {
+            com.freelocs.theprisons.ThePrisonsClient.LOGGER.info("[satchel] '{}' -> {} / {} ({})", name, amount, capacity,
+                    String.join(" | ", lines));
         }
         if (capacity <= 0L) {
             Matcher percent = PERCENT.matcher(all);
@@ -726,15 +727,10 @@ public final class ThePrisonsFeatureManager {
                 continue;
             }
             cooldown.readyAnnounced = true;
-            if (cooldown.displayName.equalsIgnoreCase("Powerball")) {
+            if (cooldown.displayName.equalsIgnoreCase("Powerball") && ThePrisonsClient.CONFIG.get().hud.powerballReadyAlert) {
                 ThePrisonsHudRenderer.pushNotification("Powerball Ready", "Powerball cooldown finished.", ThePrisonsColors.ACCENT_LIME);
             }
         }
-    }
-
-    private static void pruneEvents() {
-        long now = System.currentTimeMillis();
-        EVENTS.removeIf(event -> event.expiresAtMs <= now);
     }
 
     private static void playNotificationSound(MinecraftClient client, ThePrisonsConfig config) {
@@ -763,24 +759,12 @@ public final class ThePrisonsFeatureManager {
         context.drawTextWithShadow(renderer, Text.literal(text), x, y, color);
     }
 
-    private static boolean isProtectedItem(ItemStack stack) {
-        if (stack == null || stack.isEmpty()) {
-            return false;
-        }
-        String text = (stack.getName().getString() + " " + stack.getItem().getTranslationKey()).toLowerCase(Locale.ROOT);
-        return text.contains("pickaxe") || text.contains("satchel");
-    }
-
     private static boolean isMiningTool(ItemStack stack) {
         if (stack == null || stack.isEmpty()) {
             return false;
         }
         String text = (stack.getName().getString() + " " + stack.getItem().getTranslationKey()).toLowerCase(Locale.ROOT);
         return text.contains("pickaxe") || text.contains("mace");
-    }
-
-    private static String itemKey(ItemStack stack) {
-        return stack.getItem().getTranslationKey() + ":" + clean(stack.getName().getString());
     }
 
     private static String commandName(String command) {
@@ -909,6 +893,31 @@ public final class ThePrisonsFeatureManager {
     public record FeatureHudEntry(String name, String value, int color) {
     }
 
+    /** A satchel for the HUD: name, amount / capacity, fill 0-100 and its item (icon). */
+    public record SatchelView(String name, long amount, long capacity, float fillPercent, ItemStack icon, boolean warn) {
+    }
+
+    public static List<SatchelView> satchelViews() {
+        if (!ThePrisonsClient.CONFIG.get().hud.showSatchelHud) {
+            return List.of();
+        }
+        List<SatchelView> views = new ArrayList<>();
+        for (SatchelSummary s : SATCHELS) {
+            if (reportedFull(s.displayName)) {
+                long cap = s.capacity > 0 ? s.capacity : Math.max(1L, s.amount);
+                views.add(new SatchelView(s.displayName, cap, cap, 100.0F, s.icon, true));
+                continue;
+            }
+            views.add(new SatchelView(s.displayName, s.amount, s.capacity, s.fillPercent, s.icon,
+                    s.capacity > 0 && s.fillPercent >= ThePrisonsClient.CONFIG.get().hud.satchelWarningPercent));
+        }
+        return views;
+    }
+
+    public static String compactAmount(long value) {
+        return compact(value);
+    }
+
     private static final class RuntimeCooldown {
         private final String displayName;
         private long endsAtMs;
@@ -974,6 +983,7 @@ public final class ThePrisonsFeatureManager {
         private final long capacity;
         private final int count;
         private final float fillPercent;
+        private ItemStack icon = ItemStack.EMPTY;
 
         private SatchelSummary(String displayName, long amount, long capacity, int count) {
             this.displayName = count > 1 ? displayName + " x" + count : displayName;
@@ -988,26 +998,17 @@ public final class ThePrisonsFeatureManager {
             private long amount;
             private long capacity;
             private int count;
+            private ItemStack icon = ItemStack.EMPTY;
 
             private Mutable(String displayName) {
                 this.displayName = displayName;
             }
 
             private SatchelSummary freeze() {
-                return new SatchelSummary(displayName, amount, capacity, count);
+                SatchelSummary summary = new SatchelSummary(displayName, amount, capacity, count);
+                summary.icon = icon;
+                return summary;
             }
-        }
-    }
-
-    private record EventMarker(String label, BlockPos pos, long expiresAtMs) {
-        private String value(MinecraftClient client) {
-            long remaining = Math.max(0L, expiresAtMs - System.currentTimeMillis());
-            String time = formatRemaining(remaining);
-            if (client == null || client.player == null) {
-                return pos.getX() + "," + pos.getZ() + " " + time;
-            }
-            double distance = Math.sqrt(pos.getSquaredDistance(client.player.getBlockPos()));
-            return Math.round(distance) + "m " + time;
         }
     }
 

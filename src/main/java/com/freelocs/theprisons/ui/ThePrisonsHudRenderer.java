@@ -6,10 +6,14 @@ import com.freelocs.theprisons.cache.ThePrisonsCache.ThePrisonsEntry;
 import com.freelocs.theprisons.config.ThePrisonsConfig;
 import com.freelocs.theprisons.feature.ThePrisonsFeatureManager;
 import com.freelocs.theprisons.feature.ThePrisonsFeatureManager.FeatureHudEntry;
+import com.freelocs.theprisons.core.ThePrisonsCore;
+import com.freelocs.theprisons.core.hud.HudLine;
+import com.freelocs.theprisons.core.hud.HudService;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.text.Text;
+import com.freelocs.theprisons.gui.kit.Ui;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -19,15 +23,20 @@ import java.util.Locale;
 public final class ThePrisonsHudRenderer {
     private static final long ANNOUNCEMENT_DURATION_MS = 4500L;
     private static final List<Notification> ANNOUNCEMENTS = new ArrayList<>();
-    private static final int ALERT_ROW_HEIGHT = 44;
-    private static final int ALERT_TITLE_OFFSET = 6;
-    private static final int ALERT_BODY_OFFSET = 23;
-    private static final int ALERT_TEXT_SCALE = 2;
-    private static final int ALERT_SIDE_PADDING = 12;
+    private static final int ALERT_ROW_HEIGHT = 32;
+    private static final int ALERT_TITLE_OFFSET = 4;
+    private static final int ALERT_BODY_OFFSET = 17;
+    private static final float ALERT_TEXT_SCALE = 1.45F;
+    private static final int ALERT_SIDE_PADDING = 8;
     private static final int PADDING = 6;
     private static final int HEADER_HEIGHT = 12;
     private static final int ENTRY_HEIGHT = 11;
     private static final int SECTION_GAP = 6;
+    private static final int ICON = 13;
+    private static final int BAR_HEIGHT = 5;
+    private static final int STATUS_READY = 0x7CF0A0;
+    private static final int STATUS_ACTIVE = 0x8AD8FF;
+    private static final int STATUS_COOLDOWN = 0xFFC14D;
 
     private ThePrisonsHudRenderer() {
     }
@@ -42,97 +51,141 @@ public final class ThePrisonsHudRenderer {
         ANNOUNCEMENTS.add(notification);
     }
 
-    public static HudDimensions drawHudOverlay(DrawContext context, MinecraftClient client, ThePrisonsConfig config, int x, int y, float scale, boolean preview) {
-        if (client == null || client.textRenderer == null) {
-            return HudDimensions.EMPTY;
-        }
-
-        List<TrackedSection> sections = collectSections(client, config);
-        if (sections.isEmpty()) {
-            return HudDimensions.EMPTY;
-        }
-
-        int baseWidth = measureWidth(client, sections);
-        int baseHeight = measureHeight(sections);
-
-        context.getMatrices().pushMatrix();
-        context.getMatrices().translate(x / scale, y / scale);
-        context.getMatrices().scale(scale, scale);
-
-        drawFrame(context, config, baseWidth, baseHeight);
-
-        int cursorY = PADDING;
-        for (int i = 0; i < sections.size(); i++) {
-            TrackedSection section = sections.get(i);
-            drawSection(context, client, config, section, baseWidth, cursorY);
-            cursorY += sectionHeight(section);
-            if (i < sections.size() - 1) {
-                cursorY += SECTION_GAP;
-            }
-        }
-
-        if (preview) {
-            context.drawTextWithShadow(client.textRenderer, Text.literal("Scroll to resize"), PADDING, baseHeight + 4, ThePrisonsColors.FG_MUTED);
-        }
-
-        context.getMatrices().popMatrix();
-        return new HudDimensions(Math.round(baseWidth * scale), Math.round(baseHeight * scale));
-    }
 
     public static void render(DrawContext context, RenderTickCounter tickCounter) {
         MinecraftClient client = MinecraftClient.getInstance();
-        if (client == null || client.textRenderer == null) {
+        if (client == null || client.textRenderer == null || client.options.hudHidden) {
             return;
         }
 
         ThePrisonsConfig config = ThePrisonsClient.CONFIG.get();
         if (config.hud.petHudEnabled) {
-            drawTrackedWidget(context, client, config, "Pets & Trinkets", ThePrisonsColors.ACCENT_BLUE,
-                    collectPetTrinketEntries(client, config),
-                    config.gui.petHudX, config.gui.petHudY, config.gui.petHudScale, false);
-            drawTrackedWidget(context, client, config, "Session XP", ThePrisonsColors.ACCENT_CYAN,
-                    filterStatsEntries(true),
-                    config.gui.sessionXpHudX, config.gui.sessionXpHudY, config.gui.sessionXpHudScale, false);
-            drawTrackedWidget(context, client, config, "Energy", ThePrisonsColors.ACCENT_LIME,
-                    filterStatsEntries(false),
-                    config.gui.energyHudX, config.gui.energyHudY, config.gui.energyHudScale, false);
+            drawWidget(context, client, sectionsFor(client, config, "PET_TRINKET", false), config.gui.petHudX, config.gui.petHudY,
+                    config.gui.petHudScale, false);
         }
+        if (moduleOn("session_stats")) {
+            drawWidget(context, client, sectionsFor(client, config, "SESSION_XP", false), config.gui.sessionXpHudX,
+                    config.gui.sessionXpHudY, config.gui.sessionXpHudScale, false);
+            drawWidget(context, client, sectionsFor(client, config, "ENERGY", false), config.gui.energyHudX,
+                    config.gui.energyHudY, config.gui.energyHudScale, false);
+        }
+        drawWidget(context, client, sectionsFor(client, config, "MINING", false), config.gui.miningHudX, config.gui.miningHudY,
+                config.gui.miningHudScale, false);
 
         ThePrisonsBanditManager.renderHud(context, client, config);
         renderAnnouncements(context, client, config);
     }
 
-    public static HudDimensions measureHud(MinecraftClient client, ThePrisonsConfig config) {
-        List<TrackedSection> sections = collectSections(client, config);
-        if (sections.isEmpty()) {
-            return HudDimensions.EMPTY;
-        }
-        int baseWidth = measureWidth(client, sections);
-        int baseHeight = measureHeight(sections);
-        return new HudDimensions(Math.round(baseWidth * config.gui.hudScale), Math.round(baseHeight * config.gui.hudScale));
+    private static boolean moduleOn(String id) {
+        ThePrisonsCore core = ThePrisonsCore.getOrNull();
+        com.freelocs.theprisons.core.module.Module module = core != null ? core.modules().get(id) : null;
+        return module != null && module.enabled();
     }
+
+    /** The sections a widget shows (preview: sample rows when there is nothing to show yet). */
+    private static List<TrackedSection> sectionsFor(MinecraftClient client, ThePrisonsConfig config, String widgetId, boolean preview) {
+        List<TrackedSection> sections = new ArrayList<>();
+        switch (widgetId) {
+            case "PET_TRINKET" -> {
+                List<HudEntry> pets = collectEntries("PET", ThePrisonsClient.CACHE.entries().values(), client, config);
+                List<HudEntry> trinkets = collectEntries("TRINKET", ThePrisonsClient.CACHE.entries().values(), client, config);
+                if (preview && pets.isEmpty() && trinkets.isEmpty()) {
+                    pets.add(new HudEntry("Anti XP Tax", "ACTIVE 29:12", false, STATUS_ACTIVE, "minecraft:player_head"));
+                    pets.add(new HudEntry("Lucky", "READY", true, STATUS_READY, "minecraft:player_head"));
+                    trinkets.add(new HudEntry("Blink Trinket", "4:12", false, STATUS_COOLDOWN, "minecraft:ender_eye"));
+                }
+                if (!pets.isEmpty()) {
+                    sections.add(new TrackedSection("PETS", 0, pets));
+                }
+                if (!trinkets.isEmpty()) {
+                    sections.add(new TrackedSection("TRINKETS", 0, trinkets));
+                }
+            }
+            case "SESSION_XP" -> addSection(sections, "SESSION XP", filterStatsEntries(true));
+            case "ENERGY" -> addSection(sections, "ENERGY", filterStatsEntries(false));
+            case "MINING" -> {
+                if (moduleOn("command_cooldowns")) {
+                    addSection(sections, "COOLDOWNS", toHudEntries(ThePrisonsFeatureManager.commandCooldownEntries()));
+                }
+                if (moduleOn("satchel_hud")) {
+                    addSection(sections, "SATCHELS", satchelRows(preview));
+                }
+                if (com.freelocs.theprisons.modules.FeatureProfile.DEV) {
+                    addSection(sections, "MACRO", toHudEntries(moduleEntries()));
+                }
+                if (preview && sections.isEmpty()) {
+                    List<HudEntry> sample = new ArrayList<>();
+                    sample.add(new HudEntry("/fix", "READY", true, STATUS_READY, null));
+                    sample.add(new HudEntry("/jet", "2:41", false, STATUS_COOLDOWN, null));
+                    sections.add(new TrackedSection("COOLDOWNS", 0, sample));
+                }
+            }
+            default -> {
+            }
+        }
+        return sections;
+    }
+
+    /** Satchels: icon, name, amount and a fill bar (green -> amber -> red, pulsing from the warning level). */
+    private static List<HudEntry> satchelRows(boolean preview) {
+        List<HudEntry> rows = new ArrayList<>();
+        List<ThePrisonsFeatureManager.SatchelView> views = ThePrisonsFeatureManager.satchelViews();
+        if (preview && views.isEmpty()) {
+            views = List.of(new ThePrisonsFeatureManager.SatchelView("Gold Satchel", 41_200, 64_000, 64.4F,
+                            new net.minecraft.item.ItemStack(net.minecraft.item.Items.GOLD_INGOT), false),
+                    new ThePrisonsFeatureManager.SatchelView("Diamond Satchel", 61_900, 64_000, 96.7F,
+                            new net.minecraft.item.ItemStack(net.minecraft.item.Items.DIAMOND), true));
+        }
+        for (ThePrisonsFeatureManager.SatchelView v : views) {
+            String amount = v.fillPercent() >= 100.0F ? "FULL"
+                    : v.capacity() > 0 ? Math.round(v.fillPercent()) + "%  " + ThePrisonsFeatureManager.compactAmount(v.amount())
+                    : ThePrisonsFeatureManager.compactAmount(v.amount());
+            HudEntry row = new HudEntry(v.name(), amount, false, fillColour(v.fillPercent()), "minecraft:chest");
+            row.stack = v.icon();
+            row.fill = v.capacity() > 0 ? v.fillPercent() / 100.0F : -1.0F;
+            row.warn = v.warn();
+            rows.add(row);
+        }
+        return rows;
+    }
+
+    private static int fillColour(float percent) {
+        float t = Math.max(0.0F, Math.min(1.0F, percent / 100.0F));
+        return t < 0.6F ? Ui.mix(0x7CF0A0, 0xFFE066, t / 0.6F) : Ui.mix(0xFFE066, 0xFF5E6C, (t - 0.6F) / 0.4F);
+    }
+
+    private static void addSection(List<TrackedSection> sections, String title, List<HudEntry> entries) {
+        if (!entries.isEmpty()) {
+            sections.add(new TrackedSection(title, 0, entries));
+        }
+    }
+
+
 
     public static HudBounds widgetBounds(MinecraftClient client, ThePrisonsConfig config, String widgetId) {
         if (client == null || client.textRenderer == null) {
             return HudBounds.EMPTY;
         }
-        TrackedSection section = sectionForWidget(client, config, widgetId);
-        if (section == null || section.entries.isEmpty()) {
+        // The editor shows previews, so the bounds are those of the preview content.
+        List<TrackedSection> sections = sectionsFor(client, config, widgetId, true);
+        if (sections.isEmpty()) {
             return HudBounds.EMPTY;
         }
         float scale = widgetScale(config, widgetId);
-        int width = Math.round((measureWidth(client, List.of(section))) * scale);
-        int height = Math.round((measureHeight(List.of(section))) * scale);
+        int width = Math.round(measureWidth(client, sections) * scale);
+        int height = Math.round(measureHeight(sections) * scale);
         int x = switch (widgetId) {
             case "PET_TRINKET" -> config.gui.petHudX;
             case "SESSION_XP" -> config.gui.sessionXpHudX;
             case "ENERGY" -> config.gui.energyHudX;
+            case "MINING" -> config.gui.miningHudX;
             default -> -1;
         };
         int y = switch (widgetId) {
             case "PET_TRINKET" -> config.gui.petHudY;
             case "SESSION_XP" -> config.gui.sessionXpHudY;
             case "ENERGY" -> config.gui.energyHudY;
+            case "MINING" -> config.gui.miningHudY;
             default -> -1;
         };
         if (x < 0 || y < 0) {
@@ -142,25 +195,20 @@ public final class ThePrisonsHudRenderer {
     }
 
     public static void drawWidgetPreviews(DrawContext context, MinecraftClient client, ThePrisonsConfig config) {
-        drawTrackedWidget(context, client, config, "Pets & Trinkets", ThePrisonsColors.ACCENT_BLUE,
-                collectPetTrinketEntries(client, config),
-                config.gui.petHudX, config.gui.petHudY, config.gui.petHudScale, true);
-        drawTrackedWidget(context, client, config, "Session XP", ThePrisonsColors.ACCENT_CYAN,
-                filterStatsEntries(true),
-                config.gui.sessionXpHudX, config.gui.sessionXpHudY, config.gui.sessionXpHudScale, true);
-        drawTrackedWidget(context, client, config, "Energy", ThePrisonsColors.ACCENT_LIME,
-                filterStatsEntries(false),
-                config.gui.energyHudX, config.gui.energyHudY, config.gui.energyHudScale, true);
+        if (config.hud.petHudEnabled) {
+            drawWidget(context, client, sectionsFor(client, config, "PET_TRINKET", true), config.gui.petHudX, config.gui.petHudY,
+                    config.gui.petHudScale, true);
+        }
+        if (moduleOn("session_stats")) {
+            drawWidget(context, client, sectionsFor(client, config, "SESSION_XP", true), config.gui.sessionXpHudX,
+                    config.gui.sessionXpHudY, config.gui.sessionXpHudScale, true);
+            drawWidget(context, client, sectionsFor(client, config, "ENERGY", true), config.gui.energyHudX,
+                    config.gui.energyHudY, config.gui.energyHudScale, true);
+        }
+        drawWidget(context, client, sectionsFor(client, config, "MINING", true), config.gui.miningHudX, config.gui.miningHudY,
+                config.gui.miningHudScale, true);
     }
 
-    public static boolean isInsideHud(MinecraftClient client, ThePrisonsConfig config, int mouseX, int mouseY) {
-        HudDimensions size = measureHud(client, config);
-        int scaledWidth = size.width;
-        int scaledHeight = size.height;
-        int x = config.gui.petHudX;
-        int y = config.gui.petHudY;
-        return mouseX >= x && mouseX <= x + scaledWidth && mouseY >= y && mouseY <= y + scaledHeight;
-    }
 
     public static HudBounds notificationBounds(MinecraftClient client, ThePrisonsConfig config, boolean preview) {
         if (client == null || client.textRenderer == null) {
@@ -169,75 +217,39 @@ public final class ThePrisonsHudRenderer {
         return notificationBounds(client, config, activeNotifications(preview));
     }
 
-    public static boolean isInsideNotifications(MinecraftClient client, ThePrisonsConfig config, int mouseX, int mouseY) {
-        return notificationBounds(client, config, true).contains(mouseX, mouseY);
-    }
 
     public static void drawNotificationPreview(DrawContext context, MinecraftClient client, ThePrisonsConfig config) {
         drawNotificationStack(context, client, config, true);
     }
 
-    private static List<TrackedSection> collectSections(MinecraftClient client, ThePrisonsConfig config) {
-        List<TrackedSection> sections = new ArrayList<>();
-        List<HudEntry> petTrinketEntries = collectPetTrinketEntries(client, config);
-        if (!petTrinketEntries.isEmpty()) {
-            sections.add(new TrackedSection("Pets & Trinkets", ThePrisonsColors.ACCENT_BLUE, petTrinketEntries));
-        }
-        addFeatureSection(sections, "Cooldowns", ThePrisonsColors.ACCENT_AMBER, ThePrisonsFeatureManager.commandCooldownEntries());
-        addFeatureSection(sections, "Satchels", ThePrisonsColors.ACCENT_LIME, ThePrisonsFeatureManager.satchelEntries());
-        addFeatureSection(sections, "Session", ThePrisonsColors.ACCENT_CYAN, ThePrisonsFeatureManager.statsEntries());
-        return sections;
-    }
 
-    private static void addFeatureSection(List<TrackedSection> sections, String title, int accent, List<FeatureHudEntry> featureEntries) {
-        if (featureEntries.isEmpty()) {
-            return;
-        }
-        List<HudEntry> entries = new ArrayList<>();
-        for (FeatureHudEntry entry : featureEntries) {
-            entries.add(new HudEntry(entry.name(), entry.value(), false, entry.color()));
-        }
-        sections.add(new TrackedSection(title, accent, entries));
-    }
 
-    private static @org.jspecify.annotations.Nullable TrackedSection sectionForWidget(MinecraftClient client, ThePrisonsConfig config, String widgetId) {
-        return switch (widgetId) {
-            case "PET_TRINKET" -> new TrackedSection("Pets & Trinkets", ThePrisonsColors.ACCENT_BLUE,
-                    collectPetTrinketEntries(client, config));
-            case "SESSION_XP" -> new TrackedSection("Session XP", ThePrisonsColors.ACCENT_CYAN, filterStatsEntries(true));
-            case "ENERGY" -> new TrackedSection("Energy", ThePrisonsColors.ACCENT_LIME, filterStatsEntries(false));
-            default -> null;
-        };
-    }
+
+
+
 
     private static float widgetScale(ThePrisonsConfig config, String widgetId) {
         return switch (widgetId) {
             case "PET_TRINKET" -> config.gui.petHudScale;
             case "SESSION_XP" -> config.gui.sessionXpHudScale;
             case "ENERGY" -> config.gui.energyHudScale;
+            case "MINING" -> config.gui.miningHudScale;
             default -> config.gui.hudScale;
         };
     }
 
-    private static List<HudEntry> collectPetTrinketEntries(MinecraftClient client, ThePrisonsConfig config) {
+
+
+
+
+    private static List<HudEntry> toHudEntries(List<FeatureHudEntry> featureEntries) {
         List<HudEntry> entries = new ArrayList<>();
-        if (config.hud.showTrackedPets) {
-            entries.addAll(collectEntries("PET", ThePrisonsClient.CACHE.entries().values(), client, config));
-        }
-        if (config.hud.showTrinkets) {
-            entries.addAll(collectEntries("TRINKET", ThePrisonsClient.CACHE.entries().values(), client, config));
+        for (FeatureHudEntry entry : featureEntries) {
+            String value = entry.value();
+            boolean ready = value != null && value.equalsIgnoreCase("ready");
+            entries.add(new HudEntry(entry.name(), ready ? "READY" : value, ready, ready ? STATUS_READY : entry.color(), null));
         }
         return entries;
-    }
-
-    private static void drawTrackedWidget(DrawContext context, MinecraftClient client, ThePrisonsConfig config,
-                                          String title, int accent, List<HudEntry> entries,
-                                          int x, int y, float scale, boolean preview) {
-        if (entries.isEmpty()) {
-            return;
-        }
-        List<TrackedSection> sections = List.of(new TrackedSection(title, accent, entries));
-        drawSectionsOverlay(context, client, config, x, y, scale, preview, sections);
     }
 
     private static List<HudEntry> filterStatsEntries(boolean xp) {
@@ -245,44 +257,37 @@ public final class ThePrisonsHudRenderer {
         for (FeatureHudEntry entry : ThePrisonsFeatureManager.statsEntries()) {
             boolean isXpEntry = entry.name().toLowerCase(Locale.ROOT).startsWith("xp");
             if (xp == isXpEntry) {
-                entries.add(new HudEntry(entry.name(), entry.value(), false, entry.color()));
+                entries.add(new HudEntry(entry.name(), entry.value(), false, entry.color(), null));
             }
         }
         return entries;
     }
 
 
-    private static HudDimensions drawSectionsOverlay(DrawContext context, MinecraftClient client, ThePrisonsConfig config,
-                                                     int x, int y, float scale, boolean preview, List<TrackedSection> sections) {
-        if (sections.isEmpty()) {
-            return HudDimensions.EMPTY;
+    /** A widget card in the new design: dark card, flowing accent line, section titles, icon rows. */
+    private static void drawWidget(DrawContext context, MinecraftClient client, List<TrackedSection> sections,
+                                   int x, int y, float scale, boolean preview) {
+        if (sections.isEmpty() || x < 0 || y < 0) {
+            return;
         }
-
         int baseWidth = measureWidth(client, sections);
         int baseHeight = measureHeight(sections);
 
         context.getMatrices().pushMatrix();
-        context.getMatrices().translate(x / scale, y / scale);
+        context.getMatrices().translate(x, y);
         context.getMatrices().scale(scale, scale);
-
-        drawFrame(context, config, baseWidth, baseHeight);
-
+        Ui.card(context, 0, 0, baseWidth, baseHeight, 1.0F);
+        Ui.flowLine(context, 0, baseWidth, 0, 1.0F);
         int cursorY = PADDING;
         for (int i = 0; i < sections.size(); i++) {
             TrackedSection section = sections.get(i);
-            drawSection(context, client, config, section, baseWidth, cursorY);
+            drawSection(context, client, section, baseWidth, cursorY);
             cursorY += sectionHeight(section);
             if (i < sections.size() - 1) {
                 cursorY += SECTION_GAP;
             }
         }
-
-        if (preview) {
-            context.drawTextWithShadow(client.textRenderer, Text.literal("Scroll to resize"), PADDING, baseHeight + 4, ThePrisonsColors.FG_MUTED);
-        }
-
         context.getMatrices().popMatrix();
-        return new HudDimensions(Math.round(baseWidth * scale), Math.round(baseHeight * scale));
     }
 
     private static List<HudEntry> collectEntries(String source, Iterable<ThePrisonsEntry> values, MinecraftClient client, ThePrisonsConfig config) {
@@ -296,74 +301,98 @@ public final class ThePrisonsHudRenderer {
             if (!source.equalsIgnoreCase(category)) {
                 continue;
             }
-
+            String status;
+            int colour;
             boolean ready = entry.cooldownEndsAtMs <= nowMs;
-            String status = "";
-            int statusColor = ready ? 0xFF45F28A : 0xFFFF4B5C;
-            if (ready && config.hud.showReadyStatus) {
-                status = "Ready";
-            } else if (!ready && config.hud.showCountdown) {
-                status = formatCooldownRemaining(entry.cooldownEndsAtMs - nowMs);
+            if (entry.activeUntilMs > nowMs) {
+                status = "ACTIVE " + formatCooldownRemaining(entry.activeUntilMs - nowMs);
+                colour = STATUS_ACTIVE;
+            } else if (ready) {
+                status = config.hud.showReadyStatus ? "READY" : "";
+                colour = STATUS_READY;
+            } else {
+                status = config.hud.showCountdown ? formatCooldownRemaining(entry.cooldownEndsAtMs - nowMs) : "";
+                colour = STATUS_COOLDOWN;
             }
-
-            entries.add(new HudEntry(stripPetSuffix(entry.displayName), status, ready, statusColor));
+            HudEntry row = new HudEntry(stripPetSuffix(entry.displayName), status, ready, colour, entry.itemId);
+            row.stack = com.freelocs.theprisons.state.ThePrisonsTracker.stack(entry.key);
+            entries.add(row);
         }
-
         entries.sort(Comparator.comparing(value -> value.displayName.toLowerCase(Locale.ROOT)));
         return entries;
     }
 
     private static String formatCooldownRemaining(long remainingMs) {
         long remainingSeconds = Math.max(1L, (long) Math.ceil(Math.max(0L, remainingMs) / 1000.0D));
-        long minutes = remainingSeconds / 60L;
+        long hours = remainingSeconds / 3600L;
+        long minutes = remainingSeconds % 3600L / 60L;
         long seconds = remainingSeconds % 60L;
+        if (hours > 0L) {
+            return String.format(Locale.ROOT, "%d:%02d:%02d", hours, minutes, seconds);
+        }
         if (minutes > 0L) {
             return String.format(Locale.ROOT, "%d:%02d", minutes, seconds);
         }
         return remainingSeconds + "s";
     }
 
-    private static void drawFrame(DrawContext context, ThePrisonsConfig config, int width, int height) {
-        context.fill(0, 0, width, height, config.hud.backgroundColor);
-        context.fill(1, 1, width - 1, 2, 0x22000000);
-        context.fill(2, 2, width - 2, height - 2, 0x22000000);
-        context.fill(0, 0, width, 2, ThePrisonsColors.ACCENT_CYAN);
-        context.fill(0, 2, width, 3, ThePrisonsColors.ACCENT_AMBER);
-        context.fill(0, 0, width, 1, config.hud.borderColor);
-        context.fill(0, height - 1, width, height, config.hud.borderColor);
-        context.fill(0, 0, 1, height, config.hud.borderColor);
-        context.fill(width - 1, 0, width, height, config.hud.borderColor);
-    }
 
-    private static void drawSection(DrawContext context, MinecraftClient client, ThePrisonsConfig config, TrackedSection section, int width, int startY) {
-        int textColor = section.accentColor;
-        context.fill(PADDING, startY + 2, PADDING + 3, startY + 9, textColor);
-        context.drawTextWithShadow(client.textRenderer, Text.literal(section.title), PADDING + 7, startY, textColor);
+    private static void drawSection(DrawContext context, MinecraftClient client, TrackedSection section, int width, int startY) {
+        Ui.draw(context, client.textRenderer, section.title, PADDING, startY, Ui.theme().title(), 255);
+        Ui.line(context, PADDING + Ui.width(client.textRenderer, section.title) + 5, width - PADDING, startY + 4, 0.6F);
         int cursorY = startY + HEADER_HEIGHT;
         for (HudEntry entry : section.entries) {
-            context.drawTextWithShadow(client.textRenderer, Text.literal(entry.displayName), PADDING, cursorY, ThePrisonsColors.FG_PRIMARY);
+            int textX = PADDING;
+            if (entry.itemId != null) {
+                net.minecraft.item.ItemStack icon = entry.stack;
+                if (icon.isEmpty()) {
+                    net.minecraft.util.Identifier id = net.minecraft.util.Identifier.tryParse(entry.itemId);
+                    icon = id != null ? new net.minecraft.item.ItemStack(net.minecraft.registry.Registries.ITEM.get(id)) : icon;
+                }
+                if (!icon.isEmpty()) {
+                    context.getMatrices().pushMatrix();
+                    context.getMatrices().translate(PADDING, cursorY - 1);
+                    context.getMatrices().scale(0.625F, 0.625F);
+                    context.drawItem(icon, 0, 0);
+                    context.getMatrices().popMatrix();
+                }
+                textX += ICON;
+            }
+            Ui.draw(context, client.textRenderer, entry.displayName, textX, cursorY, Ui.VALUE, 255);
             if (!entry.statusText.isEmpty()) {
-                int statusX = width - PADDING - client.textRenderer.getWidth(entry.statusText);
-                context.drawTextWithShadow(client.textRenderer, Text.literal(entry.statusText), statusX, cursorY, entry.statusColor);
+                int alpha = entry.ready ? Math.round(170 + 85 * Ui.pulse(1400L)) : 255;
+                Ui.drawRight(context, client.textRenderer, entry.statusText, width - PADDING, cursorY, entry.statusColor, alpha);
             }
             cursorY += ENTRY_HEIGHT;
+            if (entry.fill >= 0.0F) {
+                int bx = PADDING + (entry.itemId != null ? ICON : 0);
+                int bw = width - PADDING - bx;
+                int alpha = entry.warn ? Math.round(150 + 105 * Ui.pulse(700L)) : 255;
+                Ui.round(context, bx, cursorY - 1, bw, 4, Ui.argb(55, 0xFFFFFF));
+                int fill = Math.round(bw * Math.min(1.0F, entry.fill));
+                if (fill > 2) {
+                    context.fillGradient(bx + 1, cursorY, bx + fill - 1, cursorY + 2, Ui.argb(alpha, 0x7CF0A0),
+                            Ui.argb(alpha, entry.statusColor));
+                }
+                cursorY += BAR_HEIGHT;
+            }
         }
     }
 
     private static int measureWidth(MinecraftClient client, List<TrackedSection> sections) {
         int width = 0;
         for (TrackedSection section : sections) {
-            int sectionWidth = client.textRenderer.getWidth(section.title);
+            int sectionWidth = Ui.width(client.textRenderer, section.title) + 30;
             for (HudEntry entry : section.entries) {
-                int entryWidth = client.textRenderer.getWidth(entry.displayName);
+                int entryWidth = Ui.width(client.textRenderer, entry.displayName) + (entry.itemId != null ? ICON : 0);
                 if (!entry.statusText.isEmpty()) {
-                    entryWidth += 10 + client.textRenderer.getWidth(entry.statusText);
+                    entryWidth += 12 + Ui.width(client.textRenderer, entry.statusText);
                 }
                 sectionWidth = Math.max(sectionWidth, entryWidth);
             }
             width = Math.max(width, sectionWidth + PADDING * 2);
         }
-        return Math.max(width, 120);
+        return Math.max(width, 110);
     }
 
     private static int measureHeight(List<TrackedSection> sections) {
@@ -379,60 +408,59 @@ public final class ThePrisonsHudRenderer {
     }
 
     private static int sectionHeight(TrackedSection section) {
-        return HEADER_HEIGHT + (section.entries.size() * ENTRY_HEIGHT);
+        int bars = 0;
+        for (HudEntry entry : section.entries) {
+            if (entry.fill >= 0.0F) {
+                bars++;
+            }
+        }
+        return HEADER_HEIGHT + section.entries.size() * ENTRY_HEIGHT + bars * BAR_HEIGHT;
     }
 
     private static void renderAnnouncements(DrawContext context, MinecraftClient client, ThePrisonsConfig config) {
         drawNotificationStack(context, client, config, false);
     }
 
+    /** Toasts in the cards' look: slide down and fade in, a bar shows the time left, then they fade out. */
     private static void drawNotificationStack(DrawContext context, MinecraftClient client, ThePrisonsConfig config, boolean preview) {
         List<Notification> active = activeNotifications(preview);
         if (active.isEmpty()) {
             return;
         }
-
         HudBounds bounds = notificationBounds(client, config, active);
         if (bounds == HudBounds.EMPTY) {
             return;
         }
-
         int screenWidth = client.getWindow().getScaledWidth();
         int y = bounds.y;
         int rendered = 0;
-
-        context.getMatrices().pushMatrix();
+        long nowMs = System.currentTimeMillis();
         for (Notification notification : active) {
+            long age = preview ? 1_000L : nowMs - notification.startedAtMs;
+            float in = Ui.easeOut(age / 260.0F);
+            float out = preview ? 1.0F : Math.min(1.0F, (ANNOUNCEMENT_DURATION_MS - age) / 400.0F);
+            float a = Math.max(0.0F, Math.min(in, out));
+            if (!com.freelocs.theprisons.modules.general.DesignModule.animations()) {
+                a = 1.0F;
+            }
             int width = notificationWidth(client, notification);
-            int x = (screenWidth - width) / 2;
-            x = Math.max(0, x);
-
-            int rowBottom = y + ALERT_ROW_HEIGHT;
-            context.fill(x, y, x + width, rowBottom, 0xD8141826);
-            context.fill(x, y, x + width, y + 2, notification.accentColor);
-
-            context.getMatrices().pushMatrix();
-            context.getMatrices().translate(x, y);
-            context.getMatrices().scale(ALERT_TEXT_SCALE, ALERT_TEXT_SCALE);
-
-            Text titleText = Text.literal(notification.title).copy().styled(style -> style.withBold(true));
-            int titleWidth = client.textRenderer.getWidth(titleText);
-            int bodyWidth = client.textRenderer.getWidth(notification.body);
-            int scaledWidth = width / ALERT_TEXT_SCALE;
-            int titleX = Math.max(1, (scaledWidth - titleWidth) / 2);
-            int bodyX = Math.max(1, (scaledWidth - bodyWidth) / 2);
-
-            context.drawTextWithShadow(client.textRenderer, titleText, titleX, ALERT_TITLE_OFFSET / ALERT_TEXT_SCALE, config.hud.alertTitleColor);
-            context.drawTextWithShadow(client.textRenderer, Text.literal(notification.body), bodyX, ALERT_BODY_OFFSET / ALERT_TEXT_SCALE, config.hud.alertBodyColor);
-            context.getMatrices().popMatrix();
-
+            int x = Math.max(0, (screenWidth - width) / 2);
+            int yy = y - Math.round((1.0F - in) * 10.0F);
+            int h = ALERT_ROW_HEIGHT - 6;
+            Ui.card(context, x, yy, width, h, a);
+            int accent = (notification.accentColor & 0xFFFFFF) != 0 ? notification.accentColor & 0xFFFFFF : Ui.theme().accent();
+            context.fill(x, yy, x + 2, yy + h, Ui.argb(Math.round(255 * a), accent));
+            Ui.drawCentered(context, client.textRenderer, notification.title.toUpperCase(Locale.ROOT), x + width / 2, yy + 4,
+                    Ui.theme().title(), Math.round(255 * a));
+            Ui.drawCentered(context, client.textRenderer, notification.body, x + width / 2, yy + 14, Ui.VALUE, Math.round(255 * a));
+            float left = preview ? 0.6F : Math.max(0.0F, 1.0F - age / (float) ANNOUNCEMENT_DURATION_MS);
+            context.fill(x + 2, yy + h - 1, x + 2 + Math.round((width - 2) * left), yy + h, Ui.argb(Math.round(220 * a), accent));
             y += ALERT_ROW_HEIGHT;
             rendered++;
             if (rendered >= 3) {
                 break;
             }
         }
-        context.getMatrices().popMatrix();
     }
 
     private static List<Notification> activeNotifications(boolean preview) {
@@ -471,15 +499,14 @@ public final class ThePrisonsHudRenderer {
             return HudBounds.EMPTY;
         }
         int x = (client.getWindow().getScaledWidth() - width) / 2;
-        int y = Math.max(2, config.gui.announcementY);
+        int y = Math.max(2, Math.round(client.getWindow().getScaledHeight() * 0.25F));
         return new HudBounds(Math.max(0, x), y, width, rendered * ALERT_ROW_HEIGHT);
     }
 
     private static int notificationWidth(MinecraftClient client, Notification notification) {
-        int titleWidth = client.textRenderer.getWidth(notification.title) * ALERT_TEXT_SCALE;
-        int bodyWidth = client.textRenderer.getWidth(notification.body) * ALERT_TEXT_SCALE;
-        int width = Math.max(280, titleWidth + ALERT_SIDE_PADDING * 2);
-        return Math.max(width, bodyWidth + ALERT_SIDE_PADDING * 2);
+        int titleWidth = Ui.width(client.textRenderer, notification.title.toUpperCase(Locale.ROOT));
+        int bodyWidth = Ui.width(client.textRenderer, notification.body);
+        return Math.max(150, Math.max(titleWidth, bodyWidth) + ALERT_SIDE_PADDING * 4);
     }
 
     private static String stripPetSuffix(String value) {
@@ -554,12 +581,41 @@ public final class ThePrisonsHudRenderer {
         private final String statusText;
         private final boolean ready;
         private final int statusColor;
+        private final @org.jspecify.annotations.Nullable String itemId;
+        private net.minecraft.item.ItemStack stack = net.minecraft.item.ItemStack.EMPTY;
+        /** Fill bar 0..1 under the row (satchels), -1 = none. */
+        private float fill = -1.0F;
+        private boolean warn;
 
-        private HudEntry(String displayName, String statusText, boolean ready, int statusColor) {
+        private HudEntry(String displayName, String statusText, boolean ready, int statusColor,
+                         @org.jspecify.annotations.Nullable String itemId) {
             this.displayName = displayName;
-            this.statusText = statusText;
+            this.statusText = statusText == null ? "" : statusText;
             this.ready = ready;
-            this.statusColor = statusColor;
+            this.statusColor = statusColor & 0xFFFFFF;
+            this.itemId = itemId;
         }
+    }
+
+    /** Rows of enabled modules, collected by the core every few ticks; converting them is a small list copy. */
+    private static List<FeatureHudEntry> moduleEntries() {
+        ThePrisonsCore core = ThePrisonsCore.getOrNull();
+        if (core == null) {
+            return List.of();
+        }
+        List<HudService.Block> blocks = core.hud().blocks();
+        if (blocks.isEmpty()) {
+            return List.of();
+        }
+        List<FeatureHudEntry> entries = new ArrayList<>();
+        for (HudService.Block block : blocks) {
+            if (blocks.size() > 1) {
+                entries.add(new FeatureHudEntry(block.title(), "", block.color()));
+            }
+            for (HudLine line : block.lines()) {
+                entries.add(new FeatureHudEntry(line.label(), line.value(), line.color()));
+            }
+        }
+        return entries;
     }
 }

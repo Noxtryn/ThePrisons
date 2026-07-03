@@ -20,12 +20,17 @@ import java.util.Map;
 import java.util.Set;
 
 public final class ThePrisonsTracker {
-    private static final String PET_TOKEN = "pet";
     private static final String SOURCE_PET = "PET";
     private static final String SOURCE_TRINKET = "TRINKET";
     private static final long MISSING_ENTRY_PRUNE_GRACE_MS = 15_000L;
 
     private boolean announceReadyAllowed;
+    /** The last seen stack of every tracked pet / trinket (by cache key), for its icon in the HUD. */
+    private static final Map<String, ItemStack> STACKS = new java.util.concurrent.ConcurrentHashMap<>();
+
+    public static ItemStack stack(@org.jspecify.annotations.Nullable String key) {
+        return key == null ? ItemStack.EMPTY : STACKS.getOrDefault(key, ItemStack.EMPTY);
+    }
 
     public void tick(MinecraftClient client) {
         long nowMs = System.currentTimeMillis();
@@ -35,7 +40,7 @@ public final class ThePrisonsTracker {
         if (player == null || client.world == null) {
             announceReadyAllowed = false;
             if (changed) {
-                ThePrisonsClient.CACHE.save();
+                ThePrisonsClient.CACHE.saveAsync();
             }
             return;
         }
@@ -49,16 +54,92 @@ public final class ThePrisonsTracker {
         changed |= syncTrinkets(player, nowMs);
 
         if (changed) {
-            ThePrisonsClient.CACHE.save();
+            ThePrisonsClient.CACHE.saveAsync();
         }
     }
 
     private boolean syncInventory(ClientPlayerEntity player, long nowMs) {
-        return syncStacks(player, player.getInventory().getMainStacks(), nowMs, SOURCE_PET, this::isPet);
+        return syncStacks(player, player.getInventory().getMainStacks(), nowMs, SOURCE_PET, ThePrisonsTracker::isPet);
     }
 
+    /** Cosmic's trinkets are normal items (inventory / offhand); Trinkets-mod slots are read too when installed. */
     private boolean syncTrinkets(ClientPlayerEntity player, long nowMs) {
-        return syncStacks(player, ThePrisonsTrinketsCompat.getEquippedStacks(player), nowMs, SOURCE_TRINKET, this::isTrinket);
+        java.util.List<ItemStack> stacks = new java.util.ArrayList<>(player.getInventory().getMainStacks());
+        stacks.add(player.getOffHandStack());
+        for (ItemStack stack : ThePrisonsTrinketsCompat.getEquippedStacks(player)) {
+            stacks.add(stack);
+        }
+        return syncStacks(player, stacks, nowMs, SOURCE_TRINKET, ThePrisonsTracker::isTrinket);
+    }
+
+    /** "(!) Anti XP Tax Pet is on cooldown for 13m 45s" */
+    private static final java.util.regex.Pattern ON_COOLDOWN =
+            java.util.regex.Pattern.compile("(?i)^(?:\\(!\\)\\s*)?(.+?) is on cooldown for (.+?)\\.?$");
+    /** "(!) Anti XP Tax Pet [LVL 3]: no Guard XP Tax for 30m." / "(!) Lucky Pet: ... for 1 minute" */
+    private static final java.util.regex.Pattern EFFECT =
+            java.util.regex.Pattern.compile("(?i)^(?:\\(!\\)\\s*)?(.+?(?:pet|trinket)(?:\\s*\\[lvl\\s*\\d+])?):.*?\\bfor\\s+(.+?)\\.?$");
+    /** "(!) Your Anti XP Tax [LVL 3] has run out." */
+    private static final java.util.regex.Pattern RUN_OUT = java.util.regex.Pattern.compile("(?i)your (.+?) has run out");
+
+    /** Server chat: cooldowns and running effects of pets and trinkets (more exact than item cooldowns). */
+    public void onChat(String line) {
+        long nowMs = System.currentTimeMillis();
+        String text = line.trim();
+        java.util.regex.Matcher m = ON_COOLDOWN.matcher(text);
+        if (m.find()) {
+            ThePrisonsEntry entry = entryFor(m.group(1));
+            long left = parseDuration(m.group(2));
+            if (entry != null && left > 0L) {
+                entry.cooldownEndsAtMs = nowMs + left;
+                entry.readyAnnounced = false;
+                ThePrisonsClient.CACHE.saveAsync();
+            }
+            return;
+        }
+        m = EFFECT.matcher(text);
+        if (m.find()) {
+            ThePrisonsEntry entry = entryFor(m.group(1));
+            long left = parseDuration(m.group(2));
+            if (entry != null && left > 0L) {
+                entry.activeUntilMs = nowMs + left;
+                ThePrisonsClient.CACHE.saveAsync();
+            }
+            return;
+        }
+        m = RUN_OUT.matcher(text);
+        if (m.find()) {
+            String name = normalize(m.group(1));
+            for (ThePrisonsEntry entry : ThePrisonsClient.CACHE.entries().values()) {
+                if (entry != null && entry.displayName != null && normalize(entry.displayName).startsWith(name)) {
+                    entry.activeUntilMs = 0L;
+                }
+            }
+        }
+    }
+
+    private @org.jspecify.annotations.Nullable ThePrisonsEntry entryFor(String rawName) {
+        String name = normalize(rawName);
+        String source = isPet(name) ? SOURCE_PET : isTrinket(name) ? SOURCE_TRINKET : null;
+        if (source == null) {
+            return null;
+        }
+        return ThePrisonsClient.CACHE.entries().get(source + ":" + name);
+    }
+
+    /** "1h 13m 45s", "33m", "30s", "1 minute", "2 hrs 5 min" → ms (0 = none). */
+    static long parseDuration(String text) {
+        java.util.regex.Matcher u = java.util.regex.Pattern.compile("(?i)(\\d+)\\s*(d|h|m|s)[a-z]*").matcher(text);
+        long ms = 0L;
+        while (u.find()) {
+            long v = Long.parseLong(u.group(1));
+            ms += switch (Character.toLowerCase(u.group(2).charAt(0))) {
+                case 'd' -> v * 86_400_000L;
+                case 'h' -> v * 3_600_000L;
+                case 'm' -> v * 60_000L;
+                default -> v * 1_000L;
+            };
+        }
+        return ms;
     }
 
     private boolean syncStacks(ClientPlayerEntity player, Iterable<ItemStack> stacks, long nowMs, String source, java.util.function.Predicate<String> matchesType) {
@@ -74,7 +155,7 @@ public final class ThePrisonsTracker {
                 continue;
             }
 
-            String stackName = stripLevel(stack.getName().getString());
+            String stackName = stack.getName().getString().replaceAll("(?i)\\s*\\[lvl\\s*\\d+]", "").trim();
             String normalizedName = normalize(stackName);
             if (!matchesType.test(normalizedName)) {
                 continue;
@@ -85,6 +166,10 @@ public final class ThePrisonsTracker {
                 continue;
             }
 
+            ItemStack known = STACKS.get(key);
+            if (known == null || !ItemStack.areEqual(known, stack)) {
+                STACKS.put(key, stack.copy());
+            }
             ThePrisonsEntry entry = ThePrisonsClient.CACHE.getOrCreate(key);
             entry.key = key;
             entry.source = source;
@@ -98,8 +183,8 @@ public final class ThePrisonsTracker {
                 changed = true;
             }
             if (entry.lastSeenAtMs == 0L || nowMs - entry.lastSeenAtMs >= 5000L) {
+                // Only used for pruning in memory: refreshing it is no reason to rewrite the cache file.
                 entry.lastSeenAtMs = nowMs;
-                changed = true;
             }
 
             Identifier cooldownGroup = cooldowns.getGroup(stack);
@@ -177,22 +262,21 @@ public final class ThePrisonsTracker {
         return changed;
     }
 
-    private boolean isPet(String displayName) {
-        return displayName.contains(PET_TOKEN) && !displayName.equals("pet ready");
+    /** "anti xp tax pet", "lucky pet" - a name ending in "pet" (not "pet leash", not "carpet"). */
+    static boolean isPet(String normalizedName) {
+        return normalizedName.matches(".*\\S\\s+pet") ;
     }
 
-    private boolean isTrinket(String displayName) {
-        return displayName.contains("trinket")
-                || displayName.contains("hook")
-                || displayName.contains("orb")
-                || displayName.contains("potion");
+    /** "blink trinket", "healing trinket" - not the "random trinket" lootbox. */
+    static boolean isTrinket(String normalizedName) {
+        return normalizedName.matches(".*\\btrinket\\b.*") && !normalizedName.startsWith("random ");
     }
 
-    private String normalize(String value) {
-        return stripLevel(value).toLowerCase(Locale.ROOT).replaceAll("\\s+", " ").trim();
+    static String normalize(String value) {
+        return stripLevel(value.toLowerCase(Locale.ROOT)).replaceAll("[^a-z0-9 ]", " ").replaceAll("\\s+", " ").trim();
     }
 
-    private String stripLevel(String value) {
+    private static String stripLevel(String value) {
         return value
                 .replaceAll("\\s*\\[lvl\\s*\\d+\\]\\s*", " ")
                 .replaceAll("\\s*lvl\\s*\\d+\\s*", " ")

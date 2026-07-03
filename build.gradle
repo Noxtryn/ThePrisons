@@ -33,6 +33,72 @@ dependencies {
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
     modCompileOnly "com.terraformersmc:modmenu:${project.modmenu_version}"
+
+    testImplementation "org.junit.jupiter:junit-jupiter:5.12.2"
+    testRuntimeOnly "org.junit.platform:junit-platform-launcher:1.12.2"
+}
+
+tasks.named('test', Test) {
+    useJUnitPlatform()
+    // Benchmarks write their numbers to build/benchmarks/. Console output (including the log lines of tests that
+    // provoke errors on purpose) is only shown for tuning / trace runs: -Dtuning=...
+    testLogging { showStandardStreams = System.getProperty('tuning') != null }
+    systemProperty 'tuning', System.getProperty('tuning', 'false')
+    systemProperty 'seed', System.getProperty('seed', '42')
+    systemProperty 'legs', System.getProperty('legs', '4')
+}
+
+// In-game integration tests (Fabric client gametest API): ./gradlew runClientGameTest
+// Starts a real client, creates a test world, builds an ore cave and runs the Ore Macro (see src/gametest).
+fabricApi {
+    configureTests {
+        createSourceSet = true
+        modId = "theprisons-gametest"
+        enableGameTests = false
+        enableClientGameTests = true
+        eula = true
+    }
+}
+
+// The ore cave test rebuilds thousands of blocks at once (mine reset / another mine); the gametest API's network
+// synchronizer does not cope with that and asks to be disabled for such tests.
+tasks.matching { it.name == 'runClientGameTest' }.configureEach {
+    jvmArgs '-Dfabric.client.gametest.disableNetworkSynchronizer=true'
+    if (project.hasProperty('showcase')) {
+        // tools/showcase.sh: the user build (no Ore Macro), only the showcase test, N seconds per scene
+        jvmArgs '-Dtheprisons.showcase=true'
+        jvmArgs "-Dtheprisons.showcase.seconds=${project.findProperty('showcaseSeconds') ?: 4}"
+    } else {
+        // The Ore Macro exists only in the developer build (FeatureProfile.DEV).
+        jvmArgs '-Dtheprisons.dev=true'
+    }
+}
+
+// Pre-rewrite navigation / planning code kept in archive/ (never shipped). Compiled only to reproduce the
+// "before" numbers: ./gradlew legacyBenchmark
+sourceSets {
+    legacyBenchmark {
+        java {
+            srcDir 'archive/pre-core-rewrite/src/main/java'
+            srcDir 'archive/pre-core-rewrite/src/test/java'
+            include 'com/freelocs/theprisons/core/pathfinding/**'
+            include 'com/freelocs/theprisons/mining/ore/**'
+            include 'com/freelocs/theprisons/mining/LegacyBaselineBenchmarkTest.java'
+            exclude 'com/freelocs/theprisons/core/pathfinding/Pathfinder.java'
+        }
+        compileClasspath += sourceSets.test.compileClasspath
+        runtimeClasspath += sourceSets.test.runtimeClasspath
+    }
+}
+
+tasks.register('legacyBenchmark', Test) {
+    description = 'Runs the benchmark of the archived pre-rewrite code (docs/core-rewrite/05-BENCHMARKS.md).'
+    group = 'verification'
+    testClassesDirs = sourceSets.legacyBenchmark.output.classesDirs
+    classpath = sourceSets.legacyBenchmark.runtimeClasspath
+    useJUnitPlatform()
+    filter { includeTestsMatching '*LegacyBaselineBenchmarkTest' }
+    testLogging { showStandardStreams = true }
 }
 
 java {
