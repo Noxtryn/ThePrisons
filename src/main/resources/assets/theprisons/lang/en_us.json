@@ -1,4 +1,8 @@
 {
   "modmenu.nameTranslation.theprisons": "ThePrisons",
-  "modmenu.descriptionTranslation.theprisons": "Client-side pet and Trinkets cooldown tracking with a clean HUD, centered ready announcements, and Mod Menu configuration."
+  "modmenu.descriptionTranslation.theprisons": "Client-side CosmicPrisons HUDs, cooldowns, satchel tracking, item overlays, alerts, update checks, and local safety QoL.",
+  "category.theprisons": "ThePrisons",
+  "key.theprisons.open_config": "Open config",
+  "key.theprisons.reset_stats": "Reset stats HUD",
+  "key.theprisons.pause_stats": "Pause stats HUD"
 }

@@ -1,6 +1,7 @@
 package com.freelocs.theprisons.gui;
 
 import com.freelocs.theprisons.ThePrisonsClient;
+import com.freelocs.theprisons.bandit.ThePrisonsBanditManager;
 import com.freelocs.theprisons.config.ThePrisonsConfig;
 import com.freelocs.theprisons.ui.ThePrisonsColors;
 import com.freelocs.theprisons.ui.ThePrisonsHudRenderer;
@@ -33,34 +34,71 @@ public final class ThePrisonsHudLayoutScreen extends Screen {
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         updateDrag(mouseX, mouseY);
         context.fill(0, 0, width, height, ThePrisonsColors.BG_OVERLAY);
-        drawGrid(context);
-        context.drawTextWithShadow(textRenderer, Text.literal("Hover the HUD and use the mouse wheel to resize it."), 12, 12, ThePrisonsColors.FG_PRIMARY);
-        context.drawTextWithShadow(textRenderer, Text.literal(String.format("Scale: %.2fx", config.gui.hudScale)), 12, 24, ThePrisonsColors.FG_MUTED);
-        ThePrisonsHudRenderer.drawHudOverlay(context, client, config, config.gui.petHudX, config.gui.petHudY, config.gui.hudScale, true);
+        context.drawTextWithShadow(textRenderer, Text.literal("Drag HUD widgets and alerts. Hover a widget and use the mouse wheel to resize it."), 12, 12, ThePrisonsColors.FG_PRIMARY);
+        String hoveredWidget = insideHudWidget(mouseX, mouseY);
+        String hoverScaleText = hoveredWidget == null
+                ? "Hover scale -"
+                : "Hover scale " + formatWidgetScale(hoveredWidget);
+        context.drawTextWithShadow(textRenderer, Text.literal(String.format("%s  Armor %.2fx", hoverScaleText, config.hud.armorHudScale)), 12, 24, ThePrisonsColors.FG_MUTED);
+        ThePrisonsHudRenderer.drawWidgetPreviews(context, client, config);
+        ThePrisonsBanditManager.drawArmorHudPreview(context, client, config);
+        ThePrisonsHudRenderer.drawNotificationPreview(context, client, config);
         super.render(context, mouseX, mouseY, delta);
     }
 
-    private void drawGrid(DrawContext context) {
-        int grid = Math.max(4, config.gui.gridSize);
-        for (int x = 0; x < width; x += grid) {
-            context.fill(x, 0, x + 1, height, ThePrisonsColors.GRID);
+    private String insideHudWidget(int mouseX, int mouseY) {
+        for (String id : new String[]{"PET_TRINKET", "SESSION_XP", "ENERGY"}) {
+            if (ThePrisonsHudRenderer.widgetBounds(client, config, id).contains(mouseX, mouseY)) {
+                return id;
+            }
         }
-        for (int y = 0; y < height; y += grid) {
-            context.fill(0, y, width, y + 1, ThePrisonsColors.GRID);
-        }
+        return null;
     }
 
-    private boolean insideHud(int mouseX, int mouseY) {
-        return ThePrisonsHudRenderer.isInsideHud(client, config, mouseX, mouseY);
+    private boolean insideArmorHud(int mouseX, int mouseY) {
+        return ThePrisonsBanditManager.isInsideArmorHud(client, config, mouseX, mouseY);
+    }
+
+    private boolean insideNotifications(int mouseX, int mouseY) {
+        return ThePrisonsHudRenderer.isInsideNotifications(client, config, mouseX, mouseY);
     }
 
     private void updateDrag(int mouseX, int mouseY) {
         boolean mouseDown = GLFW.glfwGetMouseButton(client.getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS;
 
-        if (mouseDown && !wasMouseDown && insideHud(mouseX, mouseY)) {
-            dragTarget = DragTarget.HUD;
-            dragOffsetX = mouseX - config.gui.petHudX;
-            dragOffsetY = mouseY - config.gui.petHudY;
+        if (mouseDown && !wasMouseDown) {
+            if (insideNotifications(mouseX, mouseY)) {
+                ThePrisonsHudRenderer.HudBounds bounds = ThePrisonsHudRenderer.notificationBounds(client, config, true);
+                dragTarget = DragTarget.ALERTS;
+                dragOffsetX = mouseX - bounds.x;
+                dragOffsetY = mouseY - bounds.y;
+            } else if (insideArmorHud(mouseX, mouseY)) {
+                ThePrisonsHudRenderer.HudBounds bounds = ThePrisonsBanditManager.measureArmorHud(client, config);
+                dragTarget = DragTarget.ARMOR;
+                dragOffsetX = mouseX - bounds.x;
+                dragOffsetY = mouseY - bounds.y;
+            } else {
+                String widgetId = insideHudWidget(mouseX, mouseY);
+                if (widgetId != null) {
+                    dragTarget = DragTarget.fromWidget(widgetId);
+                    switch (dragTarget) {
+                        case PET_TRINKET_HUD -> {
+                            dragOffsetX = mouseX - config.gui.petHudX;
+                            dragOffsetY = mouseY - config.gui.petHudY;
+                        }
+                        case SESSION_XP_HUD -> {
+                            dragOffsetX = mouseX - config.gui.sessionXpHudX;
+                            dragOffsetY = mouseY - config.gui.sessionXpHudY;
+                        }
+                        case ENERGY_HUD -> {
+                            dragOffsetX = mouseX - config.gui.energyHudX;
+                            dragOffsetY = mouseY - config.gui.energyHudY;
+                        }
+                        default -> {
+                        }
+                    }
+                }
+            }
         }
 
         if (mouseDown && dragTarget != null) {
@@ -68,8 +106,28 @@ public final class ThePrisonsHudLayoutScreen extends Screen {
             int grid = gui.snapToGrid ? gui.gridSize : 1;
             int newX = snap((int) (mouseX - dragOffsetX), grid);
             int newY = snap((int) (mouseY - dragOffsetY), grid);
-            gui.petHudX = Math.max(0, newX);
-            gui.petHudY = Math.max(0, newY);
+            switch (dragTarget) {
+                case PET_TRINKET_HUD -> {
+                    gui.petHudX = Math.max(0, newX);
+                    gui.petHudY = Math.max(0, newY);
+                }
+                case SESSION_XP_HUD -> {
+                    gui.sessionXpHudX = Math.max(0, newX);
+                    gui.sessionXpHudY = Math.max(0, newY);
+                }
+                case ENERGY_HUD -> {
+                    gui.energyHudX = Math.max(0, newX);
+                    gui.energyHudY = Math.max(0, newY);
+                }
+                case ARMOR -> {
+                    gui.armorHudX = Math.max(0, newX);
+                    gui.armorHudY = Math.max(0, newY);
+                }
+                case ALERTS -> {
+                    gui.announcementX = Math.max(0, newX);
+                    gui.announcementY = Math.max(0, newY);
+                }
+            }
             ThePrisonsClient.CONFIG.save();
         }
 
@@ -82,13 +140,40 @@ public final class ThePrisonsHudLayoutScreen extends Screen {
 
     @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
-        if (insideHud((int) mouseX, (int) mouseY)) {
+        String widgetId = insideHudWidget((int) mouseX, (int) mouseY);
+        if (widgetId != null) {
             float step = verticalAmount > 0 ? 0.05f : -0.05f;
-            config.gui.hudScale = Math.max(0.5f, Math.min(2.5f, config.gui.hudScale + step));
+            switch (widgetId) {
+                case "PET_TRINKET" -> config.gui.petHudScale = clampScale(config.gui.petHudScale + step);
+                case "SESSION_XP" -> config.gui.sessionXpHudScale = clampScale(config.gui.sessionXpHudScale + step);
+                case "ENERGY" -> config.gui.energyHudScale = clampScale(config.gui.energyHudScale + step);
+                default -> {
+                }
+            }
+            ThePrisonsClient.CONFIG.save();
+            return true;
+        }
+        if (insideArmorHud((int) mouseX, (int) mouseY)) {
+            float step = verticalAmount > 0 ? 0.05f : -0.05f;
+            config.hud.armorHudScale = Math.max(0.75f, Math.min(1.35f, config.hud.armorHudScale + step));
             ThePrisonsClient.CONFIG.save();
             return true;
         }
         return super.mouseScrolled(mouseX, mouseY, horizontalAmount, verticalAmount);
+    }
+
+    private float clampScale(float value) {
+        return Math.max(0.5f, Math.min(2.5f, value));
+    }
+
+    private String formatWidgetScale(String widgetId) {
+        float scale = switch (widgetId) {
+            case "PET_TRINKET" -> config.gui.petHudScale;
+            case "SESSION_XP" -> config.gui.sessionXpHudScale;
+            case "ENERGY" -> config.gui.energyHudScale;
+            default -> 1.0f;
+        };
+        return String.format("%.2fx", scale);
     }
 
     private int snap(int value, int grid) {
@@ -107,6 +192,19 @@ public final class ThePrisonsHudLayoutScreen extends Screen {
     }
 
     private enum DragTarget {
-        HUD
+        PET_TRINKET_HUD,
+        SESSION_XP_HUD,
+        ENERGY_HUD,
+        ARMOR,
+        ALERTS;
+
+        private static DragTarget fromWidget(String widgetId) {
+            return switch (widgetId) {
+                case "PET_TRINKET" -> PET_TRINKET_HUD;
+                case "SESSION_XP" -> SESSION_XP_HUD;
+                case "ENERGY" -> ENERGY_HUD;
+                default -> PET_TRINKET_HUD;
+            };
+        }
     }
 }

@@ -3,7 +3,6 @@
 build/
 out/
 run/
-loom-cache/
 
 # IDEs
 .idea/
@@ -31,11 +30,6 @@ replay_pid*
 *.bak
 *.swp
 *.swo
-*.orig
-*.rej
-
-# Local export / release media
-modrinth-gallery/
 
 # Java build leftovers
 *.class

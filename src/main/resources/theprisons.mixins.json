@@ -3,6 +3,8 @@
   "package": "com.freelocs.theprisons.mixin",
   "compatibilityLevel": "JAVA_21",
   "client": [
+    "ThePrisonsClientPlayerEntityMixin",
+    "ThePrisonsClientPlayerInteractionManagerMixin",
     "ThePrisonsItemCooldownInstanceAccessor",
     "ThePrisonsItemCooldownsAccessor"
   ],

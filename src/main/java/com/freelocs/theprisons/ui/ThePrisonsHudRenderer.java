@@ -1,8 +1,11 @@
 package com.freelocs.theprisons.ui;
 
 import com.freelocs.theprisons.ThePrisonsClient;
+import com.freelocs.theprisons.bandit.ThePrisonsBanditManager;
 import com.freelocs.theprisons.cache.ThePrisonsCache.ThePrisonsEntry;
 import com.freelocs.theprisons.config.ThePrisonsConfig;
+import com.freelocs.theprisons.feature.ThePrisonsFeatureManager;
+import com.freelocs.theprisons.feature.ThePrisonsFeatureManager.FeatureHudEntry;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderTickCounter;
@@ -15,7 +18,12 @@ import java.util.Locale;
 
 public final class ThePrisonsHudRenderer {
     private static final long ANNOUNCEMENT_DURATION_MS = 4500L;
-    private static final List<Announcement> ANNOUNCEMENTS = new ArrayList<>();
+    private static final List<Notification> ANNOUNCEMENTS = new ArrayList<>();
+    private static final int ALERT_ROW_HEIGHT = 44;
+    private static final int ALERT_TITLE_OFFSET = 6;
+    private static final int ALERT_BODY_OFFSET = 23;
+    private static final int ALERT_TEXT_SCALE = 2;
+    private static final int ALERT_SIDE_PADDING = 12;
     private static final int PADDING = 6;
     private static final int HEADER_HEIGHT = 12;
     private static final int ENTRY_HEIGHT = 11;
@@ -25,9 +33,13 @@ public final class ThePrisonsHudRenderer {
     }
 
     public static void pushAnnouncement(String petName) {
-        Announcement announcement = new Announcement(petName, System.currentTimeMillis());
-        ANNOUNCEMENTS.removeIf(existing -> existing.petName.equalsIgnoreCase(petName));
-        ANNOUNCEMENTS.add(announcement);
+        pushNotification(petName, "Ready", ThePrisonsColors.ACCENT_BLUE);
+    }
+
+    public static void pushNotification(String title, String body, int accentColor) {
+        Notification notification = new Notification(title, body, accentColor, System.currentTimeMillis());
+        ANNOUNCEMENTS.removeIf(existing -> existing.title.equalsIgnoreCase(title) && existing.body.equalsIgnoreCase(body));
+        ANNOUNCEMENTS.add(notification);
     }
 
     public static HudDimensions drawHudOverlay(DrawContext context, MinecraftClient client, ThePrisonsConfig config, int x, int y, float scale, boolean preview) {
@@ -75,10 +87,19 @@ public final class ThePrisonsHudRenderer {
 
         ThePrisonsConfig config = ThePrisonsClient.CONFIG.get();
         if (config.hud.petHudEnabled) {
-            drawHudOverlay(context, client, config, config.gui.petHudX, config.gui.petHudY, config.gui.hudScale, false);
+            drawTrackedWidget(context, client, config, "Pets & Trinkets", ThePrisonsColors.ACCENT_BLUE,
+                    collectPetTrinketEntries(client, config),
+                    config.gui.petHudX, config.gui.petHudY, config.gui.petHudScale, false);
+            drawTrackedWidget(context, client, config, "Session XP", ThePrisonsColors.ACCENT_CYAN,
+                    filterStatsEntries(true),
+                    config.gui.sessionXpHudX, config.gui.sessionXpHudY, config.gui.sessionXpHudScale, false);
+            drawTrackedWidget(context, client, config, "Energy", ThePrisonsColors.ACCENT_LIME,
+                    filterStatsEntries(false),
+                    config.gui.energyHudX, config.gui.energyHudY, config.gui.energyHudScale, false);
         }
 
-        renderAnnouncements(context, client);
+        ThePrisonsBanditManager.renderHud(context, client, config);
+        renderAnnouncements(context, client, config);
     }
 
     public static HudDimensions measureHud(MinecraftClient client, ThePrisonsConfig config) {
@@ -91,6 +112,47 @@ public final class ThePrisonsHudRenderer {
         return new HudDimensions(Math.round(baseWidth * config.gui.hudScale), Math.round(baseHeight * config.gui.hudScale));
     }
 
+    public static HudBounds widgetBounds(MinecraftClient client, ThePrisonsConfig config, String widgetId) {
+        if (client == null || client.textRenderer == null) {
+            return HudBounds.EMPTY;
+        }
+        TrackedSection section = sectionForWidget(client, config, widgetId);
+        if (section == null || section.entries.isEmpty()) {
+            return HudBounds.EMPTY;
+        }
+        float scale = widgetScale(config, widgetId);
+        int width = Math.round((measureWidth(client, List.of(section))) * scale);
+        int height = Math.round((measureHeight(List.of(section))) * scale);
+        int x = switch (widgetId) {
+            case "PET_TRINKET" -> config.gui.petHudX;
+            case "SESSION_XP" -> config.gui.sessionXpHudX;
+            case "ENERGY" -> config.gui.energyHudX;
+            default -> -1;
+        };
+        int y = switch (widgetId) {
+            case "PET_TRINKET" -> config.gui.petHudY;
+            case "SESSION_XP" -> config.gui.sessionXpHudY;
+            case "ENERGY" -> config.gui.energyHudY;
+            default -> -1;
+        };
+        if (x < 0 || y < 0) {
+            return HudBounds.EMPTY;
+        }
+        return new HudBounds(x, y, width, height);
+    }
+
+    public static void drawWidgetPreviews(DrawContext context, MinecraftClient client, ThePrisonsConfig config) {
+        drawTrackedWidget(context, client, config, "Pets & Trinkets", ThePrisonsColors.ACCENT_BLUE,
+                collectPetTrinketEntries(client, config),
+                config.gui.petHudX, config.gui.petHudY, config.gui.petHudScale, true);
+        drawTrackedWidget(context, client, config, "Session XP", ThePrisonsColors.ACCENT_CYAN,
+                filterStatsEntries(true),
+                config.gui.sessionXpHudX, config.gui.sessionXpHudY, config.gui.sessionXpHudScale, true);
+        drawTrackedWidget(context, client, config, "Energy", ThePrisonsColors.ACCENT_LIME,
+                filterStatsEntries(false),
+                config.gui.energyHudX, config.gui.energyHudY, config.gui.energyHudScale, true);
+    }
+
     public static boolean isInsideHud(MinecraftClient client, ThePrisonsConfig config, int mouseX, int mouseY) {
         HudDimensions size = measureHud(client, config);
         int scaledWidth = size.width;
@@ -100,21 +162,127 @@ public final class ThePrisonsHudRenderer {
         return mouseX >= x && mouseX <= x + scaledWidth && mouseY >= y && mouseY <= y + scaledHeight;
     }
 
+    public static HudBounds notificationBounds(MinecraftClient client, ThePrisonsConfig config, boolean preview) {
+        if (client == null || client.textRenderer == null) {
+            return HudBounds.EMPTY;
+        }
+        return notificationBounds(client, config, activeNotifications(preview));
+    }
+
+    public static boolean isInsideNotifications(MinecraftClient client, ThePrisonsConfig config, int mouseX, int mouseY) {
+        return notificationBounds(client, config, true).contains(mouseX, mouseY);
+    }
+
+    public static void drawNotificationPreview(DrawContext context, MinecraftClient client, ThePrisonsConfig config) {
+        drawNotificationStack(context, client, config, true);
+    }
+
     private static List<TrackedSection> collectSections(MinecraftClient client, ThePrisonsConfig config) {
         List<TrackedSection> sections = new ArrayList<>();
+        List<HudEntry> petTrinketEntries = collectPetTrinketEntries(client, config);
+        if (!petTrinketEntries.isEmpty()) {
+            sections.add(new TrackedSection("Pets & Trinkets", ThePrisonsColors.ACCENT_BLUE, petTrinketEntries));
+        }
+        addFeatureSection(sections, "Cooldowns", ThePrisonsColors.ACCENT_AMBER, ThePrisonsFeatureManager.commandCooldownEntries());
+        addFeatureSection(sections, "Satchels", ThePrisonsColors.ACCENT_LIME, ThePrisonsFeatureManager.satchelEntries());
+        addFeatureSection(sections, "Session", ThePrisonsColors.ACCENT_CYAN, ThePrisonsFeatureManager.statsEntries());
+        return sections;
+    }
+
+    private static void addFeatureSection(List<TrackedSection> sections, String title, int accent, List<FeatureHudEntry> featureEntries) {
+        if (featureEntries.isEmpty()) {
+            return;
+        }
+        List<HudEntry> entries = new ArrayList<>();
+        for (FeatureHudEntry entry : featureEntries) {
+            entries.add(new HudEntry(entry.name(), entry.value(), false, entry.color()));
+        }
+        sections.add(new TrackedSection(title, accent, entries));
+    }
+
+    private static @org.jspecify.annotations.Nullable TrackedSection sectionForWidget(MinecraftClient client, ThePrisonsConfig config, String widgetId) {
+        return switch (widgetId) {
+            case "PET_TRINKET" -> new TrackedSection("Pets & Trinkets", ThePrisonsColors.ACCENT_BLUE,
+                    collectPetTrinketEntries(client, config));
+            case "SESSION_XP" -> new TrackedSection("Session XP", ThePrisonsColors.ACCENT_CYAN, filterStatsEntries(true));
+            case "ENERGY" -> new TrackedSection("Energy", ThePrisonsColors.ACCENT_LIME, filterStatsEntries(false));
+            default -> null;
+        };
+    }
+
+    private static float widgetScale(ThePrisonsConfig config, String widgetId) {
+        return switch (widgetId) {
+            case "PET_TRINKET" -> config.gui.petHudScale;
+            case "SESSION_XP" -> config.gui.sessionXpHudScale;
+            case "ENERGY" -> config.gui.energyHudScale;
+            default -> config.gui.hudScale;
+        };
+    }
+
+    private static List<HudEntry> collectPetTrinketEntries(MinecraftClient client, ThePrisonsConfig config) {
+        List<HudEntry> entries = new ArrayList<>();
         if (config.hud.showTrackedPets) {
-            List<HudEntry> pets = collectEntries("PET", ThePrisonsClient.CACHE.entries().values(), client, config);
-            if (!pets.isEmpty()) {
-                sections.add(new TrackedSection("Pets", ThePrisonsColors.ACCENT_BLUE, pets));
-            }
+            entries.addAll(collectEntries("PET", ThePrisonsClient.CACHE.entries().values(), client, config));
         }
         if (config.hud.showTrinkets) {
-            List<HudEntry> trinkets = collectEntries("TRINKET", ThePrisonsClient.CACHE.entries().values(), client, config);
-            if (!trinkets.isEmpty()) {
-                sections.add(new TrackedSection("Trinkets", ThePrisonsColors.ACCENT_PINK, trinkets));
+            entries.addAll(collectEntries("TRINKET", ThePrisonsClient.CACHE.entries().values(), client, config));
+        }
+        return entries;
+    }
+
+    private static void drawTrackedWidget(DrawContext context, MinecraftClient client, ThePrisonsConfig config,
+                                          String title, int accent, List<HudEntry> entries,
+                                          int x, int y, float scale, boolean preview) {
+        if (entries.isEmpty()) {
+            return;
+        }
+        List<TrackedSection> sections = List.of(new TrackedSection(title, accent, entries));
+        drawSectionsOverlay(context, client, config, x, y, scale, preview, sections);
+    }
+
+    private static List<HudEntry> filterStatsEntries(boolean xp) {
+        List<HudEntry> entries = new ArrayList<>();
+        for (FeatureHudEntry entry : ThePrisonsFeatureManager.statsEntries()) {
+            boolean isXpEntry = entry.name().toLowerCase(Locale.ROOT).startsWith("xp");
+            if (xp == isXpEntry) {
+                entries.add(new HudEntry(entry.name(), entry.value(), false, entry.color()));
             }
         }
-        return sections;
+        return entries;
+    }
+
+
+    private static HudDimensions drawSectionsOverlay(DrawContext context, MinecraftClient client, ThePrisonsConfig config,
+                                                     int x, int y, float scale, boolean preview, List<TrackedSection> sections) {
+        if (sections.isEmpty()) {
+            return HudDimensions.EMPTY;
+        }
+
+        int baseWidth = measureWidth(client, sections);
+        int baseHeight = measureHeight(sections);
+
+        context.getMatrices().pushMatrix();
+        context.getMatrices().translate(x / scale, y / scale);
+        context.getMatrices().scale(scale, scale);
+
+        drawFrame(context, config, baseWidth, baseHeight);
+
+        int cursorY = PADDING;
+        for (int i = 0; i < sections.size(); i++) {
+            TrackedSection section = sections.get(i);
+            drawSection(context, client, config, section, baseWidth, cursorY);
+            cursorY += sectionHeight(section);
+            if (i < sections.size() - 1) {
+                cursorY += SECTION_GAP;
+            }
+        }
+
+        if (preview) {
+            context.drawTextWithShadow(client.textRenderer, Text.literal("Scroll to resize"), PADDING, baseHeight + 4, ThePrisonsColors.FG_MUTED);
+        }
+
+        context.getMatrices().popMatrix();
+        return new HudDimensions(Math.round(baseWidth * scale), Math.round(baseHeight * scale));
     }
 
     private static List<HudEntry> collectEntries(String source, Iterable<ThePrisonsEntry> values, MinecraftClient client, ThePrisonsConfig config) {
@@ -135,7 +303,7 @@ public final class ThePrisonsHudRenderer {
             if (ready && config.hud.showReadyStatus) {
                 status = "Ready";
             } else if (!ready && config.hud.showCountdown) {
-                status = formatRemaining(entry.cooldownEndsAtMs - nowMs);
+                status = formatCooldownRemaining(entry.cooldownEndsAtMs - nowMs);
             }
 
             entries.add(new HudEntry(stripPetSuffix(entry.displayName), status, ready, statusColor));
@@ -145,8 +313,22 @@ public final class ThePrisonsHudRenderer {
         return entries;
     }
 
+    private static String formatCooldownRemaining(long remainingMs) {
+        long remainingSeconds = Math.max(1L, (long) Math.ceil(Math.max(0L, remainingMs) / 1000.0D));
+        long minutes = remainingSeconds / 60L;
+        long seconds = remainingSeconds % 60L;
+        if (minutes > 0L) {
+            return String.format(Locale.ROOT, "%d:%02d", minutes, seconds);
+        }
+        return remainingSeconds + "s";
+    }
+
     private static void drawFrame(DrawContext context, ThePrisonsConfig config, int width, int height) {
         context.fill(0, 0, width, height, config.hud.backgroundColor);
+        context.fill(1, 1, width - 1, 2, 0x22000000);
+        context.fill(2, 2, width - 2, height - 2, 0x22000000);
+        context.fill(0, 0, width, 2, ThePrisonsColors.ACCENT_CYAN);
+        context.fill(0, 2, width, 3, ThePrisonsColors.ACCENT_AMBER);
         context.fill(0, 0, width, 1, config.hud.borderColor);
         context.fill(0, height - 1, width, height, config.hud.borderColor);
         context.fill(0, 0, 1, height, config.hud.borderColor);
@@ -155,10 +337,11 @@ public final class ThePrisonsHudRenderer {
 
     private static void drawSection(DrawContext context, MinecraftClient client, ThePrisonsConfig config, TrackedSection section, int width, int startY) {
         int textColor = section.accentColor;
-        context.drawTextWithShadow(client.textRenderer, Text.literal(section.title), PADDING, startY, textColor);
+        context.fill(PADDING, startY + 2, PADDING + 3, startY + 9, textColor);
+        context.drawTextWithShadow(client.textRenderer, Text.literal(section.title), PADDING + 7, startY, textColor);
         int cursorY = startY + HEADER_HEIGHT;
         for (HudEntry entry : section.entries) {
-            context.drawTextWithShadow(client.textRenderer, Text.literal(entry.displayName), PADDING, cursorY, ThePrisonsColors.ACCENT_BLUE);
+            context.drawTextWithShadow(client.textRenderer, Text.literal(entry.displayName), PADDING, cursorY, ThePrisonsColors.FG_PRIMARY);
             if (!entry.statusText.isEmpty()) {
                 int statusX = width - PADDING - client.textRenderer.getWidth(entry.statusText);
                 context.drawTextWithShadow(client.textRenderer, Text.literal(entry.statusText), statusX, cursorY, entry.statusColor);
@@ -199,36 +382,104 @@ public final class ThePrisonsHudRenderer {
         return HEADER_HEIGHT + (section.entries.size() * ENTRY_HEIGHT);
     }
 
-    private static void renderAnnouncements(DrawContext context, MinecraftClient client) {
-        if (ANNOUNCEMENTS.isEmpty()) {
+    private static void renderAnnouncements(DrawContext context, MinecraftClient client, ThePrisonsConfig config) {
+        drawNotificationStack(context, client, config, false);
+    }
+
+    private static void drawNotificationStack(DrawContext context, MinecraftClient client, ThePrisonsConfig config, boolean preview) {
+        List<Notification> active = activeNotifications(preview);
+        if (active.isEmpty()) {
             return;
         }
 
-        long nowMs = System.currentTimeMillis();
-        Announcement active = ANNOUNCEMENTS.stream()
-                .filter(announcement -> nowMs - announcement.startedAtMs <= ANNOUNCEMENT_DURATION_MS)
-                .findFirst()
-                .orElse(null);
-        if (active == null) {
-            ANNOUNCEMENTS.removeIf(announcement -> nowMs - announcement.startedAtMs > ANNOUNCEMENT_DURATION_MS);
+        HudBounds bounds = notificationBounds(client, config, active);
+        if (bounds == HudBounds.EMPTY) {
             return;
         }
 
-        String itemName = stripPetSuffix(active.petName);
-        String title = "Ready";
         int screenWidth = client.getWindow().getScaledWidth();
-        int screenHeight = client.getWindow().getScaledHeight();
-        float scale = 1.4f;
-        int centerX = screenWidth / 2;
-        int y = Math.round(screenHeight * 0.25f);
+        int y = bounds.y;
+        int rendered = 0;
 
         context.getMatrices().pushMatrix();
-        context.getMatrices().scale(scale, scale);
-        int scaledCenterX = Math.round(centerX / scale);
-        int scaledY = Math.round(y / scale);
-        context.drawCenteredTextWithShadow(client.textRenderer, Text.literal(itemName), scaledCenterX, scaledY, ThePrisonsColors.ACCENT_BLUE);
-        context.drawCenteredTextWithShadow(client.textRenderer, Text.literal(title), scaledCenterX, scaledY + 10, ThePrisonsColors.ACCENT_PINK);
+        for (Notification notification : active) {
+            int width = notificationWidth(client, notification);
+            int x = (screenWidth - width) / 2;
+            x = Math.max(0, x);
+
+            int rowBottom = y + ALERT_ROW_HEIGHT;
+            context.fill(x, y, x + width, rowBottom, 0xD8141826);
+            context.fill(x, y, x + width, y + 2, notification.accentColor);
+
+            context.getMatrices().pushMatrix();
+            context.getMatrices().translate(x, y);
+            context.getMatrices().scale(ALERT_TEXT_SCALE, ALERT_TEXT_SCALE);
+
+            Text titleText = Text.literal(notification.title).copy().styled(style -> style.withBold(true));
+            int titleWidth = client.textRenderer.getWidth(titleText);
+            int bodyWidth = client.textRenderer.getWidth(notification.body);
+            int scaledWidth = width / ALERT_TEXT_SCALE;
+            int titleX = Math.max(1, (scaledWidth - titleWidth) / 2);
+            int bodyX = Math.max(1, (scaledWidth - bodyWidth) / 2);
+
+            context.drawTextWithShadow(client.textRenderer, titleText, titleX, ALERT_TITLE_OFFSET / ALERT_TEXT_SCALE, config.hud.alertTitleColor);
+            context.drawTextWithShadow(client.textRenderer, Text.literal(notification.body), bodyX, ALERT_BODY_OFFSET / ALERT_TEXT_SCALE, config.hud.alertBodyColor);
+            context.getMatrices().popMatrix();
+
+            y += ALERT_ROW_HEIGHT;
+            rendered++;
+            if (rendered >= 3) {
+                break;
+            }
+        }
         context.getMatrices().popMatrix();
+    }
+
+    private static List<Notification> activeNotifications(boolean preview) {
+        long nowMs = System.currentTimeMillis();
+        List<Notification> active = new ArrayList<>();
+        for (Notification announcement : ANNOUNCEMENTS) {
+            if (nowMs - announcement.startedAtMs <= ANNOUNCEMENT_DURATION_MS) {
+                active.add(announcement);
+            }
+        }
+        active.sort(Comparator.comparingLong(announcement -> announcement.startedAtMs));
+        if (active.isEmpty()) {
+            if (preview) {
+                active.add(new Notification("Alert", "Position preview", ThePrisonsColors.ACCENT_CYAN, nowMs));
+            } else {
+                ANNOUNCEMENTS.removeIf(announcement -> nowMs - announcement.startedAtMs > ANNOUNCEMENT_DURATION_MS);
+            }
+        }
+        return active;
+    }
+
+    private static HudBounds notificationBounds(MinecraftClient client, ThePrisonsConfig config, List<Notification> notifications) {
+        if (notifications.isEmpty()) {
+            return HudBounds.EMPTY;
+        }
+        int width = 0;
+        int rendered = 0;
+        for (Notification notification : notifications) {
+            width = Math.max(width, notificationWidth(client, notification));
+            rendered++;
+            if (rendered >= 3) {
+                break;
+            }
+        }
+        if (rendered <= 0) {
+            return HudBounds.EMPTY;
+        }
+        int x = (client.getWindow().getScaledWidth() - width) / 2;
+        int y = Math.max(2, config.gui.announcementY);
+        return new HudBounds(Math.max(0, x), y, width, rendered * ALERT_ROW_HEIGHT);
+    }
+
+    private static int notificationWidth(MinecraftClient client, Notification notification) {
+        int titleWidth = client.textRenderer.getWidth(notification.title) * ALERT_TEXT_SCALE;
+        int bodyWidth = client.textRenderer.getWidth(notification.body) * ALERT_TEXT_SCALE;
+        int width = Math.max(280, titleWidth + ALERT_SIDE_PADDING * 2);
+        return Math.max(width, bodyWidth + ALERT_SIDE_PADDING * 2);
     }
 
     private static String stripPetSuffix(String value) {
@@ -242,13 +493,6 @@ public final class ThePrisonsHudRenderer {
         return trimmed;
     }
 
-    private static String formatRemaining(long remainingMs) {
-        long totalSeconds = Math.max(0L, remainingMs / 1000L);
-        long minutes = totalSeconds / 60L;
-        long seconds = totalSeconds % 60L;
-        return String.format("%d:%02d", minutes, seconds);
-    }
-
     public static final class HudDimensions {
         public static final HudDimensions EMPTY = new HudDimensions(0, 0);
         public final int width;
@@ -260,12 +504,35 @@ public final class ThePrisonsHudRenderer {
         }
     }
 
-    public static final class Announcement {
-        public final String petName;
+    public static final class HudBounds {
+        public static final HudBounds EMPTY = new HudBounds(0, 0, 0, 0);
+        public final int x;
+        public final int y;
+        public final int width;
+        public final int height;
+
+        public HudBounds(int x, int y, int width, int height) {
+            this.x = x;
+            this.y = y;
+            this.width = width;
+            this.height = height;
+        }
+
+        public boolean contains(int mouseX, int mouseY) {
+            return width > 0 && height > 0 && mouseX >= x && mouseX <= x + width && mouseY >= y && mouseY <= y + height;
+        }
+    }
+
+    public static final class Notification {
+        public final String title;
+        public final String body;
+        public final int accentColor;
         public final long startedAtMs;
 
-        public Announcement(String petName, long startedAtMs) {
-            this.petName = petName;
+        public Notification(String title, String body, int accentColor, long startedAtMs) {
+            this.title = title;
+            this.body = body;
+            this.accentColor = accentColor;
             this.startedAtMs = startedAtMs;
         }
     }

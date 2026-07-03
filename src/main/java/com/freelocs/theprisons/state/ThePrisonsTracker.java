@@ -2,6 +2,7 @@ package com.freelocs.theprisons.state;
 
 import com.freelocs.theprisons.ThePrisonsClient;
 import com.freelocs.theprisons.cache.ThePrisonsCache.ThePrisonsEntry;
+import com.freelocs.theprisons.compat.ThePrisonsTrinketsCompat;
 import com.freelocs.theprisons.config.ThePrisonsConfig;
 import com.freelocs.theprisons.mixin.ThePrisonsItemCooldownInstanceAccessor;
 import com.freelocs.theprisons.mixin.ThePrisonsItemCooldownsAccessor;
@@ -22,6 +23,9 @@ public final class ThePrisonsTracker {
     private static final String PET_TOKEN = "pet";
     private static final String SOURCE_PET = "PET";
     private static final String SOURCE_TRINKET = "TRINKET";
+    private static final long MISSING_ENTRY_PRUNE_GRACE_MS = 15_000L;
+
+    private boolean announceReadyAllowed;
 
     public void tick(MinecraftClient client) {
         long nowMs = System.currentTimeMillis();
@@ -29,6 +33,7 @@ public final class ThePrisonsTracker {
 
         ClientPlayerEntity player = client.player;
         if (player == null || client.world == null) {
+            announceReadyAllowed = false;
             if (changed) {
                 ThePrisonsClient.CACHE.save();
             }
@@ -53,7 +58,7 @@ public final class ThePrisonsTracker {
     }
 
     private boolean syncTrinkets(ClientPlayerEntity player, long nowMs) {
-        return syncStacks(player, player.getInventory().getMainStacks(), nowMs, SOURCE_TRINKET, this::isTrinket);
+        return syncStacks(player, ThePrisonsTrinketsCompat.getEquippedStacks(player), nowMs, SOURCE_TRINKET, this::isTrinket);
     }
 
     private boolean syncStacks(ClientPlayerEntity player, Iterable<ItemStack> stacks, long nowMs, String source, java.util.function.Predicate<String> matchesType) {
@@ -102,6 +107,7 @@ public final class ThePrisonsTracker {
             boolean onCooldown = cooldowns.isCoolingDown(stack) && instance != null;
 
             if (onCooldown) {
+                announceReadyAllowed = true;
                 int endTick = ((ThePrisonsItemCooldownInstanceAccessor) instance).theprisons$getEndTime();
                 int remainingTicks = Math.max(0, endTick - tickCount);
                 long cooldownEndsAtMs = nowMs + (remainingTicks * 50L);
@@ -114,7 +120,7 @@ public final class ThePrisonsTracker {
             }
 
             if (entry.cooldownEndsAtMs <= nowMs) {
-                if (!entry.readyAnnounced && ThePrisonsClient.CONFIG.get().general.showReadyAnnouncements) {
+                if (!entry.readyAnnounced && announceReadyAllowed && ThePrisonsClient.CONFIG.get().general.showReadyAnnouncements) {
                     ThePrisonsHudRenderer.pushAnnouncement(entry.displayName);
                 }
                 if (!entry.readyAnnounced) {
@@ -124,11 +130,11 @@ public final class ThePrisonsTracker {
             }
         }
 
-        changed |= pruneMissingEntries(source, seen);
+        changed |= pruneMissingEntries(source, seen, nowMs);
         return changed;
     }
 
-    private boolean pruneMissingEntries(String source, Set<String> seen) {
+    private boolean pruneMissingEntries(String source, Set<String> seen, long nowMs) {
         boolean changed = false;
         Set<String> toRemove = new HashSet<>();
 
@@ -142,7 +148,7 @@ public final class ThePrisonsTracker {
                 continue;
             }
 
-            if (!seen.contains(value.key)) {
+            if (!seen.contains(value.key) && nowMs - value.lastSeenAtMs >= MISSING_ENTRY_PRUNE_GRACE_MS) {
                 toRemove.add(entry.getKey());
             }
         }
@@ -162,7 +168,7 @@ public final class ThePrisonsTracker {
                 continue;
             }
 
-            if (entry.cooldownEndsAtMs <= nowMs && !entry.readyAnnounced && ThePrisonsClient.CONFIG.get().general.showReadyAnnouncements) {
+            if (entry.cooldownEndsAtMs <= nowMs && !entry.readyAnnounced && announceReadyAllowed && ThePrisonsClient.CONFIG.get().general.showReadyAnnouncements) {
                 ThePrisonsHudRenderer.pushAnnouncement(entry.displayName);
                 entry.readyAnnounced = true;
                 changed = true;
