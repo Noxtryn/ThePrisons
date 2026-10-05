@@ -98,10 +98,10 @@ sourceSets {
         java {
             srcDir 'archive/pre-core-rewrite/src/main/java'
             srcDir 'archive/pre-core-rewrite/src/test/java'
-            include 'com/freelocs/theprisons/core/pathfinding/**'
-            include 'com/freelocs/theprisons/mining/ore/**'
-            include 'com/freelocs/theprisons/mining/LegacyBaselineBenchmarkTest.java'
-            exclude 'com/freelocs/theprisons/core/pathfinding/Pathfinder.java'
+            include 'io/theprisons/core/pathfinding/**'
+            include 'io/theprisons/mining/ore/**'
+            include 'io/theprisons/mining/LegacyBaselineBenchmarkTest.java'
+            exclude 'io/theprisons/core/pathfinding/Pathfinder.java'
         }
         compileClasspath += sourceSets.test.compileClasspath
         runtimeClasspath += sourceSets.test.runtimeClasspath

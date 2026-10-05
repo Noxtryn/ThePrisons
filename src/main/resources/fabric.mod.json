@@ -14,13 +14,13 @@
   "environment": "client",
   "entrypoints": {
     "main": [
-      "com.freelocs.theprisons.ThePrisonsMain"
+      "io.theprisons.ThePrisonsMain"
     ],
     "client": [
-      "com.freelocs.theprisons.ThePrisonsClient"
+      "io.theprisons.ThePrisonsClient"
     ],
     "modmenu": [
-      "com.freelocs.theprisons.modmenu.ThePrisonsModMenuIntegration"
+      "io.theprisons.modmenu.ThePrisonsModMenuIntegration"
     ]
   },
   "mixins": [
