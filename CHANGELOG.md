@@ -6,6 +6,12 @@ The long development notes of the core rewrite live in [docs/dev-notes/core-rewr
 
 ## [Unreleased]
 
+## [1.1.1] - 2026-10-05
+
+### Fixed
+
+- **Ore Macro, death recovery:** hits taken while dying or respawning no longer start a run to the guard the moment the mine is reached again after the `/warp`
+
 ## [1.1.0] - 2026-10-05
 
 ### Added
@@ -64,5 +70,7 @@ First public release: a client-side Fabric mod for Minecraft 1.21.11 and the Cos
 - Market scan backs off for 30 minutes where the market is disabled (Badlands)
 - Aim assist did not find bandits: they are players named `bandit_xx_xxxxxx`
 
-[Unreleased]: https://github.com/olb-freelocs/ThePrisons/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/olb-freelocs/ThePrisons/compare/v1.1.1...HEAD
+[1.1.1]: https://github.com/olb-freelocs/ThePrisons/releases/tag/v1.1.1
+[1.1.0]: https://github.com/olb-freelocs/ThePrisons/releases/tag/v1.1.0
 [1.0.0]: https://github.com/olb-freelocs/ThePrisons/releases/tag/v1.0.0
