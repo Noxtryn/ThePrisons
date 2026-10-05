@@ -3594,6 +3594,10 @@ public final class OreMacroModule extends AutomationModule {
         if (attacker == null || player == null || attacker == player || !fleeToGuard.on()) {
             return;
         }
+        if (chore == Chores.Kind.DEATH_RECOVERY) {
+            // Dying / respawning: the killing blow must not become a flee the moment the mine is reached again.
+            return;
+        }
         lastHurtMs = System.currentTimeMillis();
         count("attacked");
         // On this private Cosmic fork, hostile Bandits are encoded as PlayerEntity.
@@ -5277,6 +5281,8 @@ public final class OreMacroModule extends AutomationModule {
                 ThePrisonsClient.LOGGER.info("[ore_macro] in the mine: mining again");
                 selectPickaxe(player);
                 chore = Chores.Kind.NONE;
+                fleeing = false;
+                fleeRequested = false;
                 phase = Phase.STEER;
                 steer.reset();
                 classic.reset();
