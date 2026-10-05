@@ -1,0 +1,47 @@
+# Changelog
+
+All notable changes to ThePrisons are documented here.
+The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
+The long development notes of the core rewrite live in [docs/dev-notes/core-rewrite-changelog.md](docs/dev-notes/core-rewrite-changelog.md).
+
+## [Unreleased]
+
+## [1.0.0] - 2026-10-05
+
+First public release: a client-side Fabric mod for Minecraft 1.21.11 and the Cosmic Prisons server.
+
+### Added
+
+- **Dashboard** (`/prisons`, keybind, Mod Menu): animated pages for Overview, Mining, Bandits, Tunnel, Design, Controls and HUD. Switches, sliders, choice buttons, colour palettes and text fields for every setting, tooltips, sub-tabs and "reset section"
+- **Ore Macro** with its own pathfinder: tunnel centring, planned routes with world memory, route memory, anti-stuck, combat failsafe, guarded-zone logic with guard look-ahead and return, breaks at a warden, human view motion at frame rate
+- **Item sorter** for the Ore Macro: trips to spawn and the private vaults (shards, contrabands, energy, money), pet and ability use, death recovery
+- **Waypoint editor and route recorder**: record, save, list and delete routes; border marks (`/prisons set border`)
+- **Market prices**: reads the auction house, its history, `/ee` and the shops `/gz` and `/pb` in the background, tracks the lowest price of every item and its worth in Cosmic Energy
+- **Own auction house and `/ee` screens** with categories, search, kind chips, client-side pages and a Tinker screen
+- **Shop overlays** for `/gz` and `/pb`
+- **Item list** above the hotbar: search every known item, tiers and rarities, real tooltips with prices
+- **Storage overlay**: `/pv` shows all private vaults as cards; open pages stay fully usable
+- **Scoreboard** that replaces the server sidebar, **Better Tab** with player cards, ranks and ping bars
+- **Session HUD** with Ore Mining and Bandit modes (uptime, ores per second, tax, boosters, level-up ETA) and a live **Energy/h and XP/h** rate with the average underneath
+- **HUD widgets**: pets and trinkets, command cooldowns, satchels, armour durability, item insights, notifications as sliding cards; HUD editor with drag, scale and snapping
+- **Friends and gang** colouring (`/prisons friend add|remove|list`), **Sneak Trade** (sneak + right-click a player sends `/trade`), **Player Cards**
+- **Quality of life**: message notifications, peaceful mining, vitals warnings, ready announcements, cooldown cache, update checker
+- **Spear Helper** for Bandits: static shooter crosshair with presets, sight point with lead and drop for enemy players, aim assist on `L` that looks at the best line of bandits, recall timing signal for `F`, throw and return effects
+- **Tunnel Vision** (`F5` + `V`): iris transition, your player in 3D on a rainbow road that follows the macro, selectable backdrop, notifications and a stats ticker
+- **Design**: themes, card darkness, animations, boxy font and comic textures; item and armour textures, 250+ hand-made icons
+- **Feature profile**: the shipped feature set is fixed, users change design, HUD layout and keybinds
+
+### Changed
+
+- Version is now SemVer; the release asset is `theprisons-<version>.jar`
+- Market scan pauses while the Ore Macro runs (the server blocks mining while a menu is open); it can be switched on in the settings
+- Licence changed to All Rights Reserved
+
+### Fixed
+
+- Auction house opening by itself after a stopped background scan, also while another screen was open
+- Market scan backs off for 30 minutes where the market is disabled (Badlands)
+- Aim assist did not find bandits: they are players named `bandit_xx_xxxxxx`
+
+[Unreleased]: https://github.com/olb-freelocs/ThePrisons/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/olb-freelocs/ThePrisons/releases/tag/v1.0.0
