@@ -46,14 +46,18 @@ jobs:
             echo "::error::mod_version in gradle.properties is '$prop' but the tag is '$tag'"; exit 1
           fi
           echo "version=$version" >> "$GITHUB_OUTPUT"
-          echo "codename=$(sed -n 's/^release_codename=//p' gradle.properties)" >> "$GITHUB_OUTPUT"
+          codename="$(sed -n 's/^release_codename=//p' gradle.properties)"
+          mc="$(sed -n 's/^minecraft_version=//p' gradle.properties)"
+          echo "codename=$codename" >> "$GITHUB_OUTPUT"
+          echo "mc=$mc" >> "$GITHUB_OUTPUT"
+          echo "jar=ThePrisons-${codename}-v${version}-mc${mc}.jar" >> "$GITHUB_OUTPUT"
           echo "prerelease=$([[ "$version" == *-* ]] && echo true || echo false)" >> "$GITHUB_OUTPUT"
 
       - name: Test and build
         run: |
           chmod +x gradlew
           ./gradlew test build --no-daemon
-          test -f "build/libs/theprisons-${{ steps.version.outputs.version }}.jar"
+          test -f "build/libs/${{ steps.version.outputs.jar }}"
 
       - name: Release notes from CHANGELOG.md
         run: |
@@ -69,8 +73,8 @@ jobs:
           flags=()
           if [ "${{ steps.version.outputs.prerelease }}" = "true" ]; then flags+=(--prerelease); fi
           gh release create "${GITHUB_REF_NAME}" \
-            "build/libs/theprisons-${{ steps.version.outputs.version }}.jar" \
-            --title "ThePrisons v${{ steps.version.outputs.version }}${{ steps.version.outputs.codename != '' && format(' · {0}', steps.version.outputs.codename) || '' }}" \
+            "build/libs/${{ steps.version.outputs.jar }}" \
+            --title "ThePrisons v${{ steps.version.outputs.version }} · ${{ steps.version.outputs.codename }} · MC ${{ steps.version.outputs.mc }}" \
             --notes-file notes.md \
             "${flags[@]}"
 
@@ -80,6 +84,8 @@ jobs:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
           VERSION: ${{ steps.version.outputs.version }}
           CODENAME: ${{ steps.version.outputs.codename }}
+          MC: ${{ steps.version.outputs.mc }}
+          JAR_NAME: ${{ steps.version.outputs.jar }}
           TAG: ${{ github.ref_name }}
           REPO: ${{ github.repository }}
           NOTES: notes.md

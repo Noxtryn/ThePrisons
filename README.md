@@ -61,7 +61,7 @@ Friends and gang colouring (`/prisons friend ...`), **Sneak Trade** (sneak + rig
 - **Recall timing**: shows the best moment to press `F` within the deadline - you press
 
 ### Tunnel Vision (`F5` + `V`)
-The game view is replaced by a backdrop of your choice, with only your player as a 3D model on a rainbow road that follows what the macro does. HUDs stay. Iris transition, notifications and a stats ticker. Put your own pictures into `config/theprisons/tunnel/`.
+The game view is replaced by a backdrop of your choice, with only your player as a 3D model on a rainbow road that follows what the macro does. HUDs stay. Iris transition, notifications and a stats ticker. Two animations that switch in turns (or pick one): the **rainbow road** and a **magic carpet** that floats up and down while its left and right stay fixed to your character - the road dissolves into particles and the carpet appears. Pink crystals (road) and light-blue asteroids (carpet) appear ahead; you shoot them and they burst. A performance setting trades particles and road detail for FPS. Put your own pictures into `config/theprisons/tunnel/`.
 
 ### Quality of life
 Message notifications, peaceful mining, vitals warnings, ready announcements, a cooldown cache and an update checker (GitHub releases). Item and armour textures in a comic look (nothing of Mojang's art is shipped).
@@ -69,7 +69,7 @@ Message notifications, peaceful mining, vitals warnings, ready announcements, a 
 ## Installation
 1. Install [Fabric Loader](https://fabricmc.net/use/) `0.17.3` or newer for Minecraft `1.21.11` and Java 21.
 2. Put [Fabric API](https://modrinth.com/mod/fabric-api) into your `mods` folder ([Mod Menu](https://modrinth.com/mod/modmenu) is optional).
-3. Download `theprisons-<version>.jar` from the [latest release](https://github.com/olb-freelocs/ThePrisons/releases/latest) and put it into `mods`.
+3. Download the jar from the [latest release](https://github.com/olb-freelocs/ThePrisons/releases/latest) and put it into `mods`. The file name tells you everything: `ThePrisons-<Codename>-v<version>-mc<Minecraft>.jar`, e.g. `ThePrisons-Nebula-v1.1.0-mc1.21.11.jar` (the codename is the release line, the version is SemVer, the Minecraft version is the one it was built for).
 4. Start the game and join the server; `/prisons` opens the dashboard.
 
 ## Configuration

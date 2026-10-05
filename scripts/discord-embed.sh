@@ -14,10 +14,12 @@ tag="${TAG:-v$version}"
 repo="${REPO:-olb-freelocs/ThePrisons}"
 notes="${NOTES:-notes.md}"
 codename="${CODENAME:-}"
+mc="${MC:-1.21.11}"
+jar_name="${JAR_NAME:-theprisons-$version.jar}"
 repo_url="https://github.com/$repo"
 site_url="https://${repo%%/*}.github.io/${repo##*/}/"
 release_url="https://github.com/$repo/releases/tag/$tag"
-jar_url="https://github.com/$repo/releases/download/$tag/theprisons-$version.jar"
+jar_url="https://github.com/$repo/releases/download/$tag/$jar_name"
 card_url="https://raw.githubusercontent.com/$repo/$tag/docs/media/changelog-$version.gif"
 changelog_url="https://github.com/$repo/blob/$tag/CHANGELOG.md"
 stamp="$(date -u +%Y-%m-%dT%H:%M:%S.000Z)"
@@ -26,7 +28,7 @@ payload="$(jq -n \
   --rawfile notes "$notes" \
   --arg title "ThePrisons v$version" \
   --arg repo "$repo_url" --arg site "$site_url" --arg release "$release_url" --arg jar "$jar_url" --arg card "$card_url" --arg changelog "$changelog_url" \
-  --arg stamp "$stamp" --arg version "$version" --arg codename "$codename" '
+  --arg stamp "$stamp" --arg version "$version" --arg codename "$codename" --arg mc "$mc" '
   # bullets of every "### Group" of the changelog section
   def groups: ($notes | split("\n")
     | reduce .[] as $l ({g: null, o: {}};
@@ -45,7 +47,7 @@ payload="$(jq -n \
     embeds: [{
       title: $title,
       url: $release,
-      description: ((if $codename != "" then "**" + $codename + "** · " else "" end) + "**Minecraft 1.21.11 · Fabric**\n[GitHub](" + $repo + ") · [Website](" + $site + ") · [Release](" + $release + ") · [Download the jar](" + $jar + ") · [Changelog](" + $changelog + ")"),
+      description: ((if $codename != "" then "**" + $codename + "** · " else "" end) + "**Minecraft " + $mc + " · Fabric**\n[GitHub](" + $repo + ") · [Website](" + $site + ") · [Release](" + $release + ") · [Download the jar](" + $jar + ") · [Changelog](" + $changelog + ")"),
       color: 8077311,
       fields: [field("✨ Neu"; "Added"), field("🔧 Verbessert"; "Changed"), field("🐛 Behoben"; "Fixed")],
       image: {url: $card},

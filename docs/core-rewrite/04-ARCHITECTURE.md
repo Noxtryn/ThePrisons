@@ -3,7 +3,7 @@
 ## Package map
 
 ```
-com.freelocs.theprisons
+io.theprisons
 ├── core/                         ← shared services, no feature logic
 │   ├── ThePrisonsCore            owns every service, the ONLY class registering Fabric callbacks
 │   ├── Phases                    tick phase priorities (see below)

@@ -6,11 +6,11 @@
   "environment": "client",
   "entrypoints": {
     "fabric-client-gametest": [
-      "com.freelocs.theprisons.gametest.ItemLookClientGameTest",
-      "com.freelocs.theprisons.gametest.RedstoneCaveClientGameTest",
-      "com.freelocs.theprisons.gametest.ShowcaseClientGameTest",
-      "com.freelocs.theprisons.gametest.MarketClientGameTest",
-      "com.freelocs.theprisons.gametest.TunnelClientGameTest"
+      "io.theprisons.gametest.ItemLookClientGameTest",
+      "io.theprisons.gametest.RedstoneCaveClientGameTest",
+      "io.theprisons.gametest.ShowcaseClientGameTest",
+      "io.theprisons.gametest.MarketClientGameTest",
+      "io.theprisons.gametest.TunnelClientGameTest"
     ]
   },
   "depends": {

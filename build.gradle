@@ -11,13 +11,16 @@ base {
     archivesName = project.archives_base_name
 }
 
-// The release asset: build/libs/theprisons-<mod_version>.jar (mod_version in gradle.properties, SemVer)
+// The release asset, named so that every part can be read off: ThePrisons-<Codename>-v<SemVer>-mc<Minecraft>.jar
+// e.g. ThePrisons-Nebula-v1.1.0-mc1.21.11.jar  (codename + mod_version in gradle.properties, Minecraft from minecraft_version)
+def jarName = "${project.archives_base_name}-${project.release_codename}-v${project.version}-mc${project.minecraft_version}.jar"
+
 tasks.named('jar', Jar) {
-    archiveFileName = "${project.archives_base_name}-${project.version}.jar"
+    archiveFileName = jarName
 }
 
 tasks.named('remapJar') {
-    archiveFileName = "${project.archives_base_name}-${project.version}.jar"
+    archiveFileName = jarName
 }
 
 processResources {
@@ -95,10 +98,10 @@ sourceSets {
         java {
             srcDir 'archive/pre-core-rewrite/src/main/java'
             srcDir 'archive/pre-core-rewrite/src/test/java'
-            include 'com/freelocs/theprisons/core/pathfinding/**'
-            include 'com/freelocs/theprisons/mining/ore/**'
-            include 'com/freelocs/theprisons/mining/LegacyBaselineBenchmarkTest.java'
-            exclude 'com/freelocs/theprisons/core/pathfinding/Pathfinder.java'
+            include 'io/theprisons/core/pathfinding/**'
+            include 'io/theprisons/mining/ore/**'
+            include 'io/theprisons/mining/LegacyBaselineBenchmarkTest.java'
+            exclude 'io/theprisons/core/pathfinding/Pathfinder.java'
         }
         compileClasspath += sourceSets.test.compileClasspath
         runtimeClasspath += sourceSets.test.runtimeClasspath
