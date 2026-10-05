@@ -6,6 +6,8 @@ The long development notes of the core rewrite live in [docs/dev-notes/core-rewr
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-10-05
+
 ### Added
 
 - **Website** on GitHub Pages (`site/`): feature overview, gallery of the real pictures in `docs/media`, install guide and the latest release notes
@@ -16,6 +18,7 @@ The long development notes of the core rewrite live in [docs/dev-notes/core-rewr
 
 ### Fixed
 
+- **Ore Macro, attacked:** the run to the guard now aims at the guard in sight right now, not a remembered spot; standing next to a guard no longer ends in "no way to a guard - macro stopped"
 - **Energy/h and XP/h** now show the action bar's own per-minute rate times 60 (e.g. `(386/min)` = 23,160/h), updated with every action bar; the 5-minute average sits below. The earlier numbers were wrong
 - The **Session HUD** and the **storage overlay** follow the Design setting "Boxy font": with it off, everything uses the game font
 

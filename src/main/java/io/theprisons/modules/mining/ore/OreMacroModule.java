@@ -3372,6 +3372,22 @@ public final class OreMacroModule extends AutomationModule {
 
     /** On the way to the warden: only walking (the pathfinder's way), the pause starts next to it. */
     private void walkToBreak(ClientPlayerEntity player, long now) {
+        if (fleeing && breakWarden != null && MinecraftClient.getInstance().world != null) {
+            // Guards walk and the remembered spot goes stale: aim at the nearest guard that is in sight right now,
+            // so standing next to one counts as arrived.
+            double best = Double.MAX_VALUE;
+            double[] live = null;
+            for (double[] g : findGuards(MinecraftClient.getInstance().world, player)) {
+                double d = Math.hypot(g[0] - player.getX(), g[2] - player.getZ()) + 3.0D * Math.abs(g[1] - player.getY());
+                if (d < best) {
+                    best = d;
+                    live = g;
+                }
+            }
+            if (live != null) {
+                breakWarden = live.clone();
+            }
+        }
         double[] w = breakWarden;
         if (w == null) {
             endBreak(now);
