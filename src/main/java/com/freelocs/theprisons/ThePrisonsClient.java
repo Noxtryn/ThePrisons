@@ -199,7 +199,11 @@ public final class ThePrisonsClient implements ClientModInitializer {
 
     private static void cleanupLegacyPackArtifacts(Path resourcePacksDir) throws IOException {
         Files.deleteIfExists(resourcePacksDir.resolve("pvp-cosmic-1.21.11.zip"));
-        Files.deleteIfExists(resourcePacksDir.resolve("§7§lPVP-Cosmic (1.21.11).zip"));
+        try {
+            Files.deleteIfExists(resourcePacksDir.resolve("§7§lPVP-Cosmic (1.21.11).zip"));
+        } catch (java.nio.file.InvalidPathException ignored) {
+            // The system's file name encoding cannot spell "§" (non-UTF-8 locale): such a file cannot exist either.
+        }
     }
 
     private static void extractBundledTexturePack(InputStream inputStream, Path targetDirectory) throws IOException {
