@@ -2,6 +2,7 @@ package com.freelocs.theprisons.gui.dashboard;
 
 import com.freelocs.theprisons.core.ThePrisonsCore;
 import com.freelocs.theprisons.core.module.Module;
+import com.freelocs.theprisons.core.setting.Setting;
 import com.freelocs.theprisons.core.setting.Settings;
 import com.freelocs.theprisons.gui.kit.Ui;
 import com.freelocs.theprisons.gui.theme.Theme;
@@ -35,7 +36,7 @@ import java.util.Random;
  */
 public final class DashboardScreen extends Screen implements com.freelocs.theprisons.gui.kit.HidesHud {
     private enum Page {
-        OVERVIEW("Overview"), DESIGN("Design"), CONTROLS("Controls"), HUD("HUD");
+        OVERVIEW("Overview"), MINING("Mining"), DESIGN("Design"), CONTROLS("Controls"), HUD("HUD");
 
         final String label;
 
@@ -149,6 +150,7 @@ public final class DashboardScreen extends Screen implements com.freelocs.thepri
         context.getMatrices().translate(offset, 0);
         switch (page) {
             case OVERVIEW -> drawOverview(context, left, contentY, panelW, mouseX - offset, mouseY, dt, slide);
+            case MINING -> drawMining(context, left, contentY, panelW, mouseX - offset, mouseY, dt, slide);
             case DESIGN -> drawDesign(context, left, contentY, panelW, mouseX - offset, mouseY, dt, slide);
             case CONTROLS -> drawControls(context, left, contentY, panelW, mouseX - offset, mouseY, dt, slide);
             case HUD -> drawHud(context, left, contentY, panelW, mouseX - offset, mouseY, dt, slide);
@@ -228,6 +230,8 @@ public final class DashboardScreen extends Screen implements com.freelocs.thepri
         page = next;
         pageMs = Util.getMeasuringTimeMs();
         listening = null;
+        scroll = 0.0F;
+        scrollTarget = 0.0F;
     }
 
     // ── pages ────────────────────────────────────────────────────────────────
@@ -279,6 +283,49 @@ public final class DashboardScreen extends Screen implements com.freelocs.thepri
         if (features.isEmpty()) {
             Ui.drawCentered(c, textRenderer, "No features active", left + w / 2, y + 40, Ui.LABEL, 255);
         }
+    }
+
+    private void drawMining(DrawContext c, int left, int y, int w, int mx, int my, float dt, float slide) {
+        Module macro = core.modules().get("ore_macro");
+        Setting<?> raw = macro == null ? null : macro.setting("ore_packs");
+        if (!(raw instanceof Settings.MultiChoiceSetting ores)) {
+            Ui.drawCentered(c, textRenderer, "Ore Macro not available", left + w / 2, y + 40, Ui.LABEL, 255);
+            return;
+        }
+        section(c, "ORE MACRO  ·  ORES TO MINE", left, y, Ui.appear(pageMs, 0, 300.0F));
+        int cols = w >= 480 ? 3 : 2;
+        int gap = 6;
+        int cw = (w - gap * (cols - 1)) / cols;
+        int ch = 24;
+        List<Settings.Option> options = ores.options();
+        int rows = (options.size() + cols - 1) / cols;
+        scrollMax = Math.max(0, 18 + rows * (ch + gap) + 14 - contentHeight);
+        scrollTarget = MathHelper.clamp(scrollTarget, 0, scrollMax);
+        scroll = Ui.approach(scroll, scrollTarget, dt, 14.0F);
+        y -= Math.round(scroll);
+        for (int i = 0; i < options.size(); i++) {
+            Settings.Option o = options.get(i);
+            int cx = left + (i % cols) * (cw + gap);
+            int cy = y + 18 + (i / cols) * (ch + gap);
+            float a = Ui.appear(pageMs, 30L * i, 300.0F);
+            boolean on = ores.contains(o.id());
+            boolean over = mx >= cx && mx < cx + cw && my >= cy && my < cy + ch;
+            float h = hoverAnim("ore:" + o.id(), over, dt);
+            Ui.card(c, cx, cy - Math.round(h * 1.5F), cw, ch, a);
+            c.fill(cx, cy, cx + 3, cy + ch, Ui.argb(Math.round((on ? 255 : 90) * a), o.color() & 0xFFFFFF));
+            if (on) {
+                Ui.outline(c, cx, cy, cw, ch, Ui.argb(Math.round(150 * a), Ui.theme().accent()));
+            }
+            Ui.draw(c, textRenderer, o.label(), cx + 10, cy + 8, on ? Ui.VALUE : Ui.LABEL, Math.round(255 * a));
+            Ui.draw(c, textRenderer, on ? "ON" : "OFF", cx + cw - Ui.width(textRenderer, on ? "ON" : "OFF") - 8, cy + 8,
+                    on ? Ui.GOOD : Ui.MUTED, Math.round(255 * a));
+            hits.add(new Hit(cx, cy, cw, ch, "page:ore", () -> {
+                ores.toggle(o.id());
+                core.config().markDirty();
+            }));
+        }
+        Ui.draw(c, textRenderer, "Each includes the ore, deepslate ore and the ore block  ·  pick at least one to start",
+                left, y + 22 + rows * (ch + gap), Ui.MUTED, Math.round(255 * Ui.appear(pageMs, 200L, 300.0F)));
     }
 
     private void drawDesign(DrawContext c, int left, int y, int w, int mx, int my, float dt, float slide) {
@@ -520,7 +567,7 @@ public final class DashboardScreen extends Screen implements com.freelocs.thepri
 
     @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
-        if (page == Page.OVERVIEW) {
+        if (page == Page.OVERVIEW || page == Page.MINING) {
             scrollTarget = MathHelper.clamp(scrollTarget - (float) verticalAmount * 24.0F, 0, scrollMax);
             return true;
         }
