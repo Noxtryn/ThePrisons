@@ -6,6 +6,10 @@ The long development notes of the core rewrite live in [docs/dev-notes/core-rewr
 
 ## [Unreleased]
 
+### Changed
+
+- **Ore Macro, stricter outside rules:** with any other player within 48 blocks it walks at most 2 unguarded blocks (was 3 with 2+ players); with nobody near for 20 s at most 6 (was 48). The setting `outside_free` became `outside_solo`
+
 ## [1.1.1] - 2026-10-05
 
 ### Fixed
