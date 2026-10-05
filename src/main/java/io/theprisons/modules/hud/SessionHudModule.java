@@ -46,7 +46,6 @@ public final class SessionHudModule extends Module implements io.theprisons.gui.
     private final Settings.IntSetting x;
     private final Settings.IntSetting y;
     private final Settings.DoubleSetting scale;
-    private final Settings.BoolSetting sleekFont;
     private final Settings.BoolSetting logUnparsed;
     private final Settings.BoolSetting showState;
     private final Settings.BoolSetting showEta;
@@ -82,7 +81,6 @@ public final class SessionHudModule extends Module implements io.theprisons.gui.
         x = integer("x", "X", 6, 0, 4000, 1).group("Position");
         y = integer("y", "Y", 6, 0, 4000, 1).group("Position");
         scale = decimal("scale", "Scale", 1.0D, 0.5D, 2.5D, 0.05D).group("Position");
-        sleekFont = bool("sleek_font", "Boxy font", true).group("Look");
         showState = bool("show_state", "Show activity", true)
                 .description("What you are doing right now (mining which ore, fighting bandits, idle; the ore macro's "
                         + "current step) and the inventory fill.")
@@ -365,7 +363,7 @@ public final class SessionHudModule extends Module implements io.theprisons.gui.
                     macro.botState(), inventoryPercent(player));
             ActivityLog.Activity a = activities.current();
             CosmicStats.Snapshot shown = a == null ? zeroUptime(global) : combine(a.stats.snapshot(a.clock(now), 0, ""), global);
-            snapshot = withBarRates(shown, stats, System.currentTimeMillis());
+            snapshot = withBarRates(shown, stats);
             title = a == null ? "" : a.name + (a.running() ? "" : "  ·  paused");
             activity = activityText(a, macro.statusText());
             bandit = a != null && a.name.equals(SessionMode.BANDIT);
@@ -429,13 +427,13 @@ public final class SessionHudModule extends Module implements io.theprisons.gui.
      * The action bar's per-minute XP / energy (x 60) win over everything measured: they are the server's own numbers
      * and stay shown (the last value) also while no activity runs.
      */
-    static CosmicStats.Snapshot withBarRates(CosmicStats.Snapshot s, CosmicStats global, long now) {
-        double xp = global.instantXpPerHour(now);
-        double energy = global.instantEnergyPerHour(now);
+    static CosmicStats.Snapshot withBarRates(CosmicStats.Snapshot s, CosmicStats global) {
+        double xp = global.barXpPerHour();
+        double energy = global.barEnergyPerHour();
         if (xp < 0.0D && energy < 0.0D) {
             return s;
         }
-        // Big: what the last action bar gains make per hour right now; below it: the average.
+        // Big: the action bar's per-minute rate x 60 (every ~3 s a new one); below it: the average of the last 5 minutes.
         double energyAvg = s.energyAvgPerHour() >= 0.0D ? s.energyAvgPerHour() : s.energyPerHour();
         double xpAvg = s.xpAvgPerHour() >= 0.0D ? s.xpAvgPerHour() : s.xpPerHour();
         return new CosmicStats.Snapshot(s.uptimeMs(), s.opsRecent(), s.opsAverage(), s.ores(),
@@ -502,7 +500,7 @@ public final class SessionHudModule extends Module implements io.theprisons.gui.
         if (!enabled() || !inWorld || s == null || client.options.hudHidden) {
             return;
         }
-        lastSize = NebulaHudRenderer.draw(context, s, x.value(), y.value(), (float) scale.value(), sleekFont.on(), options());
+        lastSize = NebulaHudRenderer.draw(context, s, x.value(), y.value(), (float) scale.value(), io.theprisons.modules.general.DesignModule.sleekFont(), options());
     }
 
     private NebulaHudRenderer.Options options() {
@@ -546,7 +544,7 @@ public final class SessionHudModule extends Module implements io.theprisons.gui.
                     java.util.List.of(new CosmicStats.Booster("Charge Orbs +12% Energy", 1.12D, 0L)), 0, "",
                     2_700_000L, -1.0D, "", 0.82D, -1.0D, -1.0D, "", -1);
         }
-        lastSize = NebulaHudRenderer.draw(context, s, x.value(), y.value(), (float) scale.value(), sleekFont.on(), options());
+        lastSize = NebulaHudRenderer.draw(context, s, x.value(), y.value(), (float) scale.value(), io.theprisons.modules.general.DesignModule.sleekFont(), options());
     }
 
     @Override

@@ -483,7 +483,10 @@ public final class StorageOverlayScreen extends HandledScreen<ScreenHandler> imp
     }
 
     private static Text sleek(String text) {
-        return Text.literal(text).setStyle(Style.EMPTY.withFont(new StyleSpriteSource.Font(NEBULA)));
+        Text plain = Text.literal(text);
+        // the Design setting decides: no boxy font -> the game's own font
+        return io.theprisons.modules.general.DesignModule.sleekFont()
+                ? Text.literal(text).setStyle(Style.EMPTY.withFont(new StyleSpriteSource.Font(NEBULA))) : plain;
     }
 
     private static int argb(int alpha, int rgb) {

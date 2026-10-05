@@ -213,19 +213,19 @@ class CosmicStatsTest {
         }
     }
 
-    /** The action bar's "+64.9 XP ... +128.7 CE ..." gains (every ~3 s) make the per-hour rate right away. */
+    /** The action bar's own "(386/min)" rates, x 60 per hour - with k / m units - and the average of the window below them. */
     @Test
-    void instantRatesFromTheActionBarGains() {
+    void ratesFromTheActionBarPerMinuteTimesSixty() {
         CosmicStats s = new CosmicStats(0L, line -> { });
         s.message("+64.9 XP (194.7/min) +128.7 CE (386/min)", true, 10_000L);
-        assertEquals(128.7D * 1200.0D, s.instantEnergyPerHour(10_500L), 1.0D);
-        assertEquals(64.9D * 1200.0D, s.instantXpPerHour(10_500L), 1.0D);
-        s.message("+130 CE", true, 13_000L); // 3 s later: 130 per 3 s
-        assertEquals(130.0D * 1200.0D, s.instantEnergyPerHour(13_100L), 1.0D);
-        assertEquals(0.0D, s.instantEnergyPerHour(21_000L), "stale: nothing mined");
-        // the HUD shows the instant rate big and the (window) average below it
-        CosmicStats.Snapshot shown = SessionHudModule.withBarRates(s.snapshot(13_100L, 0, ""), s, 13_100L);
-        assertEquals(130.0D * 1200.0D, shown.energyPerHour(), 1.0D);
+        assertEquals(386.0D * 60.0D, s.barEnergyPerHour(), 1e-6);
+        assertEquals(194.7D * 60.0D, s.barXpPerHour(), 1e-6);
+        s.message("+67.6 XP (811.5/min) +127.7 CE (1.5k/min)", true, 13_000L);
+        assertEquals(1500.0D * 60.0D, s.barEnergyPerHour(), 1e-6);
+        assertEquals(811.5D * 60.0D, s.barXpPerHour(), 1e-6);
+        CosmicStats.Snapshot shown = SessionHudModule.withBarRates(s.snapshot(13_100L, 0, ""), s);
+        assertEquals(1500.0D * 60.0D, shown.energyPerHour(), 1e-6);
         assertTrue(shown.energyAvgPerHour() >= 0.0D);
+        assertTrue(shown.xpAvgPerHour() >= 0.0D);
     }
 }
