@@ -11,13 +11,16 @@ base {
     archivesName = project.archives_base_name
 }
 
-// The release asset: build/libs/theprisons-<mod_version>.jar (mod_version in gradle.properties, SemVer)
+// The release asset, named so that every part can be read off: ThePrisons-<Codename>-v<SemVer>-mc<Minecraft>.jar
+// e.g. ThePrisons-Nebula-v1.1.0-mc1.21.11.jar  (codename + mod_version in gradle.properties, Minecraft from minecraft_version)
+def jarName = "${project.archives_base_name}-${project.release_codename}-v${project.version}-mc${project.minecraft_version}.jar"
+
 tasks.named('jar', Jar) {
-    archiveFileName = "${project.archives_base_name}-${project.version}.jar"
+    archiveFileName = jarName
 }
 
 tasks.named('remapJar') {
-    archiveFileName = "${project.archives_base_name}-${project.version}.jar"
+    archiveFileName = jarName
 }
 
 processResources {

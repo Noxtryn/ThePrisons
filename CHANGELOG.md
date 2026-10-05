@@ -10,6 +10,14 @@ The long development notes of the core rewrite live in [docs/dev-notes/core-rewr
 
 - **Website** on GitHub Pages (`site/`): feature overview, gallery of the real pictures in `docs/media`, install guide and the latest release notes
 - **Discord embed** now links to the GitHub main page and the website
+- **Tunnel Vision: magic carpet** - a second animation (Aladdin style): the rainbow road dissolves into rising particles with a flash cut and the carpet appears with a swirl of sparks; it bobs up and down on its own while its left and right stay fixed to the character. Switches in turns (Auto) or stays on the one you pick
+- **Tunnel Vision: targets** - small pink crystals ahead on the road, light-blue asteroids over the carpet; the player shoots a bolt and they burst into a few shards (no fireworks)
+- **Tunnel Vision: performance setting** (High / Balanced / Fast): fewer road rows, no glow and fewer particles for more FPS
+
+### Changed
+
+- **Jar name** is now `ThePrisons-<Codename>-v<SemVer>-mc<Minecraft>.jar` (e.g. `ThePrisons-Nebula-v1.1.0-mc1.21.11.jar`); the release title reads "ThePrisons v1.1.0 · Nebula · MC 1.21.11". The release line "Nebula" replaces the placeholder codename of v1.0.0
+- Tunnel Vision is cheaper per frame: pooled particles without allocations, precomputed road colours, half the road rows by default
 
 ## [1.0.0] - 2026-10-05
 
