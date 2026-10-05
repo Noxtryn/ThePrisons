@@ -6,6 +6,8 @@ The long development notes of the core rewrite live in [docs/dev-notes/core-rewr
 
 ## [Unreleased]
 
+## [1.1.2] - 2026-10-05
+
 ### Changed
 
 - **Ore Macro, stricter outside rules:** with any other player within 48 blocks it walks at most 2 unguarded blocks (was 3 with 2+ players); with nobody near for 20 s at most 6 (was 48). The setting `outside_free` became `outside_solo`
@@ -74,7 +76,8 @@ First public release: a client-side Fabric mod for Minecraft 1.21.11 and the Cos
 - Market scan backs off for 30 minutes where the market is disabled (Badlands)
 - Aim assist did not find bandits: they are players named `bandit_xx_xxxxxx`
 
-[Unreleased]: https://github.com/olb-freelocs/ThePrisons/compare/v1.1.1...HEAD
+[Unreleased]: https://github.com/olb-freelocs/ThePrisons/compare/v1.1.2...HEAD
+[1.1.2]: https://github.com/olb-freelocs/ThePrisons/releases/tag/v1.1.2
 [1.1.1]: https://github.com/olb-freelocs/ThePrisons/releases/tag/v1.1.1
 [1.1.0]: https://github.com/olb-freelocs/ThePrisons/releases/tag/v1.1.0
 [1.0.0]: https://github.com/olb-freelocs/ThePrisons/releases/tag/v1.0.0
