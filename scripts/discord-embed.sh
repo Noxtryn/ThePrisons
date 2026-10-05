@@ -13,6 +13,7 @@ version="${VERSION:?VERSION is required}"
 tag="${TAG:-v$version}"
 repo="${REPO:-olb-freelocs/ThePrisons}"
 notes="${NOTES:-notes.md}"
+codename="${CODENAME:-}"
 release_url="https://github.com/$repo/releases/tag/$tag"
 jar_url="https://github.com/$repo/releases/download/$tag/theprisons-$version.jar"
 card_url="https://raw.githubusercontent.com/$repo/$tag/docs/media/changelog-$version.gif"
@@ -23,7 +24,7 @@ payload="$(jq -n \
   --rawfile notes "$notes" \
   --arg title "ThePrisons v$version" \
   --arg release "$release_url" --arg jar "$jar_url" --arg card "$card_url" --arg changelog "$changelog_url" \
-  --arg stamp "$stamp" --arg version "$version" '
+  --arg stamp "$stamp" --arg version "$version" --arg codename "$codename" '
   # bullets of every "### Group" of the changelog section
   def groups: ($notes | split("\n")
     | reduce .[] as $l ({g: null, o: {}};
@@ -42,7 +43,7 @@ payload="$(jq -n \
     embeds: [{
       title: $title,
       url: $release,
-      description: ("**Minecraft 1.21.11 · Fabric**\n[Release](" + $release + ") · [Download the jar](" + $jar + ") · [Changelog](" + $changelog + ")"),
+      description: ((if $codename != "" then "**" + $codename + "** · " else "" end) + "**Minecraft 1.21.11 · Fabric**\n[Release](" + $release + ") · [Download the jar](" + $jar + ") · [Changelog](" + $changelog + ")"),
       color: 8077311,
       fields: [field("✨ Neu"; "Added"), field("🔧 Verbessert"; "Changed"), field("🐛 Behoben"; "Fixed")],
       image: {url: $card},
