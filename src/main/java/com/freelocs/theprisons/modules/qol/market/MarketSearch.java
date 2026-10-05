@@ -35,7 +35,8 @@ public final class MarketSearch {
         return true;
     }
 
-    public static boolean keyPressed(int key) {
+    /** Key press in the inventory; true = the search used it (the screen must not see it). */
+    public static boolean keyPressed(int key, int scancode) {
         if (key == GLFW.GLFW_KEY_BACKSPACE && !query.isEmpty()) {
             query = query.substring(0, query.length() - 1);
             page = 0;
@@ -49,12 +50,23 @@ public final class MarketSearch {
         if (focused && (key >= GLFW.GLFW_KEY_A && key <= GLFW.GLFW_KEY_Z || key >= GLFW.GLFW_KEY_0 && key <= GLFW.GLFW_KEY_9
                 || key == GLFW.GLFW_KEY_SPACE || key == GLFW.GLFW_KEY_MINUS || key == GLFW.GLFW_KEY_PERIOD)) {
             // The search owns the letters: "e" must not close the inventory and digits must not swap the hotbar.
+            String name = key == GLFW.GLFW_KEY_SPACE ? " " : GLFW.glfwGetKeyName(key, scancode);
+            if (name != null && name.length() == 1) {
+                charTyped(name.charAt(0));
+            }
             return true;
         }
         if (key == GLFW.GLFW_KEY_LEFT) { page = Math.max(0, page - 1); return focused; }
         if (key == GLFW.GLFW_KEY_RIGHT) { page++; return focused; }
         if (key == GLFW.GLFW_KEY_TAB) { focused = !focused; return true; }
         return false;
+    }
+
+    /** Mouse wheel over the inventory: pages of the result list while the search is open. */
+    public static boolean scroll(double vertical) {
+        if (!focused && query.isEmpty()) return false;
+        page = Math.max(0, page + (vertical < 0 ? 1 : -1));
+        return true;
     }
 
     public static boolean click(double mouseX, double mouseY, int screenWidth, int screenHeight) {

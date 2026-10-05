@@ -23,9 +23,6 @@
     "ThePrisonsTextureContentsMixin",
     "ThePrisonsResourcePackManagerMixin",
     "ThePrisonsHandledScreenTooltipMixin",
-    "ThePrisonsMarketScreenMixin",
-    "ThePrisonsMarketParentElementMixin",
-    "ThePrisonsMarketOverlayMixin",
     "ThePrisonsFriendGlowMixin",
     "ThePrisonsFriendColourMixin"
   ],

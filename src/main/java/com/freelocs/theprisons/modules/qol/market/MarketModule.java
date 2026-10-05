@@ -138,6 +138,7 @@ public final class MarketModule extends Module {
     }
 
     public void register(EventBus bus, CommandService commands) {
+        MarketScreenHooks.register();
         bus.subscribe(CoreEvents.TickEnd.class, this, e -> {
             if (enabled()) {
                 tick(e.client());
