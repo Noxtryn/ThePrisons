@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "theprisons:item/prisons/pet/lucky_godly"
+  }
+}

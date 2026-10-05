@@ -1,4 +1,9 @@
 {
+  "item.minecraft.theprisons": "ThePrisons",
+  "item.minecraft.ah": "Auction House",
+  "item.minecraft.ee": "Cosmic Energy Market",
+  "item.minecraft.tinker": "Tinker",
+  "item.minecraft.skilltree": "Skill Tree",
   "modmenu.nameTranslation.theprisons": "ThePrisons",
   "modmenu.descriptionTranslation.theprisons": "Client-side CosmicPrisons HUDs, cooldowns, satchel tracking, item insights, alerts and an Ore Macro with a built-in pathfinder and failsafes.",
   "category.theprisons": "ThePrisons",

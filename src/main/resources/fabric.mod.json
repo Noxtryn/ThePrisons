@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
   "id": "theprisons",
-  "version": "v.1.0",
+  "version": "${version}",
   "name": "ThePrisons",
   "description": "Client-side Fabric mod for CosmicPrisons HUDs, cooldowns, satchel tracking, item insights, alerts, update checks and a mining suite.",
   "authors": [
     "TrustTheCat"
   ],
-  "license": "MIT",
+  "license": "All-Rights-Reserved",
   "icon": "assets/theprisons/icon.png",
   "contact": {
     "homepage": "https://github.com/olb-freelocs/ThePrisons",
@@ -15,6 +15,9 @@
   },
   "environment": "client",
   "entrypoints": {
+    "main": [
+      "com.freelocs.theprisons.ThePrisonsMain"
+    ],
     "client": [
       "com.freelocs.theprisons.ThePrisonsClient"
     ],

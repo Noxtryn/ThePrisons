@@ -192,8 +192,8 @@ public final class ThePrisonsHudLayoutScreen extends Screen {
         PET_TRINKET_HUD,
         SESSION_XP_HUD,
         ENERGY_HUD,
-        ARMOR,
-        ALERTS;
+        MINING_HUD,
+        ARMOR;
 
         private static DragTarget fromWidget(String widgetId) {
             return switch (widgetId) {

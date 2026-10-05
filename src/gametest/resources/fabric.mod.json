@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "id": "theprisons-gametest",
+  "version": "1.0.0",
+  "name": "ThePrisons client game tests",
+  "environment": "client",
+  "entrypoints": {
+    "fabric-client-gametest": [
+      "com.freelocs.theprisons.gametest.ItemLookClientGameTest",
+      "com.freelocs.theprisons.gametest.RedstoneCaveClientGameTest",
+      "com.freelocs.theprisons.gametest.ShowcaseClientGameTest",
+      "com.freelocs.theprisons.gametest.MarketClientGameTest",
+      "com.freelocs.theprisons.gametest.TunnelClientGameTest"
+    ]
+  },
+  "depends": {
+    "theprisons": "*",
+    "fabric-client-gametest-api-v1": "*"
+  }
+}

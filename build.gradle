@@ -11,12 +11,20 @@ base {
     archivesName = project.archives_base_name
 }
 
+// The release asset: build/libs/theprisons-<mod_version>.jar (mod_version in gradle.properties, SemVer)
 tasks.named('jar', Jar) {
-    archiveFileName = "ThePrisons-v.1.0.jar"
+    archiveFileName = "${project.archives_base_name}-${project.version}.jar"
 }
 
 tasks.named('remapJar') {
-    archiveFileName = "ThePrisons-v.1.0.jar"
+    archiveFileName = "${project.archives_base_name}-${project.version}.jar"
+}
+
+processResources {
+    inputs.property "version", project.version
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version
+    }
 }
 
 repositories {
@@ -68,6 +76,12 @@ tasks.matching { it.name == 'runClientGameTest' }.configureEach {
         // tools/showcase.sh: the user build (no Ore Macro), only the showcase test, N seconds per scene
         jvmArgs '-Dtheprisons.showcase=true'
         jvmArgs "-Dtheprisons.showcase.seconds=${project.findProperty('showcaseSeconds') ?: 4}"
+    } else if (project.hasProperty('tunnel')) {
+        // ./gradlew runClientGameTest -Ptunnel: the user build, only Tunnel Vision (screenshots)
+        jvmArgs '-Dtheprisons.tunnel=true'
+    } else if (project.hasProperty('market')) {
+        // ./gradlew runClientGameTest -Pmarket: the user build, only the market screens (screenshots)
+        jvmArgs '-Dtheprisons.market=true'
     } else {
         // The Ore Macro exists only in the developer build (FeatureProfile.DEV).
         jvmArgs '-Dtheprisons.dev=true'

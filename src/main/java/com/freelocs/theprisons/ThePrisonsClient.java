@@ -80,11 +80,11 @@ public final class ThePrisonsClient implements ClientModInitializer {
         ThePrisonsFeatureManager.setGuiOpener(openGui);
         ModuleRegistry.registerAll(core, openGui, openHudLayout);
         if (com.freelocs.theprisons.modules.FeatureProfile.DEV) {
-            // The welcome setup explains the Ore Macro: developer build only.
-            com.freelocs.theprisons.gui.welcome.SetupFlow.register(core);
+            // The client commands behind the setup chat links (/prisons open, /prisons lang): developer build only.
+            com.freelocs.theprisons.core.setup.ModCommands.register(core);
         }
         registerLegacyHandlers(core);
-        HudRenderCallback.EVENT.register(profiled(core, "legacy:hud-render", ThePrisonsHudRenderer::render));
+        HudRenderCallback.EVENT.register(com.freelocs.theprisons.modules.qol.market.MarketSearch.hudGuard(profiled(core, "legacy:hud-render", ThePrisonsHudRenderer::render)));
 
         ClientLifecycleEvents.CLIENT_STOPPING.register(client -> {
             CACHE.save();
