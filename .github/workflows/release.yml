@@ -1,0 +1,86 @@
+name: Release
+
+# Push a tag like v1.0.0 -> tests + build -> GitHub Release with the jar -> Discord embed.
+# The Discord post can never fail the release (continue-on-error + the script always exits 0).
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-${{ github.ref_name }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Set up Gradle (cache)
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Version from the tag
+        id: version
+        run: |
+          tag="${GITHUB_REF_NAME}"
+          version="${tag#v}"
+          if ! [[ "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.]+)?$ ]]; then
+            echo "::error::Tag '$tag' is not a SemVer tag (vX.Y.Z)"; exit 1
+          fi
+          prop="$(sed -n 's/^mod_version=//p' gradle.properties)"
+          if [ "$prop" != "$version" ]; then
+            echo "::error::mod_version in gradle.properties is '$prop' but the tag is '$tag'"; exit 1
+          fi
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "codename=$(sed -n 's/^release_codename=//p' gradle.properties)" >> "$GITHUB_OUTPUT"
+          echo "prerelease=$([[ "$version" == *-* ]] && echo true || echo false)" >> "$GITHUB_OUTPUT"
+
+      - name: Test and build
+        run: |
+          chmod +x gradlew
+          ./gradlew test build --no-daemon
+          test -f "build/libs/theprisons-${{ steps.version.outputs.version }}.jar"
+
+      - name: Release notes from CHANGELOG.md
+        run: |
+          scripts/changelog-section.sh "${{ steps.version.outputs.version }}" > notes.md
+          if ! [ -s notes.md ]; then
+            echo "::error::CHANGELOG.md has no section [${{ steps.version.outputs.version }}]"; exit 1
+          fi
+
+      - name: GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          flags=()
+          if [ "${{ steps.version.outputs.prerelease }}" = "true" ]; then flags+=(--prerelease); fi
+          gh release create "${GITHUB_REF_NAME}" \
+            "build/libs/theprisons-${{ steps.version.outputs.version }}.jar" \
+            --title "ThePrisons v${{ steps.version.outputs.version }}${{ steps.version.outputs.codename != '' && format(' · {0}', steps.version.outputs.codename) || '' }}" \
+            --notes-file notes.md \
+            "${flags[@]}"
+
+      - name: Discord embed
+        continue-on-error: true
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          VERSION: ${{ steps.version.outputs.version }}
+          CODENAME: ${{ steps.version.outputs.codename }}
+          TAG: ${{ github.ref_name }}
+          REPO: ${{ github.repository }}
+          NOTES: notes.md
+        run: scripts/discord-embed.sh

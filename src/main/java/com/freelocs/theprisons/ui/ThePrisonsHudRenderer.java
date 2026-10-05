@@ -51,42 +51,6 @@ public final class ThePrisonsHudRenderer {
         ANNOUNCEMENTS.add(notification);
     }
 
-    public static HudDimensions drawHudOverlay(DrawContext context, MinecraftClient client, ThePrisonsConfig config, int x, int y, float scale, boolean preview) {
-        if (client == null || client.textRenderer == null) {
-            return HudDimensions.EMPTY;
-        }
-
-        List<TrackedSection> sections = collectSections(client, config);
-        if (sections.isEmpty()) {
-            return HudDimensions.EMPTY;
-        }
-
-        int baseWidth = measureWidth(client, sections);
-        int baseHeight = measureHeight(sections);
-
-        context.getMatrices().pushMatrix();
-        context.getMatrices().translate(x / scale, y / scale);
-        context.getMatrices().scale(scale, scale);
-
-        drawFrame(context, config, baseWidth, baseHeight);
-
-        int cursorY = PADDING;
-        for (int i = 0; i < sections.size(); i++) {
-            TrackedSection section = sections.get(i);
-            drawSection(context, client, config, section, baseWidth, cursorY);
-            cursorY += sectionHeight(section);
-            if (i < sections.size() - 1) {
-                cursorY += SECTION_GAP;
-            }
-        }
-
-        if (preview) {
-            context.drawTextWithShadow(client.textRenderer, Text.literal("Scroll to resize"), PADDING, baseHeight + 4, ThePrisonsColors.FG_MUTED);
-        }
-
-        context.getMatrices().popMatrix();
-        return new HudDimensions(Math.round(baseWidth * scale), Math.round(baseHeight * scale));
-    }
 
     public static void render(DrawContext context, RenderTickCounter tickCounter) {
         MinecraftClient client = MinecraftClient.getInstance();
@@ -280,11 +244,10 @@ public final class ThePrisonsHudRenderer {
 
     private static List<HudEntry> toHudEntries(List<FeatureHudEntry> featureEntries) {
         List<HudEntry> entries = new ArrayList<>();
-        if (config.hud.showTrackedPets) {
-            entries.addAll(collectEntries("PET", ThePrisonsClient.CACHE.entries().values(), client, config));
-        }
-        if (config.hud.showTrinkets) {
-            entries.addAll(collectEntries("TRINKET", ThePrisonsClient.CACHE.entries().values(), client, config));
+        for (FeatureHudEntry entry : featureEntries) {
+            String value = entry.value();
+            boolean ready = value != null && value.equalsIgnoreCase("ready");
+            entries.add(new HudEntry(entry.name(), ready ? "READY" : value, ready, ready ? STATUS_READY : entry.color(), null));
         }
         return entries;
     }
@@ -313,9 +276,8 @@ public final class ThePrisonsHudRenderer {
         context.getMatrices().pushMatrix();
         context.getMatrices().translate(x, y);
         context.getMatrices().scale(scale, scale);
-
-        drawFrame(context, config, baseWidth, baseHeight);
-
+        Ui.card(context, 0, 0, baseWidth, baseHeight, 1.0F);
+        Ui.flowLine(context, 0, baseWidth, 0, 1.0F);
         int cursorY = PADDING;
         for (int i = 0; i < sections.size(); i++) {
             TrackedSection section = sections.get(i);
@@ -374,22 +336,10 @@ public final class ThePrisonsHudRenderer {
         return remainingSeconds + "s";
     }
 
-    private static void drawFrame(DrawContext context, ThePrisonsConfig config, int width, int height) {
-        context.fill(0, 0, width, height, config.hud.backgroundColor);
-        context.fill(1, 1, width - 1, 2, 0x22000000);
-        context.fill(2, 2, width - 2, height - 2, 0x22000000);
-        context.fill(0, 0, width, 2, ThePrisonsColors.ACCENT_CYAN);
-        context.fill(0, 2, width, 3, ThePrisonsColors.ACCENT_AMBER);
-        context.fill(0, 0, width, 1, config.hud.borderColor);
-        context.fill(0, height - 1, width, height, config.hud.borderColor);
-        context.fill(0, 0, 1, height, config.hud.borderColor);
-        context.fill(width - 1, 0, width, height, config.hud.borderColor);
-    }
 
-    private static void drawSection(DrawContext context, MinecraftClient client, ThePrisonsConfig config, TrackedSection section, int width, int startY) {
-        int textColor = section.accentColor;
-        context.fill(PADDING, startY + 2, PADDING + 3, startY + 9, textColor);
-        context.drawTextWithShadow(client.textRenderer, Text.literal(section.title), PADDING + 7, startY, textColor);
+    private static void drawSection(DrawContext context, MinecraftClient client, TrackedSection section, int width, int startY) {
+        Ui.draw(context, client.textRenderer, section.title, PADDING, startY, Ui.theme().title(), 255);
+        Ui.line(context, PADDING + Ui.width(client.textRenderer, section.title) + 5, width - PADDING, startY + 4, 0.6F);
         int cursorY = startY + HEADER_HEIGHT;
         for (HudEntry entry : section.entries) {
             int textX = PADDING;
@@ -442,7 +392,7 @@ public final class ThePrisonsHudRenderer {
             }
             width = Math.max(width, sectionWidth + PADDING * 2);
         }
-        return Math.max(width, 120);
+        return Math.max(width, 110);
     }
 
     private static int measureHeight(List<TrackedSection> sections) {
@@ -494,28 +444,17 @@ public final class ThePrisonsHudRenderer {
                 a = 1.0F;
             }
             int width = notificationWidth(client, notification);
-            int x = (screenWidth - width) / 2;
-            x = Math.max(0, x);
-
-            int rowBottom = y + ALERT_ROW_HEIGHT;
-            context.fill(x, y, x + width, rowBottom, 0xD8141826);
-            context.fill(x, y, x + width, y + 2, notification.accentColor);
-
-            context.getMatrices().pushMatrix();
-            context.getMatrices().translate(x, y);
-            context.getMatrices().scale(ALERT_TEXT_SCALE, ALERT_TEXT_SCALE);
-
-            Text titleText = Text.literal(notification.title).copy().styled(style -> style.withBold(true));
-            int titleWidth = client.textRenderer.getWidth(titleText);
-            int bodyWidth = client.textRenderer.getWidth(notification.body);
-            int scaledWidth = width / ALERT_TEXT_SCALE;
-            int titleX = Math.max(1, (scaledWidth - titleWidth) / 2);
-            int bodyX = Math.max(1, (scaledWidth - bodyWidth) / 2);
-
-            context.drawTextWithShadow(client.textRenderer, titleText, titleX, ALERT_TITLE_OFFSET / ALERT_TEXT_SCALE, config.hud.alertTitleColor);
-            context.drawTextWithShadow(client.textRenderer, Text.literal(notification.body), bodyX, ALERT_BODY_OFFSET / ALERT_TEXT_SCALE, config.hud.alertBodyColor);
-            context.getMatrices().popMatrix();
-
+            int x = Math.max(0, (screenWidth - width) / 2);
+            int yy = y - Math.round((1.0F - in) * 10.0F);
+            int h = ALERT_ROW_HEIGHT - 6;
+            Ui.card(context, x, yy, width, h, a);
+            int accent = (notification.accentColor & 0xFFFFFF) != 0 ? notification.accentColor & 0xFFFFFF : Ui.theme().accent();
+            context.fill(x, yy, x + 2, yy + h, Ui.argb(Math.round(255 * a), accent));
+            Ui.drawCentered(context, client.textRenderer, notification.title.toUpperCase(Locale.ROOT), x + width / 2, yy + 4,
+                    Ui.theme().title(), Math.round(255 * a));
+            Ui.drawCentered(context, client.textRenderer, notification.body, x + width / 2, yy + 14, Ui.VALUE, Math.round(255 * a));
+            float left = preview ? 0.6F : Math.max(0.0F, 1.0F - age / (float) ANNOUNCEMENT_DURATION_MS);
+            context.fill(x + 2, yy + h - 1, x + 2 + Math.round((width - 2) * left), yy + h, Ui.argb(Math.round(220 * a), accent));
             y += ALERT_ROW_HEIGHT;
             rendered++;
             if (rendered >= 3) {
@@ -565,10 +504,9 @@ public final class ThePrisonsHudRenderer {
     }
 
     private static int notificationWidth(MinecraftClient client, Notification notification) {
-        int titleWidth = client.textRenderer.getWidth(notification.title) * ALERT_TEXT_SCALE;
-        int bodyWidth = client.textRenderer.getWidth(notification.body) * ALERT_TEXT_SCALE;
-        int width = Math.max(280, titleWidth + ALERT_SIDE_PADDING * 2);
-        return Math.max(width, bodyWidth + ALERT_SIDE_PADDING * 2);
+        int titleWidth = Ui.width(client.textRenderer, notification.title.toUpperCase(Locale.ROOT));
+        int bodyWidth = Ui.width(client.textRenderer, notification.body);
+        return Math.max(150, Math.max(titleWidth, bodyWidth) + ALERT_SIDE_PADDING * 4);
     }
 
     private static String stripPetSuffix(String value) {

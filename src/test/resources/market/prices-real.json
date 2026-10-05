@@ -1,0 +1,3519 @@
+{
+  "energy_rate": {
+    "money_per_energy": 2.0,
+    "seen": "2026-10-05 09:12",
+    "seen_ms": 1791184371992
+  },
+  "items": [
+    {
+      "key": "contraband_legendary",
+      "name": "Legendary Contraband",
+      "category": "Other/Crates",
+      "price": 7000000.0,
+      "seen": "2026-10-05 09:54",
+      "seen_ms": 1791186859149,
+      "source": "ah",
+      "icon": "minecraft:ender_chest"
+    },
+    {
+      "key": "skilltree_reset",
+      "name": "Skill Tree Reset",
+      "category": "Upgrades/Skills",
+      "price": 6.0E7,
+      "seen": "2026-10-05 09:54",
+      "seen_ms": 1791186859149,
+      "source": "ah",
+      "icon": "minecraft:oak_sapling"
+    },
+    {
+      "key": "pet_signal_jammer",
+      "name": "Signal Jammer Pet [LVL 1]",
+      "category": "Upgrades/Pets",
+      "price": 8.0E7,
+      "seen": "2026-10-05 09:54",
+      "seen_ms": 1791186859149,
+      "source": "ah",
+      "icon": "minecraft:player_head"
+    },
+    {
+      "key": "eraser",
+      "name": "Eraser (3)",
+      "category": "Upgrades/Scrolls",
+      "price": 2000000.0,
+      "seen": "2026-10-05 09:54",
+      "seen_ms": 1791186859149,
+      "source": "ah",
+      "icon": "minecraft:pink_dye"
+    },
+    {
+      "key": "pickaxe_prestige_modifier",
+      "name": "Pickaxe Prestige Modifier (Clue Scroll Mastery +2%)",
+      "category": "Other/Misc",
+      "price": 3000000.0,
+      "seen": "2026-10-05 09:54",
+      "seen_ms": 1791186859149,
+      "source": "ah",
+      "icon": "minecraft:amethyst_shard"
+    },
+    {
+      "key": "black_scroll",
+      "name": "Black Scroll (60%)",
+      "category": "Upgrades/Scrolls",
+      "price": 2000000.0,
+      "seen": "2026-10-05 09:54",
+      "seen_ms": 1791186859149,
+      "source": "ah",
+      "icon": "minecraft:ink_sac"
+    },
+    {
+      "key": "meteor_flare",
+      "name": "Meteor Flare",
+      "category": "Mining/Mining",
+      "price": 9000000.0,
+      "seen": "2026-10-05 09:54",
+      "seen_ms": 1791186859149,
+      "source": "ah",
+      "icon": "minecraft:torch"
+    },
+    {
+      "key": "trinket_resistance",
+      "name": "Resistance Trinket (0)",
+      "category": "Combat/Trinkets",
+      "price": 2.3E7,
+      "seen": "2026-10-05 09:54",
+      "seen_ms": 1791186859149,
+      "source": "ah",
+      "icon": "minecraft:splash_potion"
+    },
+    {
+      "key": "cosmic_diamond_pickaxe",
+      "name": "Diamond Pickaxe I",
+      "category": "Mining/Tools",
+      "price": 250000.0,
+      "seen": "2026-10-05 09:54",
+      "seen_ms": 1791186859149,
+      "source": "ah",
+      "icon": "minecraft:diamond_pickaxe"
+    },
+    {
+      "key": "mask_lucky_leprechaun",
+      "name": "Lucky Leprechaun Mask",
+      "category": "Cosmetics/Masks",
+      "price": 2500000.0,
+      "seen": "2026-10-05 09:54",
+      "seen_ms": 1791186859149,
+      "source": "ah",
+      "icon": "minecraft:player_head"
+    },
+    {
+      "key": "cell_door_upgrade",
+      "name": "Uncommon Cell Door Upgrade",
+      "category": "Cosmetics/Cell",
+      "price": 1.0E7,
+      "seen": "2026-10-05 09:54",
+      "seen_ms": 1791186859149,
+      "source": "ah",
+      "icon": "minecraft:emerald_block"
+    },
+    {
+      "key": "contraband_elite",
+      "name": "Elite Contraband",
+      "category": "Other/Crates",
+      "price": 2500000.0,
+      "seen": "2026-10-05 09:54",
+      "seen_ms": 1791186859149,
+      "source": "ah",
+      "icon": "minecraft:ender_chest"
+    },
+    {
+      "key": "gear_enchant_page",
+      "name": "Legendary Page (1%)",
+      "category": "Upgrades/Pages",
+      "price": 245000.0,
+      "seen": "2026-10-05 09:54",
+      "seen_ms": 1791186859149,
+      "source": "ah",
+      "icon": "minecraft:paper"
+    },
+    {
+      "key": "diamond_block_satchel",
+      "name": "Block of Diamond Satchel (0 / 2,304 Ores)",
+      "category": "Mining/Satchels",
+      "price": 3.8E7,
+      "seen": "2026-10-05 09:54",
+      "seen_ms": 1791186859149,
+      "source": "ah",
+      "icon": "minecraft:diamond_block"
+    },
+    {
+      "key": "cosmic_iron_pickaxe",
+      "name": "Iron Pickaxe 100 IV",
+      "category": "Mining/Tools",
+      "price": 1.0E8,
+      "seen": "2026-10-05 09:54",
+      "seen_ms": 1791186859149,
+      "source": "ah",
+      "icon": "minecraft:iron_pickaxe"
+    },
+    {
+      "key": "mask_prisoner",
+      "name": "Prisoner Mask",
+      "category": "Cosmetics/Masks",
+      "price": 1.15E7,
+      "seen": "2026-10-05 09:11",
+      "seen_ms": 1791184312195,
+      "source": "ah",
+      "icon": "minecraft:player_head"
+    },
+    {
+      "key": "booster",
+      "name": "Energy Booster (Right Click)",
+      "category": "Upgrades/Boosters",
+      "price": 1.0E7,
+      "seen": "2026-10-05 09:54",
+      "seen_ms": 1791186859149,
+      "source": "ah",
+      "icon": "minecraft:emerald"
+    },
+    {
+      "key": "slot_bot_ticket_sleeve",
+      "name": "Cosmo-Slot Bot Ticket Sleeve (1x)",
+      "category": "Other/Slot Bot",
+      "price": 3000000.0,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "ah",
+      "icon": "minecraft:flower_banner_pattern"
+    },
+    {
+      "key": "contraband_godly",
+      "name": "Godly Contraband",
+      "category": "Other/Crates",
+      "price": 2.55E7,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "ah",
+      "icon": "minecraft:ender_chest"
+    },
+    {
+      "key": "pickaxe_prestige_token",
+      "name": "Tool Prestige Token III",
+      "category": "Upgrades/Prestige",
+      "price": 4000000.0,
+      "seen": "2026-10-05 09:54",
+      "seen_ms": 1791186859149,
+      "source": "ah",
+      "icon": "minecraft:sunflower"
+    },
+    {
+      "key": "diamond_ore_satchel",
+      "name": "Diamond Ore Satchel",
+      "category": "Mining/Satchels",
+      "price": 5000000.0,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "ah",
+      "icon": "minecraft:diamond_ore"
+    },
+    {
+      "key": "item_nametag",
+      "name": "Item Nametag",
+      "category": "Cosmetics/Cosmetics",
+      "price": 2000000.0,
+      "seen": "2026-10-05 09:41",
+      "seen_ms": 1791186118964,
+      "source": "ah",
+      "icon": "minecraft:name_tag"
+    },
+    {
+      "key": "mask_outpost",
+      "name": "Outpost Mask",
+      "category": "Cosmetics/Masks",
+      "price": 750000.0,
+      "seen": "2026-10-05 09:41",
+      "seen_ms": 1791186118964,
+      "source": "ah",
+      "icon": "minecraft:player_head"
+    },
+    {
+      "key": "rare_candy",
+      "name": "II Rare Candy II",
+      "category": "Upgrades/Skills",
+      "price": 3000000.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:gold_nugget"
+    },
+    {
+      "key": "randomization_scroll",
+      "name": "Legendary Randomization Scroll",
+      "category": "Upgrades/Scrolls",
+      "price": 3000000.0,
+      "seen": "2026-10-05 09:54",
+      "seen_ms": 1791186859149,
+      "source": "ah",
+      "icon": "minecraft:paper"
+    },
+    {
+      "key": "contraband_ultimate",
+      "name": "Ultimate Contraband",
+      "category": "Other/Crates",
+      "price": 4400000.0,
+      "seen": "2026-10-05 09:54",
+      "seen_ms": 1791186859149,
+      "source": "ah",
+      "icon": "minecraft:ender_chest"
+    },
+    {
+      "key": "gear_enchant_book",
+      "name": "Armored IV (37%)",
+      "category": "Upgrades/Enchant Books",
+      "price": 2.0E7,
+      "seen": "2026-10-05 09:57",
+      "seen_ms": 1791187063702,
+      "source": "ah",
+      "icon": "minecraft:enchanted_book"
+    },
+    {
+      "key": "pickaxe prestige modifier (clue scroll mastery +2%)",
+      "name": "Pickaxe Prestige Modifier (Clue Scroll Mastery +2%)",
+      "category": "Other/Misc",
+      "price": 499999.0,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:amethyst_shard"
+    },
+    {
+      "key": "pickaxe prestige modifier (meteorite mastery +2%)",
+      "name": "Pickaxe Prestige Modifier (Meteorite Mastery +2%)",
+      "category": "Upgrades/Prestige",
+      "price": 499999.0,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:amethyst_shard"
+    },
+    {
+      "key": "pickaxe prestige modifier (orb mastery +1)",
+      "name": "Pickaxe Prestige Modifier (Orb Mastery +1)",
+      "category": "Upgrades/Enchants",
+      "price": 499999.0,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:amethyst_shard"
+    },
+    {
+      "key": "pickaxe prestige modifier (shard mastery 0.2x)",
+      "name": "Pickaxe Prestige Modifier (Shard Mastery 0.2x)",
+      "category": "Upgrades/Prestige",
+      "price": 499999.0,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:amethyst_shard"
+    },
+    {
+      "key": "pickaxe prestige modifier (grinder +3)",
+      "name": "Pickaxe Prestige Modifier (Grinder +3)",
+      "category": "Upgrades/Prestige",
+      "price": 499999.0,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:amethyst_shard"
+    },
+    {
+      "key": "wormhole_powerup_double_tap",
+      "name": "Wormhole Powerup (Double Tap)",
+      "category": "Upgrades/Wormhole",
+      "price": 6500000.0,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "ah",
+      "icon": "minecraft:amethyst_shard"
+    },
+    {
+      "key": "wormhole powerup (double tap)",
+      "name": "Wormhole Powerup (Double Tap)",
+      "category": "Upgrades/Wormhole",
+      "price": 6500000.0,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:amethyst_shard"
+    },
+    {
+      "key": "custom block (riot supply)",
+      "name": "Custom Block (Riot Supply)",
+      "category": "Cosmetics/Cosmetics",
+      "price": 2.0E7,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "ah",
+      "icon": "minecraft:barrel"
+    },
+    {
+      "key": "gkit_unlock_token",
+      "name": "Enchanter G-Kit",
+      "category": "Combat/G-Kits",
+      "price": 5.0E7,
+      "seen": "2026-10-05 09:54",
+      "seen_ms": 1791186859149,
+      "source": "ah",
+      "icon": "minecraft:beacon"
+    },
+    {
+      "key": "astronaut g-kit",
+      "name": "Astronaut G-Kit",
+      "category": "Combat/G-Kits",
+      "price": 1.25E8,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:beacon"
+    },
+    {
+      "key": "cowboy g-kit",
+      "name": "Cowboy G-Kit",
+      "category": "Combat/G-Kits",
+      "price": 1.2E8,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:beacon"
+    },
+    {
+      "key": "enchanter g-kit",
+      "name": "Enchanter G-Kit",
+      "category": "Combat/G-Kits",
+      "price": 5.0E7,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:beacon"
+    },
+    {
+      "key": "pluto g-kit",
+      "name": "Pluto G-Kit",
+      "category": "Combat/G-Kits",
+      "price": 7.0E7,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:beacon"
+    },
+    {
+      "key": "slasher g-kit",
+      "name": "Slasher G-Kit",
+      "category": "Combat/G-Kits",
+      "price": 5.5E7,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:beacon"
+    },
+    {
+      "key": "sludge g-kit",
+      "name": "Sludge G-Kit",
+      "category": "Combat/G-Kits",
+      "price": 8.0E7,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:beacon"
+    },
+    {
+      "key": "starforged g-kit",
+      "name": "Starforged G-Kit",
+      "category": "Combat/G-Kits",
+      "price": 1.4E8,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:beacon"
+    },
+    {
+      "key": "gkit_upgrade_token",
+      "name": "Gkit Level Up:starforged",
+      "category": "Upgrades/Skills",
+      "price": 4.5E7,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "ah",
+      "icon": "minecraft:beacon"
+    },
+    {
+      "key": "cowboy g-kit level up",
+      "name": "Cowboy G-Kit Level Up",
+      "category": "Upgrades/Skills",
+      "price": 1.25E8,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:beacon"
+    },
+    {
+      "key": "random_gkit_upgrade_token",
+      "name": "xx Random G-Kit Level Up xx",
+      "category": "Upgrades/Skills",
+      "price": 4.0E7,
+      "seen": "2026-10-05 09:21",
+      "seen_ms": 1791184874652,
+      "source": "sold",
+      "icon": "minecraft:beacon"
+    },
+    {
+      "key": "xx random g-kit level up xx",
+      "name": "xx Random G-Kit Level Up xx",
+      "category": "Upgrades/Skills",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184248653,
+      "source": "ah",
+      "icon": "minecraft:beacon"
+    },
+    {
+      "key": "starforged g-kit level up",
+      "name": "Starforged G-Kit Level Up",
+      "category": "Upgrades/Skills",
+      "price": 4.5E7,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:beacon"
+    },
+    {
+      "key": "wormhole_powerup_overdrive",
+      "name": "Wormhole Powerup (Overdrive)",
+      "category": "Upgrades/Wormhole",
+      "price": 6.0E7,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "ah",
+      "icon": "minecraft:blaze_powder"
+    },
+    {
+      "key": "wormhole powerup (overdrive)",
+      "name": "Wormhole Powerup (Overdrive)",
+      "category": "Upgrades/Wormhole",
+      "price": 6.0E7,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:blaze_powder"
+    },
+    {
+      "key": "cosmic_stone_helmet",
+      "name": "Chain Helmet 0",
+      "category": "Combat/Armor",
+      "price": 2.5E7,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "ah",
+      "icon": "minecraft:chainmail_helmet"
+    },
+    {
+      "key": "outlaw chain helmet 0",
+      "name": "Outlaw Chain Helmet 0",
+      "category": "Combat/Armor",
+      "price": 2.5E7,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:chainmail_helmet"
+    },
+    {
+      "key": "bandit_box",
+      "name": "Bandit Box",
+      "category": "Other/Crates",
+      "price": 1000000.0,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "ah",
+      "icon": "minecraft:chest"
+    },
+    {
+      "key": "bandit box: elite (locked)",
+      "name": "Bandit Box: Elite (Locked)",
+      "category": "Other/Crates",
+      "price": 1000000.0,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:chest"
+    },
+    {
+      "key": "bandit box: simple (locked)",
+      "name": "Bandit Box: Simple (Locked)",
+      "category": "Other/Crates",
+      "price": 1000000.0,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:chest"
+    },
+    {
+      "key": "bandit box: simple+ (locked)",
+      "name": "Bandit Box: Simple+ (Locked)",
+      "category": "Other/Crates",
+      "price": 1000000.0,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:chest"
+    },
+    {
+      "key": "charge_orb_slot",
+      "name": "Charge Orb Slot",
+      "category": "Upgrades/Charge Orbs",
+      "price": 2800000.0,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "ah",
+      "icon": "minecraft:clay_ball"
+    },
+    {
+      "key": "charge orb slot",
+      "name": "Charge Orb Slot",
+      "category": "Upgrades/Charge Orbs",
+      "price": 2800000.0,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:clay_ball"
+    },
+    {
+      "key": "custom block (wormhole surge)",
+      "name": "Custom Block (Wormhole Surge)",
+      "category": "Cosmetics/Cosmetics",
+      "price": 1.0E7,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "ah",
+      "icon": "minecraft:crying_obsidian"
+    },
+    {
+      "key": "deepslate_diamond_ore_satchel",
+      "name": "Diamond Satchel",
+      "category": "Mining/Satchels",
+      "price": 1.9E7,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "ah",
+      "icon": "minecraft:deepslate_diamond_ore"
+    },
+    {
+      "key": "deepslate diamond ore satchel (0 / 2,304 ores)",
+      "name": "Deepslate Diamond Ore Satchel (0 / 2,304 Ores)",
+      "category": "Mining/Satchels",
+      "price": 1.9E7,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:deepslate_diamond_ore"
+    },
+    {
+      "key": "block of diamond satchel (0 / 2,304 ores)",
+      "name": "Block of Diamond Satchel (0 / 2,304 Ores)",
+      "category": "Mining/Satchels",
+      "price": 1.9E7,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:deepslate_diamond_ore"
+    },
+    {
+      "key": "deepslate_redstone_ore_satchel",
+      "name": "Redstone Satchel",
+      "category": "Mining/Satchels",
+      "price": 3400000.0,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "ah",
+      "icon": "minecraft:deepslate_redstone_ore"
+    },
+    {
+      "key": "deepslate redstone ore satchel (0 / 2,304 ores)",
+      "name": "Deepslate Redstone Ore Satchel (0 / 2,304 Ores)",
+      "category": "Mining/Satchels",
+      "price": 3400000.0,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:deepslate_redstone_ore"
+    },
+    {
+      "key": "diamond_satchel",
+      "name": "Diamond Satchel",
+      "category": "Mining/Satchels",
+      "price": 1.5E7,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "ah",
+      "icon": "minecraft:diamond"
+    },
+    {
+      "key": "diamond satchel (0 / 2,304 ores)",
+      "name": "Diamond Satchel (0 / 2,304 Ores)",
+      "category": "Mining/Satchels",
+      "price": 1.5E7,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:diamond"
+    },
+    {
+      "key": "diamond ore satchel (0 / 2,304 ores)",
+      "name": "Diamond Ore Satchel (0 / 2,304 Ores)",
+      "category": "Mining/Satchels",
+      "price": 5000000.0,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:diamond_ore"
+    },
+    {
+      "key": "diamond ore satchel (52 / 2,304 ores)",
+      "name": "Diamond Ore Satchel (52 / 2,304 Ores)",
+      "category": "Mining/Satchels",
+      "price": 5000000.0,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:diamond_ore"
+    },
+    {
+      "key": "diamond pickaxe i",
+      "name": "Diamond Pickaxe I",
+      "category": "Mining/Tools",
+      "price": 250000.0,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:diamond_pickaxe"
+    },
+    {
+      "key": "cosmic_diamond_spear",
+      "name": "Diamond Spear",
+      "category": "Combat/Weapons",
+      "price": 2.5E7,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "ah",
+      "icon": "minecraft:diamond_spear"
+    },
+    {
+      "key": "diamond spear iv",
+      "name": "Diamond Spear IV",
+      "category": "Combat/Weapons",
+      "price": 2.5E7,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:diamond_spear"
+    },
+    {
+      "key": "diamond spear v",
+      "name": "Diamond Spear V",
+      "category": "Combat/Weapons",
+      "price": 2.5E7,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:diamond_spear"
+    },
+    {
+      "key": "wormhole_powerup_wildcard",
+      "name": "Wormhole Powerup (Wildcard)",
+      "category": "Upgrades/Wormhole",
+      "price": 6.0E7,
+      "seen": "2026-10-05 09:54",
+      "seen_ms": 1791186859149,
+      "source": "ah",
+      "icon": "minecraft:echo_shard"
+    },
+    {
+      "key": "wormhole powerup (wildcard)",
+      "name": "Wormhole Powerup (Wildcard)",
+      "category": "Upgrades/Wormhole",
+      "price": 7.0E7,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:echo_shard"
+    },
+    {
+      "key": "bandit energy booster (right click)",
+      "name": "Bandit Energy Booster (Right Click)",
+      "category": "Upgrades/Boosters",
+      "price": 2.5E7,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:emerald"
+    },
+    {
+      "key": "emerald_satchel",
+      "name": "Emerald Satchel",
+      "category": "Mining/Satchels",
+      "price": 2.5E7,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "ah",
+      "icon": "minecraft:emerald"
+    },
+    {
+      "key": "emerald satchel (0 / 2,304 ores)",
+      "name": "Emerald Satchel (0 / 2,304 Ores)",
+      "category": "Mining/Satchels",
+      "price": 2.5E7,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:emerald"
+    },
+    {
+      "key": "energy booster (right click)",
+      "name": "Energy Booster (Right Click)",
+      "category": "Upgrades/Boosters",
+      "price": 1.0E7,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:emerald"
+    },
+    {
+      "key": "xp booster (right click)",
+      "name": "XP Booster (Right Click)",
+      "category": "Upgrades/Boosters",
+      "price": 1000000.0,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:emerald"
+    },
+    {
+      "key": "godly cell door upgrade",
+      "name": "Godly Cell Door Upgrade",
+      "category": "Cosmetics/Cell",
+      "price": 1.0E7,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:emerald_block"
+    },
+    {
+      "key": "elite cell door upgrade",
+      "name": "Elite Cell Door Upgrade",
+      "category": "Cosmetics/Cell",
+      "price": 1.0E7,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:emerald_block"
+    },
+    {
+      "key": "legendary cell door upgrade",
+      "name": "Legendary Cell Door Upgrade",
+      "category": "Cosmetics/Cell",
+      "price": 1.0E7,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:emerald_block"
+    },
+    {
+      "key": "uncommon cell door upgrade",
+      "name": "Uncommon Cell Door Upgrade",
+      "category": "Cosmetics/Cell",
+      "price": 1.0E7,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:emerald_block"
+    },
+    {
+      "key": "ultimate cell door upgrade",
+      "name": "Ultimate Cell Door Upgrade",
+      "category": "Cosmetics/Cell",
+      "price": 1.0E7,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:emerald_block"
+    },
+    {
+      "key": "emerald_block_satchel",
+      "name": "Emerald Satchel",
+      "category": "Mining/Satchels",
+      "price": 4.5E8,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "ah",
+      "icon": "minecraft:emerald_block"
+    },
+    {
+      "key": "block of emerald satchel (0 / 2,304 ores)",
+      "name": "Block of Emerald Satchel (0 / 2,304 Ores)",
+      "category": "Mining/Satchels",
+      "price": 4.5E8,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:emerald_block"
+    },
+    {
+      "key": "emerald_ore_satchel",
+      "name": "Emerald Ore Satchel (0 / 2,304 Ores)",
+      "category": "Mining/Satchels",
+      "price": 5.0E7,
+      "seen": "2026-10-05 09:54",
+      "seen_ms": 1791186859149,
+      "source": "ah",
+      "icon": "minecraft:emerald_ore"
+    },
+    {
+      "key": "emerald ore satchel (0 / 2,304 ores)",
+      "name": "Emerald Ore Satchel (0 / 2,304 Ores)",
+      "category": "Mining/Satchels",
+      "price": 8.0E7,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:emerald_ore"
+    },
+    {
+      "key": "cactus ii (77%)",
+      "name": "Cactus II (77%)",
+      "category": "Upgrades/Enchant Books",
+      "price": 750000.0,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:enchanted_book"
+    },
+    {
+      "key": "outbreak i (78%)",
+      "name": "Outbreak I (78%)",
+      "category": "Upgrades/Enchant Books",
+      "price": 5.0E7,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:enchanted_book"
+    },
+    {
+      "key": "silence i (28%)",
+      "name": "Silence I (28%)",
+      "category": "Upgrades/Enchant Books",
+      "price": 5.0E7,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:enchanted_book"
+    },
+    {
+      "key": "titan executioner i (28%)",
+      "name": "Titan Executioner I (28%)",
+      "category": "Upgrades/Enchant Books",
+      "price": 5.0E7,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:enchanted_book"
+    },
+    {
+      "key": "titan executioner i (59%)",
+      "name": "Titan Executioner I (59%)",
+      "category": "Upgrades/Enchant Books",
+      "price": 5.0E7,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:enchanted_book"
+    },
+    {
+      "key": "breaching force x (49%)",
+      "name": "Breaching Force X (49%)",
+      "category": "Upgrades/Enchant Books",
+      "price": 3000000.0,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:enchanted_book"
+    },
+    {
+      "key": "enlighted iii (94%)",
+      "name": "Enlighted III (94%)",
+      "category": "Upgrades/Enchant Books",
+      "price": 3000000.0,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:enchanted_book"
+    },
+    {
+      "key": "frenzy i (85%)",
+      "name": "Frenzy I (85%)",
+      "category": "Upgrades/Enchant Books",
+      "price": 3000000.0,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:enchanted_book"
+    },
+    {
+      "key": "frenzy iv (100%)",
+      "name": "Frenzy IV (100%)",
+      "category": "Upgrades/Enchant Books",
+      "price": 3000000.0,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:enchanted_book"
+    },
+    {
+      "key": "gears iii (100%)",
+      "name": "Gears III (100%)",
+      "category": "Upgrades/Enchant Books",
+      "price": 3000000.0,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:enchanted_book"
+    },
+    {
+      "key": "damage limiter vi (100%)",
+      "name": "Damage Limiter VI (100%)",
+      "category": "Upgrades/Enchant Books",
+      "price": 3000000.0,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:enchanted_book"
+    },
+    {
+      "key": "treasure hunter i (29%)",
+      "name": "Treasure Hunter I (29%)",
+      "category": "Upgrades/Enchant Books",
+      "price": 3000000.0,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:enchanted_book"
+    },
+    {
+      "key": "skilled excavation i (80%)",
+      "name": "Skilled Excavation I (80%)",
+      "category": "Upgrades/Enchant Books",
+      "price": 1.0E7,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:enchanted_book"
+    },
+    {
+      "key": "cosmic_crate",
+      "name": "Cosmic Crate",
+      "category": "Other/Crates",
+      "price": 1.0E8,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "ah",
+      "icon": "minecraft:ender_chest"
+    },
+    {
+      "key": "*** cosmic crate: aether #1 ***",
+      "name": "*** COSMIC CRATE: Aether #1 ***",
+      "category": "Other/Crates",
+      "price": 1.0E8,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:ender_chest"
+    },
+    {
+      "key": "*** cosmic crate: celestial #1 ***",
+      "name": "*** COSMIC CRATE: Celestial #1 ***",
+      "category": "Other/Crates",
+      "price": 1.0E8,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:ender_chest"
+    },
+    {
+      "key": "elite contraband",
+      "name": "Elite Contraband",
+      "category": "Other/Crates",
+      "price": 2500000.0,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:ender_chest"
+    },
+    {
+      "key": "godly contraband",
+      "name": "Godly Contraband",
+      "category": "Other/Crates",
+      "price": 2.55E7,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:ender_chest"
+    },
+    {
+      "key": "legendary contraband",
+      "name": "Legendary Contraband",
+      "category": "Other/Crates",
+      "price": 7000000.0,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:ender_chest"
+    },
+    {
+      "key": "ultimate contraband",
+      "name": "Ultimate Contraband",
+      "category": "Other/Crates",
+      "price": 4400000.0,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:ender_chest"
+    },
+    {
+      "key": "contraband_uncommon",
+      "name": "Uncommon Contraband",
+      "category": "Other/Crates",
+      "price": 1000000.0,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "ah",
+      "icon": "minecraft:ender_chest"
+    },
+    {
+      "key": "uncommon contraband",
+      "name": "Uncommon Contraband",
+      "category": "Other/Crates",
+      "price": 1000000.0,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:ender_chest"
+    },
+    {
+      "key": "cosmo-slot bot ticket sleeve (1x)",
+      "name": "Cosmo-Slot Bot Ticket Sleeve (1x)",
+      "category": "Other/Slot Bot",
+      "price": 3000000.0,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:flower_banner_pattern"
+    },
+    {
+      "key": "cosmo-slot bot ticket sleeve (0x)",
+      "name": "Cosmo-Slot Bot Ticket Sleeve (0x)",
+      "category": "Other/Slot Bot",
+      "price": 3000000.0,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:flower_banner_pattern"
+    },
+    {
+      "key": "cosmo-slot bot ticket sleeve (20x)",
+      "name": "Cosmo-Slot Bot Ticket Sleeve (20x)",
+      "category": "Other/Slot Bot",
+      "price": 3000000.0,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:flower_banner_pattern"
+    },
+    {
+      "key": "cosmo-slot bot ticket sleeve (2x)",
+      "name": "Cosmo-Slot Bot Ticket Sleeve (2x)",
+      "category": "Other/Slot Bot",
+      "price": 3000000.0,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:flower_banner_pattern"
+    },
+    {
+      "key": "cosmo-slot bot ticket sleeve (9x)",
+      "name": "Cosmo-Slot Bot Ticket Sleeve (9x)",
+      "category": "Other/Slot Bot",
+      "price": 3000000.0,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:flower_banner_pattern"
+    },
+    {
+      "key": "item_lore_crystal",
+      "name": "Item Lore Crystal",
+      "category": "Cosmetics/Cosmetics",
+      "price": 400000.0,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "ah",
+      "icon": "minecraft:ghast_tear"
+    },
+    {
+      "key": "item lore crystal",
+      "name": "Item Lore Crystal",
+      "category": "Cosmetics/Cosmetics",
+      "price": 400000.0,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:ghast_tear"
+    },
+    {
+      "key": "pickaxe_enchant_dust",
+      "name": "Pickaxe Dust",
+      "category": "Upgrades/Enchants",
+      "price": 88000.0,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "ah",
+      "icon": "minecraft:glowstone_dust"
+    },
+    {
+      "key": "ultimate dust (8%)",
+      "name": "Ultimate Dust (8%)",
+      "category": "Upgrades/Dust",
+      "price": 88000.0,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:glowstone_dust"
+    },
+    {
+      "key": "legendary dust (9%)",
+      "name": "Legendary Dust (9%)",
+      "category": "Upgrades/Dust",
+      "price": 88000.0,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:glowstone_dust"
+    },
+    {
+      "key": "ultimate dust (7%)",
+      "name": "Ultimate Dust (7%)",
+      "category": "Upgrades/Dust",
+      "price": 88000.0,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:glowstone_dust"
+    },
+    {
+      "key": "legendary dust (10%)",
+      "name": "Legendary Dust (10%)",
+      "category": "Upgrades/Dust",
+      "price": 88000.0,
+      "seen": "2026-10-05 09:42",
+      "seen_ms": 1791186139699,
+      "source": "kind",
+      "icon": "minecraft:glowstone_dust"
+    },
+    {
+      "key": "cosmic_golden_boots",
+      "name": "Golden Boots 0",
+      "category": "Combat/Armor",
+      "price": 5.0E7,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:golden_boots"
+    },
+    {
+      "key": "greed golden boots 13",
+      "name": "Greed Golden Boots 13",
+      "category": "Combat/Armor",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:golden_boots"
+    },
+    {
+      "key": "outlaw golden boots 0",
+      "name": "Outlaw Golden Boots 0",
+      "category": "Combat/Armor",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:golden_boots"
+    },
+    {
+      "key": "cosmic_golden_helmet",
+      "name": "Golden Helmet 0",
+      "category": "Combat/Armor",
+      "price": 2.0E7,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:golden_helmet"
+    },
+    {
+      "key": "outlaw golden helmet 0",
+      "name": "Outlaw Golden Helmet 0",
+      "category": "Combat/Armor",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:golden_helmet"
+    },
+    {
+      "key": "mystery outlaw helmet (golden)",
+      "name": "Mystery Outlaw Helmet (Golden)",
+      "category": "Combat/Armor",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:golden_helmet"
+    },
+    {
+      "key": "gold_block_satchel",
+      "name": "Gold Satchel",
+      "category": "Mining/Satchels",
+      "price": 4000000.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:gold_block"
+    },
+    {
+      "key": "block of gold satchel (0 / 2,304 ores)",
+      "name": "Block of Gold Satchel (0 / 2,304 Ores)",
+      "category": "Mining/Satchels",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:gold_block"
+    },
+    {
+      "key": "gold_satchel",
+      "name": "Gold Satchel",
+      "category": "Mining/Satchels",
+      "price": 9000000.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:gold_ingot"
+    },
+    {
+      "key": "gold satchel (0 / 2,304 ores)",
+      "name": "Gold Satchel (0 / 2,304 Ores)",
+      "category": "Mining/Satchels",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:gold_ingot"
+    },
+    {
+      "key": "gold satchel 14 (57 / 32,256 ores)",
+      "name": "Gold Satchel 14 (57 / 32,256 Ores)",
+      "category": "Mining/Satchels",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:gold_ingot"
+    },
+    {
+      "key": "ii rare candy ii",
+      "name": "II Rare Candy II",
+      "category": "Upgrades/Skills",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:gold_nugget"
+    },
+    {
+      "key": "gold_ore_satchel",
+      "name": "Gold Ore Satchel",
+      "category": "Mining/Satchels",
+      "price": 999999.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:gold_ore"
+    },
+    {
+      "key": "gold ore satchel (0 / 2,304 ores)",
+      "name": "Gold Ore Satchel (0 / 2,304 Ores)",
+      "category": "Mining/Satchels",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:gold_ore"
+    },
+    {
+      "key": "gold ore satchel 11 (0 / 25,344 ores)",
+      "name": "Gold Ore Satchel 11 (0 / 25,344 Ores)",
+      "category": "Mining/Satchels",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:gold_ore"
+    },
+    {
+      "key": "heroic_rations",
+      "name": "Heroic Rations:480",
+      "category": "Other/Other",
+      "price": 7.3E7,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:honey_bottle"
+    },
+    {
+      "key": "heroic ration (right click) (480m)",
+      "name": "Heroic Ration (Right Click) (480m)",
+      "category": "Other/Other",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:honey_bottle"
+    },
+    {
+      "key": "black scroll (50%)",
+      "name": "Black Scroll (50%)",
+      "category": "Upgrades/Scrolls",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:ink_sac"
+    },
+    {
+      "key": "black scroll (60%)",
+      "name": "Black Scroll (60%)",
+      "category": "Upgrades/Scrolls",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:ink_sac"
+    },
+    {
+      "key": "black scroll (70%)",
+      "name": "Black Scroll (70%)",
+      "category": "Upgrades/Scrolls",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:ink_sac"
+    },
+    {
+      "key": "black scroll (75%)",
+      "name": "Black Scroll (75%)",
+      "category": "Upgrades/Scrolls",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:ink_sac"
+    },
+    {
+      "key": "black scroll (80%)",
+      "name": "Black Scroll (80%)",
+      "category": "Upgrades/Scrolls",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:ink_sac"
+    },
+    {
+      "key": "black scroll (90%)",
+      "name": "Black Scroll (90%)",
+      "category": "Upgrades/Scrolls",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:ink_sac"
+    },
+    {
+      "key": "cosmic_iron_boots",
+      "name": "Iron Boots 0",
+      "category": "Combat/Armor",
+      "price": 3.0E7,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:iron_boots"
+    },
+    {
+      "key": "iron boots 17",
+      "name": "Iron Boots 17",
+      "category": "Combat/Armor",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:iron_boots"
+    },
+    {
+      "key": "outlaw iron boots 0",
+      "name": "Outlaw Iron Boots 0",
+      "category": "Combat/Armor",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:iron_boots"
+    },
+    {
+      "key": "cosmic_iron_chestplate",
+      "name": "Iron Chestplate 0",
+      "category": "Combat/Armor",
+      "price": 5000000.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:iron_chestplate"
+    },
+    {
+      "key": "sludge chestplate 6",
+      "name": "Sludge Chestplate 6",
+      "category": "Combat/Armor",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:iron_chestplate"
+    },
+    {
+      "key": "cosmic_iron_helmet",
+      "name": "Iron Helmet 0",
+      "category": "Combat/Armor",
+      "price": 6.0E7,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:iron_helmet"
+    },
+    {
+      "key": "death iron helmet 0",
+      "name": "Death Iron Helmet 0",
+      "category": "Combat/Armor",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:iron_helmet"
+    },
+    {
+      "key": "outlaw iron helmet 0",
+      "name": "Outlaw Iron Helmet 0",
+      "category": "Combat/Armor",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:iron_helmet"
+    },
+    {
+      "key": "iron_satchel",
+      "name": "Iron Satchel",
+      "category": "Mining/Satchels",
+      "price": 1000000.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:iron_ingot"
+    },
+    {
+      "key": "iron satchel (0 / 2,304 ores)",
+      "name": "Iron Satchel (0 / 2,304 Ores)",
+      "category": "Mining/Satchels",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:iron_ingot"
+    },
+    {
+      "key": "iron_ore_satchel",
+      "name": "Iron Ore Satchel",
+      "category": "Mining/Satchels",
+      "price": 100000.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:iron_ore"
+    },
+    {
+      "key": "iron ore satchel (0 / 2,304 ores)",
+      "name": "Iron Ore Satchel (0 / 2,304 Ores)",
+      "category": "Mining/Satchels",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:iron_ore"
+    },
+    {
+      "key": "iron pickaxe 100 iv",
+      "name": "Iron Pickaxe 100 IV",
+      "category": "Mining/Tools",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:iron_pickaxe"
+    },
+    {
+      "key": "iron pickaxe 100 v",
+      "name": "Iron Pickaxe 100 V",
+      "category": "Mining/Tools",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:iron_pickaxe"
+    },
+    {
+      "key": "iron pickaxe 98 vi",
+      "name": "Iron Pickaxe 98 VI",
+      "category": "Mining/Tools",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:iron_pickaxe"
+    },
+    {
+      "key": "iron pickaxe i",
+      "name": "Iron Pickaxe I",
+      "category": "Mining/Tools",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:iron_pickaxe"
+    },
+    {
+      "key": "iron pickaxe iii",
+      "name": "Iron Pickaxe III",
+      "category": "Mining/Tools",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:iron_pickaxe"
+    },
+    {
+      "key": "cosmic_iron_spear",
+      "name": "Iron Spear",
+      "category": "Combat/Weapons",
+      "price": 5.0E8,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:iron_spear"
+    },
+    {
+      "key": "iron spear 97 v",
+      "name": "Iron Spear 97 V",
+      "category": "Combat/Weapons",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:iron_spear"
+    },
+    {
+      "key": "showcase_expander",
+      "name": "Showcase Expander:1",
+      "category": "Other/Other",
+      "price": 4000000.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:item_frame"
+    },
+    {
+      "key": "+1 showcase row",
+      "name": "+1 Showcase Row",
+      "category": "Other/Other",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:item_frame"
+    },
+    {
+      "key": "lapis_block_satchel",
+      "name": "Lapis Satchel",
+      "category": "Mining/Satchels",
+      "price": 750000.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:lapis_block"
+    },
+    {
+      "key": "block of lapis satchel (0 / 2,304 ores)",
+      "name": "Block of Lapis Satchel (0 / 2,304 Ores)",
+      "category": "Mining/Satchels",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:lapis_block"
+    },
+    {
+      "key": "deepslate lapis ore satchel (0 / 2,304 ores)",
+      "name": "Deepslate Lapis Ore Satchel (0 / 2,304 Ores)",
+      "category": "Mining/Satchels",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:lapis_block"
+    },
+    {
+      "key": "lapis_satchel",
+      "name": "Lapis Satchel",
+      "category": "Mining/Satchels",
+      "price": 500000.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:lapis_lazuli"
+    },
+    {
+      "key": "lapis satchel (0 / 2,304 ores)",
+      "name": "Lapis Satchel (0 / 2,304 Ores)",
+      "category": "Mining/Satchels",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:lapis_lazuli"
+    },
+    {
+      "key": "pet_leash",
+      "name": "Pet Leash",
+      "category": "Upgrades/Pets",
+      "price": 5000000.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:lead"
+    },
+    {
+      "key": "pet leash",
+      "name": "Pet Leash",
+      "category": "Upgrades/Pets",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:lead"
+    },
+    {
+      "key": "shard_satchel",
+      "name": "Shard Satchel (0 / 640 Drops)",
+      "category": "Mining/Satchels",
+      "price": 5.0E8,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:light_blue_glazed_terracotta"
+    },
+    {
+      "key": "shard satchel (0 / 640 drops)",
+      "name": "Shard Satchel (0 / 640 Drops)",
+      "category": "Mining/Satchels",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:light_blue_glazed_terracotta"
+    },
+    {
+      "key": "pickaxe_enchant_orb",
+      "name": "Pickaxe Enchant Orb",
+      "category": "Upgrades/Enchants",
+      "price": 1.0E7,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:lime_dye"
+    },
+    {
+      "key": "absolute efficiency xi (75%)",
+      "name": "Absolute Efficiency XI (75%)",
+      "category": "Other/Other",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:lime_dye"
+    },
+    {
+      "key": "cosmic luck xi (100%)",
+      "name": "Cosmic Luck XI (100%)",
+      "category": "Other/Other",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:lime_dye"
+    },
+    {
+      "key": "meteor hunter v (1%)",
+      "name": "Meteor Hunter V (1%)",
+      "category": "Mining/Mining",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:lime_dye"
+    },
+    {
+      "key": "charge_orb",
+      "name": "Charge Orb",
+      "category": "Upgrades/Charge Orbs",
+      "price": 1250000.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:magma_cream"
+    },
+    {
+      "key": "12% charge orb",
+      "name": "12% Charge Orb",
+      "category": "Upgrades/Charge Orbs",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:magma_cream"
+    },
+    {
+      "key": "7% charge orb",
+      "name": "7% Charge Orb",
+      "category": "Upgrades/Charge Orbs",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:magma_cream"
+    },
+    {
+      "key": "9% charge orb",
+      "name": "9% Charge Orb",
+      "category": "Upgrades/Charge Orbs",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:magma_cream"
+    },
+    {
+      "key": "mystery_clue_scroll",
+      "name": "Mystery Legendary Clue Scroll",
+      "category": "Other/Misc",
+      "price": 1000000.0,
+      "seen": "2026-10-05 09:54",
+      "seen_ms": 1791186859149,
+      "source": "ah",
+      "icon": "minecraft:map"
+    },
+    {
+      "key": "mystery elite clue scroll",
+      "name": "Mystery Elite Clue Scroll",
+      "category": "Other/Misc",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:map"
+    },
+    {
+      "key": "mystery legendary clue scroll",
+      "name": "Mystery Legendary Clue Scroll",
+      "category": "Other/Misc",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:map"
+    },
+    {
+      "key": "mystery ultimate clue scroll",
+      "name": "Mystery Ultimate Clue Scroll",
+      "category": "Other/Misc",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:map"
+    },
+    {
+      "key": "mystery uncommon clue scroll",
+      "name": "Mystery Uncommon Clue Scroll",
+      "category": "Other/Misc",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:map"
+    },
+    {
+      "key": "white_scroll",
+      "name": "White Scroll",
+      "category": "Upgrades/Scrolls",
+      "price": 2500000.0,
+      "seen": "2026-10-05 09:14",
+      "seen_ms": 1791184454652,
+      "source": "sold",
+      "icon": "minecraft:map"
+    },
+    {
+      "key": "white scroll",
+      "name": "White Scroll",
+      "category": "Upgrades/Scrolls",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:map"
+    },
+    {
+      "key": "item nametag",
+      "name": "Item Nametag",
+      "category": "Other/Other",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:name_tag"
+    },
+    {
+      "key": "skilltree_token",
+      "name": "Skill Token",
+      "category": "Upgrades/Skills",
+      "price": 9000000.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:nautilus_shell"
+    },
+    {
+      "key": "skill token",
+      "name": "Skill Token",
+      "category": "Upgrades/Skills",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:nautilus_shell"
+    },
+    {
+      "key": "pickaxe_prestige_mastery_token",
+      "name": "Mastery Pickaxe Prestige Token",
+      "category": "Upgrades/Prestige",
+      "price": 1.0E7,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:nether_star"
+    },
+    {
+      "key": "mastery pickaxe prestige token (inquisitive)",
+      "name": "Mastery Pickaxe Prestige Token (Inquisitive)",
+      "category": "Upgrades/Prestige",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:nether_star"
+    },
+    {
+      "key": "mastery pickaxe prestige token (meteorite mastery)",
+      "name": "Mastery Pickaxe Prestige Token (Meteorite Mastery)",
+      "category": "Upgrades/Prestige",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:nether_star"
+    },
+    {
+      "key": "mastery pickaxe prestige token (contraband mastery)",
+      "name": "Mastery Pickaxe Prestige Token (Contraband Mastery)",
+      "category": "Upgrades/Prestige",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:nether_star"
+    },
+    {
+      "key": "wormhole_powerup_surefire",
+      "name": "Wormhole Powerup (Surefire)",
+      "category": "Upgrades/Wormhole",
+      "price": 1.5E7,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:nether_star"
+    },
+    {
+      "key": "wormhole powerup (surefire)",
+      "name": "Wormhole Powerup (Surefire)",
+      "category": "Upgrades/Wormhole",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:nether_star"
+    },
+    {
+      "key": "skill tree reset",
+      "name": "Skill Tree Reset",
+      "category": "Upgrades/Skills",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:oak_sapling"
+    },
+    {
+      "key": "inmate_rations",
+      "name": "Inmate Rations (Right Click) (120m)",
+      "category": "Other/Consumables",
+      "price": 1.5E7,
+      "seen": "2026-10-05 09:54",
+      "seen_ms": 1791186859149,
+      "source": "ah",
+      "icon": "minecraft:ominous_bottle"
+    },
+    {
+      "key": "inmate rations (right click) (120m)",
+      "name": "Inmate Rations (Right Click) (120m)",
+      "category": "Other/Other",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:ominous_bottle"
+    },
+    {
+      "key": "inmate rations (right click) (1440m)",
+      "name": "Inmate Rations (Right Click) (1440m)",
+      "category": "Other/Other",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:ominous_bottle"
+    },
+    {
+      "key": "inmate rations (right click) (20m)",
+      "name": "Inmate Rations (Right Click) (20m)",
+      "category": "Other/Other",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:ominous_bottle"
+    },
+    {
+      "key": "inmate rations (right click) (360m)",
+      "name": "Inmate Rations (Right Click) (360m)",
+      "category": "Other/Other",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:ominous_bottle"
+    },
+    {
+      "key": "itemflipcredit",
+      "name": "Item Flip Credit",
+      "category": "Other/Other",
+      "price": 400000.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:paper"
+    },
+    {
+      "key": "item flip credit",
+      "name": "Item Flip Credit",
+      "category": "Other/Other",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:paper"
+    },
+    {
+      "key": "legendary page (3%)",
+      "name": "Legendary Page (3%)",
+      "category": "Other/Other",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:paper"
+    },
+    {
+      "key": "legendary page (2%)",
+      "name": "Legendary Page (2%)",
+      "category": "Other/Other",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:paper"
+    },
+    {
+      "key": "legendary page (1%)",
+      "name": "Legendary Page (1%)",
+      "category": "Other/Other",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:paper"
+    },
+    {
+      "key": "legendary page (4%)",
+      "name": "Legendary Page (4%)",
+      "category": "Other/Other",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:paper"
+    },
+    {
+      "key": "legendary randomization scroll",
+      "name": "Legendary Randomization Scroll",
+      "category": "Upgrades/Scrolls",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:paper"
+    },
+    {
+      "key": "ultimate randomization scroll",
+      "name": "Ultimate Randomization Scroll",
+      "category": "Upgrades/Scrolls",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:paper"
+    },
+    {
+      "key": "mystic randomization scroll",
+      "name": "Mystic Randomization Scroll",
+      "category": "Upgrades/Scrolls",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249249,
+      "source": "ah",
+      "icon": "minecraft:paper"
+    },
+    {
+      "key": "ultimate page (8%)",
+      "name": "Ultimate Page (8%)",
+      "category": "Other/Other",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249844,
+      "source": "ah",
+      "icon": "minecraft:paper"
+    },
+    {
+      "key": "eraser (15)",
+      "name": "Eraser (15)",
+      "category": "Other/Other",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249844,
+      "source": "ah",
+      "icon": "minecraft:pink_dye"
+    },
+    {
+      "key": "eraser (3)",
+      "name": "Eraser (3)",
+      "category": "Other/Other",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249844,
+      "source": "ah",
+      "icon": "minecraft:pink_dye"
+    },
+    {
+      "key": "eraser (33)",
+      "name": "Eraser (33)",
+      "category": "Other/Other",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249844,
+      "source": "ah",
+      "icon": "minecraft:pink_dye"
+    },
+    {
+      "key": "eraser (50)",
+      "name": "Eraser (50)",
+      "category": "Other/Other",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249844,
+      "source": "ah",
+      "icon": "minecraft:pink_dye"
+    },
+    {
+      "key": "eraser (6)",
+      "name": "Eraser (6)",
+      "category": "Other/Other",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249844,
+      "source": "ah",
+      "icon": "minecraft:pink_dye"
+    },
+    {
+      "key": "eraser (9)",
+      "name": "Eraser (9)",
+      "category": "Other/Other",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249844,
+      "source": "ah",
+      "icon": "minecraft:pink_dye"
+    },
+    {
+      "key": "mask_anonymous",
+      "name": "Anonymous Mask",
+      "category": "Cosmetics/Masks",
+      "price": 7500000.0,
+      "seen": "2026-10-05 09:11",
+      "seen_ms": 1791184312195,
+      "source": "ah",
+      "icon": "minecraft:player_head"
+    },
+    {
+      "key": "anonymous mask",
+      "name": "Anonymous Mask",
+      "category": "Cosmetics/Masks",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249844,
+      "source": "ah",
+      "icon": "minecraft:player_head"
+    },
+    {
+      "key": "pet_anti_xp_tax",
+      "name": "Anti XP Tax Pet [LVL 1]",
+      "category": "Upgrades/Pets",
+      "price": 5000000.0,
+      "seen": "2026-10-05 09:11",
+      "seen_ms": 1791184312195,
+      "source": "ah",
+      "icon": "minecraft:player_head"
+    },
+    {
+      "key": "anti xp tax pet [lvl 1]",
+      "name": "Anti XP Tax Pet [LVL 1]",
+      "category": "Upgrades/Pets",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249844,
+      "source": "ah",
+      "icon": "minecraft:player_head"
+    },
+    {
+      "key": "pet_bandit_king",
+      "name": "Bandit King Pet [LVL 1]",
+      "category": "Upgrades/Pets",
+      "price": 9000000.0,
+      "seen": "2026-10-05 09:11",
+      "seen_ms": 1791184312195,
+      "source": "ah",
+      "icon": "minecraft:player_head"
+    },
+    {
+      "key": "bandit king pet [lvl 1]",
+      "name": "Bandit King Pet [LVL 1]",
+      "category": "Upgrades/Pets",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249844,
+      "source": "ah",
+      "icon": "minecraft:player_head"
+    },
+    {
+      "key": "pet_blacksmith",
+      "name": "Blacksmith Pet [LVL 1]",
+      "category": "Upgrades/Pets",
+      "price": 150000.0,
+      "seen": "2026-10-05 09:11",
+      "seen_ms": 1791184312195,
+      "source": "ah",
+      "icon": "minecraft:player_head"
+    },
+    {
+      "key": "blacksmith pet [lvl 1]",
+      "name": "Blacksmith Pet [LVL 1]",
+      "category": "Upgrades/Pets",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249844,
+      "source": "ah",
+      "icon": "minecraft:player_head"
+    },
+    {
+      "key": "pet_sanctify_cleanse_purify",
+      "name": "Cleanse Pet [LVL 1]",
+      "category": "Upgrades/Pets",
+      "price": 4.9E7,
+      "seen": "2026-10-05 09:37",
+      "seen_ms": 1791185834652,
+      "source": "sold",
+      "icon": "minecraft:player_head"
+    },
+    {
+      "key": "cleanse pet [lvl 1]",
+      "name": "Cleanse Pet [LVL 1]",
+      "category": "Upgrades/Pets",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249844,
+      "source": "ah",
+      "icon": "minecraft:player_head"
+    },
+    {
+      "key": "lucky leprechaun mask",
+      "name": "Lucky Leprechaun Mask",
+      "category": "Cosmetics/Masks",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249844,
+      "source": "ah",
+      "icon": "minecraft:player_head"
+    },
+    {
+      "key": "pet_lucky",
+      "name": "Lucky Pet [LVL 1]",
+      "category": "Upgrades/Pets",
+      "price": 600000.0,
+      "seen": "2026-10-05 09:11",
+      "seen_ms": 1791184312195,
+      "source": "ah",
+      "icon": "minecraft:player_head"
+    },
+    {
+      "key": "lucky pet [lvl 1]",
+      "name": "Lucky Pet [LVL 1]",
+      "category": "Upgrades/Pets",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249844,
+      "source": "ah",
+      "icon": "minecraft:player_head"
+    },
+    {
+      "key": "mask_nitro",
+      "name": "Nitro Mask",
+      "category": "Cosmetics/Masks",
+      "price": 9.4E7,
+      "seen": "2026-10-05 09:11",
+      "seen_ms": 1791184312195,
+      "source": "ah",
+      "icon": "minecraft:player_head"
+    },
+    {
+      "key": "nitro mask",
+      "name": "Nitro Mask",
+      "category": "Cosmetics/Masks",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249844,
+      "source": "ah",
+      "icon": "minecraft:player_head"
+    },
+    {
+      "key": "outpost mask",
+      "name": "Outpost Mask",
+      "category": "Cosmetics/Masks",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249844,
+      "source": "ah",
+      "icon": "minecraft:player_head"
+    },
+    {
+      "key": "prisoner mask",
+      "name": "Prisoner Mask",
+      "category": "Cosmetics/Masks",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249844,
+      "source": "ah",
+      "icon": "minecraft:player_head"
+    },
+    {
+      "key": "mask_sentinel",
+      "name": "Sentinel Mask",
+      "category": "Cosmetics/Masks",
+      "price": 3.4E7,
+      "seen": "2026-10-05 09:11",
+      "seen_ms": 1791184312195,
+      "source": "ah",
+      "icon": "minecraft:player_head"
+    },
+    {
+      "key": "sentinel mask",
+      "name": "Sentinel Mask",
+      "category": "Cosmetics/Masks",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249844,
+      "source": "ah",
+      "icon": "minecraft:player_head"
+    },
+    {
+      "key": "pet_shockwave",
+      "name": "Shockwave Pet [LVL 1]",
+      "category": "Upgrades/Pets",
+      "price": 2.5E7,
+      "seen": "2026-10-05 09:11",
+      "seen_ms": 1791184312195,
+      "source": "ah",
+      "icon": "minecraft:player_head"
+    },
+    {
+      "key": "shockwave pet [lvl 1]",
+      "name": "Shockwave Pet [LVL 1]",
+      "category": "Upgrades/Pets",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249844,
+      "source": "ah",
+      "icon": "minecraft:player_head"
+    },
+    {
+      "key": "signal jammer pet [lvl 1]",
+      "name": "Signal Jammer Pet [LVL 1]",
+      "category": "Upgrades/Pets",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249844,
+      "source": "ah",
+      "icon": "minecraft:player_head"
+    },
+    {
+      "key": "signal jammer pet [lvl 2]",
+      "name": "Signal Jammer Pet [LVL 2]",
+      "category": "Upgrades/Pets",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249844,
+      "source": "ah",
+      "icon": "minecraft:player_head"
+    },
+    {
+      "key": "mask_turkey",
+      "name": "Turkey Mask",
+      "category": "Cosmetics/Masks",
+      "price": 1.5E7,
+      "seen": "2026-10-05 09:11",
+      "seen_ms": 1791184312195,
+      "source": "ah",
+      "icon": "minecraft:player_head"
+    },
+    {
+      "key": "turkey mask",
+      "name": "Turkey Mask",
+      "category": "Cosmetics/Masks",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249844,
+      "source": "ah",
+      "icon": "minecraft:player_head"
+    },
+    {
+      "key": "mask_valor",
+      "name": "Valor Mask",
+      "category": "Cosmetics/Masks",
+      "price": 4.9999999E7,
+      "seen": "2026-10-05 09:11",
+      "seen_ms": 1791184312195,
+      "source": "ah",
+      "icon": "minecraft:player_head"
+    },
+    {
+      "key": "valor mask",
+      "name": "Valor Mask",
+      "category": "Cosmetics/Masks",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249844,
+      "source": "ah",
+      "icon": "minecraft:player_head"
+    },
+    {
+      "key": "xp_bottle",
+      "name": "XP Bottle",
+      "category": "Other/Other",
+      "price": 6000000.0,
+      "seen": "2026-10-05 09:11",
+      "seen_ms": 1791184312195,
+      "source": "ah",
+      "icon": "minecraft:potion"
+    },
+    {
+      "key": "xp bottle (8,000,000)",
+      "name": "XP Bottle (8,000,000)",
+      "category": "Other/Other",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249844,
+      "source": "ah",
+      "icon": "minecraft:potion"
+    },
+    {
+      "key": "xp bottle (4,000,000)",
+      "name": "XP Bottle (4,000,000)",
+      "category": "Other/Other",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249844,
+      "source": "ah",
+      "icon": "minecraft:potion"
+    },
+    {
+      "key": "player xp bottle (5,000,000)",
+      "name": "Player XP Bottle (5,000,000)",
+      "category": "Other/Other",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249844,
+      "source": "ah",
+      "icon": "minecraft:potion"
+    },
+    {
+      "key": "xp bottle (2,475,763)",
+      "name": "XP Bottle (2,475,763)",
+      "category": "Other/Other",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249844,
+      "source": "ah",
+      "icon": "minecraft:potion"
+    },
+    {
+      "key": "xp bottle (302,414,085)",
+      "name": "XP Bottle (302,414,085)",
+      "category": "Other/Other",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249844,
+      "source": "ah",
+      "icon": "minecraft:potion"
+    },
+    {
+      "key": "shard",
+      "name": "Executive Shard",
+      "category": "Upgrades/Shards",
+      "price": 2000000.0,
+      "seen": "2026-10-05 09:11",
+      "seen_ms": 1791184312195,
+      "source": "ah",
+      "icon": "minecraft:prismarine_shard"
+    },
+    {
+      "key": "executive shard",
+      "name": "Executive Shard",
+      "category": "Upgrades/Shards",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249844,
+      "source": "ah",
+      "icon": "minecraft:prismarine_shard"
+    },
+    {
+      "key": "enchant_reroll",
+      "name": "Enchant Re-Roll",
+      "category": "Upgrades/Enchants",
+      "price": 3900000.0,
+      "seen": "2026-10-05 09:31",
+      "seen_ms": 1791185474652,
+      "source": "sold",
+      "icon": "minecraft:purple_dye"
+    },
+    {
+      "key": "enchant re-roll",
+      "name": "Enchant Re-Roll",
+      "category": "Upgrades/Enchants",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249844,
+      "source": "ah",
+      "icon": "minecraft:purple_dye"
+    },
+    {
+      "key": "redstone_satchel",
+      "name": "Redstone Satchel",
+      "category": "Mining/Satchels",
+      "price": 2000000.0,
+      "seen": "2026-10-05 09:11",
+      "seen_ms": 1791184312195,
+      "source": "ah",
+      "icon": "minecraft:redstone"
+    },
+    {
+      "key": "redstone satchel (0 / 2,304 ores)",
+      "name": "Redstone Satchel (0 / 2,304 Ores)",
+      "category": "Mining/Satchels",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249844,
+      "source": "ah",
+      "icon": "minecraft:redstone"
+    },
+    {
+      "key": "mystery_gkit_flare",
+      "name": "Gkit Flare:random",
+      "category": "Combat/G-Kits",
+      "price": 1.4E7,
+      "seen": "2026-10-05 09:11",
+      "seen_ms": 1791184312195,
+      "source": "ah",
+      "icon": "minecraft:redstone_torch"
+    },
+    {
+      "key": "mystery g-kit flare",
+      "name": "Mystery G-Kit Flare",
+      "category": "Combat/G-Kits",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249844,
+      "source": "ah",
+      "icon": "minecraft:redstone_torch"
+    },
+    {
+      "key": "home_expander",
+      "name": "+1 Home",
+      "category": "Other/Misc",
+      "price": 1000000.0,
+      "seen": "2026-10-05 09:54",
+      "seen_ms": 1791186859149,
+      "source": "ah",
+      "icon": "minecraft:red_bed"
+    },
+    {
+      "key": "+1 home",
+      "name": "+1 Home",
+      "category": "Other/Other",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249844,
+      "source": "ah",
+      "icon": "minecraft:red_bed"
+    },
+    {
+      "key": "godly_black_scroll",
+      "name": "Godly Black Scroll (100%)",
+      "category": "Upgrades/Scrolls",
+      "price": 3.0E7,
+      "seen": "2026-10-05 09:54",
+      "seen_ms": 1791186859149,
+      "source": "ah",
+      "icon": "minecraft:red_dye"
+    },
+    {
+      "key": "godly black scroll (100%)",
+      "name": "Godly Black Scroll (100%)",
+      "category": "Upgrades/Scrolls",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249844,
+      "source": "ah",
+      "icon": "minecraft:red_dye"
+    },
+    {
+      "key": "spear_enchant_orb",
+      "name": "Spear Enchant Orb:godly",
+      "category": "Upgrades/Enchants",
+      "price": 1.0E8,
+      "seen": "2026-10-05 09:11",
+      "seen_ms": 1791184312195,
+      "source": "ah",
+      "icon": "minecraft:red_dye"
+    },
+    {
+      "key": "detonate ii (11%)",
+      "name": "Detonate II (11%)",
+      "category": "Other/Other",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249844,
+      "source": "ah",
+      "icon": "minecraft:red_dye"
+    },
+    {
+      "key": "detonate iii (30%)",
+      "name": "Detonate III (30%)",
+      "category": "Other/Other",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249844,
+      "source": "ah",
+      "icon": "minecraft:red_dye"
+    },
+    {
+      "key": "detonate iv (31%)",
+      "name": "Detonate IV (31%)",
+      "category": "Other/Other",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249844,
+      "source": "ah",
+      "icon": "minecraft:red_dye"
+    },
+    {
+      "key": "custom block (pet incubator)",
+      "name": "Custom Block (Pet Incubator)",
+      "category": "Cosmetics/Cosmetics",
+      "price": 1.5E7,
+      "seen": "2026-10-05 09:11",
+      "seen_ms": 1791184312195,
+      "source": "ah",
+      "icon": "minecraft:respawn_anchor"
+    },
+    {
+      "key": "mystery_gkit_fractured_flare",
+      "name": "Mystery Fractured G-Kit Flare",
+      "category": "Combat/G-Kits",
+      "price": 1000000.0,
+      "seen": "2026-10-05 09:31",
+      "seen_ms": 1791185474652,
+      "source": "sold",
+      "icon": "minecraft:soul_torch"
+    },
+    {
+      "key": "mystery fractured g-kit flare",
+      "name": "Mystery Fractured G-Kit Flare",
+      "category": "Combat/G-Kits",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249844,
+      "source": "ah",
+      "icon": "minecraft:soul_torch"
+    },
+    {
+      "key": "resistance trinket (0)",
+      "name": "Resistance Trinket (0)",
+      "category": "Combat/Trinkets",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249844,
+      "source": "ah",
+      "icon": "minecraft:splash_potion"
+    },
+    {
+      "key": "absorption trinket (0)",
+      "name": "Absorption Trinket (0)",
+      "category": "Combat/Trinkets",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249844,
+      "source": "ah",
+      "icon": "minecraft:splash_potion"
+    },
+    {
+      "key": "blink trinket (0)",
+      "name": "Blink Trinket (0)",
+      "category": "Combat/Trinkets",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249844,
+      "source": "ah",
+      "icon": "minecraft:splash_potion"
+    },
+    {
+      "key": "absorption trinket (1)",
+      "name": "Absorption Trinket (1)",
+      "category": "Combat/Trinkets",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249844,
+      "source": "ah",
+      "icon": "minecraft:splash_potion"
+    },
+    {
+      "key": "blink trinket (6)",
+      "name": "Blink Trinket (6)",
+      "category": "Combat/Trinkets",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249844,
+      "source": "ah",
+      "icon": "minecraft:splash_potion"
+    },
+    {
+      "key": "absorber",
+      "name": "Absorber",
+      "category": "Upgrades/Scrolls",
+      "price": 7500.0,
+      "seen": "2026-10-05 09:54",
+      "seen_ms": 1791186859149,
+      "source": "ah",
+      "icon": "minecraft:sponge"
+    },
+    {
+      "key": "cosmic_stone_pickaxe",
+      "name": "Stone Pickaxe",
+      "category": "Mining/Tools",
+      "price": 1.0E7,
+      "seen": "2026-10-05 09:11",
+      "seen_ms": 1791184312195,
+      "source": "ah",
+      "icon": "minecraft:stone_pickaxe"
+    },
+    {
+      "key": "stone pickaxe 38 ii",
+      "name": "Stone Pickaxe 38 II",
+      "category": "Mining/Tools",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249844,
+      "source": "ah",
+      "icon": "minecraft:stone_pickaxe"
+    },
+    {
+      "key": "cosmic_stone_spear",
+      "name": "Stone Spear",
+      "category": "Combat/Weapons",
+      "price": 5.0E7,
+      "seen": "2026-10-05 09:11",
+      "seen_ms": 1791184312195,
+      "source": "ah",
+      "icon": "minecraft:stone_spear"
+    },
+    {
+      "key": "stone spear 80",
+      "name": "Stone Spear 80",
+      "category": "Combat/Weapons",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249844,
+      "source": "ah",
+      "icon": "minecraft:stone_spear"
+    },
+    {
+      "key": "tool prestige token ii",
+      "name": "Tool Prestige Token II",
+      "category": "Upgrades/Prestige",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249844,
+      "source": "ah",
+      "icon": "minecraft:sunflower"
+    },
+    {
+      "key": "tool prestige token iii",
+      "name": "Tool Prestige Token III",
+      "category": "Upgrades/Prestige",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249844,
+      "source": "ah",
+      "icon": "minecraft:sunflower"
+    },
+    {
+      "key": "tool prestige token i",
+      "name": "Tool Prestige Token I",
+      "category": "Upgrades/Prestige",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249844,
+      "source": "ah",
+      "icon": "minecraft:sunflower"
+    },
+    {
+      "key": "tool prestige token iv",
+      "name": "Tool Prestige Token IV",
+      "category": "Upgrades/Prestige",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249844,
+      "source": "ah",
+      "icon": "minecraft:sunflower"
+    },
+    {
+      "key": "tool prestige token viii",
+      "name": "Tool Prestige Token VIII",
+      "category": "Upgrades/Prestige",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249844,
+      "source": "ah",
+      "icon": "minecraft:sunflower"
+    },
+    {
+      "key": "meteor flare",
+      "name": "Meteor Flare",
+      "category": "Mining/Mining",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249844,
+      "source": "ah",
+      "icon": "minecraft:torch"
+    },
+    {
+      "key": "clue_reroll",
+      "name": "Clue Scroll Re-Roll",
+      "category": "Other/Misc",
+      "price": 2500000.0,
+      "seen": "2026-10-05 09:11",
+      "seen_ms": 1791184312195,
+      "source": "ah",
+      "icon": "minecraft:wind_charge"
+    },
+    {
+      "key": "clue scroll re-roll",
+      "name": "Clue Scroll Re-Roll",
+      "category": "Other/Misc",
+      "price": -1.0,
+      "seen": "2026-10-05 09:10",
+      "seen_ms": 1791184249844,
+      "source": "ah",
+      "icon": "minecraft:wind_charge"
+    },
+    {
+      "key": "cosmic_energy",
+      "name": "Cosmic Energy",
+      "category": "Mining/Energy",
+      "price": 2.0,
+      "seen": "2026-10-05 09:24",
+      "seen_ms": 1791185054652,
+      "source": "sold",
+      "icon": "minecraft:light_blue_dye"
+    },
+    {
+      "key": "cosmic_diamond_boots",
+      "name": "Diamond Boots 0",
+      "category": "Combat/Armor",
+      "price": 100000.0,
+      "seen": "2026-10-05 08:25",
+      "seen_ms": 1791181526696,
+      "source": "sold",
+      "icon": "minecraft:diamond_boots"
+    },
+    {
+      "key": "bandit_box_key",
+      "name": "Bandit Box Key: Legendary",
+      "category": "Other/Crates",
+      "price": 2500000.0,
+      "seen": "2026-10-05 06:37",
+      "seen_ms": 1791175072547,
+      "source": "sold",
+      "icon": "minecraft:tripwire_hook"
+    },
+    {
+      "key": "pv_expander",
+      "name": "+1 PV Row",
+      "category": "Other/Misc",
+      "price": 1.5E7,
+      "seen": "2026-10-05 05:47",
+      "seen_ms": 1791172073655,
+      "source": "sold",
+      "icon": "minecraft:ender_eye"
+    },
+    {
+      "key": "trinket_absorption",
+      "name": "Absorption Trinket (0)",
+      "category": "Combat/Trinkets",
+      "price": 5.0E7,
+      "seen": "2026-10-05 09:54",
+      "seen_ms": 1791186859149,
+      "source": "ah",
+      "icon": "minecraft:splash_potion"
+    },
+    {
+      "key": "cosmic_stone_chestplate",
+      "name": "Greed Chain Chestplate 2",
+      "category": "Combat/Armor",
+      "price": 5.0E7,
+      "seen": "2026-10-05 04:58",
+      "seen_ms": 1791169134203,
+      "source": "sold",
+      "icon": "minecraft:chainmail_chestplate"
+    },
+    {
+      "key": "bandit_box_key_satchel",
+      "name": "Bandit Box Key Satchel (0 / 128 Drops)",
+      "category": "Mining/Satchels",
+      "price": 2.5E7,
+      "seen": "2026-10-05 03:43",
+      "seen_ms": 1791164635308,
+      "source": "sold",
+      "icon": "minecraft:chest"
+    },
+    {
+      "key": "clue_scroll",
+      "name": "Godly Clue Scroll",
+      "category": "Other/Misc",
+      "price": 1.0E7,
+      "seen": "2026-10-05 03:23",
+      "seen_ms": 1791163435308,
+      "source": "sold",
+      "icon": "minecraft:map"
+    },
+    {
+      "key": "wormhole_powerup_bogo",
+      "name": "Wormhole Powerup (BOGO)",
+      "category": "Upgrades/Wormhole",
+      "price": 9000000.0,
+      "seen": "2026-10-05 03:15",
+      "seen_ms": 1791162955846,
+      "source": "sold",
+      "icon": "minecraft:emerald"
+    },
+    {
+      "key": "clue_reroll_fragment",
+      "name": "Clue Scroll Re-Roll Fragment",
+      "category": "Other/Misc",
+      "price": 45000.0,
+      "seen": "2026-10-05 03:06",
+      "seen_ms": 1791162415846,
+      "source": "sold",
+      "icon": "minecraft:bone_meal"
+    },
+    {
+      "key": "wormhole_powerup_more",
+      "name": "Wormhole Powerup (Gluttony)",
+      "category": "Upgrades/Wormhole",
+      "price": 7000000.0,
+      "seen": "2026-10-05 02:54",
+      "seen_ms": 1791161695846,
+      "source": "sold",
+      "icon": "minecraft:glowstone_dust"
+    },
+    {
+      "key": "trinket_healing",
+      "name": "Healing Trinket (0)",
+      "category": "Combat/Trinkets",
+      "price": 5.5E7,
+      "seen": "2026-10-05 02:32",
+      "seen_ms": 1791160376391,
+      "source": "sold",
+      "icon": "minecraft:splash_potion"
+    },
+    {
+      "key": "redstone_ore_satchel",
+      "name": "Redstone Ore Satchel (0 / 2,304 Ores)",
+      "category": "Mining/Satchels",
+      "price": 400000.0,
+      "seen": "2026-10-05 02:15",
+      "seen_ms": 1791159356943,
+      "source": "sold",
+      "icon": "minecraft:redstone_ore"
+    },
+    {
+      "key": "cosmic_iron_leggings",
+      "name": "Slasher Leggings 6",
+      "category": "Combat/Armor",
+      "price": 1.0E7,
+      "seen": "2026-10-05 02:13",
+      "seen_ms": 1791159236943,
+      "source": "sold",
+      "icon": "minecraft:iron_leggings"
+    },
+    {
+      "key": "spear_prestige_modifier",
+      "name": "Spear Prestige Modifier (Orb Mastery +1)",
+      "category": "Upgrades/Enchants",
+      "price": 3.5E7,
+      "seen": "2026-10-05 02:07",
+      "seen_ms": 1791158876943,
+      "source": "sold",
+      "icon": "minecraft:amethyst_shard"
+    },
+    {
+      "key": "mask_clue_master",
+      "name": "Clue Master Mask",
+      "category": "Cosmetics/Masks",
+      "price": 9000000.0,
+      "seen": "2026-10-05 01:45",
+      "seen_ms": 1791157557506,
+      "source": "sold",
+      "icon": "minecraft:player_head"
+    },
+    {
+      "key": "cosmic_iron_sword",
+      "name": "Sludge Sword 9",
+      "category": "Combat/Weapons",
+      "price": 9000000.0,
+      "seen": "2026-10-04 14:19",
+      "seen_ms": 1791116383000,
+      "source": "sold",
+      "icon": "minecraft:iron_sword"
+    },
+    {
+      "key": "random_gkit_unlock_token",
+      "name": "xx Random G-Kit Beacon xx",
+      "category": "Combat/G-Kits",
+      "price": 7.0E7,
+      "seen": "2026-10-04 13:58",
+      "seen_ms": 1791115123000,
+      "source": "sold",
+      "icon": "minecraft:beacon"
+    },
+    {
+      "key": "trinket_hook",
+      "name": "Blink Trinket (6)",
+      "category": "Combat/Trinkets",
+      "price": 1.3E8,
+      "seen": "2026-10-05 09:11",
+      "seen_ms": 1791184306998,
+      "source": "ah",
+      "icon": "minecraft:fishing_rod"
+    },
+    {
+      "key": "ground zero shop i",
+      "name": "Ground Zero Shop I",
+      "category": "Other/Other",
+      "price": -1.0,
+      "seen": "2026-10-05 09:13",
+      "seen_ms": 1791184380240,
+      "source": "shop",
+      "icon": "minecraft:chest"
+    },
+    {
+      "key": "random pickaxe prestige modifier",
+      "name": "Random Pickaxe Prestige Modifier",
+      "category": "Upgrades/Prestige",
+      "price": -1.0,
+      "seen": "2026-10-05 09:13",
+      "seen_ms": 1791184380240,
+      "source": "shop",
+      "icon": "minecraft:chest"
+    },
+    {
+      "key": "random cell door upgrade",
+      "name": "Random Cell Door Upgrade",
+      "category": "Cosmetics/Cell",
+      "price": -1.0,
+      "seen": "2026-10-05 09:13",
+      "seen_ms": 1791184380240,
+      "source": "shop",
+      "icon": "minecraft:chest"
+    },
+    {
+      "key": "random cell defense (standard)",
+      "name": "Random Cell Defense (Standard)",
+      "category": "Cosmetics/Cell",
+      "price": -1.0,
+      "seen": "2026-10-05 09:13",
+      "seen_ms": 1791184380240,
+      "source": "shop",
+      "icon": "minecraft:chest"
+    },
+    {
+      "key": "mystery cosmic crate (map)",
+      "name": "Mystery Cosmic Crate (Map)",
+      "category": "Other/Crates",
+      "price": -1.0,
+      "seen": "2026-10-05 09:13",
+      "seen_ms": 1791184380240,
+      "source": "shop",
+      "icon": "minecraft:chest"
+    },
+    {
+      "key": "rabbit\u0027s foot",
+      "name": "Rabbit\u0027s Foot",
+      "category": "Combat/Trinkets",
+      "price": -1.0,
+      "seen": "2026-10-05 09:13",
+      "seen_ms": 1791184380240,
+      "source": "shop",
+      "icon": "minecraft:chest"
+    },
+    {
+      "key": "lucky charm",
+      "name": "Lucky Charm",
+      "category": "Combat/Trinkets",
+      "price": -1.0,
+      "seen": "2026-10-05 09:13",
+      "seen_ms": 1791184380240,
+      "source": "shop",
+      "icon": "minecraft:chest"
+    },
+    {
+      "key": "heroes never die",
+      "name": "Heroes Never Die",
+      "category": "Combat/Trinkets",
+      "price": -1.0,
+      "seen": "2026-10-05 09:13",
+      "seen_ms": 1791184380240,
+      "source": "shop",
+      "icon": "minecraft:chest"
+    },
+    {
+      "key": "mystery godly tool enchant orb",
+      "name": "Mystery Godly Tool Enchant Orb",
+      "category": "Upgrades/Enchants",
+      "price": -1.0,
+      "seen": "2026-10-05 09:13",
+      "seen_ms": 1791184380240,
+      "source": "shop",
+      "icon": "minecraft:chest"
+    },
+    {
+      "key": "+1 pv row",
+      "name": "+1 PV Row",
+      "category": "Other/Misc",
+      "price": -1.0,
+      "seen": "2026-10-05 09:13",
+      "seen_ms": 1791184380240,
+      "source": "shop",
+      "icon": "minecraft:chest"
+    },
+    {
+      "key": "25,000 cosmic coins",
+      "name": "25,000 COSMIC COINS",
+      "category": "Other/Misc",
+      "price": -1.0,
+      "seen": "2026-10-05 09:13",
+      "seen_ms": 1791184380240,
+      "source": "shop",
+      "icon": "minecraft:chest"
+    },
+    {
+      "key": "random greed piece (chain)",
+      "name": "Random Greed Piece (Chain)",
+      "category": "Combat/Armor",
+      "price": -1.0,
+      "seen": "2026-10-05 09:13",
+      "seen_ms": 1791184380240,
+      "source": "shop",
+      "icon": "minecraft:chest"
+    },
+    {
+      "key": "random greed piece (gold)",
+      "name": "Random Greed Piece (Gold)",
+      "category": "Combat/Armor",
+      "price": -1.0,
+      "seen": "2026-10-05 09:13",
+      "seen_ms": 1791184380240,
+      "source": "shop",
+      "icon": "minecraft:chest"
+    },
+    {
+      "key": "ground zero shop ii",
+      "name": "Ground Zero Shop II",
+      "category": "Other/Other",
+      "price": -1.0,
+      "seen": "2026-10-05 09:13",
+      "seen_ms": 1791184380240,
+      "source": "shop",
+      "icon": "minecraft:chest"
+    },
+    {
+      "key": "mystery godly enchant",
+      "name": "Mystery Godly Enchant",
+      "category": "Upgrades/Enchants",
+      "price": -1.0,
+      "seen": "2026-10-05 09:13",
+      "seen_ms": 1791184380240,
+      "source": "shop",
+      "icon": "minecraft:chest"
+    },
+    {
+      "key": "healing trinket (0)",
+      "name": "Healing Trinket (0)",
+      "category": "Combat/Trinkets",
+      "price": -1.0,
+      "seen": "2026-10-05 09:13",
+      "seen_ms": 1791184380240,
+      "source": "shop",
+      "icon": "minecraft:chest"
+    },
+    {
+      "key": "50,000 cosmic coins",
+      "name": "50,000 COSMIC COINS",
+      "category": "Other/Misc",
+      "price": -1.0,
+      "seen": "2026-10-05 09:13",
+      "seen_ms": 1791184380240,
+      "source": "shop",
+      "icon": "minecraft:chest"
+    },
+    {
+      "key": "random mastery pickaxe prestige token",
+      "name": "Random Mastery Pickaxe Prestige Token",
+      "category": "Upgrades/Prestige",
+      "price": -1.0,
+      "seen": "2026-10-05 09:13",
+      "seen_ms": 1791184380240,
+      "source": "shop",
+      "icon": "minecraft:chest"
+    },
+    {
+      "key": "random cell defense (reinforced)",
+      "name": "Random Cell Defense (Reinforced)",
+      "category": "Cosmetics/Cell",
+      "price": -1.0,
+      "seen": "2026-10-05 09:13",
+      "seen_ms": 1791184380240,
+      "source": "shop",
+      "icon": "minecraft:chest"
+    },
+    {
+      "key": "random overworld boss egg",
+      "name": "Random Overworld Boss Egg",
+      "category": "Combat/Bandits",
+      "price": -1.0,
+      "seen": "2026-10-05 09:13",
+      "seen_ms": 1791184380240,
+      "source": "shop",
+      "icon": "minecraft:chest"
+    },
+    {
+      "key": "random greed piece (iron)",
+      "name": "Random Greed Piece (Iron)",
+      "category": "Combat/Armor",
+      "price": -1.0,
+      "seen": "2026-10-05 09:13",
+      "seen_ms": 1791184380240,
+      "source": "shop",
+      "icon": "minecraft:chest"
+    },
+    {
+      "key": "ground zero shop iii",
+      "name": "Ground Zero Shop III",
+      "category": "Other/Other",
+      "price": -1.0,
+      "seen": "2026-10-05 09:13",
+      "seen_ms": 1791184380240,
+      "source": "shop",
+      "icon": "minecraft:chest"
+    },
+    {
+      "key": "cosmo-slot bot ticket sleeve (5x)",
+      "name": "Cosmo-Slot Bot Ticket Sleeve (5x)",
+      "category": "Other/Slot Bot",
+      "price": -1.0,
+      "seen": "2026-10-05 09:13",
+      "seen_ms": 1791184380240,
+      "source": "shop",
+      "icon": "minecraft:chest"
+    },
+    {
+      "key": "xx random g-kit beacon xx",
+      "name": "xx Random G-Kit Beacon xx",
+      "category": "Combat/G-Kits",
+      "price": -1.0,
+      "seen": "2026-10-05 09:13",
+      "seen_ms": 1791184380240,
+      "source": "shop",
+      "icon": "minecraft:chest"
+    },
+    {
+      "key": "100,000 cosmic coins",
+      "name": "100,000 COSMIC COINS",
+      "category": "Other/Misc",
+      "price": -1.0,
+      "seen": "2026-10-05 09:13",
+      "seen_ms": 1791184380240,
+      "source": "shop",
+      "icon": "minecraft:chest"
+    },
+    {
+      "key": "random ascended pickaxe prestige token (75%)",
+      "name": "Random Ascended Pickaxe Prestige Token (75%)",
+      "category": "Upgrades/Prestige",
+      "price": -1.0,
+      "seen": "2026-10-05 09:13",
+      "seen_ms": 1791184380240,
+      "source": "shop",
+      "icon": "minecraft:chest"
+    },
+    {
+      "key": "mystery cosmic crate (holiday)",
+      "name": "Mystery Cosmic Crate (Holiday)",
+      "category": "Other/Crates",
+      "price": -1.0,
+      "seen": "2026-10-05 09:13",
+      "seen_ms": 1791184380240,
+      "source": "shop",
+      "icon": "minecraft:chest"
+    },
+    {
+      "key": "weekly megabox",
+      "name": "Weekly Megabox",
+      "category": "Other/Crates",
+      "price": -1.0,
+      "seen": "2026-10-05 09:13",
+      "seen_ms": 1791184380240,
+      "source": "shop",
+      "icon": "minecraft:chest"
+    },
+    {
+      "key": "prismarine ore satchel (0 / 2,304 ores)",
+      "name": "Prismarine Ore Satchel (0 / 2,304 Ores)",
+      "category": "Mining/Satchels",
+      "price": -1.0,
+      "seen": "2026-10-05 09:13",
+      "seen_ms": 1791184380240,
+      "source": "shop",
+      "icon": "minecraft:chest"
+    },
+    {
+      "key": "prismarine satchel (0 / 2,304 ores)",
+      "name": "Prismarine Satchel (0 / 2,304 Ores)",
+      "category": "Mining/Satchels",
+      "price": -1.0,
+      "seen": "2026-10-05 09:13",
+      "seen_ms": 1791184380240,
+      "source": "shop",
+      "icon": "minecraft:chest"
+    },
+    {
+      "key": "black clover 30",
+      "name": "Black Clover 30",
+      "category": "Other/Other",
+      "price": -1.0,
+      "seen": "2026-10-05 09:13",
+      "seen_ms": 1791184380240,
+      "source": "shop",
+      "icon": "minecraft:chest"
+    },
+    {
+      "key": "random greed piece (diamond)",
+      "name": "Random Greed Piece (Diamond)",
+      "category": "Combat/Armor",
+      "price": -1.0,
+      "seen": "2026-10-05 09:13",
+      "seen_ms": 1791184380240,
+      "source": "shop",
+      "icon": "minecraft:chest"
+    },
+    {
+      "key": "mystery energy enchant",
+      "name": "Mystery Energy Enchant",
+      "category": "Upgrades/Enchants",
+      "price": -1.0,
+      "seen": "2026-10-05 09:13",
+      "seen_ms": 1791184380240,
+      "source": "shop",
+      "icon": "minecraft:chest"
+    },
+    {
+      "key": "random refined ore satchel",
+      "name": "Random Refined Ore Satchel",
+      "category": "Mining/Satchels",
+      "price": -1.0,
+      "seen": "2026-10-05 09:13",
+      "seen_ms": 1791184380240,
+      "source": "shop",
+      "icon": "minecraft:crying_obsidian"
+    },
+    {
+      "key": "coal satchel (0 / 2,304 ores)",
+      "name": "Coal Satchel (0 / 2,304 Ores)",
+      "category": "Mining/Satchels",
+      "price": -1.0,
+      "seen": "2026-10-05 09:13",
+      "seen_ms": 1791184380240,
+      "source": "shop",
+      "icon": "minecraft:crying_obsidian"
+    },
+    {
+      "key": "3x lucky charm",
+      "name": "3x Lucky Charm",
+      "category": "Combat/Trinkets",
+      "price": -1.0,
+      "seen": "2026-10-05 09:13",
+      "seen_ms": 1791184380240,
+      "source": "shop",
+      "icon": "minecraft:waxed_oxidized_copper_chain"
+    },
+    {
+      "key": "random ore satchel",
+      "name": "Random Ore Satchel",
+      "category": "Mining/Satchels",
+      "price": -1.0,
+      "seen": "2026-10-05 09:13",
+      "seen_ms": 1791184380240,
+      "source": "shop",
+      "icon": "minecraft:beacon"
+    },
+    {
+      "key": "coal ore satchel (0 / 2,304 ores)",
+      "name": "Coal Ore Satchel (0 / 2,304 Ores)",
+      "category": "Mining/Satchels",
+      "price": -1.0,
+      "seen": "2026-10-05 09:13",
+      "seen_ms": 1791184380240,
+      "source": "shop",
+      "icon": "minecraft:beacon"
+    },
+    {
+      "key": "lapis ore satchel (0 / 2,304 ores)",
+      "name": "Lapis Ore Satchel (0 / 2,304 Ores)",
+      "category": "Mining/Satchels",
+      "price": -1.0,
+      "seen": "2026-10-05 09:13",
+      "seen_ms": 1791184380240,
+      "source": "shop",
+      "icon": "minecraft:beacon"
+    },
+    {
+      "key": "redstone ore satchel (0 / 2,304 ores)",
+      "name": "Redstone Ore Satchel (0 / 2,304 Ores)",
+      "category": "Mining/Satchels",
+      "price": -1.0,
+      "seen": "2026-10-05 09:13",
+      "seen_ms": 1791184380240,
+      "source": "shop",
+      "icon": "minecraft:beacon"
+    },
+    {
+      "key": "deepslate_gold_ore_satchel",
+      "name": "Deepslate Gold Ore Satchel (0 / 2,304 Ores)",
+      "category": "Mining/Satchels",
+      "price": 9000000.0,
+      "seen": "2026-10-05 09:54",
+      "seen_ms": 1791186859149,
+      "source": "ah",
+      "icon": "minecraft:deepslate_gold_ore"
+    }
+  ]
+}

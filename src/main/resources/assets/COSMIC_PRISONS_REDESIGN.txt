@@ -1,0 +1,6 @@
+COSMIC PRISONS REDESIGN — FINAL
+
+Armor replaced: Chainmail, Iron, Gold, Diamond (wearable + inventory textures).
+Masks replaced: Turkey, Nitro, Outpost, Lucky Leprechaun, Valor, Clue, Sentinel, Anonymous, Prisoner.
+Mask files are replaced in both item/prisons/mask and item/prisons/mask_worn.
+Legacy custom masks from the previous redesign (Reaper, Warden, Inferno, Void) are not included.
