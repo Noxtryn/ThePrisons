@@ -6,6 +6,11 @@ The long development notes of the core rewrite live in [docs/dev-notes/core-rewr
 
 ## [Unreleased]
 
+### Added
+
+- **Website** on GitHub Pages (`site/`): feature overview, gallery of the real pictures in `docs/media`, install guide and the latest release notes
+- **Discord embed** now links to the GitHub main page and the website
+
 ## [1.0.0] - 2026-10-05
 
 First public release: a client-side Fabric mod for Minecraft 1.21.11 and the Cosmic Prisons server.
