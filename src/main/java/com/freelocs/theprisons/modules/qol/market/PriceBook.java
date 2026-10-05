@@ -99,7 +99,7 @@ public final class PriceBook {
         double sum = 0.0D;
         int n = 0;
         for (Entry e : entries.values()) {
-            if (member.test(e)) {
+            if (e.price() > 0.0D && member.test(e)) {
                 sum += e.price();
                 n++;
             }

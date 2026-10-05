@@ -92,6 +92,7 @@ public final class MarketModule extends Module {
     private long hurtAtMs;
     private int lastDailyDay = -1;
     private long lastTick;
+    private long nextShopTryMs;
 
     public MarketModule(OreMacroModule macro) {
         super("market", "Market Prices", Category.QOL, "Market",
@@ -270,7 +271,9 @@ public final class MarketModule extends Module {
                 }
             }
             case MarketParser.ENERGY -> {
-                double rate = MarketParser.energyRate(items);
+                // The cheapest offer that is a real option: dust offers (0.7 energy) are skipped, the header is the fallback.
+                double rate = MarketParser.energyOffers(items).stream().filter(o -> o.amount() >= 1000.0D)
+                        .mapToDouble(o -> o.perK() / 1000.0D).min().orElse(MarketParser.energyRate(items));
                 if (rate > 0.0D) {
                     book.energyOffer(rate * 1000.0D, 1000.0D, now);
                     ThePrisonsClient.LOGGER.info("[market] /ee: ${} per 1k energy", String.format(Locale.ROOT, "%.0f", rate * 1000.0D));
@@ -359,7 +362,7 @@ public final class MarketModule extends Module {
         }
         if (step == Step.IDLE) {
             boolean marketDue = autoScan.on() && now >= nextScanMs;
-            boolean shopDue = shopScan.on() && shopsDue(now);
+            boolean shopDue = shopScan.on() && now >= nextShopTryMs && shopsDue(now);
             if ((marketDue || shopDue) && mayStart(client, now)) {
                 start(player, now, marketDue, shopDue);
             }
@@ -441,6 +444,7 @@ public final class MarketModule extends Module {
     private void start(ClientPlayerEntity player, long now, boolean market, boolean shopsToo) {
         shopQueue.clear();
         if (shopsToo) {
+            nextShopTryMs = now + 10 * 60_000L; // a failed shop scan is retried later, not every tick
             shopQueue.add("gz");
             shopQueue.add("pb");
         }
@@ -526,7 +530,7 @@ public final class MarketModule extends Module {
         }
         for (PriceBook.Entry e : found.subList(0, Math.min(8, found.size()))) {
             source.sendFeedback(Text.literal(e.name() + "  ").formatted(Formatting.WHITE)
-                    .append(Text.literal(worhith(e.price())).formatted(Formatting.GREEN))
+                    .append(Text.literal(worth(e.price())).formatted(Formatting.GREEN))
                     .append(Text.literal("  " + MarketSearch.age(System.currentTimeMillis() - e.seenMs())).formatted(Formatting.DARK_GRAY)));
         }
         return 1;
