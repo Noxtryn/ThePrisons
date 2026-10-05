@@ -431,3 +431,7 @@ percent rises towards a guard - data for a later model). Counters: `watchdog_*`,
 
 Tests: `GuardReturnReplayTest`, `BackInReplayTest` (the real mine; the zone test fails with the old model, the back-in
 test shows the old rule's 15-block lead), `OutsideWatchTest`, `DeathChatTest`. Not tested in game.
+
+## Update 2026-10-05: stricter outside rules (deaths)
+
+Log: the macro was killed twice by the same player after walking 21 and 48 unguarded blocks. Now: any other player within 48 blocks (`CROWD_PLAYERS` 1) = at most 2 unguarded blocks (`outside_near`); nobody near for 20 s = at most 6 (`outside_solo`, range 0-20, replaces `outside_free` 48 so the saved value does not stick).

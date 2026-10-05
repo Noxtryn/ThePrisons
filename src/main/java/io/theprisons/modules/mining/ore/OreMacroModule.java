@@ -167,7 +167,7 @@ public final class OreMacroModule extends AutomationModule {
     /** After a hit, at the guard: go on only when no player is within this many blocks to each side. */
     private static final double FLEE_PLAYER_RANGE = 16.0D;
     /** A real player this close shortens the excursions outside the guarded zone to the "player near" budget. */
-    private static final double GUARD_PLAYER_RANGE = 32.0D;
+    private static final double GUARD_PLAYER_RANGE = 48.0D;
     /** At most one /sellall per second, however often the server repeats "inventory is full". */
     private static final int SELL_COOLDOWN_TICKS = 20;
     /**
@@ -372,9 +372,9 @@ public final class OreMacroModule extends AutomationModule {
     /** When a player was last seen near (alone only after {@value #ALONE_AFTER_MS} ms without one: no flicker). */
     private long playerSeenMs;
     private boolean guardPlayerLock;
-    static final long ALONE_AFTER_MS = 5_000L;
+    static final long ALONE_AFTER_MS = 20_000L;
     /** From this many other players within {@value #GUARD_PLAYER_RANGE} blocks the macro stays near the guards. */
-    static final int CROWD_PLAYERS = 2;
+    static final int CROWD_PLAYERS = 1;
     private final Settings.IntSetting outsideAlone;
     /** The guard tax from the energy one ore gives (see {@link EnergyTax}). */
     private final EnergyTax energyTax = new EnergyTax();
@@ -672,16 +672,14 @@ public final class OreMacroModule extends AutomationModule {
                         + "2-12 % less = inside again. 20 % or more (25 %, 50 %, 100 %) is an energy booster and changes "
                         + "nothing. Off (default): the sidebar - \"Guard XP Tax N%\" or \"Guarded\" = inside, neither = "
                         + "outside, back to the last place it was shown.").group("Defence").visibleWhen(guarded::on);
-        outsideNear = integer("outside_near", "Unguarded blocks, 2+ players near", 3, 0, 10, 1)
-                .description("How far the macro may walk out of the guarded zone (no guard XP tax) while 2 or more other "
-                        + "players are within 32 blocks, then it turns back at once - unless it is in another guarded zone "
+        outsideNear = integer("outside_near", "Unguarded blocks, a player near", 2, 0, 10, 1)
+                .description("How far the macro may walk out of the guarded zone (no guard XP tax) while another "
+                        + "player is within 48 blocks, then it turns back at once - unless it is in another guarded zone "
                         + "by then. 0 = never.")
                 .group("Defence").visibleWhen(guarded::on);
-        outsideAlone = integer("outside_free", "Unguarded blocks, fewer players", 48, 0, 200, 1)
-                .description("With fewer than 2 other players within 32 blocks (for 5 s) the macro may walk through "
-                        + "unguarded ground like through the guarded zone, up to this many blocks in a row - routes and the "
-                        + "free steering go wherever the ore is. 2 players come near: back to the guards, no long way "
-                        + "outside.")
+        outsideAlone = integer("outside_solo", "Unguarded blocks, nobody near", 6, 0, 20, 1)
+                .description("With no other player within 48 blocks (for 20 s) the macro may walk this many "
+                        + "unguarded blocks in a row, then it turns back. A player coming near: back to the guards at once.")
                 .group("Defence").visibleWhen(guarded::on);
         guardRadius = integer("guard_radius", "Guarded radius (blocks)", 15, 4, 32, 1)
                 .description("How far from a guard the macro may go.").group("Defence").visibleWhen(guarded::on);
@@ -1090,7 +1088,7 @@ public final class OreMacroModule extends AutomationModule {
             int before = guardArea.outsideBudget();
             if (budget != before) {
                 ThePrisonsClient.LOGGER.info("[ore_macro] {}: up to {} unguarded blocks",
-                        alone ? "fewer than " + CROWD_PLAYERS + " players near" : guardPlayer + " near", budget);
+                        alone ? "nobody near" : guardPlayer + " near", budget);
                 guardArea.outsideBudget(budget);
                 if (budget < before) {
                     // Less room than planned: no plan / corridor that was made for the larger budget goes on.
@@ -3004,7 +3002,7 @@ public final class OreMacroModule extends AutomationModule {
     private int backIn(ClientPlayerEntity player, long now) {
         if (guardArea.outsideBudget() == 0 || !planRoutes.on() || activeRoute != null || phase != Phase.STEER || overrun()
                 || guardPlayerLock) {
-            // 2+ players near: no planning, straight back to the guards (a long way outside is what they must not see).
+            // a player near: no planning, straight back to the guards (a long way outside is what they must not see).
             return BACK_IN_NONE;
         }
         if (backInSince == 0L) {
@@ -3592,6 +3590,10 @@ public final class OreMacroModule extends AutomationModule {
         MinecraftClient client = MinecraftClient.getInstance();
         ClientPlayerEntity player = client.player;
         if (attacker == null || player == null || attacker == player || !fleeToGuard.on()) {
+            return;
+        }
+        if (chore == Chores.Kind.DEATH_RECOVERY) {
+            // Dying / respawning: the killing blow must not become a flee the moment the mine is reached again.
             return;
         }
         lastHurtMs = System.currentTimeMillis();
@@ -5277,6 +5279,8 @@ public final class OreMacroModule extends AutomationModule {
                 ThePrisonsClient.LOGGER.info("[ore_macro] in the mine: mining again");
                 selectPickaxe(player);
                 chore = Chores.Kind.NONE;
+                fleeing = false;
+                fleeRequested = false;
                 phase = Phase.STEER;
                 steer.reset();
                 classic.reset();
