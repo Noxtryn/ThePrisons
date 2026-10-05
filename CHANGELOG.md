@@ -6,6 +6,22 @@ The long development notes of the core rewrite live in [docs/dev-notes/core-rewr
 
 ## [Unreleased]
 
+## [0.0.1-test] - 2026-10-05
+
+Workflow test (pre-release, will be removed).
+
+### Added
+
+- **Release workflow**: tag, tests, build, GitHub Release and Discord embed
+
+### Changed
+
+- Test of the changelog grouping in the Discord embed
+
+### Fixed
+
+- Nothing - this is only a test
+
 ## [1.0.0] - 2026-10-05
 
 First public release: a client-side Fabric mod for Minecraft 1.21.11 and the Cosmic Prisons server.
