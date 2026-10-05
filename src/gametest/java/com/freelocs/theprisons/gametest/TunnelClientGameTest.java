@@ -26,6 +26,23 @@ public final class TunnelClientGameTest implements FabricClientGameTest {
         return shot;
     }
 
+    /** Sets an enum setting of the tunnel by the constant's name. */
+    private static void set(String id, String name) {
+        TunnelVisionModule m = TunnelVisionModule.get();
+        if (m.setting(id) instanceof com.freelocs.theprisons.core.setting.Settings.EnumSetting<?> e) {
+            setEnum(e, name);
+        }
+    }
+
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    private static void setEnum(com.freelocs.theprisons.core.setting.Settings.EnumSetting e, String name) {
+        for (Object o : e.options()) {
+            if (((Enum<?>) o).name().equals(name)) {
+                e.set((Enum) o);
+            }
+        }
+    }
+
     @java.lang.Override
     public void runTest(ClientGameTestContext context) {
         if (!ShowcaseClientGameTest.TUNNEL) {
@@ -53,6 +70,20 @@ public final class TunnelClientGameTest implements FabricClientGameTest {
             LOGGER.info("[tunnel-test] iris opening {}", keep(context.takeScreenshot("tunnel_2_opening")));
             context.waitTicks(40);
             LOGGER.info("[tunnel-test] standing {}", keep(context.takeScreenshot("tunnel_3_standing")));
+            context.runOnClient(client -> set("surface", "ROAD"));
+            for (int i = 0; i < 12; i++) {
+                context.waitTicks(11);
+                keep(context.takeScreenshot("seq_road_" + String.format("%02d", i)));
+            }
+            // performance: the same scene at every quality (frames per second of this machine)
+            for (String q : new String[]{"HIGH", "BALANCED", "FAST"}) {
+                context.runOnClient(client -> set("quality", q));
+                context.waitTicks(80);
+                int[] fps = new int[1];
+                context.runOnClient(client -> fps[0] = client.getCurrentFps());
+                LOGGER.info("[tunnel-test] fps quality={} -> {}", q, fps[0]);
+            }
+            context.runOnClient(client -> set("quality", "BALANCED"));
             context.runOnClient(client -> client.options.forwardKey.setPressed(true));
             context.waitTicks(60);
             LOGGER.info("[tunnel-test] walking {}", keep(context.takeScreenshot("tunnel_4_walking")));
@@ -62,6 +93,16 @@ public final class TunnelClientGameTest implements FabricClientGameTest {
             });
             context.waitTicks(40);
             LOGGER.info("[tunnel-test] sprinting {}", keep(context.takeScreenshot("tunnel_5_sprinting")));
+            // the second animation: the road dissolves into particles, the carpet appears
+            context.runOnClient(client -> set("surface", "CARPET"));
+            context.waitTicks(12);
+            LOGGER.info("[tunnel-test] carpet: dissolving {}", keep(context.takeScreenshot("tunnel_5b_dissolve")));
+            context.waitTicks(14);
+            LOGGER.info("[tunnel-test] carpet: appearing {}", keep(context.takeScreenshot("tunnel_5c_appear")));
+            for (int i = 0; i < 12; i++) {
+                context.waitTicks(11);
+                keep(context.takeScreenshot("seq_carpet_" + String.format("%02d", i)));
+            }
             context.runOnClient(client -> {
                 client.options.forwardKey.setPressed(false);
                 client.options.sprintKey.setPressed(false);

@@ -28,6 +28,48 @@ import java.util.List;
 public final class TunnelVisionModule extends Module {
     private enum Phase { OFF, ENTERING, ON, EXITING }
 
+    /** What carries the player. */
+    public enum Surface {
+        ROAD("Rainbow road"), CARPET("Magic carpet"), AUTO("Auto (switches)");
+
+        private final String label;
+
+        Surface(String label) {
+            this.label = label;
+        }
+
+        public String label() {
+            return label;
+        }
+    }
+
+    /** How much the tunnel may cost: the road's rows, glow and the amount of particles. */
+    public enum Quality {
+        HIGH("High", 1, 1.0F), BALANCED("Balanced (faster)", 2, 0.7F), FAST("Fast (most FPS)", 3, 0.45F);
+
+        private final String label;
+        private final int rowStep;
+        private final float density;
+
+        Quality(String label, int rowStep, float density) {
+            this.label = label;
+            this.rowStep = rowStep;
+            this.density = density;
+        }
+
+        public String label() {
+            return label;
+        }
+
+        int rowStep() {
+            return rowStep;
+        }
+
+        float density() {
+            return density;
+        }
+    }
+
     private static final long ENTER_MS = 1700L;
     private static final long EXIT_MS = 1400L;
     private static final double ENTER_SPLIT = 0.45D;
@@ -37,6 +79,10 @@ public final class TunnelVisionModule extends Module {
     private final Settings.ChoiceSetting background;
     private final Settings.BoolSetting drift;
     private final Settings.IntSetting dim;
+    private final Settings.EnumSetting<Surface> surface;
+    private final Settings.IntSetting autoSeconds;
+    private final Settings.EnumSetting<Quality> quality;
+    private final Settings.BoolSetting targets;
     private final Settings.BoolSetting road;
     private final Settings.BoolSetting roadGlow;
     private final Settings.IntSetting roadWidth;
@@ -68,6 +114,15 @@ public final class TunnelVisionModule extends Module {
                 .description("Put png / jpg pictures into config/theprisons/tunnel/ to choose them here.").group("Background");
         drift = bool("drift", "Slow camera drift", true).group("Background");
         dim = integer("dim", "Dim the backdrop", 12, 0, 60, 2).suffix(" %").group("Background");
+        surface = choice("surface", "Animation", Surface.AUTO, Surface::label)
+                .description("Rainbow road, magic carpet, or both in turns: the road dissolves into particles and a carpet appears (and back).")
+                .group("Scene");
+        autoSeconds = integer("auto_seconds", "Switch every", 40, 15, 180, 5).suffix(" s").group("Scene")
+                .visibleWhen(() -> surface.get() == Surface.AUTO);
+        quality = choice("quality", "Performance", Quality.BALANCED, Quality::label)
+                .description("Fast draws the road with fewer rows and fewer particles: more FPS.").group("Scene");
+        targets = bool("targets", "Crystals & asteroids", true)
+                .description("Pink crystals (road) and light-blue asteroids (carpet) appear ahead; you shoot them and they burst.").group("Scene");
         road = bool("road", "Rainbow road", true).group("Road");
         roadGlow = bool("road_glow", "Road glow", true).group("Road");
         roadWidth = integer("road_width", "Road width", 100, 60, 140, 5).suffix(" %").group("Road");
@@ -116,7 +171,7 @@ public final class TunnelVisionModule extends Module {
             phaseMs = now;
             revealed = false;
             scanner.reset();
-            scene.begin(now);
+            scene.begin(now, surface.get() == Surface.CARPET);
         } else if (!on && (phase == Phase.ON || phase == Phase.ENTERING)) {
             phase = Phase.EXITING;
             phaseMs = now;
@@ -225,6 +280,7 @@ public final class TunnelVisionModule extends Module {
 
     private TunnelScene.Options options() {
         return new TunnelScene.Options(background.get(), drift.on(), dim.value(), road.on(), roadGlow.on(), roadWidth.value(),
-                player.on(), playerScale.value(), sway.on(), sparks.on(), shooting.on(), notifications.on(), ticker.on());
+                player.on(), playerScale.value(), sway.on(), sparks.on(), shooting.on(), notifications.on(), ticker.on(),
+                surface.get(), autoSeconds.value(), quality.get(), targets.on());
     }
 }

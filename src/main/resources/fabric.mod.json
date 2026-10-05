@@ -4,9 +4,7 @@
   "version": "${version}",
   "name": "ThePrisons",
   "description": "Client-side Fabric mod for CosmicPrisons HUDs, cooldowns, satchel tracking, item insights, alerts, update checks and a mining suite.",
-  "authors": [
-    "TrustTheCat"
-  ],
+  "authors": [],
   "license": "All-Rights-Reserved",
   "icon": "assets/theprisons/icon.png",
   "contact": {

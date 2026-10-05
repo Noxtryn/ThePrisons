@@ -563,6 +563,7 @@ public final class DashboardScreen extends Screen implements com.freelocs.thepri
             new Sub("Advanced", List.of("Ballistics")));
 
     private static final List<Sub> TUNNEL_SUBS = List.of(
+            new Sub("Scene", List.of("Scene")),
             new Sub("Look", List.of("Background", "Road", "Player")),
             new Sub("Show", List.of("Show")));
 
