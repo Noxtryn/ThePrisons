@@ -177,7 +177,7 @@ public final class MarketOverlay {
             default -> {
                 for (MarketParser.Sale s : MarketParser.sales(items)) {
                     out.add(new Row(MarketCategory.of(s.name(), s.customId()).group(), s.name(), s.unitPrice(),
-                            MarketSearch.age(s.agoMs()) + " ago"));
+                            MarketSearch.age(s.agoMs())));
                 }
             }
         }
@@ -200,7 +200,7 @@ public final class MarketOverlay {
         Ui.draw(c, tr, "Cheapest rate", x + PAD, y + 27, Ui.MUTED, 255);
         Ui.drawRight(c, tr, rate > 0 ? "$" + Money.compact(rate * 1000.0D) + " / 1k" : "unknown", x + W - PAD, y + 27, Ui.GOOD, 255);
         Ui.draw(c, tr, "Updated", x + PAD, y + 38, Ui.MUTED, 255);
-        Ui.drawRight(c, tr, book.rateSeenMs() > 0L ? MarketSearch.age(System.currentTimeMillis() - book.rateSeenMs()) + " ago" : "never",
+        Ui.drawRight(c, tr, book.rateSeenMs() > 0L ? MarketSearch.age(System.currentTimeMillis() - book.rateSeenMs()) : "never",
                 x + W - PAD, y + 38, Ui.VALUE, 255);
 
         Ui.draw(c, tr, "MONEY IN ENERGY", x + PAD, y + 54, Ui.theme().title(), 255);

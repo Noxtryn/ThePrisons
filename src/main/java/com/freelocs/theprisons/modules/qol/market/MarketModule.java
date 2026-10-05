@@ -555,13 +555,13 @@ public final class MarketModule extends Module {
     private void ensureLoaded() {
         if (!loaded) {
             loaded = true;
-            PriceStore.load(file(), book);
+            PriceStore.load(file(), book, shops);
         }
     }
 
     private void save() {
         if (loaded) {
-            PriceStore.save(file(), book);
+            PriceStore.save(file(), book, shops);
         }
     }
 

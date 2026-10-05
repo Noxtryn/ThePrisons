@@ -68,6 +68,9 @@ public final class DashboardScreen extends Screen implements com.freelocs.thepri
     private float animationsKnob = -1;
     private float fontKnob = -1;
     private float comicKnob = -1;
+    private float scanKnob = -1;
+    private float shopKnob = -1;
+    private float shownInterval = -1;
     private float scroll;
     private float scrollTarget;
     private int scrollMax;
@@ -299,7 +302,7 @@ public final class DashboardScreen extends Screen implements com.freelocs.thepri
         int ch = 24;
         List<Settings.Option> options = ores.options();
         int rows = (options.size() + cols - 1) / cols;
-        scrollMax = Math.max(0, 18 + rows * (ch + gap) + 14 - contentHeight);
+        scrollMax = Math.max(0, 18 + rows * (ch + gap) + 14 + 90 - contentHeight);
         scrollTarget = MathHelper.clamp(scrollTarget, 0, scrollMax);
         scroll = Ui.approach(scroll, scrollTarget, dt, 14.0F);
         y -= Math.round(scroll);
@@ -326,6 +329,21 @@ public final class DashboardScreen extends Screen implements com.freelocs.thepri
         }
         Ui.draw(c, textRenderer, "Each includes the ore, deepslate ore and the ore block  ·  pick at least one to start",
                 left, y + 22 + rows * (ch + gap), Ui.MUTED, Math.round(255 * Ui.appear(pageMs, 200L, 300.0F)));
+
+        // Market prices: the automatic /ah, /ee, /gz, /pb scans
+        Module market = core.modules().get("market");
+        if (market != null && market.setting("auto_scan") instanceof Settings.BoolSetting auto
+                && market.setting("shop_scan") instanceof Settings.BoolSetting shop
+                && market.setting("interval") instanceof Settings.IntSetting every) {
+            float a = Ui.appear(pageMs, 260L, 300.0F);
+            int my0 = y + 40 + rows * (ch + gap);
+            section(c, "MARKET PRICES", left, my0, a);
+            scanKnob = toggle(c, left, my0 + 16, "Scan /ah and /ee", auto, scanKnob, mx, my, dt, a);
+            shopKnob = toggle(c, left, my0 + 34, "Check /gz and /pb", shop, shopKnob, mx, my, dt, a);
+            Ui.draw(c, textRenderer, "Every " + every.get() + " min", left, my0 + 54, Ui.VALUE, Math.round(255 * a));
+            shownInterval = shownInterval < 0 ? every.get() : Ui.approach(shownInterval, every.get(), dt, 16.0F);
+            slider(c, left + 120, my0 + 52, Math.min(160, w - 130), every, shownInterval, mx, my, a);
+        }
     }
 
     private void drawDesign(DrawContext c, int left, int y, int w, int mx, int my, float dt, float slide) {

@@ -28,7 +28,7 @@ public final class MarketSearch {
     public static boolean focused() { return focused; }
 
     public static boolean charTyped(char c) {
-        if (!isAllowed(c) || query.length() >= 28) return false;
+        if (!focused || !isAllowed(c) || query.length() >= 28) return false;
         query += c;
         page = 0;
         focused = true;
@@ -44,6 +44,11 @@ public final class MarketSearch {
         }
         if (key == GLFW.GLFW_KEY_ESCAPE && focused) {
             focused = false;
+            return true;
+        }
+        if (focused && (key >= GLFW.GLFW_KEY_A && key <= GLFW.GLFW_KEY_Z || key >= GLFW.GLFW_KEY_0 && key <= GLFW.GLFW_KEY_9
+                || key == GLFW.GLFW_KEY_SPACE || key == GLFW.GLFW_KEY_MINUS || key == GLFW.GLFW_KEY_PERIOD)) {
+            // The search owns the letters: "e" must not close the inventory and digits must not swap the hotbar.
             return true;
         }
         if (key == GLFW.GLFW_KEY_LEFT) { page = Math.max(0, page - 1); return focused; }
@@ -82,7 +87,7 @@ public final class MarketSearch {
         Ui.shadowCard(c, x, y, 220, 18, 0.95f);
         Ui.outline(c, x, y, 220, 18, Ui.argb(focused ? 210 : 120, Ui.theme().accent()));
         Ui.draw(c, tr, "⌕", x + 6, y + 4, Ui.theme().accent(), 255);
-        String shown = query.isEmpty() ? "Search Cosmic items…" : query;
+        String shown = query.isEmpty() ? "Search Cosmic items… (click or Tab)" : query;
         Ui.draw(c, tr, shown, x + 20, y + 4, query.isEmpty() ? Ui.MUTED : Ui.VALUE, 255);
 
         String[] tabs = {"ALL", "COS", "UPG", "MIN", "COM", "OTHER"};

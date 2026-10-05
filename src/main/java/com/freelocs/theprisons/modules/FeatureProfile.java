@@ -24,7 +24,7 @@ public final class FeatureProfile {
             // HUD
             "scoreboard", "better_tab", "session_hud", "pet_hud", "command_cooldowns", "satchel_hud", "armor_hud", "item_insights",
             // Quality of life
-            "sneak_trade", "player_cards", "friends", "message_notifications", "peaceful_mining", "vitals_warnings", "ready_announcements",
+            "market", "sneak_trade", "player_cards", "friends", "message_notifications", "peaceful_mining", "vitals_warnings", "ready_announcements",
             // Background services
             "cooldown_cache", "update_checker");
 

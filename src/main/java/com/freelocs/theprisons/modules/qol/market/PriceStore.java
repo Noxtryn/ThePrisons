@@ -24,7 +24,7 @@ public final class PriceStore {
     private PriceStore() {
     }
 
-    public static void load(Path file, PriceBook book) {
+    public static void load(Path file, PriceBook book, java.util.Map<String, MarketModule.ShopRecord> shops) {
         if (!Files.isRegularFile(file)) {
             return;
         }
@@ -33,6 +33,24 @@ public final class PriceStore {
             if (root.has("energy_rate")) {
                 JsonObject r = root.getAsJsonObject("energy_rate");
                 book.restoreRate(r.get("money_per_energy").getAsDouble(), r.get("seen_ms").getAsLong());
+            }
+            if (root.has("shops")) {
+                for (JsonElement el : root.getAsJsonArray("shops")) {
+                    JsonObject o = el.getAsJsonObject();
+                    java.util.List<MarketParser.ShopOffer> offers = new java.util.ArrayList<>();
+                    for (JsonElement oe : o.getAsJsonArray("offers")) {
+                        JsonObject f = oe.getAsJsonObject();
+                        java.util.List<String> loot = new java.util.ArrayList<>();
+                        for (JsonElement l : f.getAsJsonArray("loot")) {
+                            loot.add(l.getAsString());
+                        }
+                        offers.add(new MarketParser.ShopOffer(f.get("name").getAsString(), f.get("icon").getAsString(),
+                                f.get("points").getAsLong(), loot, f.get("picks").getAsInt()));
+                    }
+                    String title = o.get("title").getAsString();
+                    shops.put(title, new MarketModule.ShopRecord(title, o.get("seen_ms").getAsLong(),
+                            o.get("reset_at_ms").getAsLong(), offers));
+                }
             }
             for (JsonElement el : root.getAsJsonArray("items")) {
                 JsonObject o = el.getAsJsonObject();
@@ -46,7 +64,7 @@ public final class PriceStore {
         }
     }
 
-    public static void save(Path file, PriceBook book) {
+    public static void save(Path file, PriceBook book, java.util.Map<String, MarketModule.ShopRecord> shops) {
         JsonObject root = new JsonObject();
         if (book.moneyPerEnergy() > 0.0D) {
             JsonObject r = new JsonObject();
@@ -69,6 +87,29 @@ public final class PriceStore {
             items.add(o);
         }
         root.add("items", items);
+        JsonArray shopArray = new JsonArray();
+        for (MarketModule.ShopRecord r : shops.values()) {
+            JsonObject o = new JsonObject();
+            o.addProperty("title", r.title());
+            o.addProperty("seen", DATE.format(Instant.ofEpochMilli(r.seenMs())));
+            o.addProperty("seen_ms", r.seenMs());
+            o.addProperty("reset_at_ms", r.resetAtMs());
+            JsonArray offers = new JsonArray();
+            for (MarketParser.ShopOffer f : r.offers()) {
+                JsonObject fo = new JsonObject();
+                fo.addProperty("name", f.name());
+                fo.addProperty("icon", f.icon());
+                fo.addProperty("points", f.points());
+                fo.addProperty("picks", f.picks());
+                JsonArray loot = new JsonArray();
+                f.loot().forEach(loot::add);
+                fo.add("loot", loot);
+                offers.add(fo);
+            }
+            o.add("offers", offers);
+            shopArray.add(o);
+        }
+        root.add("shops", shopArray);
         try {
             Files.createDirectories(file.getParent());
             Path tmp = file.resolveSibling(file.getFileName() + ".tmp");
