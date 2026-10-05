@@ -118,6 +118,15 @@ public final class MarketModule extends Module {
         return true;
     }
 
+    /** The last stable page of the open server menu and its title (what the overlay draws). */
+    public String lastTitle() {
+        return lastTitle;
+    }
+
+    public List<MarketParser.Item> lastItems() {
+        return lastItems;
+    }
+
     public PriceBook book() {
         ensureLoaded();
         return book;

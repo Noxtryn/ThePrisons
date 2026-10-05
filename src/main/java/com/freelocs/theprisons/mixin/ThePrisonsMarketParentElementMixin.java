@@ -28,6 +28,12 @@ public interface ThePrisonsMarketParentElementMixin {
 
     @Inject(method = "mouseClicked", at = @At("HEAD"), cancellable = true)
     private void theprisons$marketClick(Click click, boolean doubled, CallbackInfoReturnable<Boolean> cir) {
+        if ((Object) this instanceof net.minecraft.client.gui.screen.ingame.HandledScreen<?>
+                && !((Object) this instanceof InventoryScreen)
+                && com.freelocs.theprisons.modules.qol.market.MarketOverlay.click(click.x(), click.y())) {
+            cir.setReturnValue(true);
+            return;
+        }
         if ((Object) this instanceof InventoryScreen) {
             InventoryScreen screen = (InventoryScreen) (Object) this;
             if (MarketSearch.click(click.x(), click.y(), screen.width, screen.height)) {

@@ -30,6 +30,10 @@ public final class MarketParser {
     public record Kind(String name, @Nullable String customId, String icon, double lowest, int listings, List<String> contains) {
     }
 
+    /** One /ee offer: the seller, the energy amount, the whole price and the price per 1k energy. */
+    public record EnergyOffer(String seller, double amount, double price, double perK) {
+    }
+
     public record Sale(String name, @Nullable String customId, String icon, double unitPrice, long agoMs) {
     }
 
@@ -48,6 +52,8 @@ public final class MarketParser {
     private static final Pattern AGO = Pattern.compile("^Item sold (.+) ago");
     private static final Pattern LOWEST = Pattern.compile("^Lowest Price:\\s*\\$([\\d,.]+)");
     private static final Pattern LISTINGS = Pattern.compile("^Listings:\\s*([\\d,]+)");
+    private static final Pattern OFFER_PRICE = Pattern.compile("^Price:\\s*\\$([\\d,.]+)\\s*\\(([\\d,.]+)\\s*/\\s*1k\\)");
+    private static final Pattern OFFER_AMOUNT = Pattern.compile("^Amount:\\s*([\\d,.]+)");
     private static final Pattern FROM = Pattern.compile("^From:\\s*\\$([\\d,.]+)\\s*/\\s*1k");
     private static final Pattern POINTS = Pattern.compile("^([\\d,]+) Points$");
     private static final Pattern PICKS = Pattern.compile("(?i)(?:Random |Normal )?Loot \\((\\d+) items?\\)");
@@ -163,6 +169,36 @@ public final class MarketParser {
             }
         }
         return -1.0D;
+    }
+
+    /** The offers of a "Buy Cosmic Energy" page (slots 9-44), in menu order. */
+    public static List<EnergyOffer> energyOffers(List<Item> items) {
+        List<EnergyOffer> out = new ArrayList<>();
+        for (Item it : items) {
+            if (it.slot() < 9 || it.slot() >= LISTING_SLOTS) {
+                continue;
+            }
+            double amount = -1.0D;
+            double price = -1.0D;
+            double perK = -1.0D;
+            for (String raw : it.lore()) {
+                String line = raw.strip();
+                Matcher m = OFFER_AMOUNT.matcher(line);
+                if (m.find()) {
+                    amount = number(m.group(1));
+                    continue;
+                }
+                m = OFFER_PRICE.matcher(line);
+                if (m.find()) {
+                    price = number(m.group(1));
+                    perK = number(m.group(2));
+                }
+            }
+            if (price > 0.0D && perK > 0.0D) {
+                out.add(new EnergyOffer(it.name(), amount, price, perK));
+            }
+        }
+        return out;
     }
 
     /** A Ground Zero / Prison Break shop page: every offer with its points price and, for lootboxes, the loot. */

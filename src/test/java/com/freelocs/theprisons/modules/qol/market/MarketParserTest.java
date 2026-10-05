@@ -42,6 +42,13 @@ class MarketParserTest {
     }
 
     @Test
+    void energyOffersOfTheMenu() {
+        List<MarketParser.EnergyOffer> offers = MarketParser.energyOffers(MenuDumps.first(MarketParser.ENERGY).items());
+        assertTrue(offers.stream().anyMatch(o -> o.seller().equals("Just_P3chyTTV") && o.amount() == 19_000_000D
+                && o.price() == 43_700_000D && o.perK() == 2_300D));
+    }
+
+    @Test
     void energyRateIsTheCheapestOffer() {
         assertEquals(2.299D, MarketParser.energyRate(MenuDumps.first(MarketParser.ENERGY).items()), 1e-9);
     }
