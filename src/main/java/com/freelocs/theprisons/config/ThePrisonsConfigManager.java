@@ -37,11 +37,23 @@ public final class ThePrisonsConfigManager {
         }
     }
 
+    /** Blocking write (first start / shutdown). */
     public void save() {
+        config.normalize();
+        write(GSON.toJson(config));
+    }
+
+    /** Serialises now, writes on the IO executor (GUI clicks, HUD drags). */
+    public void saveAsync() {
+        config.normalize();
+        String json = GSON.toJson(config);
+        net.minecraft.util.Util.getIoWorkerExecutor().execute(() -> write(json));
+    }
+
+    private static synchronized void write(String json) {
         try {
-            config.normalize();
             Files.createDirectories(CONFIG_PATH.getParent());
-            Files.writeString(CONFIG_PATH, GSON.toJson(config));
+            Files.writeString(CONFIG_PATH, json);
         } catch (IOException exception) {
             ThePrisonsClient.LOGGER.warn("Failed to save config", exception);
         }

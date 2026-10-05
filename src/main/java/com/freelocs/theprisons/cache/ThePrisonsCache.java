@@ -55,10 +55,24 @@ public final class ThePrisonsCache {
         }
     }
 
+    /** Blocking write (load / shutdown). */
     public void save() {
+        write(GSON.toJson(new ThePrisonsStore(entries)));
+    }
+
+    /**
+     * Serialises on the calling (client) thread, where the entries are mutated, and writes on the IO executor, so a
+     * cooldown change never stalls a frame on disk IO.
+     */
+    public void saveAsync() {
+        String json = GSON.toJson(new ThePrisonsStore(entries));
+        net.minecraft.util.Util.getIoWorkerExecutor().execute(() -> write(json));
+    }
+
+    private static synchronized void write(String json) {
         try {
             Files.createDirectories(CACHE_PATH.getParent());
-            Files.writeString(CACHE_PATH, GSON.toJson(new ThePrisonsStore(entries)));
+            Files.writeString(CACHE_PATH, json);
         } catch (IOException exception) {
             ThePrisonsClient.LOGGER.warn("Failed to save cooldown cache", exception);
         }
@@ -81,6 +95,8 @@ public final class ThePrisonsCache {
         public String displayName;
         public String itemId;
         public long cooldownEndsAtMs;
+        /** Until when the item's effect runs (e.g. "no Guard XP Tax for 30m"), 0 = none. */
+        public long activeUntilMs;
         public long lastSeenAtMs;
         public boolean readyAnnounced;
 
@@ -91,9 +107,6 @@ public final class ThePrisonsCache {
             this.key = key;
         }
 
-        public boolean isReady(long nowMs) {
-            return cooldownEndsAtMs <= nowMs;
-        }
     }
 
     private static String stripLevel(String value) {

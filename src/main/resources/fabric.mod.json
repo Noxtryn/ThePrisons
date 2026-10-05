@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
   "id": "theprisons",
-  "version": "0.3",
+  "version": "v.1.0",
   "name": "ThePrisons",
-  "description": "Client-side Fabric mod for persistent pet and Trinkets cooldown tracking, centered ready announcements, and a clean Mod Menu configuration screen.",
+  "description": "Client-side Fabric mod for CosmicPrisons HUDs, cooldowns, satchel tracking, item insights, alerts, update checks and a mining suite.",
   "authors": [
     "TrustTheCat"
   ],
