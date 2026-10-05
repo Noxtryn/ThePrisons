@@ -112,7 +112,7 @@ public final class ThePrisonsConfig {
         public float hudScale = 1.0f;
         public int armorHudX = -1;
         public int armorHudY = -1;
-        public int lastCategory = 0;
-        public int lastSubCategory = 0;
+        public int announcementX = -1;
+        public int announcementY = 18;
     }
 }
