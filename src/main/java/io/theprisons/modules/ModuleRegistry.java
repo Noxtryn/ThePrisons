@@ -62,6 +62,10 @@ public final class ModuleRegistry {
                 new io.theprisons.modules.general.tunnel.TunnelVisionModule(oreMacro, sessionHud);
         modules.register(tunnel);
         tunnel.register(core.bus());
+        io.theprisons.modules.general.tunnel.TunnelActionBarModule tunnelBar = new io.theprisons.modules.general.tunnel.TunnelActionBarModule();
+        modules.register(tunnelBar);
+        tunnelBar.register(core.bus());
+        net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback.EVENT.register(tunnelBar::render);
         io.theprisons.modules.qol.players.FriendsModule friends = new io.theprisons.modules.qol.players.FriendsModule();
         modules.register(friends);
         friends.register(core.commands());

@@ -20,6 +20,8 @@ A **client-side Fabric mod** for Minecraft `1.21.11` and the **Cosmic Prisons** 
 
 ## Features
 
+A short animated introduction: [docs/media/trailer.mp4](docs/media/trailer.mp4) (an illustration, not a game recording).
+
 ### Dashboard
 Opens with `/prisons`, the keybinds (`I`, or right shift for the module menu) or Mod Menu. Animated pages: **Overview**, **Mining**, **Bandits**, **Tunnel**, **Design**, **Controls** and **HUD**. Every setting has a switch, slider, choice button, colour palette or text field, a tooltip, and each section can be reset. Themes, card darkness, animations, a boxy font and comic textures are in **Design**.
 

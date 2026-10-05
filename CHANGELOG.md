@@ -6,6 +6,17 @@ The long development notes of the core rewrite live in [docs/dev-notes/core-rewr
 
 ## [Unreleased]
 
+## [1.1.3] - 2026-10-05
+
+### Added
+
+- **Tunnel Vision: action bar** - the mining session's action bar (XP, energy, boosts) is drawn by the mod while the tunnel hides the world, as an element of the HUD editor you can move and scale
+- **Trailer** - a short animated introduction of the mod (`docs/media/trailer.mp4`, an illustration drawn by `scripts/make_trailer.py`, not a game recording)
+
+### Changed
+
+- **Tunnel Vision: player size** is 80 % by default (setting `player_size`)
+
 ### Fixed
 
 - **Ore Macro, back from spawn:** the small step away from a wall after `/home` no longer sneaks, it just walks
@@ -80,7 +91,8 @@ First public release: a client-side Fabric mod for Minecraft 1.21.11 and the Cos
 - Market scan backs off for 30 minutes where the market is disabled (Badlands)
 - Aim assist did not find bandits: they are players named `bandit_xx_xxxxxx`
 
-[Unreleased]: https://github.com/olb-freelocs/ThePrisons/compare/v1.1.2...HEAD
+[Unreleased]: https://github.com/olb-freelocs/ThePrisons/compare/v1.1.3...HEAD
+[1.1.3]: https://github.com/olb-freelocs/ThePrisons/releases/tag/v1.1.3
 [1.1.2]: https://github.com/olb-freelocs/ThePrisons/releases/tag/v1.1.2
 [1.1.1]: https://github.com/olb-freelocs/ThePrisons/releases/tag/v1.1.1
 [1.1.0]: https://github.com/olb-freelocs/ThePrisons/releases/tag/v1.1.0

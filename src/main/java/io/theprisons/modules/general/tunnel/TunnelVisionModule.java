@@ -127,7 +127,7 @@ public final class TunnelVisionModule extends Module {
         roadGlow = bool("road_glow", "Road glow", true).group("Road");
         roadWidth = integer("road_width", "Road width", 100, 60, 140, 5).suffix(" %").group("Road");
         player = bool("player", "Show my player", true).group("Player");
-        playerScale = integer("player_scale", "Player size", 100, 60, 140, 5).suffix(" %").group("Player");
+        playerScale = integer("player_size", "Player size", 80, 60, 140, 5).suffix(" %").group("Player");
         sway = bool("sway", "Idle sway", true).group("Player");
         sparks = bool("sparks", "Sparks", true).group("Show");
         shooting = bool("shooting", "Shooting stars", true).group("Show");
