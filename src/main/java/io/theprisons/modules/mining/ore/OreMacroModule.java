@@ -327,7 +327,7 @@ public final class OreMacroModule extends AutomationModule {
     private static final int ARRIVE_TICKS = 600;
     private static final int WALK_TICKS = 80;
     private static final double WALK_BLOCKS = 8.0D;
-    /** Back at home: 0.5 blocks away from a block at leg height (sneaking, 2 s at the most). */
+    /** Back at home: 0.5 blocks away from a block at leg height (walking, 2 s at the most). */
     private static final double NUDGE_BLOCKS = 0.45D;
     private static final int NUDGE_TICKS = 40;
     private boolean nudgeBack;
@@ -4212,7 +4212,7 @@ public final class OreMacroModule extends AutomationModule {
 
     /**
      * Back at /home tmp, before mining again: a block in front at leg height → 0.5 blocks back, a block behind → 0.5
-     * blocks forward (sneaking, so it stops close to 0.5). Both or neither: stay.
+     * blocks forward (walking, no sneaking). Both or neither: stay.
      */
     private void nudgeFromWall(ClientPlayerEntity player) {
         if (choreStep == 0) {
@@ -4239,7 +4239,7 @@ public final class OreMacroModule extends AutomationModule {
             return;
         }
         status = nudgeBack ? "Trip: 0.5 blocks back" : "Trip: 0.5 blocks forward";
-        control.input().set(new io.theprisons.core.control.InputController.Keys(!nudgeBack, nudgeBack, false, false, false, false, true));
+        control.input().set(new io.theprisons.core.control.InputController.Keys(!nudgeBack, nudgeBack, false, false, false, false, false));
     }
 
     private static boolean legBlocked(ClientPlayerEntity player, BlockPos pos) {

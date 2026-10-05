@@ -6,6 +6,10 @@ The long development notes of the core rewrite live in [docs/dev-notes/core-rewr
 
 ## [Unreleased]
 
+### Fixed
+
+- **Ore Macro, back from spawn:** the small step away from a wall after `/home` no longer sneaks, it just walks
+
 ## [1.1.2] - 2026-10-05
 
 ### Changed
