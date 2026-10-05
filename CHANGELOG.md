@@ -14,6 +14,11 @@ The long development notes of the core rewrite live in [docs/dev-notes/core-rewr
 - **Tunnel Vision: targets** - small pink crystals ahead on the road, light-blue asteroids over the carpet; the player shoots a bolt and they burst into a few shards (no fireworks)
 - **Tunnel Vision: performance setting** (High / Balanced / Fast): fewer road rows, no glow and fewer particles for more FPS
 
+### Fixed
+
+- **Energy/h and XP/h** now show the action bar's own per-minute rate times 60 (e.g. `(386/min)` = 23,160/h), updated with every action bar; the 5-minute average sits below. The earlier numbers were wrong
+- The **Session HUD** and the **storage overlay** follow the Design setting "Boxy font": with it off, everything uses the game font
+
 ### Changed
 
 - **Jar name** is now `ThePrisons-<Codename>-v<SemVer>-mc<Minecraft>.jar` (e.g. `ThePrisons-Nebula-v1.1.0-mc1.21.11.jar`); the release title reads "ThePrisons v1.1.0 · Nebula · MC 1.21.11". The release line "Nebula" replaces the placeholder codename of v1.0.0

@@ -60,8 +60,11 @@ public final class CosmicStats {
     static final Pattern PER_MINUTE = Pattern.compile("(?i)(?:\\+?(?<n1>[0-9][0-9,]*(?:\\.[0-9]+)?)\\s*(?<u1>[kmb])?\\s*(?:cosmic\\s+)?(?<k1>xp|exp|energy)\\s*(?:/|per\\s+)\\s*(?:m|min|minute)\\b"
             + "|(?<k2>xp|exp|energy)\\s*(?:/\\s*(?:m|min|minute)\\b|per\\s+min(?:ute)?)?\\s*[:=]?\\s*\\+?(?<n2>[0-9][0-9,]*(?:\\.[0-9]+)?)\\s*(?<u2>[kmb])?\\s*/\\s*(?:m|min|minute)\\b"
             + "|(?<k3>xp|exp|energy)\\s*/\\s*(?:m|min|minute)\\s*[:=]?\\s*\\+?(?<n3>[0-9][0-9,]*(?:\\.[0-9]+)?)\\s*(?<u3>[kmb])?)");
-    /** The gain the action bar shows every ~3 s: "+64.9 XP", "+128.7 CE" (not the "(386/min)" that follows). */
-    static final Pattern INSTANT = Pattern.compile("(?i)\\+\\s*(?<n>[0-9][0-9,]*(?:\\.[0-9]+)?)\\s*(?<u>[kmb])?\\s*(?:cosmic\\s+)?(?<k>xp|exp|ce|energy)\\b(?!\\s*(?:/|per\\s))");
+    /**
+     * The action bar's own per-minute rates after the gains: "+64.9 XP (194.7/min) +128.7 CE (386/min)" - group "k" is the
+     * kind (xp / ce / energy), "n" and "u" the number and its unit (k, m, b).
+     */
+    static final Pattern BAR_RATE = Pattern.compile("(?i)(?<k>xp|exp|ce|energy)\\s*\\(\\s*(?<n>[0-9][0-9,]*(?:\\.[0-9]+)?)\\s*(?<u>[kmb])?\\s*/\\s*(?:m|min|minute)\\s*\\)");
     static final Pattern ABSORBED = Pattern.compile("absorbed\\s+" + NUMBER + "\\s*cosmic\\s+energy", Pattern.CASE_INSENSITIVE);
     static final Pattern RATIONS = Pattern.compile("inmate rations:\\s*([0-9]+(?:\\.[0-9]+)?)x\\s+([a-z ]+?)\\s*\\.?$", Pattern.CASE_INSENSITIVE);
     static final Pattern ANY_NUMBER = Pattern.compile(NUMBER);
@@ -143,13 +146,6 @@ public final class CosmicStats {
     private long xpTotal;
     private long energyTotal;
     /** The action bar's per-minute rates (-1 = never seen); kept, not reset, so the HUD never stops showing them. */
-    /** Rates of the latest action bar gain (per hour = gain / seconds since the one before x 3600); -1 = none seen yet. */
-    private double instXp = -1.0D;
-    private double instEnergy = -1.0D;
-    private long instXpAt;
-    private long instEnergyAt;
-    private static final long INSTANT_STALE_MS = 7_000L;
-    private long msgNowMs;
     private double barXpPerMinute = -1.0D;
     private double barEnergyPerMinute = -1.0D;
     private final Set<String> barWordings = new LinkedHashSet<>();
@@ -269,36 +265,21 @@ public final class CosmicStats {
         return found;
     }
 
-    /** "+64.9 XP (194.7/min) +128.7 CE (386/min)": the gains of the last ~3 s as per-hour rates, right now. */
-    private boolean instantGain(String line) {
-        long now = msgNowMs;
-        Matcher m = INSTANT.matcher(line);
-        boolean found = false;
+    /**
+     * "+64.9 XP (194.7/min) +128.7 CE (386/min)": the server's per-minute rates, read at once (every ~3 s with the next
+     * action bar). The HUD shows them x 60 as the rate per hour.
+     */
+    private void barRates(String line) {
+        Matcher m = BAR_RATE.matcher(line);
         while (m.find()) {
-            double amount = Double.parseDouble(m.group("n").replace(",", "")) * unit(m.group("u"));
-            boolean energy = m.group("k").equalsIgnoreCase("ce") || m.group("k").equalsIgnoreCase("energy");
-            long last = energy ? instEnergyAt : instXpAt;
-            double seconds = last == 0L || now - last > 8_000L ? 3.0D : Math.max(1.0D, Math.min(6.0D, (now - last) / 1000.0D));
-            double perHour = amount * 3600.0D / seconds;
-            if (energy) {
-                instEnergy = perHour;
-                instEnergyAt = now;
+            double perMinute = Double.parseDouble(m.group("n").replace(",", "")) * unit(m.group("u"));
+            String kind = m.group("k").toLowerCase(Locale.ROOT);
+            if (kind.equals("ce") || kind.equals("energy")) {
+                barEnergyPerMinute = perMinute;
             } else {
-                instXp = perHour;
-                instXpAt = now;
+                barXpPerMinute = perMinute;
             }
-            found = true;
         }
-        return found;
-    }
-
-    /** XP per hour of the latest action bar gain; 0 once it is stale (nothing mined), -1 when none was ever seen. */
-    public double instantXpPerHour(long nowMs) {
-        return instXp < 0.0D ? -1.0D : nowMs - instXpAt > INSTANT_STALE_MS ? 0.0D : instXp;
-    }
-
-    public double instantEnergyPerHour(long nowMs) {
-        return instEnergy < 0.0D ? -1.0D : nowMs - instEnergyAt > INSTANT_STALE_MS ? 0.0D : instEnergy;
     }
 
     /** XP / energy per hour from the action bar's per-minute rates (x 60), -1 while it showed none. */
@@ -373,9 +354,8 @@ public final class CosmicStats {
     public void message(String text, boolean overlay, long nowMs) {
         String line = text.trim();
         String lower = line.toLowerCase(Locale.ROOT);
-        msgNowMs = nowMs;
         if (overlay) {
-            instantGain(line); // the rate of the latest gain, right now (the gains themselves are counted below)
+            barRates(line);
         }
         boolean used = false;
         if (overlay && perMinute(line, lower)) {
@@ -560,7 +540,8 @@ public final class CosmicStats {
         }
         double xpPerHour = barXpPerMinute >= 0.0D ? barXpPerMinute * 60.0D : xp.sum(nowMs, WINDOW) / rateWindow * 3600.0D;
         long left = sidebarXpLeft >= 0L ? sidebarXpLeft : vanillaXpLeft;
-        double energyAvg = barEnergyPerMinute >= 0.0D ? barEnergyPerMinute * 60.0D : energy.sum(nowMs, WINDOW) / rateWindow * 3600.0D;
+        double windowEnergy = energy.sum(nowMs, WINDOW) / rateWindow * 3600.0D;
+        double windowXp = xp.sum(nowMs, WINDOW) / rateWindow * 3600.0D;
         long eta = left < 0L || xpPerHour <= 0.0D ? -1L : Math.round(left / xpPerHour * 3_600_000.0D);
         long primary = oresTotal - procOres;
         // Forecast: hits per second x (1 + proc chance x blocks per proc, measured; 2 until a proc was seen).
@@ -570,11 +551,11 @@ public final class CosmicStats {
             forecast = hits.sum(nowMs, OPS_WINDOW) / opsWindow * (1.0D + loreChance * perProc);
         }
         return new Snapshot(nowMs - startMs, ores.sum(nowMs, OPS_WINDOW) / opsWindow, oresTotal * 1000.0D / elapsed,
-                oresTotal, energyAvg,
+                oresTotal, barEnergyPerMinute >= 0.0D ? barEnergyPerMinute * 60.0D : windowEnergy,
                 xpPerHour,
                 shownTax, note, List.copyOf(server), List.copyOf(personal), learnedRoutes, mode,
                 eta, primary <= 0L ? 0.0D : procOres / (double) primary, loreProcs, durability, forecast, loreChance,
-                botState, inventoryPercent, energyAvg, xpPerHour);
+                botState, inventoryPercent, windowEnergy, windowXp);
     }
 
     // ── Parsing helpers ─────────────────────────────────────────────────────
