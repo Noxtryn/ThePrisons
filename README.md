@@ -27,7 +27,7 @@ A **client-side Fabric mod** for Minecraft `1.21.11` and the **Cosmic Prisons** 
 ### Dashboard
 Opens with `/prisons`, the keybinds (`I`, or right shift for the module menu) or Mod Menu. Animated pages: **Overview**, **Mining**, **Bandits**, **Tunnel**, **Design**, **Controls** and **HUD**. Every setting has a switch, slider, choice button, colour palette or text field, a tooltip, and each section can be reset. Themes, card darkness, animations, a boxy font and comic textures are in **Design**.
 
-<p align="center"><img src="docs/media/dashboard.png" alt="dashboard" width="80%"></p>
+<!-- SCREENSHOT: docs/media/dashboard.webp - re-record without the disabled "Market Prices" tile (see docs/raw/BENÖTIGT.md) -->
 
 ### Ore Macro and mining tools
 - Own **pathfinder** with tunnel centring, planned routes (world memory), route memory, anti-stuck and a combat failsafe
