@@ -13,7 +13,7 @@
 set -uo pipefail
 version="${VERSION:?VERSION is required}"
 tag="${TAG:-v$version}"
-repo="${REPO:-olb-freelocs/ThePrisons}"
+repo="${REPO:-Noxtryn/ThePrisons}"
 notes="${NOTES:-notes.md}"
 notes_de="${NOTES_DE:-notes-de.md}"      # the German section (CHANGELOG.de.md); no file = English embed only
 mentions="${MENTIONS:-}"                 # e.g. "<@123> <@456>" (Discord user IDs; a GitHub variable, not a secret)
@@ -21,7 +21,7 @@ codename="${CODENAME:-}"
 mc="${MC:-1.21.11}"
 jar_name="${JAR_NAME:-theprisons-$version.jar}"
 repo_url="https://github.com/$repo"
-site_url="https://${repo%%/*}.github.io/${repo##*/}/"
+site_url="https://$(printf %s "${repo%%/*}" | tr A-Z a-z).github.io/${repo##*/}/"
 release_url="https://github.com/$repo/releases/tag/$tag"
 jar_url="https://github.com/$repo/releases/download/$tag/$jar_name"
 card_url="https://raw.githubusercontent.com/$repo/$tag/docs/media/changelog-$version.gif"

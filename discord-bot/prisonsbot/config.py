@@ -7,9 +7,9 @@ BOT_DIR = pathlib.Path(__file__).resolve().parents[1]
 ROOT = BOT_DIR.parent
 CONTENT_DIR = BOT_DIR / "content"
 
-REPO = "olb-freelocs/ThePrisons"
+REPO = "Noxtryn/ThePrisons"
 REPO_URL = f"https://github.com/{REPO}"
-SITE_URL = "https://olb-freelocs.github.io/ThePrisons/"
+SITE_URL = "https://noxtryn.github.io/ThePrisons/"
 ISSUES_URL = f"{REPO_URL}/issues/new"
 RELEASES_URL = f"{REPO_URL}/releases"
 # the official logo of the mod (src/main/resources/assets/theprisons/icon.png), served from the Release branch

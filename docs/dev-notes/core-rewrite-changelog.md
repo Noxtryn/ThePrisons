@@ -127,6 +127,6 @@ This release focuses on making day-to-day gameplay clearer and more customizable
 <details>
 <summary><b>🔗 Links</b></summary>
 
-- [Source Code](https://github.com/olb-freelocs/ThePrisons)
+- [Source Code](https://github.com/Noxtryn/ThePrisons)
 - [Modrinth](https://modrinth.com/mod/theprisons)
 </details>

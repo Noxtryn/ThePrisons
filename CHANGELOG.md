@@ -133,10 +133,10 @@ First public release: a client-side Fabric mod for Minecraft 1.21.11 and the Cos
 - Market scan backs off for 30 minutes where the market is disabled (Badlands)
 - Aim assist did not find bandits: they are players named `bandit_xx_xxxxxx`
 
-[Unreleased]: https://github.com/olb-freelocs/ThePrisons/compare/v1.2.0...HEAD
-[1.2.0]: https://github.com/olb-freelocs/ThePrisons/releases/tag/v1.2.0
-[1.1.3]: https://github.com/olb-freelocs/ThePrisons/releases/tag/v1.1.3
-[1.1.2]: https://github.com/olb-freelocs/ThePrisons/releases/tag/v1.1.2
-[1.1.1]: https://github.com/olb-freelocs/ThePrisons/releases/tag/v1.1.1
-[1.1.0]: https://github.com/olb-freelocs/ThePrisons/releases/tag/v1.1.0
-[1.0.0]: https://github.com/olb-freelocs/ThePrisons/releases/tag/v1.0.0
+[Unreleased]: https://github.com/Noxtryn/ThePrisons/compare/v1.2.0...HEAD
+[1.2.0]: https://github.com/Noxtryn/ThePrisons/releases/tag/v1.2.0
+[1.1.3]: https://github.com/Noxtryn/ThePrisons/releases/tag/v1.1.3
+[1.1.2]: https://github.com/Noxtryn/ThePrisons/releases/tag/v1.1.2
+[1.1.1]: https://github.com/Noxtryn/ThePrisons/releases/tag/v1.1.1
+[1.1.0]: https://github.com/Noxtryn/ThePrisons/releases/tag/v1.1.0
+[1.0.0]: https://github.com/Noxtryn/ThePrisons/releases/tag/v1.0.0

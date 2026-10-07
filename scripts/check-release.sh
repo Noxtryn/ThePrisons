@@ -19,6 +19,12 @@ if grep -rniE "undetect|ban-?proof|guaranteed safe|100 ?% (safe|undetect)|nicht 
   err "forbidden safety claim found (see lines above)"
 fi
 
+# the repository moved to Noxtryn: no tracked file may point at the old owner or old Pages host
+old="olb-""freelocs"
+if git ls-files -z | xargs -0 grep -InE "$old" 2>/dev/null | grep -v "^docs/media/"; then
+  err "reference to the old repository owner found (use Noxtryn/ThePrisons and noxtryn.github.io)"
+fi
+
 # Discord content: parses, fits Discord's limits, no emoji / forbidden claims / open placeholders
 (cd discord-bot && python3 -m prisonsbot check) || err "discord-bot content check failed (see above)"
 
@@ -57,7 +63,7 @@ for a in set(re.findall(r'href="#([^"]+)"', html)):
 for url in set(re.findall(r'href="(https?://[^"]+)"', html)):
     if not re.match(r"^https://[A-Za-z0-9.-]+(/\S*)?$", url):
         print("ERROR: odd link", url); ok = False
-if 'href="https://github.com/olb-freelocs/ThePrisons/issues' not in html:
+if 'href="https://github.com/Noxtryn/ThePrisons/issues' not in html:
     print("ERROR: GitHub issues link (support fallback) missing"); ok = False
 for need in ("download", "install", "compat", "faq", "support", "roadmap", "gallery", "features", "changelog"):
     if f'id="{need}"' not in html:

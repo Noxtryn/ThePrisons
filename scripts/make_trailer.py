@@ -297,7 +297,7 @@ def outro(t, version):
     d.text((W // 2, 280), "Mine smarter.", font=g.font(84, True), fill=g.WHITE + (int(255 * a),), anchor="mm")
     d.text((W // 2, 335), "Schlauer abbauen.", font=g.font(36), fill=g.PINK + (int(255 * a),), anchor="mm")
     d.text((W // 2, 400), f"ThePrisons v{version}", font=g.font(44, True), fill=g.CYAN + (int(255 * a),), anchor="mm")
-    d.text((W // 2, 465), "github.com/olb-freelocs/ThePrisons", font=g.font(30), fill=g.WHITE + (int(255 * a),), anchor="mm")
+    d.text((W // 2, 465), "github.com/Noxtryn/ThePrisons", font=g.font(30), fill=g.WHITE + (int(255 * a),), anchor="mm")
     d.text((W // 2, 650), "trailer illustration - not a game recording  ·  Illustration, keine Spielaufnahme", font=g.font(16), fill=g.MUTED, anchor="mm")
     return img
 

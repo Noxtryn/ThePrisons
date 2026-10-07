@@ -3,8 +3,8 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/olb-freelocs/ThePrisons/releases/latest"><img alt="Version" src="https://img.shields.io/github/v/release/olb-freelocs/ThePrisons?color=7B3FFF&label=version"></a>
-  <a href="https://github.com/olb-freelocs/ThePrisons/releases"><img alt="Downloads" src="https://img.shields.io/github/downloads/olb-freelocs/ThePrisons/total?color=4FE8E0"></a>
+  <a href="https://github.com/Noxtryn/ThePrisons/releases/latest"><img alt="Version" src="https://img.shields.io/github/v/release/Noxtryn/ThePrisons?color=7B3FFF&label=version"></a>
+  <a href="https://github.com/Noxtryn/ThePrisons/releases"><img alt="Downloads" src="https://img.shields.io/github/downloads/Noxtryn/ThePrisons/total?color=4FE8E0"></a>
   <img alt="Minecraft 1.21.11" src="https://img.shields.io/badge/Minecraft-1.21.11-3C9CFF">
   <img alt="Fabric" src="https://img.shields.io/badge/Loader-Fabric-DBD0B4">
   <img alt="Java 21" src="https://img.shields.io/badge/Java-21-FF8A2E">
@@ -16,7 +16,7 @@
 
 A **client-side Fabric mod** for Minecraft `1.21.11` and the **Cosmic Prisons** server: a design-first dashboard, HUD widgets with live session stats, a storage overlay, player tools, Tunnel Vision and, as optional extras, a mining automation with a built-in pathfinder and bandit helpers.
 
-- **[Website](https://olb-freelocs.github.io/ThePrisons/)** · [Features](#features) · [Installation](#installation) · [Configuration](#configuration) · [Commands](#commands) · [FAQ](#faq) · [Disclaimer](#disclaimer) · [Changelog](CHANGELOG.md)
+- **[Website](https://noxtryn.github.io/ThePrisons/)** · [Features](#features) · [Installation](#installation) · [Configuration](#configuration) · [Commands](#commands) · [FAQ](#faq) · [Disclaimer](#disclaimer) · [Changelog](CHANGELOG.md)
 
 > **New in 1.2.0 - the Bandit Macro is a work in progress (about 2 % done).** It is in the release so you can see where it is going. Expect rough edges, most of it is untested on the server, and do not leave it running unattended.
 
@@ -72,7 +72,7 @@ Message notifications, peaceful mining, vitals warnings, ready announcements, a 
 ## Installation
 1. Install [Fabric Loader](https://fabricmc.net/use/) `0.17.3` or newer for Minecraft `1.21.11` and Java 21.
 2. Put [Fabric API](https://modrinth.com/mod/fabric-api) into your `mods` folder ([Mod Menu](https://modrinth.com/mod/modmenu) is optional).
-3. Download the jar from the [latest release](https://github.com/olb-freelocs/ThePrisons/releases/latest) and put it into `mods`. The file name tells you everything: `ThePrisons-<Codename>-v<version>-mc<Minecraft>.jar`, e.g. `ThePrisons-Nebula-v1.1.0-mc1.21.11.jar` (the codename is the release line, the version is SemVer, the Minecraft version is the one it was built for).
+3. Download the jar from the [latest release](https://github.com/Noxtryn/ThePrisons/releases/latest) and put it into `mods`. The file name tells you everything: `ThePrisons-<Codename>-v<version>-mc<Minecraft>.jar`, e.g. `ThePrisons-Nebula-v1.1.0-mc1.21.11.jar` (the codename is the release line, the version is SemVer, the Minecraft version is the one it was built for).
 4. Start the game and join the server; `/prisons` opens the dashboard.
 
 ## Configuration

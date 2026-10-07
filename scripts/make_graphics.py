@@ -213,7 +213,7 @@ def changelog(version):
                     d.text((x, y0 + 40 + n * 19), line, font=font(13), fill=WHITE + (int(255 * line_reveal),))
         rainbow_bar(img, h - 12, 8, t)
         d = ImageDraw.Draw(img)
-        d.text((32, h - 40), "github.com/olb-freelocs/ThePrisons", font=font(13), fill=MUTED)
+        d.text((32, h - 40), "github.com/Noxtryn/ThePrisons", font=font(13), fill=MUTED)
         d.text((w - 200, h - 40), "changelog card (graphic)", font=font(12), fill=MUTED)
         frames.append(img.convert("P", palette=Image.ADAPTIVE, colors=96))
     os.makedirs(OUT, exist_ok=True)

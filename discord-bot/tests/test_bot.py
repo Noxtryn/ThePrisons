@@ -227,7 +227,7 @@ class ReleaseTests(unittest.TestCase):
 
 class CommandTests(unittest.TestCase):
     release = X.release_from_github({
-        "tag_name": "v1.2.1", "name": "ThePrisons v1.2.1 · Nebula · MC 1.21.11", "html_url": "https://github.com/olb-freelocs/ThePrisons/releases/tag/v1.2.1",
+        "tag_name": "v1.2.1", "name": "ThePrisons v1.2.1 · Nebula · MC 1.21.11", "html_url": "https://github.com/Noxtryn/ThePrisons/releases/tag/v1.2.1",
         "assets": [{"name": "ThePrisons-Nebula-v1.2.1-mc1.21.11.jar", "browser_download_url": "https://github.com/x/y.jar"}],
         "body": "### Added\n\n- one\n\n---\n\n## Deutsch\n\n### Hinzugefügt\n\n- eins\n"})
 

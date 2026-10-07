@@ -8,8 +8,8 @@
   "license": "All-Rights-Reserved",
   "icon": "assets/theprisons/icon.png",
   "contact": {
-    "homepage": "https://github.com/olb-freelocs/ThePrisons",
-    "sources": "https://github.com/olb-freelocs/ThePrisons"
+    "homepage": "https://github.com/Noxtryn/ThePrisons",
+    "sources": "https://github.com/Noxtryn/ThePrisons"
   },
   "environment": "client",
   "entrypoints": {
