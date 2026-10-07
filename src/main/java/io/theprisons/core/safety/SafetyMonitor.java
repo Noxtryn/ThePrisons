@@ -44,6 +44,7 @@ public final class SafetyMonitor {
     /** Whether the lease owner is teleporting on purpose (a world change is then a teleport, not a stop). */
     private java.util.function.Predicate<Object> travelling = owner -> false;
     private java.util.function.Predicate<Object> survivesDeath = owner -> false;
+    private java.util.function.Predicate<Object> toleratesDamage = owner -> false;
     private long relocations;
     private Rules rules = Rules.DEFAULT;
     private @Nullable Object watched;
@@ -72,6 +73,10 @@ public final class SafetyMonitor {
 
     public void setSurvivesDeath(java.util.function.Predicate<Object> survivesDeath) {
         this.survivesDeath = survivesDeath;
+    }
+
+    public void setToleratesDamage(java.util.function.Predicate<Object> toleratesDamage) {
+        this.toleratesDamage = toleratesDamage;
     }
 
     public long relocations() {
@@ -140,7 +145,7 @@ public final class SafetyMonitor {
         if (lastPos != null && rules.teleportDistance() > 0 && lastPos.squaredDistanceTo(pos) > rules.teleportDistance() * rules.teleportDistance()) {
             return MOVED + Math.round(lastPos.distanceTo(pos)) + " blocks at once (teleport / mine reset).";
         }
-        if (rules.stopOnDamage() && lastHealth >= 0.0F && player.getHealth() < lastHealth - 0.01F) {
+        if (rules.stopOnDamage() && !toleratesDamage.test(owner) && lastHealth >= 0.0F && player.getHealth() < lastHealth - 0.01F) {
             return "Took damage.";
         }
         if (rules.lowHealth() > 0 && player.getHealth() <= rules.lowHealth()) {

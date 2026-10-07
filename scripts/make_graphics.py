@@ -97,7 +97,7 @@ def banner():
     img.paste(logo, (70, 60), logo)
     d.text((310, 78), "THEPRISONS", font=font(86, True), fill=WHITE)
     d.text((314, 178), "Client-side Fabric mod for Cosmic Prisons", font=font(30), fill=CYAN)
-    d.text((314, 222), "Minecraft 1.21.11  ·  dashboard, HUDs, market, Ore Macro, Tunnel Vision", font=font(22), fill=MUTED)
+    d.text((314, 222), "Minecraft 1.21.11  ·  dashboard, HUDs, session stats, storage overlay, Tunnel Vision", font=font(22), fill=MUTED)
     rainbow_bar(img, h - 8, 8)
     save(img, "banner.png")
 
@@ -106,12 +106,13 @@ CARDS = [
     ("dashboard", "page_overview", "Dashboard", "Animated pages for design, controls, HUD,\nmining, bandits and tunnel vision."),
     ("ore-macro", "ore_macro", "Ore Macro", "Own pathfinder, guarded-zone logic, breaks,\nfailsafes and human view motion."),
     ("item-sorter", "storage_overlay", "Item Sorter", "Trips to the vaults for shards, contrabands,\nenergy and money."),
-    ("market", "satchel_hud", "Auction House & /ee", "Prices read in the background, own screens\nwith categories and search."),
+    ("market", "satchel_hud", "Auction House & /ee", "Prices read in the background, own screens;\nsearch reads every page of the auction house."),
     ("shops", "cooldown_cache", "Shop Overlays", "The /gz and /pb shops in the mod's design."),
     ("item-list", "item_look", "Item List", "Search every known item with tiers,\nrarities and prices."),
     ("guard-zones", "waypoint_editor", "Guard Zones", "Stay in the guarded area, look ahead,\nrun to a guard when attacked."),
     ("hud", "session_hud", "HUD Widgets", "Session stats, pets, cooldowns, satchels,\narmour, notifications."),
     ("spear-helper", "spear_helper", "Spear Helper", "Shooter crosshair, sight point, aim assist\non L and recall timing."),
+    ("bandit-macro", "category_bandit", "Bandit Macro (WIP)", "Hunts bandits with the spear on key J.\nWork in progress: about 2 % done."),
     ("tunnel-vision", "tunnel_vision", "Tunnel Vision", "F5 + V: your player in 3D on a rainbow road\nover a backdrop of your choice."),
 ]
 
@@ -167,6 +168,8 @@ def wrap(draw, text, fnt, width):
 
 def changelog(version):
     groups = parse_changelog(version)
+    wip = "work in progress" in subprocess.run([os.path.join(ROOT, "scripts", "changelog-section.sh"), version],
+                                               capture_output=True, text=True, cwd=ROOT).stdout.lower()
     labels = [("Added", "NEW", CYAN), ("Changed", "IMPROVED", GOLD), ("Fixed", "FIXED", GREEN)]
     w, h = 800, 450
     frames = []
@@ -190,6 +193,9 @@ def changelog(version):
         d.text((32, 24), "THEPRISONS", font=font(20, True), fill=MUTED)
         d.text((32, 50), "v" + version, font=font(54, True), fill=WHITE)
         d.text((w - 250, 36), "Minecraft 1.21.11 · Fabric", font=font(15), fill=CYAN)
+        if wip:
+            d.rounded_rectangle([w - 330, 62, w - 32, 92], radius=8, fill=(255, 193, 60, 230))
+            d.text((w - 181, 77), "Bandit Macro: work in progress", font=font(14, True), fill=(20, 14, 40), anchor="mm")
         for i, (key, label, colour) in enumerate(labels):
             x = 32 + i * 252
             reveal = min(1.0, max(0.0, (f - i * 4) / 10.0))

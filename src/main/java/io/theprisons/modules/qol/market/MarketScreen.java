@@ -16,6 +16,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.screen.GenericContainerScreenHandler;
 import net.minecraft.screen.slot.Slot;
+import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.text.Text;
 import org.jspecify.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
@@ -78,11 +79,18 @@ public final class MarketScreen extends HandledScreen<GenericContainerScreenHand
     private List<String> infoLines = List.of();
     private int ticks;
     private int clientPage;
+    /** The search result under the mouse (the real slots are parked while the whole auction house is searched). */
+    private @Nullable Cell hoverCell;
     private int top;
     private int left;
 
     /** One listing slot of the market / category / history page. */
-    private record Cell(int slot, String name, MarketCategory group, String kind, double unit, @Nullable String customId) {
+    record Cell(int slot, String name, MarketCategory group, String kind, double unit, @Nullable String customId,
+                ItemStack stack, int page) {
+        /** The copy the index keeps: the item as the server showed it, and the server page it was on. */
+        Cell onPage(int serverPage) {
+            return new Cell(slot, name, group, kind, unit, customId, stack.copy(), serverPage);
+        }
     }
 
     /** One offer of /ee. */
@@ -137,6 +145,35 @@ public final class MarketScreen extends HandledScreen<GenericContainerScreenHand
         if (++ticks % 3 == 0) {
             refresh();
         }
+        if (!energy() && (!query.isBlank() || MarketIndex.goalPending())) {
+            walkIndex();
+        }
+    }
+
+    /** Lets the index read this page / turn the server's page / click the item a search result stands for. */
+    private void walkIndex() {
+        refresh();
+        int prev = -1;
+        int next = -1;
+        for (Nav nav : navs) {
+            if (nav.prev()) {
+                prev = nav.slot();
+            } else if (nav.next()) {
+                next = nav.slot();
+            }
+        }
+        int slot = MarketIndex.step(kind, MarketIndex.signature(handler), cells, prev, next, !query.isBlank());
+        if (slot < 0 || client == null || client.player == null || client.interactionManager == null) {
+            return;
+        }
+        if (MarketIndex.finalClick()) {
+            ItemStack stack = handler.slots.get(slot).getStack();
+            if (stack.isEmpty() || !TextStrip.strip(stack.getName().getString()).equals(MarketIndex.goalName())) {
+                MarketIndex.forget();
+                return;
+            }
+        }
+        client.interactionManager.clickSlot(handler.syncId, slot, 0, SlotActionType.PICKUP, client.player);
     }
 
     /** What the slots held when the cells were last read: unchanged slots are not parsed again. */
@@ -195,7 +232,7 @@ public final class MarketScreen extends HandledScreen<GenericContainerScreenHand
                 continue;
             }
             MarketCategory.Sorted sorted = MarketCategory.of(name, customId);
-            cells.add(new Cell(i, name, sorted.group(), sorted.kind(), unit, customId));
+            cells.add(new Cell(i, name, sorted.group(), sorted.kind(), unit, customId, stack, -1));
         }
         infoLines = info;
         offers.removeIf(o -> o.price() < 0.0D);
@@ -269,9 +306,18 @@ public final class MarketScreen extends HandledScreen<GenericContainerScreenHand
         return true;
     }
 
+    /** With a search text the whole auction house is searched (see {@link MarketIndex}), not just the server's page. */
+    private boolean global() {
+        return !energy() && !query.isBlank() && MarketIndex.active(kind);
+    }
+
+    private List<Cell> source() {
+        return global() ? MarketIndex.display() : cells;
+    }
+
     private List<Cell> visible() {
         List<Cell> out = new ArrayList<>();
-        for (Cell c : cells) {
+        for (Cell c : source()) {
             if (matches(c)) {
                 out.add(c);
             }
@@ -306,7 +352,7 @@ public final class MarketScreen extends HandledScreen<GenericContainerScreenHand
     /** The kinds of the chosen tab (with the items of the page), most items first - the chips under the tabs. */
     private List<String> kinds() {
         java.util.Map<String, Integer> count = new java.util.LinkedHashMap<>();
-        for (Cell c : cells) {
+        for (Cell c : source()) {
             if (tab == null || c.group() == tab) {
                 count.merge(c.kind(), 1, Integer::sum);
             }
@@ -351,7 +397,7 @@ public final class MarketScreen extends HandledScreen<GenericContainerScreenHand
                             sy = gridY() + (k % OFFERS_PER_PAGE) * OFFER_H + 4;
                         }
                     }
-                } else {
+                } else if (!global()) {
                     for (int k = clientPage * PER_PAGE; k < Math.min(shown.size(), (clientPage + 1) * PER_PAGE); k++) {
                         if (shown.get(k).slot() == i) {
                             int at = k % PER_PAGE;
@@ -393,6 +439,7 @@ public final class MarketScreen extends HandledScreen<GenericContainerScreenHand
             drawSearch(c, tr);
             drawTabs(c);
             drawChips(c, tr);
+            hoverCell = global() ? cellAt(mouseX, mouseY) : null;
             drawCells(c, tr, book);
         }
         drawFooter(c, tr, book);
@@ -481,9 +528,12 @@ public final class MarketScreen extends HandledScreen<GenericContainerScreenHand
             int at = k % PER_PAGE;
             int cx = gx + (at % COLS) * CW;
             int cy = gy + (at / COLS) * CH;
-            Slot slot = handler.slots.get(cell.slot());
-            boolean over = slot == focusedSlot;
+            boolean over = global() ? cell == hoverCell : handler.slots.get(cell.slot()) == focusedSlot;
             Ui.sprite(c, "market/cell", cx + 1, cy, CW - 2, CH - 2, over ? Ui.argb(120, accent) : Ui.argb(52, 0xFFFFFF));
+            if (global()) {
+                c.drawItem(cell.stack(), cx + (CW - 16) / 2, cy + 2);
+                c.drawStackOverlay(tr, cell.stack(), cx + (CW - 16) / 2, cy + 2);
+            }
             PriceBook.Entry known = book.get(PriceBook.key(cell.customId(), cell.name()));
             boolean deal = known != null && known.price() > 0.0D && cell.unit() < known.price() * 0.9D
                     && !kind.equals(MarketParser.HISTORY);
@@ -492,9 +542,22 @@ public final class MarketScreen extends HandledScreen<GenericContainerScreenHand
             }
         }
         if (shown.isEmpty()) {
-            Ui.drawCentered(c, tr, cells.isEmpty() ? "Waiting for the server…" : "Nothing here", left + PANEL_W / 2,
+            Ui.drawCentered(c, tr, source().isEmpty() ? (MarketIndex.busy() ? "Searching all pages…" : "Waiting for the server…") : "Nothing here", left + PANEL_W / 2,
                     gy + ROWS * CH / 2 - 4, SUB, 255);
         }
+    }
+
+    private @Nullable Cell cellAt(double mx, double my) {
+        List<Cell> shown = visible();
+        for (int k = clientPage * PER_PAGE; k < Math.min(shown.size(), (clientPage + 1) * PER_PAGE); k++) {
+            int at = k % PER_PAGE;
+            int cx = gridX() + (at % COLS) * CW;
+            int cy = gridY() + (at / COLS) * CH;
+            if (mx >= cx && mx < cx + CW && my >= cy && my < cy + CH) {
+                return shown.get(k);
+            }
+        }
+        return null;
     }
 
     private void drawEnergyInfo(DrawContext c, TextRenderer tr, PriceBook book) {
@@ -562,6 +625,17 @@ public final class MarketScreen extends HandledScreen<GenericContainerScreenHand
         int y = footerY();
         Ui.sprite(c, "market/tab", x, y, GRID_W, 16, Ui.argb(34, 0xFFFFFF));
         Slot slot = focusedSlot;
+        Cell hovered = hoverCell;
+        if (hovered != null) {
+            String price = "$" + Money.compact(hovered.unit());
+            if (hovered.unit() > 0.0D) {
+                Ui.drawRight(c, tr, price, x + GRID_W - 6, y + 4, Ui.GOOD, 255);
+            }
+            Ui.draw(c, tr, fit(tr, hovered.name(), GRID_W - 20 - (hovered.unit() > 0.0D ? Ui.width(tr, price) : 0)), x + 6, y + 1, Ui.VALUE, 255);
+            double e = hovered.unit() > 0.0D ? book.inEnergy(hovered.unit()) : 0.0D;
+            Ui.draw(c, tr, "page " + (hovered.page() + 1) + (e > 0.0D ? "  ≈ " + Money.compact(e) + " energy" : ""), x + 6, y + 9, Ui.theme().accent(), 255);
+            return;
+        }
         if (slot != null && slot.inventory == handler.getInventory() && slot.hasStack()) {
             ItemStack stack = slot.getStack();
             String name = TextStrip.strip(stack.getName().getString());
@@ -597,7 +671,11 @@ public final class MarketScreen extends HandledScreen<GenericContainerScreenHand
         }
         double rate = book.moneyPerEnergy();
         Ui.draw(c, tr, rate > 0.0D ? "$" + Money.compact(rate * 1000.0D) + " per 1k energy" : "energy rate unknown", x + 6, y + 4, Ui.theme().accent(), 255);
-        Ui.drawRight(c, tr, "page " + (clientPage + 1) + "/" + pages(), x + GRID_W - 6, y + 4, SUB, 255);
+        String paging = "page " + (clientPage + 1) + "/" + pages();
+        if (global() && MarketIndex.busy()) {
+            paging = "searching… " + MarketIndex.pagesRead() + " pages";
+        }
+        Ui.drawRight(c, tr, paging, x + GRID_W - 6, y + 4, SUB, 255);
     }
 
     private static String fit(TextRenderer tr, String s, int maxWidth) {
@@ -648,6 +726,9 @@ public final class MarketScreen extends HandledScreen<GenericContainerScreenHand
     public void render(DrawContext context, int mouseX, int mouseY, float deltaTicks) {
         super.render(context, mouseX, mouseY, deltaTicks);
         drawMouseoverTooltip(context, mouseX, mouseY);
+        if (hoverCell != null) {
+            context.drawItemTooltip(textRenderer, hoverCell.stack(), mouseX, mouseY);
+        }
     }
 
     // ── Input ────────────────────────────────────────────────────────────────
@@ -668,6 +749,10 @@ public final class MarketScreen extends HandledScreen<GenericContainerScreenHand
                     }
                     if (nav.prev() && clientPage > 0) {
                         clientPage--;
+                        return true;
+                    }
+                    if (global() && (nav.prev() || nav.next())) {
+                        // the results span every server page: the arrows only turn ours
                         return true;
                     }
                 }
@@ -705,6 +790,15 @@ public final class MarketScreen extends HandledScreen<GenericContainerScreenHand
                     return true;
                 }
                 focused = false;
+            }
+            if (global()) {
+                Cell hit = cellAt(mx, my);
+                if (hit != null) {
+                    if (hit.page() >= 0 && !MarketIndex.busy()) {
+                        MarketIndex.go(hit);
+                    }
+                    return true;
+                }
             }
         }
         return super.mouseClicked(click, doubled);

@@ -52,4 +52,12 @@ public abstract class ThePrisonsInGameHudMixin {
             ci.cancel();
         }
     }
+
+    /** Tunnel Vision draws the action bar itself (a HUD editor element). */
+    @Inject(method = "renderOverlayMessage", at = @At("HEAD"), cancellable = true)
+    private void theprisons$tunnelActionBar(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
+        if (io.theprisons.modules.general.tunnel.TunnelVisionModule.hidesWorld()) {
+            ci.cancel();
+        }
+    }
 }

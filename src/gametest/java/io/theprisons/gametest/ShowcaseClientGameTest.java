@@ -49,6 +49,8 @@ public final class ShowcaseClientGameTest implements FabricClientGameTest {
     private static volatile String title = "";
     private static volatile String subtitle = "";
     private static volatile long captionMs;
+    /** -PshowcaseClean: no captions in the pictures (website and README gallery). */
+    private static final boolean CLEAN = Boolean.getBoolean("theprisons.showcase.clean");
     private static int shot;
 
     @Override
@@ -74,6 +76,7 @@ public final class ShowcaseClientGameTest implements FabricClientGameTest {
             setUpWorld(server, context);
             List<Runnable> scenes = List.of(
                     () -> dashboard(context),
+                    () -> banditPages(context),
                     () -> design(context),
                     () -> hudEditor(context),
                     () -> scoreboardAndSessionHud(server, context),
@@ -99,7 +102,7 @@ public final class ShowcaseClientGameTest implements FabricClientGameTest {
 
     private static void caption(DrawContext c) {
         String t = title;
-        if (t.isEmpty()) {
+        if (t.isEmpty() || CLEAN) {
             return;
         }
         MinecraftClient client = MinecraftClient.getInstance();
@@ -178,6 +181,35 @@ public final class ShowcaseClientGameTest implements FabricClientGameTest {
         context.getInput().pressKey(GLFW.GLFW_KEY_TAB);
         say(context, "HUD page", "Opens the HUD editor: drag and scale every widget.");
         hold(context, "dashboard_hud");
+    }
+
+    /** The Bandits page: the Spear Helper and, on its own sub-tabs, the Bandit Macro (work in progress). */
+    private static void banditPages(ClientGameTestContext context) {
+        context.runOnClient(client -> client.setScreen(ThePrisonsClient.dashboard(null, ThePrisonsCore.getOrNull())));
+        context.getInput().pressKey(GLFW.GLFW_KEY_TAB);
+        context.getInput().pressKey(GLFW.GLFW_KEY_TAB);
+        say(context, "Bandits", "Spear Helper: crosshair, sight point, aim assist on L, recall timing.");
+        hold(context, "bandits_spear_helper");
+        for (int sub : new int[]{4, 5, 6}) {
+            context.runOnClient(client -> selectBanditSub(client.currentScreen, sub));
+            say(context, "Bandit Macro (work in progress)", "Hunts bandits with the spear on key J - about 2 % done.");
+            hold(context, "bandits_macro_" + sub);
+        }
+        context.setScreen(() -> null);
+    }
+
+    /** The dashboard's sub-tab chips are clicked in the real UI; the test picks them directly. */
+    private static void selectBanditSub(net.minecraft.client.gui.screen.Screen screen, int sub) {
+        try {
+            Class<?> pageClass = java.lang.Class.forName(screen.getClass().getName() + "$Page");
+            Object bandits = java.util.Arrays.stream(pageClass.getEnumConstants())
+                    .filter(e -> e.toString().equals("BANDITS")).findFirst().orElseThrow();
+            java.lang.reflect.Method m = screen.getClass().getDeclaredMethod("selectSub", pageClass, int.class);
+            m.setAccessible(true);
+            m.invoke(screen, bandits, sub);
+        } catch (ReflectiveOperationException e) {
+            throw new IllegalStateException(e);
+        }
     }
 
     private static void design(ClientGameTestContext context) {

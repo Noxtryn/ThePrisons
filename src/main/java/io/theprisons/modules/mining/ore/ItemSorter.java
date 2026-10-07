@@ -81,7 +81,7 @@ public final class ItemSorter {
     public static int looseStacks(Item[] inventory, List<String> abilityParts) {
         int stacks = 0;
         for (Item item : inventory) {
-            if (item != null && !item.empty() && !item.block() && !keep(item, abilityParts)) {
+            if (item != null && sorts(item, abilityParts)) {
                 stacks++;
             }
         }
@@ -99,7 +99,7 @@ public final class ItemSorter {
     public static boolean due(Item[] inventory, List<String> abilityParts, int limitPercent) {
         int used = 0;
         for (Item item : inventory) {
-            if (item != null && !item.empty() && !item.block() && !keep(item, abilityParts)) {
+            if (item != null && sorts(item, abilityParts)) {
                 used++;
             }
         }
@@ -114,7 +114,7 @@ public final class ItemSorter {
     public static boolean crowded(Item[] inventory, List<String> abilityParts, int limitPercent) {
         int used = 0;
         for (Item item : inventory) {
-            if (item != null && !item.empty() && !item.block() && !keep(item, abilityParts)) {
+            if (item != null && sorts(item, abilityParts)) {
                 used++;
             }
         }
@@ -143,9 +143,27 @@ public final class ItemSorter {
         return out;
     }
 
-    /** Identity of an item for matching it with what a private vault already holds: its id and its name. */
+    private static final Pattern KEY_NOISE = Pattern.compile(
+            "\\([^)]*\\)|\\[[^]]*]|\\$[\\d,.]+[kmb]?|(?<!\\p{L})\\d[\\d,.]*[kmb]?%?(?!\\p{L})");
+    private static final Pattern KEY_ROMAN = Pattern.compile("(?i)(?<![\\p{L}-])(?:i{1,3}|iv|vi{0,3}|ix|x{1,2})(?![\\p{L}-])");
+    private static final Pattern KEY_WORDS = Pattern.compile("(?i)\\b(?:lv|lvl|level)\\b");
+
+    /**
+     * Identity of an item for matching it with what a private vault already holds: its id and its family. The family is
+     * the name without levels, percents, amounts and numerals (the rarity word stays: a Godly book is no Simple book), so "Charge Orb 6", "12% Charge Orb" and
+     * "Charge Orb (45%)" are one family and land in the same vault.
+     */
     public static String key(Item item) {
-        return item.id() + "|" + item.name();
+        return item.id() + "|" + family(item.name());
+    }
+
+    /** The name without everything that differs between items of one kind (see {@link #key}). */
+    static String family(String name) {
+        String n = KEY_NOISE.matcher(name).replaceAll(" ");
+        n = KEY_ROMAN.matcher(n).replaceAll(" ");
+        n = KEY_WORDS.matcher(n).replaceAll(" ");
+        n = n.toLowerCase(Locale.ROOT).replaceAll("[^\\p{L}' -]", " ").replaceAll("\\s+", " ").strip();
+        return n.isEmpty() ? name.toLowerCase(Locale.ROOT).strip() : n;
     }
 
     /** Goes into the shard vault. */
@@ -160,8 +178,9 @@ public final class ItemSorter {
 
     /** As {@link #other(Item, List)}; money (paper) is not put away either - it is redeemed (right click). */
     public static boolean other(Item item, List<String> abilityParts, boolean pets) {
+        // Ores in any form never go into a vault, named / lore'd or not (game 2026-10-07: diamond_ore in the /pv).
         return !item.empty() && !shard(item) && !energy(item) && !contraband(item) && !money(item) && !sellable(item)
-                && !keep(item, abilityParts, pets);
+                && !rawOre(item) && !keep(item, abilityParts, pets);
     }
 
     /**
@@ -194,6 +213,31 @@ public final class ItemSorter {
 
     private static final java.util.Set<String> ORE_DROPS = java.util.Set.of("minecraft:coal", "minecraft:diamond",
             "minecraft:emerald", "minecraft:lapis_lazuli", "minecraft:redstone", "minecraft:quartz");
+
+    /**
+     * An item that makes the inventory "crowded": not a block, not an ore of any kind (ores, deepslate ores, ore blocks,
+     * ingots, raw ores and the ores' drops are sold, with or without a name / lore - game 2026-10-07: mined diamonds
+     * and emeralds counted as important and sent the macro to spawn) and not what the macro keeps.
+     */
+    static boolean sorts(Item item, List<String> abilityParts) {
+        return item != null && !item.empty() && !item.block() && !oreLike(item) && !keep(item, abilityParts);
+    }
+
+    /** An ore block item (ore, deepslate ore) or raw ore: sold, never vaulted, even with a name / lore. Satchels are not. */
+    static boolean rawOre(Item item) {
+        return !item.empty() && !item.name().toLowerCase(Locale.ROOT).contains("satchel")
+                && (item.id().endsWith("_ore") || item.id().startsWith("minecraft:raw_"));
+    }
+
+    /** Ore in any form by its id (satchels carry ore ids and are no ore). */
+    static boolean oreLike(Item item) {
+        if (item.empty() || item.name().toLowerCase(java.util.Locale.ROOT).contains("satchel")) {
+            return false;
+        }
+        String id = item.id();
+        return id.endsWith("_ore") || id.endsWith("_ingot") || id.startsWith("minecraft:raw_") || ORE_DROPS.contains(id)
+                || id.matches("minecraft:(coal|iron|gold|diamond|emerald|lapis|redstone|copper|raw_[a-z]+|quartz)_block");
+    }
 
     /**
      * Sold with /sellall, never put into a vault: plain (no custom name / lore) ores, deepslate ores, ingots, raw ores,

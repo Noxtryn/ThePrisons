@@ -1,16 +1,26 @@
 name: Website
 
-# The project website (site/) on GitHub Pages. Deploys when the site, the media or a release changes.
+# The PRODUCTION website (site/) on GitHub Pages.
+#  - deploys from the `Release` branch only (push to Release, a published release, or a manual run)
+#  - a push to `dev` never touches production
+#  - manual run: pick a ref in "ref" (default Release). Deploying another ref replaces the live site
+#    until the next Release deploy - only do that on purpose. There is no separate preview environment.
 on:
   push:
-    branches: [dev, Release]
+    branches: [Release]
     paths:
       - 'site/**'
       - 'docs/media/**'
+      - 'CHANGELOG*.md'
       - '.github/workflows/pages.yml'
   release:
     types: [published]
   workflow_dispatch:
+    inputs:
+      ref:
+        description: 'Git ref to publish (default: Release = production)'
+        required: false
+        default: 'Release'
 
 permissions:
   contents: read
@@ -28,15 +38,23 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      # push -> the pushed Release commit; release / manual -> the Release branch unless a ref was typed in
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'push' && github.sha || (github.event.inputs.ref || 'Release') }}
 
       - name: Assemble the site (media from docs/media)
         run: |
-          mkdir -p site/media
-          cp -r docs/media/. site/media/
+          mkdir -p site/media/cards
+          # only what the page uses: no trailer (outdated), no market pictures (module is off), no raw sources
+          cp docs/media/banner.png site/media/
+          cp docs/media/cards/*.png site/media/cards/
+          rm -f site/media/cards/market.png site/media/cards/shops.png site/media/cards/item-list.png
+          find docs/media -maxdepth 1 -type f \( -name '*.webp' \) \
+            ! -name 'market-*' -exec cp {} site/media/ \;
           # real pictures only: everything that is not a generated graphic (banner, cards, changelog cards)
-          (cd site/media && find . -maxdepth 1 -type f \( -name '*.webp' -o -name '*.gif' -o -name '*.png' \) \
-            ! -name 'banner.png' ! -name 'changelog-*' -printf '%f\n' | sort | jq -R . | jq -s .) > site/media/manifest.json
+          (cd site/media && find . -maxdepth 1 -type f \( -name '*.webp' -o -name '*.gif' \) \
+            ! -name 'changelog-*' -printf '%f\n' | sort | jq -R . | jq -s .) > site/media/manifest.json
           cat site/media/manifest.json
 
       - uses: actions/configure-pages@v5

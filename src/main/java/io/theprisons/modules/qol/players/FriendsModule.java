@@ -37,6 +37,10 @@ public final class FriendsModule extends Module {
     private static @Nullable FriendsModule instance;
 
     private final FriendList list = new FriendList();
+    /** Glow colour per player (and the list version it was made for): it is asked for every player every frame. */
+    private final java.util.Map<java.util.UUID, int[]> glowCache = new java.util.HashMap<>();
+    private final java.util.Map<java.util.UUID, Long> glowCacheAt = new java.util.HashMap<>();
+    private int listVersion;
     private final Settings.BoolSetting tab;
     private final Settings.BoolSetting glow;
     private boolean loaded;
@@ -142,8 +146,29 @@ public final class FriendsModule extends Module {
         if (!glow.on() || !enabled() || !(entity instanceof PlayerEntity player) || entity == MinecraftClient.getInstance().player) {
             return -1;
         }
+        ensureLoaded();
+        if (list.friends().isEmpty() && list.gang().isEmpty()) {
+            // Nobody to mark: the common case costs nothing (this runs for every player, every frame).
+            return -1;
+        }
+        long now = System.currentTimeMillis();
+        int[] cached = glowCache.get(player.getUuid());
+        if (cached != null && glowCacheAt.getOrDefault(player.getUuid(), 0L) + 1_000L > now && cached[1] == listVersion) {
+            return cached[0];
+        }
+        int colour = computeGlow(player);
+        glowCache.put(player.getUuid(), new int[]{colour, listVersion});
+        glowCacheAt.put(player.getUuid(), now);
+        if (glowCache.size() > 2_000) {
+            glowCache.clear();
+            glowCacheAt.clear();
+        }
+        return colour;
+    }
+
+    private int computeGlow(PlayerEntity player) {
         String name = player.getGameProfile().name();
-        if (name == null) {
+        if (name == null || name.startsWith("bandit_") || name.startsWith("guard_")) {
             return -1;
         }
         MinecraftClient client = MinecraftClient.getInstance();
@@ -234,6 +259,7 @@ public final class FriendsModule extends Module {
     }
 
     private void save() {
+        listVersion++;
         JsonObject root = new JsonObject();
         JsonArray names = new JsonArray();
         list.friends().forEach(names::add);

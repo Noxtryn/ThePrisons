@@ -24,26 +24,37 @@
   }
   window.addEventListener("resize", resize); resize(); requestAnimationFrame(draw);
 
-  // feature cards
+  // language: stored, else the browser's
+  var lang = "en";
+  try { lang = localStorage.getItem("lang") || (/^de/i.test(navigator.language || "") ? "de" : "en"); } catch (e) {}
+  function setLang(l) {
+    lang = l; document.documentElement.lang = l;
+    try { localStorage.setItem("lang", l); } catch (e) {}
+    document.getElementById("lang").textContent = l === "de" ? "DE | EN" : "EN | DE";
+    renderNotes();
+  }
+  document.getElementById("lang").addEventListener("click", function () { setLang(lang === "de" ? "en" : "de"); });
+
+  // feature cards (en, de)
   var features = [
-    ["dashboard", "Dashboard", "Animated pages for design, controls, HUD, mining, bandits and tunnel vision."],
-    ["ore-macro", "Ore Macro", "Own pathfinder, guarded-zone logic, breaks, failsafes and human view motion."],
-    ["item-sorter", "Item Sorter", "Trips to the vaults for shards, contrabands, energy and money."],
-    ["market", "Auction House & /ee", "Prices read in the background, own screens with categories and search."],
-    ["shops", "Shop Overlays", "The /gz and /pb shops in the mod's design."],
-    ["item-list", "Item List", "Search every known item with tiers, rarities and prices."],
-    ["guard-zones", "Guard Zones", "Stay in the guarded area, look ahead, run to a guard when attacked."],
-    ["hud", "HUD Widgets", "Session stats, pets, cooldowns, satchels, armour, notifications."],
-    ["spear-helper", "Spear Helper", "Shooter crosshair, sight point, aim assist on L and recall timing."],
-    ["tunnel-vision", "Tunnel Vision", "F5 + V: your player in 3D on a rainbow road over a backdrop of your choice."]
+    ["dashboard", "Dashboard", "Animated pages for design, controls, HUD, mining, bandits and tunnel vision.", "Animierte Seiten für Design, Steuerung, HUD, Mining, Banditen und Tunnel Vision."],
+    ["storage-overlay", "Storage Overlay", "/pv shows all private vaults as cards; open pages stay fully usable.", "/pv zeigt alle privaten Vaults als Karten; offene Seiten bleiben voll nutzbar."],
+    ["hud", "HUD Widgets", "Session stats, pets, cooldowns, satchels, armour, notifications.", "Session-Statistik, Pets, Abklingzeiten, Satchels, Rüstung, Benachrichtigungen."],
+    ["tunnel-vision", "Tunnel Vision", "F5 + V: your player in 3D on a rainbow road over a backdrop of your choice.", "F5 + V: dein Spieler in 3D auf einer Regenbogenstraße vor einem Hintergrund deiner Wahl."],
+    ["ore-macro", "Ore Macro", "Own pathfinder, guarded-zone logic, breaks, failsafes, follower protection and human view motion.", "Eigener Pathfinder, Wächter-Zonen-Logik, Pausen, Sicherungen, Verfolger-Schutz und menschliche Blickbewegung."],
+    ["item-sorter", "Item Sorter", "Trips to the vaults for shards, contrabands, energy and money.", "Fahrten zu den Lagern für Shards, Contraband, Energie und Geld."],
+    ["guard-zones", "Guard Zones", "Stay in the guarded area, look ahead, run to a guard when attacked.", "Im bewachten Bereich bleiben, vorausschauen, bei Angriff zu einem Wächter rennen."],
+    ["spear-helper", "Spear Helper", "Shooter crosshair, sight point, aim assist on L and recall timing.", "Schützen-Fadenkreuz, Zielpunkt, Zielhilfe auf L und Rückruf-Timing."],
+    ["bandit-macro", "Bandit Macro (WIP, ~2 %)", "New and unfinished: hunts bandits with the spear on key J. Expect rough edges.", "Neu und unfertig: jagt Banditen mit dem Speer auf Taste J. Rechnet mit Ecken und Kanten."]
   ];
   var grid = document.getElementById("feature-grid");
   features.forEach(function (f) {
     var el = document.createElement("article");
     el.className = "feature";
-    el.innerHTML = '<img src="media/cards/' + f[0] + '.png" alt="' + f[1] + ' (illustration)"><div><h3></h3><p></p></div>';
+    el.innerHTML = '<img src="media/cards/' + f[0] + '.png" alt="' + f[1] + (f[0] === 'storage-overlay' ? ' (screenshot)' : ' (illustration)') + '"><div><h3></h3><p class="en"></p><p class="de"></p></div>';
     el.querySelector("h3").textContent = f[1];
-    el.querySelector("p").textContent = f[2];
+    el.querySelector("p.en").textContent = f[2];
+    el.querySelector("p.de").textContent = f[3];
     grid.appendChild(el);
   });
 
@@ -73,13 +84,48 @@
     if (inList) out.push("</ul>");
     return out.join("\n");
   }
+  var release = null;
+  function renderNotes() {
+    if (!release) return;
+    document.getElementById("release-notes").innerHTML = "<h3>" + esc(release.title) + "</h3>" + render(lang === "de" ? release.de : release.en);
+  }
   fetch("https://api.github.com/repos/" + REPO + "/releases/latest").then(function (r) { return r.ok ? r.json() : null; }).then(function (rel) {
     if (!rel) throw new Error("no release");
     document.getElementById("version").textContent = rel.tag_name + (rel.name && rel.name.indexOf("·") > -1 ? " · " + rel.name.split("·")[1].trim() : "");
     var jar = (rel.assets || []).filter(function (a) { return /\.jar$/.test(a.name); })[0];
-    if (jar) { var d = document.getElementById("download"); d.href = jar.browser_download_url; d.textContent = "Download " + jar.name; }
-    document.getElementById("release-notes").innerHTML = "<h3>" + esc(rel.name || rel.tag_name) + "</h3>" + render(rel.body || "");
+    if (jar) { var d2 = document.getElementById("download2"); if (d2) d2.href = jar.browser_download_url;
+      var total = 0; (rel.assets || []).forEach(function (a) { total += a.download_count || 0; });
+      if (total > 0) document.getElementById("dlcount").textContent = "· " + total + " downloads of this version";
+      var d = document.getElementById("download"); d.href = jar.browser_download_url; d.innerHTML = '<span class="en">Download </span><span class="de">Herunterladen: </span>' + esc(jar.name); }
+    var parts = (rel.body || "").split(/\r?\n---\r?\n/);
+    release = { title: rel.name || rel.tag_name, en: parts[0], de: (parts[1] || parts[0]).replace(/^\s*##.*Deutsch.*$/m, "") };
+    renderNotes();
   }).catch(function () {
     document.getElementById("release-notes").innerHTML = '<p class="note">The release notes are on <a href="https://github.com/' + REPO + '/releases">GitHub</a>.</p>';
   });
+  setLang(lang);
+
+  // ---- config (Discord link, optional privacy-friendly analytics) ----
+  // Everything is off until site/config.json says otherwise. No cookies, no personal data, honours Do Not Track.
+  function track(name) {
+    try { if (window.goatcounter && window.goatcounter.count) window.goatcounter.count({ path: name, title: name, event: true }); } catch (e) {}
+  }
+  document.addEventListener("click", function (e) {
+    var a = e.target.closest ? e.target.closest("[data-track]") : null;
+    if (a) track(a.getAttribute("data-track"));
+  });
+  fetch("config.json").then(function (r) { return r.ok ? r.json() : {}; }).then(function (cfg) {
+    if (cfg.discord) {
+      var d = document.getElementById("discord"); d.href = cfg.discord; d.hidden = false;
+      ["discord-soon", "discord-soon-de"].forEach(function (id) { var n = document.getElementById(id); if (n) n.remove(); });
+    }
+    var gc = cfg.analytics && cfg.analytics.goatcounter;
+    var dnt = navigator.doNotTrack === "1" || window.doNotTrack === "1";
+    if (gc && !dnt) {
+      var sc = document.createElement("script");
+      sc.async = true; sc.src = "https://gc.zgo.at/count.js";
+      sc.setAttribute("data-goatcounter", "https://" + gc + ".goatcounter.com/count");
+      document.head.appendChild(sc);
+    }
+  }).catch(function () {});
 })();

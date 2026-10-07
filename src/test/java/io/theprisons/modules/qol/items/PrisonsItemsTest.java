@@ -122,6 +122,35 @@ class PrisonsItemsTest {
 
     /** Real item names from the Cosmic logs (items often come without data). */
     @Test
+    void randomItemsAreBlackVersionsOfWhatTheyAre() {
+        String[][] cases = {
+                {"Random Elite Enchant Book", "theprisons:prisons/book/random_elite"},
+                {"Random Godly Page", "theprisons:prisons/page/random_godly"},
+                {"Random Tool Prestige Token I-III", "theprisons:prisons/prestige_token/random_level_3"},
+                {"Random Overworld Boss Egg", "theprisons:prisons/misc/boss_egg_random"},
+                {"Random Ore Satchel", "theprisons:prisons/satchel/random"},
+                {"Elite Randomization Scroll", "theprisons:prisons/randomization_scroll/elite"},
+        };
+        for (String[] c : cases) {
+            PrisonsItems.Info info = PrisonsItems.resolve(new NbtCompound(), c[0], null);
+            org.junit.jupiter.api.Assertions.assertNotNull(info.model(), c[0]);
+            assertEquals(c[1], info.model().toString(), c[0]);
+        }
+    }
+
+    @Test
+    void everyRandomFamilyHasItsBlackTextures() {
+        for (String family : PrisonsItems.RANDOM_FAMILIES) {
+            java.io.File dir = new java.io.File("src/main/resources/assets/theprisons/textures/item/prisons/" + family);
+            String[] files = dir.list((d, n) -> n.endsWith(".png") && !n.startsWith("random_"));
+            org.junit.jupiter.api.Assertions.assertTrue(files != null && files.length > 0, family);
+            for (String f : files) {
+                org.junit.jupiter.api.Assertions.assertTrue(new java.io.File(dir, "random_" + f).isFile(), family + "/" + f);
+            }
+        }
+    }
+
+    @Test
     void recognisedByNameAlone() {
         String[][] cases = {
                 {"12% Charge Orb", "charge_orb/stage_3"}, {"Charge Orb Slot", "misc/charge_orb_slot"},
@@ -129,7 +158,8 @@ class PrisonsItemsTest {
                 {"Inmate Rations (Right Click) (10m)", "misc/inmate_rations"}, {"Mystery Expander", "misc/expander"},
                 {"Random Spear Prestige Modifier (5%)", "misc/prestige_modifier_random"},
                 {"Tool Prestige Token IV", "prestige_token/level_4"}, {"Executive Time Extender", "misc/time_extender"},
-                {"Random Wormhole Powerup", "powerup/random"}, {"Overdrive Powerup", "powerup/overdrive"},
+                {"Random Wormhole Powerup", "powerup/random"}, {"Overdrive Powerup", "powerup/overdrive_simple"}, {"Elite Wormhole Powerup (BOGO)", "powerup/bogo_elite"},
+                {"Godly Wormhole Powerup (Double Tap)", "powerup/double_tap_godly"},
                 {"II Rare Candy II", "candy/uncommon"}, {"Skill Token", "misc/skill_token"},
                 {"Mystery Fractured G-Kit Flare", "flare/fractured"}, {"Meteor Flare", "flare/meteor"},
                 {"Sludge G-Kit", "gkit/sludge"}, {"Godly Cell Door Upgrade", "upgrade/godly"},

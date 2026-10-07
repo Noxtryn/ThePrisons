@@ -95,6 +95,29 @@ public final class Chores {
         return new Object[]{matcher.group(1).strip(), ms};
     }
 
+    /** "(!) This command is currently on cooldown for 22s." - the server's answer to /home, /spawn ... sent too early. */
+    static final java.util.regex.Pattern COMMAND_COOLDOWN = java.util.regex.Pattern.compile(
+            "command is (?:currently )?on cooldown for((?:\\s*\\d+\\s*[hms])+)");
+
+    /** The remaining cooldown in ms from "This command is currently on cooldown for 22s"; -1 for other messages. */
+    public static long commandCooldown(String message) {
+        java.util.regex.Matcher matcher = COMMAND_COOLDOWN.matcher(message.toLowerCase(Locale.ROOT));
+        if (!matcher.find()) {
+            return -1L;
+        }
+        long ms = 0L;
+        java.util.regex.Matcher part = DURATION_PART.matcher(matcher.group(1));
+        while (part.find()) {
+            long n = Long.parseLong(part.group(1));
+            ms += switch (part.group(2)) {
+                case "h" -> n * 3_600_000L;
+                case "m" -> n * 60_000L;
+                default -> n * 1_000L;
+            };
+        }
+        return ms;
+    }
+
     /** Comma separated name parts ("fireball, meteor") → lower case parts without blanks. */
     public static java.util.List<String> nameParts(String csv) {
         java.util.List<String> parts = new java.util.ArrayList<>();

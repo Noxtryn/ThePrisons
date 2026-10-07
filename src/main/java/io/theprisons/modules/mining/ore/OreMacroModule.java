@@ -283,6 +283,9 @@ public final class OreMacroModule extends AutomationModule {
     private boolean mineZoneEntered;
     /** "Teleport ... cancelled because you moved" during a trip: /spawn or /home again. */
     private boolean teleportCancelled;
+    /** The server refused /spawn or /home: "This command is currently on cooldown for 22s" (ms left, -1 = none). */
+    private long commandCooldownMs = -1L;
+    private int cooldownRetries;
     /** After /warp: ticks of the last jump over the edge (then -1: jumped). */
     private int dropTicks;
     private float dropYaw;
@@ -327,7 +330,7 @@ public final class OreMacroModule extends AutomationModule {
     private static final int ARRIVE_TICKS = 600;
     private static final int WALK_TICKS = 80;
     private static final double WALK_BLOCKS = 8.0D;
-    /** Back at home: 0.5 blocks away from a block at leg height (sneaking, 2 s at the most). */
+    /** Back at home: 0.5 blocks away from a block at leg height (walking, 2 s at the most). */
     private static final double NUDGE_BLOCKS = 0.45D;
     private static final int NUDGE_TICKS = 40;
     private boolean nudgeBack;
@@ -372,6 +375,13 @@ public final class OreMacroModule extends AutomationModule {
     /** When a player was last seen near (alone only after {@value #ALONE_AFTER_MS} ms without one: no flicker). */
     private long playerSeenMs;
     private boolean guardPlayerLock;
+    /** The player who keeps following: asked to stop, then left far behind (/spawn and /warp back). */
+    private final FollowWatch followWatch = new FollowWatch();
+    /** Real players seen near lately (lower-case name -> when): a killer is among them. */
+    private final java.util.Map<String, Long> recentNames = new java.util.HashMap<>();
+    /** Players that killed this run; the macro leaves as soon as one comes near. */
+    private final java.util.Set<String> hostiles = new java.util.HashSet<>();
+    private long hostileEscapeMs;
     static final long ALONE_AFTER_MS = 20_000L;
     /** From this many other players within {@value #GUARD_PLAYER_RANGE} blocks the macro stays near the guards. */
     static final int CROWD_PLAYERS = 1;
@@ -434,8 +444,11 @@ public final class OreMacroModule extends AutomationModule {
     private final OutsideWatch outsideWatch = new OutsideWatch();
     /** Escape to spawn: when /spawn was sent (-1 = to be sent, 0 = no escape). */
     private long escapeSentMs;
-    /** /spawn again when the teleport has not happened after this long (moved / cancelled). */
-    private static final long ESCAPE_RETRY_MS = 12_000L;
+    /**
+     * /spawn again when the teleport has not happened after this long (moved / cancelled). The server counts down 18 s
+     * and a new /spawn restarts it: 12 s here meant it never reached zero (game 2026-10-07).
+     */
+    private static final long ESCAPE_RETRY_MS = 24_000L;
     /** "You have entered combat. Do not log out for 10s!": no /spawn until then (refreshed by every hit). */
     private long combatUntilMs;
     private static final long COMBAT_TAG_MS = 10_500L;
@@ -672,12 +685,12 @@ public final class OreMacroModule extends AutomationModule {
                         + "2-12 % less = inside again. 20 % or more (25 %, 50 %, 100 %) is an energy booster and changes "
                         + "nothing. Off (default): the sidebar - \"Guard XP Tax N%\" or \"Guarded\" = inside, neither = "
                         + "outside, back to the last place it was shown.").group("Defence").visibleWhen(guarded::on);
-        outsideNear = integer("outside_near", "Unguarded blocks, a player near", 2, 0, 10, 1)
+        outsideNear = integer("outside_with_player", "Unguarded blocks, a player near", 0, 0, 10, 1)
                 .description("How far the macro may walk out of the guarded zone (no guard XP tax) while another "
                         + "player is within 48 blocks, then it turns back at once - unless it is in another guarded zone "
                         + "by then. 0 = never.")
                 .group("Defence").visibleWhen(guarded::on);
-        outsideAlone = integer("outside_solo", "Unguarded blocks, nobody near", 6, 0, 20, 1)
+        outsideAlone = integer("outside_no_player", "Unguarded blocks, nobody near", 6, 0, 20, 1)
                 .description("With no other player within 48 blocks (for 20 s) the macro may walk this many "
                         + "unguarded blocks in a row, then it turns back. A player coming near: back to the guards at once.")
                 .group("Defence").visibleWhen(guarded::on);
@@ -749,6 +762,8 @@ public final class OreMacroModule extends AutomationModule {
         backInPlanning = false;
         playerSeenMs = System.currentTimeMillis();
         guardPlayerLock = false;
+        followWatch.reset();
+        recentNames.clear();
         loggedGuards = 0;
         lastTax = null;
         taxGoneReads = 0;
@@ -1106,6 +1121,12 @@ public final class OreMacroModule extends AutomationModule {
         // Every tick: the edge of the tax zone is noticed within a block, not 2-3 blocks too late.
         readTax(client, clientWorld, player);
         countOutside(player);
+        if (ticks % 5 == 0) {
+            watchFollowers(client, player, now);
+        }
+        if (escapeSentMs != 0L && chore == Chores.Kind.NONE && escape(client, player, now)) {
+            return;
+        }
         if (guarded.on() && phase != Phase.BREAK && keepGuarded(client, player, now)) {
             return;
         }
@@ -3159,6 +3180,10 @@ public final class OreMacroModule extends AutomationModule {
             }
             case ESCAPE -> escapeSentMs = -1L;
             case GIVE_UP -> {
+                if (escapeSentMs > 0L && now - escapeSentMs <= ESCAPE_RETRY_MS) {
+                    // The /spawn countdown is still running: not a reason to stop yet.
+                    return escape(client, player, now);
+                }
                 alertStop(client, player, io.theprisons.core.i18n.I18n.t(
                         "Outside the guarded zone and no way back in - macro stopped."));
                 return true;
@@ -3623,6 +3648,78 @@ public final class OreMacroModule extends AutomationModule {
     }
 
     /** Real players (not the own one) inside a true Euclidean 3D radius. */
+    /** Real players (not friends / gang) within {@code radius} and their distance. */
+    private static java.util.Map<String, Double> nearPlayers(MinecraftClient client, ClientPlayerEntity player, double radius) {
+        java.util.Map<String, Double> out = new java.util.HashMap<>();
+        if (client.world == null) {
+            return out;
+        }
+        io.theprisons.modules.qol.players.FriendsModule friends = io.theprisons.modules.qol.players.FriendsModule.get();
+        for (net.minecraft.entity.player.PlayerEntity other : client.world.getPlayers()) {
+            if (other == player || !isRealPlayer(client, other) || other.squaredDistanceTo(player) > radius * radius) {
+                continue;
+            }
+            String name = other.getGameProfile().name();
+            if (name == null || (friends != null
+                    && friends.relation(name, null) != io.theprisons.modules.qol.players.FriendList.Relation.NONE)) {
+                continue;
+            }
+            out.put(name, Math.sqrt(other.squaredDistanceTo(player)));
+        }
+        return out;
+    }
+
+    /**
+     * The same player always near, or one that killed us before: first a message ("pls stop follow me <3"), then, if he
+     * is still there, far away (/spawn and /warp back - a new place on foot would only be followed). A known killer
+     * coming near: away at once.
+     */
+    private void watchFollowers(MinecraftClient client, ClientPlayerEntity player, long now) {
+        java.util.Map<String, Double> near = nearPlayers(client, player, 48.0D);
+        for (String name : near.keySet()) {
+            recentNames.put(name.toLowerCase(Locale.ROOT), now);
+        }
+        recentNames.values().removeIf(seen -> now - seen > 120_000L);
+        boolean free = escapeSentMs == 0L && chore == Chores.Kind.NONE;
+        for (java.util.Map.Entry<String, Double> e : near.entrySet()) {
+            if (free && hostiles.contains(e.getKey().toLowerCase(Locale.ROOT)) && now - hostileEscapeMs > 90_000L) {
+                hostileEscapeMs = now;
+                ThePrisonsClient.LOGGER.info("[ore_macro] {} killed us before and is {} blocks away: far away (/spawn)",
+                        e.getKey(), Math.round(e.getValue()));
+                count("hostile_escapes");
+                escapeSentMs = -1L;
+                return;
+            }
+        }
+        FollowWatch.Result r = followWatch.update(now, near);
+        switch (r.step()) {
+            case ASK -> {
+                ThePrisonsClient.LOGGER.info("[ore_macro] {} keeps following: message sent", r.name());
+                count("follower_asked");
+                player.networkHandler.sendChatCommand("msg " + r.name() + " pls stop follow me <3");
+            }
+            case ESCAPE -> {
+                if (free) {
+                    ThePrisonsClient.LOGGER.info("[ore_macro] {} still follows: far away (/spawn)", r.name());
+                    count("follower_escapes");
+                    escapeSentMs = -1L;
+                }
+            }
+            default -> {
+            }
+        }
+    }
+
+    /** A killer is a player that was near a moment ago and is named in the death line. */
+    private void rememberKillers(String deathLine, String self) {
+        String lower = deathLine.toLowerCase(Locale.ROOT);
+        for (String name : recentNames.keySet()) {
+            if (!name.equalsIgnoreCase(self) && lower.contains(name) && hostiles.add(name)) {
+                ThePrisonsClient.LOGGER.info("[ore_macro] killer remembered: {}", name);
+            }
+        }
+    }
+
     private static int playersNear(MinecraftClient client, ClientPlayerEntity player, double radius) {
         if (client.world == null) {
             return 0;
@@ -3737,6 +3834,7 @@ public final class OreMacroModule extends AutomationModule {
         }
         if (self != null && Chores.died(text, self.getName().getString())) {
             // Cosmic respawns at once (no death screen): the chat is the only sign. Once per death (2-3 lines).
+            rememberKillers(text, self.getName().getString());
             if (chore != Chores.Kind.DEATH_RECOVERY && nowMs - deathSeenMs > 5_000L) {
                 startDeath(MinecraftClient.getInstance(), self, "killed: " + text);
             }
@@ -3777,6 +3875,10 @@ public final class OreMacroModule extends AutomationModule {
         }
         if (chore == Chores.Kind.SORT_ITEMS && lowerText.contains("cancelled because you moved")) {
             teleportCancelled = true;
+            return;
+        }
+        if (chore == Chores.Kind.SORT_ITEMS && Chores.commandCooldown(text == null ? "" : text) > 0L) {
+            commandCooldownMs = Chores.commandCooldown(text);
             return;
         }
         if (chore == Chores.Kind.SORT_ITEMS && ItemSorter.teleporting(text == null ? "" : text)) {
@@ -3897,6 +3999,8 @@ public final class OreMacroModule extends AutomationModule {
         tripIndex = 0;
         mergeStep = 0;
         teleportRetries = 0;
+        cooldownRetries = 0;
+        commandCooldownMs = -1L;
         teleportCancelled = false;
         // Stand completely still from now on: the server cancels the teleport countdown on any movement.
         selectEmpty(player);
@@ -4067,6 +4171,7 @@ public final class OreMacroModule extends AutomationModule {
                 status = "Trip: /spawn";
                 zoneEntered = false;
                 walkFrom = new double[]{player.getX(), player.getZ()};
+                commandCooldownMs = -1L;
                 player.networkHandler.sendChatCommand("spawn");
                 sortTimeout = ARRIVE_TICKS;
                 advance(0);
@@ -4113,6 +4218,7 @@ public final class OreMacroModule extends AutomationModule {
             case HOME -> {
                 status = "Trip: /home " + ItemSorter.HOME;
                 sortTeleporting = false;
+                commandCooldownMs = -1L;
                 player.networkHandler.sendChatCommand("home " + ItemSorter.HOME);
                 sortTimeout = SORT_HOME_TICKS;
                 advance(0);
@@ -4150,11 +4256,27 @@ public final class OreMacroModule extends AutomationModule {
 
     /** The teleport was cancelled (moved): back to its command step, at most 3 times. @return true = retrying */
     private boolean retryTeleport(MinecraftClient client, ClientPlayerEntity player, Trip command) {
+        List<Trip> steps = trip;
+        if (commandCooldownMs > 0L && steps != null && steps.contains(command)) {
+            // Too early for the command: wait the cooldown out (+1 s), then send it again.
+            long wait = commandCooldownMs;
+            commandCooldownMs = -1L;
+            if (++cooldownRetries > 5) {
+                alertStop(client, player, io.theprisons.core.i18n.I18n.t("Trip: the command stayed on cooldown."));
+                return true;
+            }
+            ThePrisonsClient.LOGGER.info("[ore_macro] /{} on cooldown for {} ms: again after it",
+                    command == Trip.SPAWN ? "spawn" : "home", wait);
+            control.input().clear();
+            tripIndex = steps.indexOf(command);
+            choreStep = 0;
+            choreWait = (int) Math.min(20L * 600L, wait / 50L + 20L);
+            return true;
+        }
         if (!teleportCancelled) {
             return false;
         }
         teleportCancelled = false;
-        List<Trip> steps = trip;
         if (++teleportRetries > 3 || steps == null || !steps.contains(command)) {
             alertStop(client, player, io.theprisons.core.i18n.I18n.t("Trip: the teleport was cancelled 3 times (moved)."));
             return true;
@@ -4212,7 +4334,7 @@ public final class OreMacroModule extends AutomationModule {
 
     /**
      * Back at /home tmp, before mining again: a block in front at leg height → 0.5 blocks back, a block behind → 0.5
-     * blocks forward (sneaking, so it stops close to 0.5). Both or neither: stay.
+     * blocks forward (walking, no sneaking). Both or neither: stay.
      */
     private void nudgeFromWall(ClientPlayerEntity player) {
         if (choreStep == 0) {
@@ -4239,7 +4361,7 @@ public final class OreMacroModule extends AutomationModule {
             return;
         }
         status = nudgeBack ? "Trip: 0.5 blocks back" : "Trip: 0.5 blocks forward";
-        control.input().set(new io.theprisons.core.control.InputController.Keys(!nudgeBack, nudgeBack, false, false, false, false, true));
+        control.input().set(new io.theprisons.core.control.InputController.Keys(!nudgeBack, nudgeBack, false, false, false, false, false));
     }
 
     private static boolean legBlocked(ClientPlayerEntity player, BlockPos pos) {
@@ -4935,7 +5057,10 @@ public final class OreMacroModule extends AutomationModule {
      * Where to jump down into a mine after /warp: the point at the platform's edge and the last jump - {@code side}
      * -1 = to the left, 0 = straight, 1 = to the right towards {@code landing} (steered in the air).
      */
-    private record WarpDrop(int x, int y, int z, int side, int @Nullable [] landing) {
+    private record WarpDrop(int x, int y, int z, int side, int @Nullable [] landing, float lookYaw, float lookPitch) {
+        WarpDrop(int x, int y, int z, int side, int @Nullable [] landing) {
+            this(x, y, z, side, landing, Float.NaN, 0.0F);
+        }
     }
 
     /** The drop points per mine (from the user, 2026-10-03). */
@@ -4944,7 +5069,9 @@ public final class OreMacroModule extends AutomationModule {
             "redstone", new WarpDrop(-77, 179, -509, 0, null),
             "lapis", new WarpDrop(-543, 221, 449, 0, null),
             "iron", new WarpDrop(-1384, 196, 151, 0, null),
-            "coal", new WarpDrop(-1043, 188, -415, 1, new int[]{-1027, 119, -418}));
+            "coal", new WarpDrop(-1043, 188, -415, 1, new int[]{-1027, 119, -418}),
+            // Diamond (user, 2026-10-06): walk to the point, look yaw -30 / pitch 80, jump down.
+            "diamond", new WarpDrop(1376, 246, 604, 0, null, -30.0F, 80.0F));
 
     /** The drop point of the chosen mine (the first chosen ore: "minecraft:gold_ore" → gold); null = none known. */
     private @Nullable WarpDrop warpDrop() {
@@ -5252,7 +5379,12 @@ public final class OreMacroModule extends AutomationModule {
                             dropTicks = Math.max(dropTicks, 1);
                         }
                     }
-                    control.rotation().follow(yaw, 0.0F, YAW_OMEGA, PITCH_OMEGA);
+                    float pitch = 0.0F;
+                    if (drop != null && !Float.isNaN(drop.lookYaw())) {
+                        yaw = drop.lookYaw();
+                        pitch = drop.lookPitch();
+                    }
+                    control.rotation().follow(yaw, pitch, YAW_OMEGA, PITCH_OMEGA);
                     boolean go = dropTicks > 0;
                     control.input().set(new io.theprisons.core.control.InputController.Keys(go, false, go && side < 0,
                             go && side > 0 && drop.landing() == null, go && player.isOnGround(), true, false));

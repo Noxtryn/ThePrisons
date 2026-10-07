@@ -56,12 +56,17 @@ public final class ModuleRegistry {
         io.theprisons.modules.qol.bandit.SpearHelperModule spearHelper =
                 new io.theprisons.modules.qol.bandit.SpearHelperModule(core.control());
         modules.register(spearHelper);
+        modules.register(new io.theprisons.modules.qol.bandit.BanditMacroModule(core.control(), core.world(), routes));
         spearHelper.register(core.bus());
         net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback.EVENT.register(io.theprisons.modules.qol.market.MarketSearch.hudGuard(spearHelper::render));
         io.theprisons.modules.general.tunnel.TunnelVisionModule tunnel =
                 new io.theprisons.modules.general.tunnel.TunnelVisionModule(oreMacro, sessionHud);
         modules.register(tunnel);
         tunnel.register(core.bus());
+        io.theprisons.modules.general.tunnel.TunnelActionBarModule tunnelBar = new io.theprisons.modules.general.tunnel.TunnelActionBarModule();
+        modules.register(tunnelBar);
+        tunnelBar.register(core.bus());
+        net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback.EVENT.register(tunnelBar::render);
         io.theprisons.modules.qol.players.FriendsModule friends = new io.theprisons.modules.qol.players.FriendsModule();
         modules.register(friends);
         friends.register(core.commands());

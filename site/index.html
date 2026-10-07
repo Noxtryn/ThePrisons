@@ -1,12 +1,16 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ThePrisons - Fabric mod for Cosmic Prisons</title>
-  <meta name="description" content="Client-side Fabric mod for Minecraft 1.21.11 and Cosmic Prisons: dashboard, HUDs, market tracker, Ore Macro, bandit helpers and Tunnel Vision.">
-  <meta property="og:title" content="ThePrisons">
-  <meta property="og:description" content="Client-side Fabric mod for Minecraft 1.21.11 and Cosmic Prisons.">
+  <title>ThePrisons - Cosmic Prisons client mod</title>
+  <meta name="description" content="Free client-side Fabric mod for Minecraft 1.21.11 and Cosmic Prisons: dashboard, live session HUD, storage overlay, customization and optional tools. / Kostenlose clientseitige Fabric-Mod für Cosmic Prisons.">
+  <link rel="canonical" href="https://olb-freelocs.github.io/ThePrisons/">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://olb-freelocs.github.io/ThePrisons/">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta property="og:title" content="ThePrisons - the most useful Cosmic Prisons tools in one clean client">
+  <meta property="og:description" content="The most useful Cosmic Prisons tools in one clean client: dashboard, live session HUD, storage overlay, customization. Free, client-side, Fabric 1.21.11.">
   <meta property="og:image" content="media/banner.png">
   <link rel="icon" href="media/banner.png">
   <link rel="stylesheet" href="style.css">
@@ -16,80 +20,149 @@
   <header class="top">
     <a class="brand" href="#top">ThePrisons</a>
     <nav>
-      <a href="#features">Features</a>
-      <a href="#gallery">Gallery</a>
-      <a href="#install">Install</a>
+      <a href="#features"><span class="en">Features</span><span class="de">Funktionen</span></a>
+      <a href="#gallery"><span class="en">Screenshots</span><span class="de">Screenshots</span></a>
+      <a href="#compat"><span class="en">Compatibility</span><span class="de">Kompatibilität</span></a>
+      <a href="#install"><span class="en">Install</span><span class="de">Installation</span></a>
       <a href="#changelog">Changelog</a>
       <a href="#faq">FAQ</a>
+      <a href="#roadmap">Roadmap</a>
       <a class="gh" href="https://github.com/olb-freelocs/ThePrisons">GitHub</a>
+      <button id="lang" class="lang" type="button" aria-label="Language / Sprache">EN | DE</button>
     </nav>
   </header>
 
   <main id="top">
     <section class="hero">
       <img class="banner" src="media/banner.png" alt="ThePrisons banner (graphic)">
-      <h1>Cosmic Prisons, <span class="rainbow">your way</span>.</h1>
-      <p class="lead">A client-side Fabric mod for Minecraft 1.21.11: an animated dashboard, HUD widgets, a market tracker with its own auction house screens, a mining automation with a built-in pathfinder, bandit helpers and Tunnel Vision.</p>
+      <h1><span class="en">The most useful Cosmic Prisons tools in <span class="rainbow">one clean client</span>.</span><span class="de">Die nützlichsten Cosmic-Prisons-Tools in <span class="rainbow">einem sauberen Client</span>.</span></h1>
+      <p class="lead en">ThePrisons is a free, client-side Fabric mod for Cosmic Prisons on Minecraft 1.21.11. A clean dashboard, live session stats, HUD widgets, a storage overlay and customization - configured in one place, installed with one jar.</p>
+      <p class="lead de">ThePrisons ist eine kostenlose, clientseitige Fabric-Mod für Cosmic Prisons auf Minecraft 1.21.11. Ein sauberes Dashboard, Live-Session-Stats, HUD-Widgets, eine Lager-Übersicht und Anpassung - an einem Ort eingestellt, mit einer Jar installiert.</p>
+      <ul class="facts">
+        <li><strong class="en">What</strong><strong class="de">Was</strong><span class="en">Client-side Fabric mod</span><span class="de">Clientseitige Fabric-Mod</span></li>
+        <li><strong class="en">For</strong><strong class="de">Für</strong><span>Cosmic Prisons · MC 1.21.11</span></li>
+        <li><strong class="en">Price</strong><strong class="de">Preis</strong><span class="en">Free download</span><span class="de">Kostenloser Download</span></li>
+        <li><strong class="en">Install</strong><strong class="de">Installation</strong><span class="en">Drop the jar in <code>mods</code></span><span class="de">Jar in <code>mods</code> legen</span></li>
+        <li><strong class="en">Support</strong><strong class="de">Support</strong><a href="#support"><span class="en">Discord &amp; GitHub</span><span class="de">Discord &amp; GitHub</span></a></li>
+      </ul>
       <div class="cta">
-        <a id="download" class="btn primary" href="https://github.com/olb-freelocs/ThePrisons/releases/latest">Download the latest jar</a>
-        <a class="btn" href="https://github.com/olb-freelocs/ThePrisons">View on GitHub</a>
+        <a id="download" class="btn primary" data-track="download" href="https://github.com/olb-freelocs/ThePrisons/releases/latest"><span class="en">Try ThePrisons</span><span class="de">ThePrisons ausprobieren</span></a>
+        <a class="btn" href="#install" data-track="install-interest"><span class="en">How to install</span><span class="de">So installierst du</span></a>
+        <a class="btn" data-track="github" href="https://github.com/olb-freelocs/ThePrisons"><span class="en">View on GitHub</span><span class="de">Auf GitHub ansehen</span></a>
       </div>
-      <p class="meta"><span id="version">Latest release</span> · Minecraft 1.21.11 · Fabric · Java 21</p>
+      <p class="meta"><span id="version">latest</span> · Minecraft 1.21.11 · Fabric · Java 21 <span id="dlcount"></span></p>
+    </section>
+
+    <section id="why">
+      <h2><span class="en">Why use it?</span><span class="de">Warum nutzen?</span></h2>
+      <ul class="why">
+        <li><strong class="en">See what matters</strong><strong class="de">Sieh, was zählt</strong><span class="en">Session HUD with uptime, ores per second, Energy/h, XP/h, boosters and level-up ETA; pets, cooldowns, satchels and armour at a glance.</span><span class="de">Session-HUD mit Laufzeit, Erzen pro Sekunde, Energy/h, XP/h, Boostern und Level-Up-ETA; Pets, Abklingzeiten, Satchels und Rüstung auf einen Blick.</span></li>
+        <li><strong class="en">Make it yours</strong><strong class="de">Mach es zu deinem</strong><span class="en">Themes, a HUD editor to move and scale every widget, and one dashboard for every setting.</span><span class="de">Themes, ein HUD-Editor zum Verschieben und Skalieren jedes Widgets und ein Dashboard für alle Einstellungen.</span></li>
+        <li><strong class="en">Tidier inventory</strong><strong class="de">Aufgeräumteres Inventar</strong><span class="en">Storage overlay: <code>/pv</code> shows all private vaults as cards.</span><span class="de">Lager-Übersicht: <code>/pv</code> zeigt alle privaten Vaults als Karten.</span></li>
+        <li><strong class="en">Small quality of life</strong><strong class="de">Kleine Komfort-Helfer</strong><span class="en">Friends and gang colours, player cards, sneak-trade, message notifications, vitals warnings.</span><span class="de">Freunde und Gang-Farben, Spielerkarten, Sneak-Trade, Nachrichten-Hinweise, Vitalwarnungen.</span></li>
+      </ul>
     </section>
 
     <section id="features">
-      <h2>Features</h2>
+      <h2><span class="en">Features</span><span class="de">Funktionen</span></h2>
       <div class="grid" id="feature-grid"></div>
-      <p class="note">Pictures on the cards are generated illustrations, not screenshots.</p>
+      <div class="wip" id="automation">
+        <strong class="en">Optional automation tools</strong><strong class="de">Optionale Automatisierungs-Werkzeuge</strong>
+        <span class="en">ThePrisons also contains an Ore Macro (with item sorter and guard-zone logic), a Spear Helper with aim assist and an early Bandit Macro (work in progress, about 2 % done). They automate or assist gameplay and can break a server's rules - sanctions are possible. Read the rules first; you use them at your own risk. Nothing else in the mod depends on them.</span>
+        <span class="de">ThePrisons enthält außerdem ein Ore Macro (mit Item Sorter und Wächter-Zonen-Logik), einen Spear Helper mit Zielhilfe und ein frühes Bandit-Makro (in Arbeit, etwa 2 % fertig). Sie automatisieren oder unterstützen das Spiel und können gegen Serverregeln verstoßen - Strafen sind möglich. Lies zuerst die Regeln; Nutzung auf eigenes Risiko. Nichts anderes in der Mod hängt davon ab.</span>
+      </div>
+      <p class="note en">Most card pictures are generated illustrations, not screenshots (the storage overlay is a real screenshot).</p>
+      <p class="note de">Die meisten Kartenbilder sind erzeugte Illustrationen, keine Screenshots (die Lager-Übersicht ist ein echter Screenshot).</p>
     </section>
 
     <section id="gallery">
-      <h2>Gallery</h2>
-      <div class="gallery" id="gallery-grid"><p class="note" id="gallery-empty">Real in-game screenshots and clips are coming soon.</p></div>
+      <h2>Screenshots</h2>
+      <div class="gallery" id="gallery-grid"><p class="note" id="gallery-empty"><span class="en">Real in-game screenshots and clips are coming soon.</span><span class="de">Echte Spiel-Screenshots und Clips kommen bald.</span></p></div>
+    </section>
+
+    <section id="compat">
+      <h2><span class="en">Compatibility</span><span class="de">Kompatibilität</span></h2>
+      <table class="compat">
+        <tr><th>Minecraft</th><td>1.21.11</td></tr>
+        <tr><th>Loader</th><td>Fabric Loader 0.17.3+</td></tr>
+        <tr><th>Java</th><td>21+</td></tr>
+        <tr><th>Fabric API</th><td><span class="en">required</span><span class="de">erforderlich</span></td></tr>
+        <tr><th>Mod Menu</th><td><span class="en">optional</span><span class="de">optional</span></td></tr>
+        <tr><th>Side</th><td><span class="en">client only - nothing to install on the server</span><span class="de">nur Client - auf dem Server ist nichts zu installieren</span></td></tr>
+        <tr><th><span class="en">Server</span><span class="de">Server</span></th><td><span class="en">built for Cosmic Prisons; many features read that server's menus, chat and sidebar</span><span class="de">gebaut für Cosmic Prisons; viele Funktionen lesen Menüs, Chat und Sidebar dieses Servers</span></td></tr>
+      </table>
     </section>
 
     <section id="install">
-      <h2>Install</h2>
+      <h2><span class="en">Install</span><span class="de">Installation</span></h2>
       <ol class="steps">
-        <li>Install <a href="https://fabricmc.net/use/">Fabric Loader</a> 0.17.3 or newer for Minecraft 1.21.11 with Java 21.</li>
-        <li>Put <a href="https://modrinth.com/mod/fabric-api">Fabric API</a> into your <code>mods</code> folder (<a href="https://modrinth.com/mod/modmenu">Mod Menu</a> is optional).</li>
-        <li>Download the jar (<code>ThePrisons-&lt;Codename&gt;-v&lt;version&gt;-mc&lt;Minecraft&gt;.jar</code>) from the <a href="https://github.com/olb-freelocs/ThePrisons/releases/latest">latest release</a> and put it into <code>mods</code>.</li>
-        <li>Join the server and type <code>/prisons</code> to open the dashboard.</li>
+        <li><span class="en">Install <a href="https://fabricmc.net/use/">Fabric Loader</a> 0.17.3 or newer for Minecraft 1.21.11 with Java 21.</span><span class="de">Installiere den <a href="https://fabricmc.net/use/">Fabric Loader</a> 0.17.3 oder neuer für Minecraft 1.21.11 mit Java 21.</span></li>
+        <li><span class="en">Put <a href="https://modrinth.com/mod/fabric-api">Fabric API</a> into your <code>mods</code> folder (<a href="https://modrinth.com/mod/modmenu">Mod Menu</a> is optional).</span><span class="de">Lege die <a href="https://modrinth.com/mod/fabric-api">Fabric API</a> in deinen <code>mods</code>-Ordner (<a href="https://modrinth.com/mod/modmenu">Mod Menu</a> ist optional).</span></li>
+        <li><span class="en">Download the jar (<code>ThePrisons-&lt;Codename&gt;-v&lt;version&gt;-mc&lt;Minecraft&gt;.jar</code>) from the <a href="https://github.com/olb-freelocs/ThePrisons/releases/latest">latest release</a> and put it into <code>mods</code>.</span><span class="de">Lade die Jar (<code>ThePrisons-&lt;Codename&gt;-v&lt;Version&gt;-mc&lt;Minecraft&gt;.jar</code>) vom <a href="https://github.com/olb-freelocs/ThePrisons/releases/latest">neuesten Release</a> und lege sie in <code>mods</code>.</span></li>
+        <li><span class="en">Join the server and type <code>/prisons</code> to open the dashboard. That is your first session: pick a design, arrange the HUD, done.</span><span class="de">Tritt dem Server bei und tippe <code>/prisons</code>, um das Dashboard zu öffnen.</span></li>
       </ol>
-      <h3>Handy keys and commands</h3>
+      <p class="cta-inline"><a class="btn primary" data-track="download" id="download2" href="https://github.com/olb-freelocs/ThePrisons/releases/latest"><span class="en">Try ThePrisons</span><span class="de">ThePrisons ausprobieren</span></a></p>
+      <h3><span class="en">Handy keys and commands</span><span class="de">Nützliche Tasten und Befehle</span></h3>
       <ul class="keys">
         <li><kbd>F5</kbd> + <kbd>V</kbd> Tunnel Vision</li>
-        <li><kbd>L</kbd> bandit aim assist</li>
-        <li><kbd>K</kbd> Ore Macro</li>
+        <li><kbd>L</kbd> bandit aim assist (optional)</li>
+        <li><kbd>K</kbd> Ore Macro (optional)</li>
+        <li><kbd>J</kbd> Bandit Macro (WIP)</li>
         <li><kbd>I</kbd> config</li>
-        <li><code>/prisons</code> dashboard</li>
-        <li><code>/prisons price &lt;item&gt;</code> market price</li>
-        <li><code>/pv</code> storage overlay</li>
+        <li><code>/prisons</code> Dashboard</li>
+                <li><code>/pv</code> storage overlay</li>
       </ul>
     </section>
 
     <section id="changelog">
       <h2>Changelog</h2>
-      <div class="card" id="release-notes"><p class="note">Loading the latest release notes…</p></div>
-      <p><a href="https://github.com/olb-freelocs/ThePrisons/blob/dev/CHANGELOG.md">Full changelog</a></p>
+      <div class="card" id="release-notes"><p class="note">…</p></div>
+      <p><a href="https://github.com/olb-freelocs/ThePrisons/blob/dev/CHANGELOG.md">Full changelog</a> · <a href="https://github.com/olb-freelocs/ThePrisons/blob/dev/CHANGELOG.de.md">Changelog (Deutsch)</a></p>
     </section>
 
     <section id="faq">
       <h2>FAQ</h2>
-      <details><summary>Is it allowed on Cosmic Prisons?</summary><p>Read the server rules yourself. Automation and aim assistance can violate them and lead to sanctions.</p></details>
-      <details><summary>Where do I put backdrops for Tunnel Vision?</summary><p>Into <code>config/theprisons/tunnel/</code> (png or jpg), then pick them on the Tunnel page of the dashboard.</p></details>
-      <details><summary>The auction house opens by itself.</summary><p>Update to the latest version: stray menus of the background scan are closed unseen and the scan waits while the macro runs.</p></details>
+      <details><summary><span class="en">Is it allowed on Cosmic Prisons?</span><span class="de">Ist es auf Cosmic Prisons erlaubt?</span></summary><p class="en">Read the server rules yourself. Automation and aim assistance can violate them and lead to sanctions.</p><p class="de">Lies die Serverregeln selbst. Automatisierung und Zielhilfen können dagegen verstoßen und zu Strafen führen.</p></details>
+      <details><summary><span class="en">Is the Bandit Macro ready?</span><span class="de">Ist das Bandit-Makro fertig?</span></summary><p class="en">No. It is about 2 % done and mostly untested on the server. Do not leave it running unattended.</p><p class="de">Nein. Es ist zu etwa 2 % fertig und größtenteils noch nicht auf dem Server getestet. Lass es nicht unbeaufsichtigt laufen.</p></details>
+      <details><summary><span class="en">Where do I put backdrops for Tunnel Vision?</span><span class="de">Wohin kommen die Hintergründe für Tunnel Vision?</span></summary><p class="en">Into <code>config/theprisons/tunnel/</code> (png or jpg), then pick them on the Tunnel page of the dashboard.</p><p class="de">In <code>config/theprisons/tunnel/</code> (png oder jpg), dann auf der Tunnel-Seite des Dashboards auswählen.</p></details>
+      <details><summary><span class="en">Is it free?</span><span class="de">Ist es kostenlos?</span></summary><p class="en">Yes. The download is free, needs no account and nothing is sold on this site. The source code is All Rights Reserved (see the licence), so it is free to use, not open source.</p><p class="de">Ja. Der Download ist kostenlos, braucht keinen Account, und auf dieser Seite wird nichts verkauft. Der Quellcode ist All Rights Reserved (siehe Lizenz): kostenlos nutzbar, aber kein Open Source.</p></details>
+      <details><summary><span class="en">Is it safe? Can I get banned?</span><span class="de">Ist es sicher? Kann ich gebannt werden?</span></summary><p class="en">We make no promise about that. Some features (Ore Macro, aim assist, recall helper) automate or assist gameplay and can break a server's rules; sanctions are possible. The HUD, dashboard, storage overlay and design features do not automate anything. Read the rules and decide for yourself.</p><p class="de">Dazu geben wir kein Versprechen. Einige Funktionen (Ore Macro, Zielhilfe, Rückruf-Helfer) automatisieren oder unterstützen das Spiel und können gegen Serverregeln verstoßen; Strafen sind möglich. HUD, Dashboard, Lager-Übersicht und Design automatisieren nichts. Lies die Regeln und entscheide selbst.</p></details>
+      <details><summary><span class="en">Does it work in singleplayer or on other servers?</span><span class="de">Geht es im Einzelspieler oder auf anderen Servern?</span></summary><p class="en">It is built for Cosmic Prisons; many features read that server's menus, chat and sidebar. Elsewhere only the generic parts (dashboard, design, Tunnel Vision) make sense.</p><p class="de">Sie ist für Cosmic Prisons gebaut; viele Funktionen lesen Menüs, Chat und Sidebar dieses Servers. Anderswo sind nur die allgemeinen Teile (Dashboard, Design, Tunnel Vision) sinnvoll.</p></details>
+      <details><summary><span class="en">Why is the auction house / market not in the mod?</span><span class="de">Warum fehlt das Auktionshaus / der Markt?</span></summary><p class="en">The market module is switched off in release builds until it has been reviewed (too many bugs). It will come back when it is stable.</p><p class="de">Das Markt-Modul ist in Release-Builds abgeschaltet, bis es überprüft ist (zu viele Fehler). Es kommt zurück, sobald es stabil ist.</p></details>
+      <details><summary><span class="en">Where can I get help?</span><span class="de">Wo bekomme ich Hilfe?</span></summary><p class="en">See <a href="#support">Support</a>: the Discord (if linked) or a GitHub issue. Please include your version and <code>logs/latest.log</code>.</p><p class="de">Siehe <a href="#support">Support</a>: der Discord (falls verlinkt) oder ein GitHub-Issue. Bitte Version und <code>logs/latest.log</code> beilegen.</p></details>
+    </section>
+
+    <section id="support">
+      <h2>Support &amp; Discord</h2>
+      <div class="cta" id="support-links">
+        <a class="btn primary" id="discord" data-track="discord" hidden href="#"><span class="en">Join the Discord</span><span class="de">Dem Discord beitreten</span></a>
+        <a class="btn" data-track="issues" href="https://github.com/olb-freelocs/ThePrisons/issues/new"><span class="en">Report a bug / ask on GitHub</span><span class="de">Fehler melden / auf GitHub fragen</span></a>
+      </div>
+      <p class="note en" id="discord-soon">The Discord link will appear here as soon as it is published. Until then, GitHub issues are the support channel.</p>
+      <p class="note de" id="discord-soon-de">Der Discord-Link erscheint hier, sobald er veröffentlicht ist. Bis dahin sind GitHub-Issues der Support-Kanal.</p>
+    </section>
+
+    <section id="roadmap">
+      <h2>Roadmap</h2>
+      <ul class="road">
+        <li><strong class="en">Now</strong><strong class="de">Jetzt</strong><span class="en">Test the Ore Macro, item sorter and HUDs on the server and fix what breaks (stability first).</span><span class="de">Ore Macro, Item Sorter und HUDs auf dem Server testen und reparieren, was kaputtgeht (Stabilität zuerst).</span></li>
+        <li><strong class="en">In progress</strong><strong class="de">In Arbeit</strong><span class="en">Bandit Macro (about 2 % done).</span><span class="de">Bandit-Makro (etwa 2 % fertig).</span></li>
+        <li><strong class="en">Planned</strong><strong class="de">Geplant</strong><span class="en">Review and re-enable the market module (auction house, shop overlays, item list); real in-game screenshots and clips.</span><span class="de">Markt-Modul prüfen und wieder aktivieren (Auktionshaus, Shop-Overlays, Item List); echte Spiel-Screenshots und Clips.</span></li>
+      </ul>
+      <p class="note en">No dates: features ship when they are stable.</p>
+      <p class="note de">Keine Termine: Funktionen erscheinen, wenn sie stabil sind.</p>
     </section>
 
     <section class="disclaimer">
       <h2>Disclaimer</h2>
-      <p>ThePrisons is an unofficial fan project, not affiliated with Mojang, Microsoft or the Cosmic Prisons server. You use it at your own risk; the authors are not liable for any consequence for your account. The code is All Rights Reserved.</p>
+      <p class="de">ThePrisons ist ein inoffizielles Fan-Projekt, nicht verbunden mit Mojang, Microsoft oder dem Cosmic-Prisons-Server. Die Nutzung erfolgt auf eigenes Risiko; die Autoren haften nicht für Folgen für deinen Account. Der Code ist All Rights Reserved.</p>
+      <p class="en">ThePrisons is an unofficial fan project, not affiliated with Mojang, Microsoft or the Cosmic Prisons server. You use it at your own risk; the authors are not liable for any consequence for your account. The code is All Rights Reserved.</p>
     </section>
   </main>
 
   <footer>
     <div class="bar"></div>
-    <p><a href="https://github.com/olb-freelocs/ThePrisons">GitHub</a> · <a href="https://github.com/olb-freelocs/ThePrisons/releases">Releases</a> · <a href="https://github.com/olb-freelocs/ThePrisons/issues">Issues</a></p>
+    <p><a href="https://github.com/olb-freelocs/ThePrisons">GitHub</a> · <a href="https://github.com/olb-freelocs/ThePrisons/releases">Releases</a> · <a href="https://github.com/olb-freelocs/ThePrisons/issues">Issues</a> · <a href="privacy.html">Privacy / Datenschutz</a></p>
   </footer>
   <script src="app.js"></script>
 </body>

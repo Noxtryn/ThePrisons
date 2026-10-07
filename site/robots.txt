@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://olb-freelocs.github.io/ThePrisons/sitemap.xml
