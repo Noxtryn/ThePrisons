@@ -18,8 +18,8 @@ discord-bot/
 
 ## Content
 
-`content/*.json`: `welcome`, `rules`, `get-started`, `faq`, `roadmap`, `known-issues`. Edit the text, push to `Release`
-(or run the "Discord" workflow) and the existing messages are edited in place. Every message has an English and a German embed.
+`content/*.json`: `welcome`, `rules`, `get-started`, `faq`, `roadmap`, `known-issues`. Edit the text, merge it to `Release`,
+then run the "Discord" workflow by hand (publishing is manual-only for now) and the existing messages are edited in place. Every message has an English and a German embed.
 Placeholders such as `{version}`, `{minecraft}`, `{loader}`, `{java}`, `{download_url}`, `{jar_name}`, `{channel_faq}` come from
 `gradle.properties`, `fabric.mod.json` and the latest GitHub release, so versions are not hard-coded.
 
@@ -62,6 +62,17 @@ Variables (**Variables** tab; ids are not secret): `DISCORD_CHANNEL_WELCOME`, `_
    the members: leave it on for @everyone in the channels where the commands should work.
 4. Give the bot access only to the official channels (view + send + embed + history), in the others it needs nothing.
 5. Create the variables above (Developer Mode > right click a channel > Copy Channel ID).
+
+## First live publish (manual only)
+
+`discord.yml` has **no automatic trigger**: merging into `Release` posts nothing. Release posts on a new tag (`release.yml`) stay as they are.
+
+1. Merge the PR into `Release`.
+2. Verify CI and the Website (Pages) workflow are green.
+3. Actions > **Discord** > Run workflow on `Release`: leave `dry_run` ticked first (it shows what would be posted, sends nothing), then run again with `dry_run` unticked. `register_commands` stays off until the commands should exist.
+4. Watch the log: every channel prints `posted`, later runs print `unchanged` or `edited`. The token is never printed.
+5. Check every official channel in Discord (EN + DE embeds, links, channel mentions).
+6. Only after that may automatic publishing be switched on again: the commented `push:` trigger is in `discord.yml`.
 
 ## Commands
 

@@ -2,14 +2,14 @@ name: Discord
 
 # Publishes / updates the official ThePrisons messages (welcome, rules, get-started, faq, roadmap, known-issues)
 # with the ThePrisons bot. Messages are edited in place, never duplicated (see discord-bot/README.md).
-# Runs on Release when the content or the bot changes, or by hand. Without the secret DISCORD_BOT_TOKEN it does nothing.
+#
+# MANUAL ONLY for now: nothing is published when content or code is merged into Release. Start it by hand
+# (Actions > Discord > Run workflow, first with dry_run). Without the secret DISCORD_BOT_TOKEN it only validates.
+# To automate later, after the first publish has been verified, add this under `on:`:
+#   push:
+#     branches: [Release]
+#     paths: ['discord-bot/content/**', 'discord-bot/prisonsbot/**', '.github/workflows/discord.yml']
 on:
-  push:
-    branches: [Release]
-    paths:
-      - 'discord-bot/content/**'
-      - 'discord-bot/prisonsbot/**'
-      - '.github/workflows/discord.yml'
   workflow_dispatch:
     inputs:
       names:
@@ -21,9 +21,9 @@ on:
         type: boolean
         default: false
       dry_run:
-        description: 'Only show what would happen'
+        description: 'Only show what would happen (nothing is sent)'
         type: boolean
-        default: false
+        default: true
 
 permissions:
   contents: read
