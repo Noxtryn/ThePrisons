@@ -7,7 +7,7 @@ The names below are the ones the README placeholders expect.
 
 | File (any of png / jpg / webp / mp4 / mkv / webm / mov) | What to show |
 | --- | --- |
-| `dashboard` | The dashboard: Overview, then the Mining tab (sub-tabs) and the Bandits tab. A short clip switching tabs is ideal |
+| `dashboard` | RE-RECORD: the 1.2.0 shot shows the disabled "Market Prices" tile. The dashboard: Overview, then the Mining tab (sub-tabs) and the Bandits tab. A short clip switching tabs is ideal |
 | `ore-macro-hud` | The session HUD while the Ore Macro mines (state, ores/s, Energy/h and XP/h with the average underneath) |
 | `item-sorter` | An item sorter trip: spawn, vault, back to the mine (clip, 10-20 s) |
 | `guard-zones` | The guarded zone and border marks (with the pathfinder line on) |
@@ -16,3 +16,6 @@ The names below are the ones the README placeholders expect.
 
 Tips: GUI scale 2 or 3, no private information (chat names, balance) in the picture, 1920x1080 or similar.
 Until a file exists, the README only has a placeholder comment for it - nothing is faked.
+
+Withheld from the website gallery until re-recorded: `dashboard` ("Market Prices" tile visible) and `scoreboard` (a `/ah` error in chat).
+Existing shots are from 1.2.0 ("23 features active"); the other six show no market feature.

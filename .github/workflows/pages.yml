@@ -46,12 +46,13 @@ jobs:
       - name: Assemble the site (media from docs/media)
         run: |
           mkdir -p site/media/cards
+          # dashboard.webp (shows the disabled "Market Prices" tile) and scoreboard.webp (shows an /ah error) stay out until re-recorded
           # only what the page uses: no trailer (outdated), no market pictures (module is off), no raw sources
           cp docs/media/banner.png site/media/
           cp docs/media/cards/*.png site/media/cards/
           rm -f site/media/cards/market.png site/media/cards/shops.png site/media/cards/item-list.png
           find docs/media -maxdepth 1 -type f \( -name '*.webp' \) \
-            ! -name 'market-*' -exec cp {} site/media/ \;
+            ! -name 'market-*' ! -name 'dashboard.webp' ! -name 'scoreboard.webp' -exec cp {} site/media/ \;
           # real pictures only: everything that is not a generated graphic (banner, cards, changelog cards)
           (cd site/media && find . -maxdepth 1 -type f \( -name '*.webp' -o -name '*.gif' \) \
             ! -name 'changelog-*' -printf '%f\n' | sort | jq -R . | jq -s .) > site/media/manifest.json

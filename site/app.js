@@ -95,8 +95,8 @@
     var jar = (rel.assets || []).filter(function (a) { return /\.jar$/.test(a.name); })[0];
     if (jar) { var d2 = document.getElementById("download2"); if (d2) d2.href = jar.browser_download_url;
       var total = 0; (rel.assets || []).forEach(function (a) { total += a.download_count || 0; });
-      if (total > 0) document.getElementById("dlcount").textContent = "· " + total + " downloads of this version";
-      var d = document.getElementById("download"); d.href = jar.browser_download_url; d.innerHTML = '<span class="en">Download </span><span class="de">Herunterladen: </span>' + esc(jar.name); }
+      if (total >= 100) document.getElementById("dlcount").textContent = "· " + total + " downloads of this version";
+      var d = document.getElementById("download"); d.href = jar.browser_download_url; d.title = jar.name; }
     var parts = (rel.body || "").split(/\r?\n---\r?\n/);
     release = { title: rel.name || rel.tag_name, en: parts[0], de: (parts[1] || parts[0]).replace(/^\s*##.*Deutsch.*$/m, "") };
     renderNotes();
