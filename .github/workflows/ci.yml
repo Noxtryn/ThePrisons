@@ -26,6 +26,14 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
       - name: Release metadata and website check
         run: scripts/check-release.sh
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Discord bot tests and content check (standard library only)
+        working-directory: discord-bot
+        run: |
+          python3 -m unittest discover -s tests -t .
+          python3 -m prisonsbot check
       - name: Test and build
         run: |
           chmod +x gradlew

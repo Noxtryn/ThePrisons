@@ -1,0 +1,39 @@
+{
+  "status": "approved",
+  "channel": "known-issues",
+  "updated": "2026-10-08",
+  "title": {
+    "en": "Known issues",
+    "de": "Bekannte Probleme"
+  },
+  "intro": {
+    "en": "What we know is not working or not finished. Found something else? [Open an issue]({issues_url}).",
+    "de": "Was nach unserem Stand nicht funktioniert oder nicht fertig ist. Etwas anderes gefunden? [Eröffne ein Issue]({issues_url})."
+  },
+  "issues": [
+    {
+      "id": "market-off",
+      "status": "disabled",
+      "title": {
+        "en": "Market module",
+        "de": "Markt-Modul"
+      },
+      "note": {
+        "en": "Auction house and /ee screens, shop overlays, item list and price scan are switched off in release builds until reviewed (too many bugs).",
+        "de": "Auktionshaus- und /ee-Bildschirme, Shop-Overlays, Item List und Preis-Scan sind in Release-Builds abgeschaltet, bis sie überprüft sind (zu viele Fehler)."
+      }
+    },
+    {
+      "id": "bandit-macro",
+      "status": "wip",
+      "title": {
+        "en": "Bandit Macro",
+        "de": "Bandit-Makro"
+      },
+      "note": {
+        "en": "About 2 % done and mostly untested on the server. Do not leave it running unattended.",
+        "de": "Etwa 2 % fertig und größtenteils nicht auf dem Server getestet. Lass es nicht unbeaufsichtigt laufen."
+      }
+    }
+  ]
+}

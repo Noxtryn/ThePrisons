@@ -1,7 +1,8 @@
 name: Release
 
-# Push a tag like v1.0.0 -> tests + build -> GitHub Release with the jar -> Discord embed.
-# The Discord post can never fail the release (continue-on-error + the script always exits 0).
+# Push a tag like v1.0.0 -> tests + build -> GitHub Release with the jar -> Discord.
+# Discord: the ThePrisons bot posts the announcement + changelog when the secret DISCORD_BOT_TOKEN exists;
+# otherwise the old webhook embed (DISCORD_WEBHOOK) is used. Never both. A Discord problem can never fail the release.
 on:
   push:
     tags:
@@ -18,6 +19,9 @@ jobs:
   release:
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    env:
+      # only a yes/no flag: the token itself is passed to the one step that needs it
+      HAS_BOT: ${{ secrets.DISCORD_BOT_TOKEN != '' }}
     steps:
       - name: Check out
         uses: actions/checkout@v4
@@ -84,9 +88,26 @@ jobs:
             --notes-file release-body.md \
             "${flags[@]}"
 
-      - name: Discord embed
-        # a tagged commit with "[no-discord]" in its message publishes the release without the Discord post
-        if: ${{ !contains(github.event.head_commit.message, '[no-discord]') }}
+      - name: Discord (ThePrisons bot)
+        # a tagged commit with "[no-discord]" in its message publishes the release without any Discord post
+        if: ${{ !contains(github.event.head_commit.message, '[no-discord]') && env.HAS_BOT == 'true' }}
+        continue-on-error: true
+        working-directory: discord-bot
+        env:
+          DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
+          DISCORD_MENTIONS: ${{ vars.DISCORD_MENTIONS }}
+          DISCORD_CHANNEL_WELCOME: ${{ vars.DISCORD_CHANNEL_WELCOME }}
+          DISCORD_CHANNEL_RULES: ${{ vars.DISCORD_CHANNEL_RULES }}
+          DISCORD_CHANNEL_GET_STARTED: ${{ vars.DISCORD_CHANNEL_GET_STARTED }}
+          DISCORD_CHANNEL_FAQ: ${{ vars.DISCORD_CHANNEL_FAQ }}
+          DISCORD_CHANNEL_ANNOUNCEMENTS: ${{ vars.DISCORD_CHANNEL_ANNOUNCEMENTS }}
+          DISCORD_CHANNEL_CHANGELOG: ${{ vars.DISCORD_CHANNEL_CHANGELOG }}
+          DISCORD_CHANNEL_ROADMAP: ${{ vars.DISCORD_CHANNEL_ROADMAP }}
+          DISCORD_CHANNEL_KNOWN_ISSUES: ${{ vars.DISCORD_CHANNEL_KNOWN_ISSUES }}
+        run: python3 -m prisonsbot release --version "${{ steps.version.outputs.version }}"
+
+      - name: Discord embed (webhook, used while the bot is not set up)
+        if: ${{ !contains(github.event.head_commit.message, '[no-discord]') && env.HAS_BOT != 'true' }}
         continue-on-error: true
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}

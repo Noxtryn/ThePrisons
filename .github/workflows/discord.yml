@@ -1,0 +1,72 @@
+name: Discord
+
+# Publishes / updates the official ThePrisons messages (welcome, rules, get-started, faq, roadmap, known-issues)
+# with the ThePrisons bot. Messages are edited in place, never duplicated (see discord-bot/README.md).
+# Runs on Release when the content or the bot changes, or by hand. Without the secret DISCORD_BOT_TOKEN it does nothing.
+on:
+  push:
+    branches: [Release]
+    paths:
+      - 'discord-bot/content/**'
+      - 'discord-bot/prisonsbot/**'
+      - '.github/workflows/discord.yml'
+  workflow_dispatch:
+    inputs:
+      names:
+        description: 'Channels to publish (space separated, empty = all): welcome rules get-started faq roadmap known-issues'
+        required: false
+        default: ''
+      register_commands:
+        description: 'Also (re-)register the slash commands'
+        type: boolean
+        default: false
+      dry_run:
+        description: 'Only show what would happen'
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: discord
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      HAS_BOT: ${{ secrets.DISCORD_BOT_TOKEN != '' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate content
+        working-directory: discord-bot
+        run: python3 -m prisonsbot check
+      - name: Publish official messages
+        if: ${{ env.HAS_BOT == 'true' }}
+        working-directory: discord-bot
+        env:
+          DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
+          DISCORD_CHANNEL_WELCOME: ${{ vars.DISCORD_CHANNEL_WELCOME }}
+          DISCORD_CHANNEL_RULES: ${{ vars.DISCORD_CHANNEL_RULES }}
+          DISCORD_CHANNEL_GET_STARTED: ${{ vars.DISCORD_CHANNEL_GET_STARTED }}
+          DISCORD_CHANNEL_FAQ: ${{ vars.DISCORD_CHANNEL_FAQ }}
+          DISCORD_CHANNEL_ANNOUNCEMENTS: ${{ vars.DISCORD_CHANNEL_ANNOUNCEMENTS }}
+          DISCORD_CHANNEL_CHANGELOG: ${{ vars.DISCORD_CHANNEL_CHANGELOG }}
+          DISCORD_CHANNEL_ROADMAP: ${{ vars.DISCORD_CHANNEL_ROADMAP }}
+          DISCORD_CHANNEL_KNOWN_ISSUES: ${{ vars.DISCORD_CHANNEL_KNOWN_ISSUES }}
+          DISCORD_APPLICATION_ID: ${{ vars.DISCORD_APPLICATION_ID }}
+          DISCORD_GUILD_ID: ${{ vars.DISCORD_GUILD_ID }}
+          NAMES: ${{ github.event.inputs.names }}
+          DRY: ${{ github.event.inputs.dry_run == 'true' && '--dry-run' || '' }}
+          REGISTER: ${{ github.event.inputs.register_commands }}
+        run: |
+          python3 -m prisonsbot publish $NAMES $DRY
+          if [ "$REGISTER" = "true" ]; then python3 -m prisonsbot register $DRY; fi
+      - name: No bot token
+        if: ${{ env.HAS_BOT != 'true' }}
+        run: echo "DISCORD_BOT_TOKEN is not set - content was validated, nothing was published."

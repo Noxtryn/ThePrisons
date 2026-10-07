@@ -1,0 +1,85 @@
+{
+  "status": "approved",
+  "channel": "rules",
+  "messages": [
+    {
+      "key": "rules",
+      "en": {
+        "title": "Server rules",
+        "description": "By staying here you agree to these rules.",
+        "fields": [
+          {
+            "name": "1. Respect",
+            "value": "Treat everyone with respect. No harassment, hate or personal attacks."
+          },
+          {
+            "name": "2. No spam",
+            "value": "No spam, flooding or unsolicited advertising and direct messages."
+          },
+          {
+            "name": "3. Safe content",
+            "value": "No harmful links, malware, phishing or scams. Only download ThePrisons from the official links in {channel_get_started}."
+          },
+          {
+            "name": "4. Correct channels",
+            "value": "Keep topics in the right channel."
+          },
+          {
+            "name": "5. No impersonation",
+            "value": "Do not pretend to be staff, the ThePrisons team or another person."
+          },
+          {
+            "name": "6. No false information",
+            "value": "Do not knowingly spread false information about ThePrisons."
+          },
+          {
+            "name": "7. Discord rules",
+            "value": "The Discord Terms of Service and Community Guidelines apply."
+          },
+          {
+            "name": "8. Moderation",
+            "value": "Staff may moderate disruptive behaviour, including removing messages and members."
+          }
+        ]
+      },
+      "de": {
+        "title": "Serverregeln",
+        "description": "Mit deinem Verbleib stimmst du diesen Regeln zu.",
+        "fields": [
+          {
+            "name": "1. Respekt",
+            "value": "Behandle alle mit Respekt. Keine Belästigung, kein Hass, keine persönlichen Angriffe."
+          },
+          {
+            "name": "2. Kein Spam",
+            "value": "Kein Spam, kein Fluten, keine ungefragte Werbung und keine ungefragten Direktnachrichten."
+          },
+          {
+            "name": "3. Sichere Inhalte",
+            "value": "Keine schädlichen Links, Malware, Phishing oder Betrug. Lade ThePrisons nur über die offiziellen Links in {channel_get_started} herunter."
+          },
+          {
+            "name": "4. Richtige Kanäle",
+            "value": "Halte Themen im passenden Kanal."
+          },
+          {
+            "name": "5. Keine Identitätsvortäuschung",
+            "value": "Gib dich nicht als Team, als ThePrisons-Team oder als andere Person aus."
+          },
+          {
+            "name": "6. Keine Falschinformationen",
+            "value": "Verbreite nicht wissentlich falsche Informationen über ThePrisons."
+          },
+          {
+            "name": "7. Discord-Regeln",
+            "value": "Es gelten die Discord-Nutzungsbedingungen und Community-Richtlinien."
+          },
+          {
+            "name": "8. Moderation",
+            "value": "Das Team darf störendes Verhalten moderieren, auch durch Entfernen von Nachrichten und Mitgliedern."
+          }
+        ]
+      }
+    }
+  ]
+}

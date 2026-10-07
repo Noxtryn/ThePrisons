@@ -1,0 +1,69 @@
+{
+  "status": "approved",
+  "channel": "get-started",
+  "messages": [
+    {
+      "key": "get-started",
+      "en": {
+        "title": "Get started",
+        "description": "From download to your first session in a few minutes. Current release: **v{version}**.",
+        "fields": [
+          {
+            "name": "1. Download",
+            "value": "[Download {jar_name}]({download_url})"
+          },
+          {
+            "name": "2. Requirements",
+            "value": "Minecraft {minecraft}\nFabric Loader {loader} or newer\nJava {java} or newer\nFabric API (required), Mod Menu (optional)"
+          },
+          {
+            "name": "3. Installation",
+            "value": "Install Fabric Loader for Minecraft {minecraft}. Put the ThePrisons jar and Fabric API into your `mods` folder."
+          },
+          {
+            "name": "4. Launch",
+            "value": "Start Minecraft with the Fabric profile and join Cosmic Prisons."
+          },
+          {
+            "name": "5. Open the dashboard",
+            "value": "Type `/prisons`. Pick a design and arrange the HUD with the HUD editor."
+          },
+          {
+            "name": "6. Support",
+            "value": "Check {channel_faq} first. Still stuck? [Open an issue]({issues_url}) with your version and `logs/latest.log`."
+          }
+        ]
+      },
+      "de": {
+        "title": "Erste Schritte",
+        "description": "Vom Download bis zur ersten Session in wenigen Minuten. Aktuelles Release: **v{version}**.",
+        "fields": [
+          {
+            "name": "1. Download",
+            "value": "[{jar_name} herunterladen]({download_url})"
+          },
+          {
+            "name": "2. Voraussetzungen",
+            "value": "Minecraft {minecraft}\nFabric Loader {loader} oder neuer\nJava {java} oder neuer\nFabric API (erforderlich), Mod Menu (optional)"
+          },
+          {
+            "name": "3. Installation",
+            "value": "Installiere den Fabric Loader für Minecraft {minecraft}. Lege die ThePrisons-Jar und die Fabric API in deinen `mods`-Ordner."
+          },
+          {
+            "name": "4. Starten",
+            "value": "Starte Minecraft mit dem Fabric-Profil und tritt Cosmic Prisons bei."
+          },
+          {
+            "name": "5. Dashboard öffnen",
+            "value": "Tippe `/prisons`. Wähle ein Design und ordne das HUD mit dem HUD-Editor an."
+          },
+          {
+            "name": "6. Support",
+            "value": "Schau zuerst in {channel_faq}. Weiter ratlos? [Eröffne ein Issue]({issues_url}) mit Version und `logs/latest.log`."
+          }
+        ]
+      }
+    }
+  ]
+}

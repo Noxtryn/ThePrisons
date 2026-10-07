@@ -1,0 +1,45 @@
+{
+  "status": "approved",
+  "channel": "welcome",
+  "messages": [
+    {
+      "key": "welcome",
+      "en": {
+        "title": "Welcome to ThePrisons",
+        "description": "ThePrisons is a free, client-side Fabric mod for Cosmic Prisons on Minecraft {minecraft}: a clean dashboard, live session stats, HUD widgets, a storage overlay and customization.",
+        "fields": [
+          {
+            "name": "Start here",
+            "value": "Read {channel_get_started} to install it in a few minutes."
+          },
+          {
+            "name": "Channels",
+            "value": "{channel_announcements} releases and news\n{channel_changelog} what changed\n{channel_faq} common questions\n{channel_roadmap} what we work on\n{channel_known_issues} open problems"
+          },
+          {
+            "name": "Please note",
+            "value": "ThePrisons is an unofficial fan project, not affiliated with Mojang, Microsoft or the Cosmic Prisons server. Some optional tools (Ore Macro, aim assist) automate or assist gameplay and can break a server's rules. Read them first; you use ThePrisons at your own risk."
+          }
+        ]
+      },
+      "de": {
+        "title": "Willkommen bei ThePrisons",
+        "description": "ThePrisons ist eine kostenlose, clientseitige Fabric-Mod für Cosmic Prisons auf Minecraft {minecraft}: ein sauberes Dashboard, Live-Session-Stats, HUD-Widgets, eine Lager-Übersicht und Anpassung.",
+        "fields": [
+          {
+            "name": "Hier starten",
+            "value": "Lies {channel_get_started}, dann ist es in wenigen Minuten installiert."
+          },
+          {
+            "name": "Kanäle",
+            "value": "{channel_announcements} Releases und Neuigkeiten\n{channel_changelog} was sich geändert hat\n{channel_faq} häufige Fragen\n{channel_roadmap} woran wir arbeiten\n{channel_known_issues} offene Probleme"
+          },
+          {
+            "name": "Bitte beachten",
+            "value": "ThePrisons ist ein inoffizielles Fan-Projekt, nicht verbunden mit Mojang, Microsoft oder dem Cosmic-Prisons-Server. Einige optionale Werkzeuge (Ore Macro, Zielhilfe) automatisieren oder unterstützen das Spiel und können gegen Serverregeln verstoßen. Lies diese zuerst; Nutzung auf eigenes Risiko."
+          }
+        ]
+      }
+    }
+  ]
+}

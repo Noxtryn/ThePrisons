@@ -19,6 +19,9 @@ if grep -rniE "undetect|ban-?proof|guaranteed safe|100 ?% (safe|undetect)|nicht 
   err "forbidden safety claim found (see lines above)"
 fi
 
+# Discord content: parses, fits Discord's limits, no emoji / forbidden claims / open placeholders
+(cd discord-bot && python3 -m prisonsbot check) || err "discord-bot content check failed (see above)"
+
 # disabled market module must not be advertised as available (site, READMEs); a line is fine if it says it is off
 market_re='auction house|auktionshaus|shop overlay|shop-overlay|item list|item-list|market tracker|markt-tracker|/prisons price|market scan'
 off_re='switched off|off in release|abgeschaltet|not available|nicht verfügbar|re-enable|wieder aktiv|reviewed|überprüft|disabled|deaktiviert|not in the mod|fehlt'
