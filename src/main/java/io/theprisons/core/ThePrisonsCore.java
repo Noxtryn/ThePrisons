@@ -94,6 +94,8 @@ public final class ThePrisonsCore {
         modules.setDirtyHook(config::markDirty);
         safety.setRelocationHandler((owner, reason) -> owner instanceof io.theprisons.core.module.AutomationModule automation
                 && automation.onRelocated(reason));
+        safety.setToleratesDamage(owner -> owner instanceof io.theprisons.core.module.AutomationModule automation
+                && automation.toleratesDamage());
         safety.setTravelling(owner -> owner instanceof io.theprisons.core.module.AutomationModule automation
                 && automation.travelling());
         modules.addLifecycleListener(new ModuleManager.LifecycleListener() {

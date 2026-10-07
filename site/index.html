@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>ThePrisons - Fabric mod for Cosmic Prisons</title>
-  <meta name="description" content="Client-side Fabric mod for Minecraft 1.21.11 and Cosmic Prisons: dashboard, HUDs, market tracker, Ore Macro, bandit helpers and Tunnel Vision.">
+  <meta name="description" content="Clientseitige Fabric-Mod / Client-side Fabric mod for Minecraft 1.21.11 and Cosmic Prisons: dashboard, HUDs, market tracker, Ore Macro, bandit helpers and Tunnel Vision.">
   <meta property="og:title" content="ThePrisons">
   <meta property="og:description" content="Client-side Fabric mod for Minecraft 1.21.11 and Cosmic Prisons.">
   <meta property="og:image" content="media/banner.png">
@@ -16,53 +16,71 @@
   <header class="top">
     <a class="brand" href="#top">ThePrisons</a>
     <nav>
-      <a href="#features">Features</a>
-      <a href="#gallery">Gallery</a>
-      <a href="#install">Install</a>
+      <a href="#features"><span class="en">Features</span><span class="de">Funktionen</span></a>
+      <a href="#trailer">Trailer</a>
+      <a href="#gallery"><span class="en">Gallery</span><span class="de">Galerie</span></a>
+      <a href="#install"><span class="en">Install</span><span class="de">Installation</span></a>
       <a href="#changelog">Changelog</a>
       <a href="#faq">FAQ</a>
       <a class="gh" href="https://github.com/olb-freelocs/ThePrisons">GitHub</a>
+      <button id="lang" class="lang" type="button" aria-label="Language / Sprache">EN | DE</button>
     </nav>
   </header>
 
   <main id="top">
     <section class="hero">
       <img class="banner" src="media/banner.png" alt="ThePrisons banner (graphic)">
-      <h1>Cosmic Prisons, <span class="rainbow">your way</span>.</h1>
-      <p class="lead">A client-side Fabric mod for Minecraft 1.21.11: an animated dashboard, HUD widgets, a market tracker with its own auction house screens, a mining automation with a built-in pathfinder, bandit helpers and Tunnel Vision.</p>
-      <div class="cta">
-        <a id="download" class="btn primary" href="https://github.com/olb-freelocs/ThePrisons/releases/latest">Download the latest jar</a>
-        <a class="btn" href="https://github.com/olb-freelocs/ThePrisons">View on GitHub</a>
+      <h1><span class="en">Cosmic Prisons, <span class="rainbow">your way</span>.</span><span class="de">Cosmic Prisons, <span class="rainbow">auf deine Art</span>.</span></h1>
+      <p class="lead en">A client-side Fabric mod for Minecraft 1.21.11: an animated dashboard, HUD widgets, a market tracker with its own auction house screens, a mining automation with a built-in pathfinder, bandit helpers and Tunnel Vision.</p>
+      <p class="lead de">Eine clientseitige Fabric-Mod für Minecraft 1.21.11: animiertes Dashboard, HUD-Widgets, ein Markt-Tracker mit eigenen Auktionshaus-Bildschirmen, eine Mining-Automatik mit eigenem Pathfinder, Banditen-Helfer und Tunnel Vision.</p>
+      <div class="wip">
+        <strong class="en">New in 1.2.0: the Bandit Macro - work in progress, only about 2 % done.</strong>
+        <strong class="de">Neu in 1.2.0: das Bandit-Makro - in Arbeit, erst zu etwa 2 % fertig.</strong>
+        <span class="en">It is in the release so you can see where it is going. Expect rough edges and do not leave it running unattended.</span>
+        <span class="de">Es ist im Release, damit ihr seht, wohin die Reise geht. Rechnet mit Ecken und Kanten und lasst es nicht unbeaufsichtigt laufen.</span>
       </div>
-      <p class="meta"><span id="version">Latest release</span> · Minecraft 1.21.11 · Fabric · Java 21</p>
+      <div class="cta">
+        <a id="download" class="btn primary" href="https://github.com/olb-freelocs/ThePrisons/releases/latest"><span class="en">Download the latest jar</span><span class="de">Aktuelle Jar herunterladen</span></a>
+        <a class="btn" href="https://github.com/olb-freelocs/ThePrisons"><span class="en">View on GitHub</span><span class="de">Auf GitHub ansehen</span></a>
+      </div>
+      <p class="meta"><span id="version">1.2.0</span> · Minecraft 1.21.11 · Fabric · Java 21</p>
     </section>
 
     <section id="features">
-      <h2>Features</h2>
+      <h2><span class="en">Features</span><span class="de">Funktionen</span></h2>
       <div class="grid" id="feature-grid"></div>
-      <p class="note">Pictures on the cards are generated illustrations, not screenshots.</p>
+      <p class="note en">Pictures on the cards are generated illustrations, not screenshots.</p>
+      <p class="note de">Die Bilder auf den Karten sind erzeugte Illustrationen, keine Screenshots.</p>
+    </section>
+
+    <section id="trailer">
+      <h2>Trailer</h2>
+      <video class="trailer" controls preload="metadata" poster="media/banner.png" src="media/trailer.mp4"></video>
+      <p class="note en">An animated illustration with an original house track - not a game recording.</p>
+      <p class="note de">Eine animierte Illustration mit einem eigenen House-Track - keine Spielaufnahme.</p>
     </section>
 
     <section id="gallery">
-      <h2>Gallery</h2>
-      <div class="gallery" id="gallery-grid"><p class="note" id="gallery-empty">Real in-game screenshots and clips are coming soon.</p></div>
+      <h2><span class="en">Gallery</span><span class="de">Galerie</span></h2>
+      <div class="gallery" id="gallery-grid"><p class="note" id="gallery-empty"><span class="en">Real in-game screenshots and clips are coming soon.</span><span class="de">Echte Spiel-Screenshots und Clips kommen bald.</span></p></div>
     </section>
 
     <section id="install">
-      <h2>Install</h2>
+      <h2><span class="en">Install</span><span class="de">Installation</span></h2>
       <ol class="steps">
-        <li>Install <a href="https://fabricmc.net/use/">Fabric Loader</a> 0.17.3 or newer for Minecraft 1.21.11 with Java 21.</li>
-        <li>Put <a href="https://modrinth.com/mod/fabric-api">Fabric API</a> into your <code>mods</code> folder (<a href="https://modrinth.com/mod/modmenu">Mod Menu</a> is optional).</li>
-        <li>Download the jar (<code>ThePrisons-&lt;Codename&gt;-v&lt;version&gt;-mc&lt;Minecraft&gt;.jar</code>) from the <a href="https://github.com/olb-freelocs/ThePrisons/releases/latest">latest release</a> and put it into <code>mods</code>.</li>
-        <li>Join the server and type <code>/prisons</code> to open the dashboard.</li>
+        <li><span class="en">Install <a href="https://fabricmc.net/use/">Fabric Loader</a> 0.17.3 or newer for Minecraft 1.21.11 with Java 21.</span><span class="de">Installiere den <a href="https://fabricmc.net/use/">Fabric Loader</a> 0.17.3 oder neuer für Minecraft 1.21.11 mit Java 21.</span></li>
+        <li><span class="en">Put <a href="https://modrinth.com/mod/fabric-api">Fabric API</a> into your <code>mods</code> folder (<a href="https://modrinth.com/mod/modmenu">Mod Menu</a> is optional).</span><span class="de">Lege die <a href="https://modrinth.com/mod/fabric-api">Fabric API</a> in deinen <code>mods</code>-Ordner (<a href="https://modrinth.com/mod/modmenu">Mod Menu</a> ist optional).</span></li>
+        <li><span class="en">Download the jar (<code>ThePrisons-&lt;Codename&gt;-v&lt;version&gt;-mc&lt;Minecraft&gt;.jar</code>) from the <a href="https://github.com/olb-freelocs/ThePrisons/releases/latest">latest release</a> and put it into <code>mods</code>.</span><span class="de">Lade die Jar (<code>ThePrisons-&lt;Codename&gt;-v&lt;Version&gt;-mc&lt;Minecraft&gt;.jar</code>) vom <a href="https://github.com/olb-freelocs/ThePrisons/releases/latest">neuesten Release</a> und lege sie in <code>mods</code>.</span></li>
+        <li><span class="en">Join the server and type <code>/prisons</code> to open the dashboard.</span><span class="de">Tritt dem Server bei und tippe <code>/prisons</code>, um das Dashboard zu öffnen.</span></li>
       </ol>
-      <h3>Handy keys and commands</h3>
+      <h3><span class="en">Handy keys and commands</span><span class="de">Nützliche Tasten und Befehle</span></h3>
       <ul class="keys">
         <li><kbd>F5</kbd> + <kbd>V</kbd> Tunnel Vision</li>
         <li><kbd>L</kbd> bandit aim assist</li>
         <li><kbd>K</kbd> Ore Macro</li>
+        <li><kbd>J</kbd> Bandit Macro (WIP)</li>
         <li><kbd>I</kbd> config</li>
-        <li><code>/prisons</code> dashboard</li>
+        <li><code>/prisons</code> Dashboard</li>
         <li><code>/prisons price &lt;item&gt;</code> market price</li>
         <li><code>/pv</code> storage overlay</li>
       </ul>
@@ -70,20 +88,22 @@
 
     <section id="changelog">
       <h2>Changelog</h2>
-      <div class="card" id="release-notes"><p class="note">Loading the latest release notes…</p></div>
-      <p><a href="https://github.com/olb-freelocs/ThePrisons/blob/dev/CHANGELOG.md">Full changelog</a></p>
+      <div class="card" id="release-notes"><p class="note">…</p></div>
+      <p><a href="https://github.com/olb-freelocs/ThePrisons/blob/dev/CHANGELOG.md">Full changelog</a> · <a href="https://github.com/olb-freelocs/ThePrisons/blob/dev/CHANGELOG.de.md">Changelog (Deutsch)</a></p>
     </section>
 
     <section id="faq">
       <h2>FAQ</h2>
-      <details><summary>Is it allowed on Cosmic Prisons?</summary><p>Read the server rules yourself. Automation and aim assistance can violate them and lead to sanctions.</p></details>
-      <details><summary>Where do I put backdrops for Tunnel Vision?</summary><p>Into <code>config/theprisons/tunnel/</code> (png or jpg), then pick them on the Tunnel page of the dashboard.</p></details>
-      <details><summary>The auction house opens by itself.</summary><p>Update to the latest version: stray menus of the background scan are closed unseen and the scan waits while the macro runs.</p></details>
+      <details><summary><span class="en">Is it allowed on Cosmic Prisons?</span><span class="de">Ist es auf Cosmic Prisons erlaubt?</span></summary><p class="en">Read the server rules yourself. Automation and aim assistance can violate them and lead to sanctions.</p><p class="de">Lies die Serverregeln selbst. Automatisierung und Zielhilfen können dagegen verstoßen und zu Strafen führen.</p></details>
+      <details><summary><span class="en">Is the Bandit Macro ready?</span><span class="de">Ist das Bandit-Makro fertig?</span></summary><p class="en">No. It is about 2 % done and mostly untested on the server. Do not leave it running unattended.</p><p class="de">Nein. Es ist zu etwa 2 % fertig und größtenteils noch nicht auf dem Server getestet. Lass es nicht unbeaufsichtigt laufen.</p></details>
+      <details><summary><span class="en">Where do I put backdrops for Tunnel Vision?</span><span class="de">Wohin kommen die Hintergründe für Tunnel Vision?</span></summary><p class="en">Into <code>config/theprisons/tunnel/</code> (png or jpg), then pick them on the Tunnel page of the dashboard.</p><p class="de">In <code>config/theprisons/tunnel/</code> (png oder jpg), dann auf der Tunnel-Seite des Dashboards auswählen.</p></details>
+      <details><summary><span class="en">The auction house opens by itself.</span><span class="de">Das Auktionshaus öffnet sich von selbst.</span></summary><p class="en">Update to the latest version: stray menus of the background scan are closed unseen and the scan waits while the macro runs.</p><p class="de">Aktualisiere auf die neueste Version: verirrte Menüs des Hintergrund-Scans werden unsichtbar geschlossen, und der Scan wartet, solange das Makro läuft.</p></details>
     </section>
 
     <section class="disclaimer">
       <h2>Disclaimer</h2>
-      <p>ThePrisons is an unofficial fan project, not affiliated with Mojang, Microsoft or the Cosmic Prisons server. You use it at your own risk; the authors are not liable for any consequence for your account. The code is All Rights Reserved.</p>
+      <p class="de">ThePrisons ist ein inoffizielles Fan-Projekt, nicht verbunden mit Mojang, Microsoft oder dem Cosmic-Prisons-Server. Die Nutzung erfolgt auf eigenes Risiko; die Autoren haften nicht für Folgen für deinen Account. Der Code ist All Rights Reserved.</p>
+      <p class="en">ThePrisons is an unofficial fan project, not affiliated with Mojang, Microsoft or the Cosmic Prisons server. You use it at your own risk; the authors are not liable for any consequence for your account. The code is All Rights Reserved.</p>
     </section>
   </main>
 

@@ -35,7 +35,7 @@ jobs:
           mkdir -p site/media
           cp -r docs/media/. site/media/
           # real pictures only: everything that is not a generated graphic (banner, cards, changelog cards)
-          (cd site/media && find . -maxdepth 1 -type f \( -name '*.webp' -o -name '*.gif' -o -name '*.png' \) \
+          (cd site/media && find . -maxdepth 1 -type f \( -name '*.webp' -o -name '*.gif' \) \
             ! -name 'banner.png' ! -name 'changelog-*' -printf '%f\n' | sort | jq -R . | jq -s .) > site/media/manifest.json
           cat site/media/manifest.json
 

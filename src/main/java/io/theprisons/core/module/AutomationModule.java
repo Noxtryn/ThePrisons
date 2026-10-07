@@ -97,6 +97,11 @@ public abstract class AutomationModule extends Module {
         return false;
     }
 
+    /** Fighting modules get hurt by design: the safety monitor then ignores "Took damage." (low health still stops). */
+    public boolean toleratesDamage() {
+        return false;
+    }
+
     protected abstract void onStart(MinecraftClient client);
 
     protected abstract void onStop(MinecraftClient client);

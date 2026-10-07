@@ -117,4 +117,47 @@ public final class BanditLine {
         double centre = (bestStart + bestEnd) / 2.0D - n;
         return new Best((float) (yawDeg + centre * step), max, current);
     }
+
+    /**
+     * The direction within ±{@code window}° of {@code baseYaw} (towards bandit {@code target}) that still hits that bandit
+     * and as many others as possible - the spear pierces everything on its path. Of equally good directions the one
+     * nearest to {@code baseYaw}. Returns {@code baseYaw} when nothing is better.
+     */
+    public static float pierceYaw(double ox, double oz, double baseYaw, List<Body> bodies, int target, double range,
+                                  double margin, double window) {
+        if (target < 0 || target >= bodies.size()) {
+            return (float) baseYaw;
+        }
+        Body t = bodies.get(target);
+        double step = 0.5D;
+        int n = (int) Math.round(window / step);
+        int bestCount = -1;
+        double bestYaw = baseYaw;
+        double bestDist = Double.MAX_VALUE;
+        for (int i = -n; i <= n; i++) {
+            double yaw = baseYaw + i * step;
+            if (!hits(ox, oz, yaw, t, range, margin)) {
+                continue;
+            }
+            int count = countRay(ox, oz, yaw, bodies, range, margin);
+            double dist = Math.abs(i * step);
+            if (count > bestCount || count == bestCount && dist < bestDist) {
+                bestCount = count;
+                bestYaw = yaw;
+                bestDist = dist;
+            }
+        }
+        return (float) bestYaw;
+    }
+
+    /** Whether the ray from (ox, oz) at {@code yawDeg} passes through bandit {@code b}. */
+    public static boolean hits(double ox, double oz, double yawDeg, Body b, double range, double margin) {
+        double rad = Math.toRadians(yawDeg);
+        double dx = -Math.sin(rad);
+        double dz = Math.cos(rad);
+        double vx = b.x() - ox;
+        double vz = b.z() - oz;
+        double t = vx * dx + vz * dz;
+        return t >= 0.8D && t <= range && Math.abs(vx * dz - vz * dx) <= b.radius() + margin;
+    }
 }

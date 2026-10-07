@@ -78,6 +78,9 @@ tasks.matching { it.name == 'runClientGameTest' }.configureEach {
     if (project.hasProperty('showcase')) {
         // tools/showcase.sh: the user build (no Ore Macro), only the showcase test, N seconds per scene
         jvmArgs '-Dtheprisons.showcase=true'
+        if (project.hasProperty('showcaseClean')) {
+            jvmArgs '-Dtheprisons.showcase.clean=true'
+        }
         jvmArgs "-Dtheprisons.showcase.seconds=${project.findProperty('showcaseSeconds') ?: 4}"
     } else if (project.hasProperty('tunnel')) {
         // ./gradlew runClientGameTest -Ptunnel: the user build, only Tunnel Vision (screenshots)

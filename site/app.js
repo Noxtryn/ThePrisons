@@ -24,26 +24,39 @@
   }
   window.addEventListener("resize", resize); resize(); requestAnimationFrame(draw);
 
-  // feature cards
+  // language: stored, else the browser's
+  var lang = "en";
+  try { lang = localStorage.getItem("lang") || (/^de/i.test(navigator.language || "") ? "de" : "en"); } catch (e) {}
+  function setLang(l) {
+    lang = l; document.documentElement.lang = l;
+    try { localStorage.setItem("lang", l); } catch (e) {}
+    document.getElementById("lang").textContent = l === "de" ? "DE | EN" : "EN | DE";
+    renderNotes();
+  }
+  document.getElementById("lang").addEventListener("click", function () { setLang(lang === "de" ? "en" : "de"); });
+
+  // feature cards (en, de)
   var features = [
-    ["dashboard", "Dashboard", "Animated pages for design, controls, HUD, mining, bandits and tunnel vision."],
-    ["ore-macro", "Ore Macro", "Own pathfinder, guarded-zone logic, breaks, failsafes and human view motion."],
-    ["item-sorter", "Item Sorter", "Trips to the vaults for shards, contrabands, energy and money."],
-    ["market", "Auction House & /ee", "Prices read in the background, own screens with categories and search."],
-    ["shops", "Shop Overlays", "The /gz and /pb shops in the mod's design."],
-    ["item-list", "Item List", "Search every known item with tiers, rarities and prices."],
-    ["guard-zones", "Guard Zones", "Stay in the guarded area, look ahead, run to a guard when attacked."],
-    ["hud", "HUD Widgets", "Session stats, pets, cooldowns, satchels, armour, notifications."],
-    ["spear-helper", "Spear Helper", "Shooter crosshair, sight point, aim assist on L and recall timing."],
-    ["tunnel-vision", "Tunnel Vision", "F5 + V: your player in 3D on a rainbow road over a backdrop of your choice."]
+    ["dashboard", "Dashboard", "Animated pages for design, controls, HUD, mining, bandits and tunnel vision.", "Animierte Seiten für Design, Steuerung, HUD, Mining, Banditen und Tunnel Vision."],
+    ["ore-macro", "Ore Macro", "Own pathfinder, guarded-zone logic, breaks, failsafes, follower protection and human view motion.", "Eigener Pathfinder, Wächter-Zonen-Logik, Pausen, Sicherungen, Verfolger-Schutz und menschliche Blickbewegung."],
+    ["item-sorter", "Item Sorter", "Trips to the vaults for shards, contrabands, energy and money.", "Fahrten zu den Lagern für Shards, Contraband, Energie und Geld."],
+    ["market", "Auction House & /ee", "Prices read in the background, own screens; search reads every page of the auction house.", "Preise im Hintergrund gelesen, eigene Bildschirme; die Suche liest jede Seite des Auktionshauses."],
+    ["shops", "Shop Overlays", "The /gz and /pb shops in the mod's design.", "Die Shops /gz und /pb im Design der Mod."],
+    ["item-list", "Item List", "Search every known item with tiers, rarities and prices.", "Jedes bekannte Item suchen, mit Stufen, Seltenheiten und Preisen."],
+    ["guard-zones", "Guard Zones", "Stay in the guarded area, look ahead, run to a guard when attacked.", "Im bewachten Bereich bleiben, vorausschauen, bei Angriff zu einem Wächter rennen."],
+    ["hud", "HUD Widgets", "Session stats, pets, cooldowns, satchels, armour, notifications.", "Session-Statistik, Pets, Abklingzeiten, Satchels, Rüstung, Benachrichtigungen."],
+    ["spear-helper", "Spear Helper", "Shooter crosshair, sight point, aim assist on L and recall timing.", "Schützen-Fadenkreuz, Zielpunkt, Zielhilfe auf L und Rückruf-Timing."],
+    ["bandit-macro", "Bandit Macro (WIP, ~2 %)", "New and unfinished: hunts bandits with the spear on key J. Expect rough edges.", "Neu und unfertig: jagt Banditen mit dem Speer auf Taste J. Rechnet mit Ecken und Kanten."],
+    ["tunnel-vision", "Tunnel Vision", "F5 + V: your player in 3D on a rainbow road over a backdrop of your choice.", "F5 + V: dein Spieler in 3D auf einer Regenbogenstraße vor einem Hintergrund deiner Wahl."]
   ];
   var grid = document.getElementById("feature-grid");
   features.forEach(function (f) {
     var el = document.createElement("article");
     el.className = "feature";
-    el.innerHTML = '<img src="media/cards/' + f[0] + '.png" alt="' + f[1] + ' (illustration)"><div><h3></h3><p></p></div>';
+    el.innerHTML = '<img src="media/cards/' + f[0] + '.png" alt="' + f[1] + ' (illustration)"><div><h3></h3><p class="en"></p><p class="de"></p></div>';
     el.querySelector("h3").textContent = f[1];
-    el.querySelector("p").textContent = f[2];
+    el.querySelector("p.en").textContent = f[2];
+    el.querySelector("p.de").textContent = f[3];
     grid.appendChild(el);
   });
 
@@ -73,13 +86,21 @@
     if (inList) out.push("</ul>");
     return out.join("\n");
   }
+  var release = null;
+  function renderNotes() {
+    if (!release) return;
+    document.getElementById("release-notes").innerHTML = "<h3>" + esc(release.title) + "</h3>" + render(lang === "de" ? release.de : release.en);
+  }
   fetch("https://api.github.com/repos/" + REPO + "/releases/latest").then(function (r) { return r.ok ? r.json() : null; }).then(function (rel) {
     if (!rel) throw new Error("no release");
     document.getElementById("version").textContent = rel.tag_name + (rel.name && rel.name.indexOf("·") > -1 ? " · " + rel.name.split("·")[1].trim() : "");
     var jar = (rel.assets || []).filter(function (a) { return /\.jar$/.test(a.name); })[0];
-    if (jar) { var d = document.getElementById("download"); d.href = jar.browser_download_url; d.textContent = "Download " + jar.name; }
-    document.getElementById("release-notes").innerHTML = "<h3>" + esc(rel.name || rel.tag_name) + "</h3>" + render(rel.body || "");
+    if (jar) { var d = document.getElementById("download"); d.href = jar.browser_download_url; d.innerHTML = '<span class="en">Download </span><span class="de">Herunterladen: </span>' + esc(jar.name); }
+    var parts = (rel.body || "").split(/\r?\n---\r?\n/);
+    release = { title: rel.name || rel.tag_name, en: parts[0], de: (parts[1] || parts[0]).replace(/^\s*##.*Deutsch.*$/m, "") };
+    renderNotes();
   }).catch(function () {
     document.getElementById("release-notes").innerHTML = '<p class="note">The release notes are on <a href="https://github.com/' + REPO + '/releases">GitHub</a>.</p>';
   });
+  setLang(lang);
 })();

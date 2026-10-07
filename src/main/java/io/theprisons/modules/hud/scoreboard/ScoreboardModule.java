@@ -229,13 +229,24 @@ public final class ScoreboardModule extends Module implements HudElement {
         draw(context, client, false);
     }
 
+    private static final long ROWS_CACHE_MS = 200L;
+    private List<Row> cachedRows;
+    private boolean cachedPreview;
+    private long cachedRowsAt;
+
     private void draw(DrawContext context, MinecraftClient client, boolean preview) {
         long now = net.minecraft.util.Util.getMeasuringTimeMs();
         if (shownMs < 0 || now - lastFrameMs > 1_000L) {
             shownMs = now; // first frame after a while (join, HUD back on): rows slide in again
         }
         lastFrameMs = now;
-        List<Row> rows = rows(client, preview);
+        if (cachedRows == null || cachedPreview != preview || now - cachedRowsAt > ROWS_CACHE_MS) {
+            // The numbers change a few times a second at most: build the rows (string work) a few times a second, not per frame.
+            cachedRows = rows(client, preview);
+            cachedPreview = preview;
+            cachedRowsAt = now;
+        }
+        List<Row> rows = cachedRows;
         int sw = client.getWindow().getScaledWidth();
         int sh = client.getWindow().getScaledHeight();
         int[] b = bounds(sw, sh);
@@ -250,11 +261,11 @@ public final class ScoreboardModule extends Module implements HudElement {
         // rainbow header strip through all section colours
         int[] strip = {PLAYER, ECONOMY, WORLD, SESSION, SERVER};
         double t = now / 1500.0D;
-        for (int x = 3; x < WIDTH - 3; x++) {
+        for (int x = 3; x < WIDTH - 3; x += 3) {
             double f = ((x / (double) WIDTH) + t * 0.15D) % 1.0D * strip.length;
             int i = (int) f;
             int colour = Ui.mix(strip[i % strip.length], strip[(i + 1) % strip.length], (float) (f - i));
-            context.fill(x, 0, x + 1, 2, Ui.argb(Math.round(255 * in), colour));
+            context.fill(x, 0, Math.min(x + 3, WIDTH - 3), 2, Ui.argb(Math.round(255 * in), colour));
         }
         Ui.shimmer(context, tr, "COSMIC PRISONS", PAD, 7, in);
         Ui.draw(context, tr, LocalDateTime.now().format(CLOCK), PAD, 18, Ui.MUTED, Math.round(255 * in));

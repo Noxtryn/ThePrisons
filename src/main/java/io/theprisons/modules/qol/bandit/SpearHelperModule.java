@@ -46,8 +46,6 @@ import java.util.UUID;
  * </ul>
  */
 public final class SpearHelperModule extends Module {
-    private static final String[] ORES = {"coal", "iron", "gold", "diamond", "emerald"};
-
     private final ControlService control;
 
     private final Settings.BoolSetting crosshair;
@@ -101,6 +99,9 @@ public final class SpearHelperModule extends Module {
     private int recallNow;
     private long recallFiredMs;
     private boolean recallSignalled;
+    /** The helper idles (no scans) this long after the spear left the hand. */
+    private static final long IDLE_MS = 8_000L;
+    private long lastSpearMs;
 
     /** The aim assist was started with L. */
     private boolean aimOn;
@@ -166,6 +167,12 @@ public final class SpearHelperModule extends Module {
 
     public static @Nullable SpearHelperModule get() {
         return instance;
+    }
+
+    /** The ballistics the player set: throw speed (blocks/tick), gravity, air drag. */
+    static double[] ballistics() {
+        SpearHelperModule m = instance;
+        return m == null ? new double[]{2.5D, 0.05D, 0.99D} : new double[]{m.speed.get(), m.gravity.get(), m.drag.get()};
     }
 
     @Override
@@ -272,6 +279,23 @@ public final class SpearHelperModule extends Module {
             }
             return;
         }
+        // Everything below costs per entity and tick (hundreds of fake players at a bandit event): only while a spear was
+        // in the hand lately, the aim assist is on or a throw is in the air.
+        long nowMs = System.currentTimeMillis();
+        if (holdsSpear(player)) {
+            lastSpearMs = nowMs;
+        }
+        if (nowMs - lastSpearMs > IDLE_MS && !aimOn && !effects.active()) {
+            bandits.clear();
+            banditVel.clear();
+            banditChest.clear();
+            lineBest = null;
+            target = null;
+            solution = null;
+            planner.reset();
+            recallNow = 0;
+            return;
+        }
         boolean fxOn = fx.on();
         effects.tick(client, player, new SpearEffects.Options(fxOn && trail.on(), trailStyle.get(), fxOn && returnBolt.on(),
                 fxOn && fxSound.on(), fxVolume.get().floatValue(), fxOn && throwHand.on()));
@@ -300,37 +324,8 @@ public final class SpearHelperModule extends Module {
         aim(client, player, spear);
     }
 
-    /** Cosmic's bandits are fake players named "bandit_<2 hex>_<6 hex>" (their skull shows in chat as [bandit_ae_821e4c head]). */
-    private static final java.util.regex.Pattern BANDIT_NAME = java.util.regex.Pattern.compile("bandit_[0-9a-f]{2}_[0-9a-f]{4,8}");
-
     private boolean isBandit(LivingEntity e) {
-        String name = TextStrip.strip(e.getName().getString()).toLowerCase(Locale.ROOT);
-        String shown = name;
-        if (e instanceof PlayerEntity p) {
-            var handler = MinecraftClient.getInstance().getNetworkHandler();
-            var entry = handler == null ? null : handler.getPlayerListEntry(p.getUuid());
-            if (entry != null && entry.getDisplayName() != null) {
-                shown += " " + TextStrip.strip(entry.getDisplayName().getString()).toLowerCase(Locale.ROOT);
-            }
-            shown += " " + TextStrip.strip(e.getDisplayName().getString()).toLowerCase(Locale.ROOT);
-        }
-        if (BANDIT_NAME.matcher(name).matches()) {
-            // Ore bandit by name; bosses and the like only when asked for. A shown ore name (Coal ... Emerald) is not required:
-            // the name alone does not tell the ore.
-            return anyBandit.on() || !shown.contains("boss");
-        }
-        if (!shown.contains("bandit")) {
-            return false;
-        }
-        if (anyBandit.on()) {
-            return true;
-        }
-        for (String ore : ORES) {
-            if (shown.contains(ore)) {
-                return true;
-            }
-        }
-        return false;
+        return BanditScan.isBandit(e, anyBandit.on());
     }
 
     private void collectBandits(MinecraftClient client, ClientPlayerEntity player) {

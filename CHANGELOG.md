@@ -6,6 +6,32 @@ The long development notes of the core rewrite live in [docs/dev-notes/core-rewr
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-10-07
+
+> **Work in progress:** the **Bandit Macro** is only about 2 % done. It is in this release so you can see where it is going, not because it is ready. Expect it to do silly things; do not leave it running unattended.
+
+### Added
+
+- **Bandit Macro (work in progress, ~2 %)** - a state-machine macro (key `J`) that hunts bandits with the spear: seek, aim like a hand, charge, throw, recall, cooldown. It brings a danger check (retreats and a failsafe stop when real players come near), a patrol route and a HUD card. The dashboard's Bandits page got three new sub-tabs for it. Most of it has not been tested on the server yet
+- **Market search over the whole auction house** - with a search text the own auction house screen reads every server page in the background and shows all matches in one list; hover shows the price, the energy worth and the server page, a click takes you to the item
+- **Ore Macro followers** - somebody who keeps following the macro gets a polite message first (`/msg`); if they are still there 30 seconds later the macro goes far away (`/spawn` and `/warp` back). Somebody who killed you is remembered and the macro leaves as soon as they come near
+- **Ore Macro command cooldowns** - "This command is currently on cooldown for 22s" after `/spawn` or `/home` is waited out and the command is sent again
+- **Ore Macro diamond mine drop** - the way back from spawn into the diamond mine (walk to the point, look down, jump)
+
+### Changed
+
+- **Item sorter:** ores in any form (ores, ingots, raw ores, ore blocks, coal, diamonds, emeralds ...) no longer count as "inventory crowded" - mined diamonds used to send the macro to spawn
+- **Ore Macro, guarded zone:** no more walking on to ground the guards' circles do not cover (4 blocks of slack, sideways only; jumping down is fine); with a player near the macro walks 0 unguarded blocks, alone 6
+- **Ore Macro, spawn escape:** `/spawn` is sent again only after 24 s (the server counts down 18 s; a new `/spawn` restarted it)
+- **Friends:** bandits and guards are never coloured as friends or gang; the glow colour is cached
+- **Performance:** HUD cards, the Session HUD, the auction house's step labels and the player glow cost clearly less per frame (profiled in game)
+- **Spear Helper** idles for a few seconds after the spear left the hand, which removes lag during bandit events
+
+### Fixed
+
+- **Ore Macro, /spawn countdown:** the macro no longer stops with "no way" while the `/spawn` countdown is still running
+- **Bandit aim:** the line of bandits is picked over the full 180 degrees and the spear pierce angle is respected; friends in the line stop a throw
+
 ## [1.1.3] - 2026-10-05
 
 ### Added
@@ -91,7 +117,8 @@ First public release: a client-side Fabric mod for Minecraft 1.21.11 and the Cos
 - Market scan backs off for 30 minutes where the market is disabled (Badlands)
 - Aim assist did not find bandits: they are players named `bandit_xx_xxxxxx`
 
-[Unreleased]: https://github.com/olb-freelocs/ThePrisons/compare/v1.1.3...HEAD
+[Unreleased]: https://github.com/olb-freelocs/ThePrisons/compare/v1.2.0...HEAD
+[1.2.0]: https://github.com/olb-freelocs/ThePrisons/releases/tag/v1.2.0
 [1.1.3]: https://github.com/olb-freelocs/ThePrisons/releases/tag/v1.1.3
 [1.1.2]: https://github.com/olb-freelocs/ThePrisons/releases/tag/v1.1.2
 [1.1.1]: https://github.com/olb-freelocs/ThePrisons/releases/tag/v1.1.1

@@ -12,39 +12,44 @@
 
 # ThePrisons
 
+**English** · [Deutsch](README.de.md)
+
 A **client-side Fabric mod** for Minecraft `1.21.11` and the **Cosmic Prisons** server: a design-first dashboard, HUD widgets, a market tracker with its own auction house screens, a mining automation with a built-in pathfinder, bandit helpers and a few extras for fun.
 
 - **[Website](https://olb-freelocs.github.io/ThePrisons/)** · [Features](#features) · [Installation](#installation) · [Configuration](#configuration) · [Commands](#commands) · [FAQ](#faq) · [Disclaimer](#disclaimer) · [Changelog](CHANGELOG.md)
+
+> **New in 1.2.0 - the Bandit Macro is a work in progress (about 2 % done).** It is in the release so you can see where it is going. Expect rough edges, most of it is untested on the server, and do not leave it running unattended.
 
 > The mod ships a fixed feature set (`FeatureProfile`): users change the design, the HUD layout, keybinds and the settings of each feature - features themselves are not switched on and off. The Ore Macro, the waypoint editor and the Spear Helper are the user-configurable exceptions.
 
 ## Features
 
-A short animated introduction: [docs/media/trailer.mp4](docs/media/trailer.mp4) (an illustration, not a game recording).
+A short animated introduction with an original house track: [docs/media/trailer.mp4](docs/media/trailer.mp4) (an illustration, not a game recording; the music is synthesised by `scripts/make_music.py`).
 
 ### Dashboard
 Opens with `/prisons`, the keybinds (`I`, or right shift for the module menu) or Mod Menu. Animated pages: **Overview**, **Mining**, **Bandits**, **Tunnel**, **Design**, **Controls** and **HUD**. Every setting has a switch, slider, choice button, colour palette or text field, a tooltip, and each section can be reset. Themes, card darkness, animations, a boxy font and comic textures are in **Design**.
 
-<!-- SCREENSHOT: docs/media/dashboard.webp - the dashboard with the Mining and Bandits tabs (see docs/raw/BENÖTIGT.md) -->
+<p align="center"><img src="docs/media/dashboard.png" alt="dashboard" width="80%"></p>
 
 ### Ore Macro and mining tools
 - Own **pathfinder** with tunnel centring, planned routes (world memory), route memory, anti-stuck and a combat failsafe
 - **Guarded-zone logic**: stays in the guarded area, looks ahead, runs back to a guard, adapts to nearby players
 - **Breaks** at a warden, **human view motion** (frame-rate rotation, no snapping)
+- **Follower protection**: somebody who keeps following gets a polite `/msg`, then the macro goes far away (`/spawn` and back); known killers are avoided; command cooldowns are waited out
 - **Item sorter**: trips to spawn and the private vaults (shards, contrabands, energy, money), pet and ability use, death recovery
 - **Waypoint editor and route recorder**, border marks
 - Key `K` toggles the macro; `/prisons stop` stops it
 
-<!-- SCREENSHOT: docs/media/ore-macro-hud.webp - the session HUD while the macro mines (see docs/raw/BENÖTIGT.md) -->
+<p align="center"><img src="docs/media/ore-macro-hud.png" alt="ore-macro-hud" width="80%"></p>
 <!-- SCREENSHOT: docs/media/item-sorter.webp - the item sorter trip (see docs/raw/BENÖTIGT.md) -->
 <!-- SCREENSHOT: docs/media/guard-zones.webp - guard zone and border marks (see docs/raw/BENÖTIGT.md) -->
 
 ### Market
 - Reads the **auction house**, its history, `/ee` and the shops `/gz` and `/pb` in the background and keeps the lowest price of every item and its worth in Cosmic Energy
-- Own **auction house and `/ee` screens** (categories, search, client-side pages) and a **Tinker** screen; the **item list** above the hotbar searches every known item with tiers, rarities and prices
+- Own **auction house and `/ee` screens** (categories, client-side pages) whose **search reads every page of the auction house** and shows all matches in one list (hover for price and page, click to jump there) and a **Tinker** screen; the **item list** above the hotbar searches every known item with tiers, rarities and prices
 - The background scan waits while the Ore Macro runs (the server blocks mining while a menu is open)
 
-<!-- SCREENSHOT: docs/media/market-overlay.webp - the auction house and /ee screens (see docs/raw/BENÖTIGT.md) -->
+<p align="center"><img src="docs/media/market-overlay.png" alt="market-overlay" width="80%"></p>
 <!-- SCREENSHOT: docs/media/shop-overlays.webp - the /gz and /pb shop overlays (see docs/raw/BENÖTIGT.md) -->
 <!-- SCREENSHOT: docs/media/item-list.webp - the item list with prices (see docs/raw/BENÖTIGT.md) -->
 
@@ -60,7 +65,10 @@ Friends and gang colouring (`/prisons friend ...`), **Sneak Trade** (sneak + rig
 ### Bandits
 - **Spear Helper**: static shooter crosshair (presets), sight point with lead and drop for enemy players, throw and return effects
 - **Aim assist (key `L`)**: the mod looks at the best line of bandits (bandits are the players named `bandit_xx_xxxxxx`), with the Ore Macro's human view motion; the mouse is locked while it aims, movement stays yours
+- **Bandit Macro (key `J`, work in progress, ~2 %)**: a state machine that seeks a bandit, aims, charges, throws and recalls the spear, with a danger check, patrol route and its own dashboard sub-tabs. Unfinished and mostly untested on the server
 - **Recall timing**: shows the best moment to press `F` within the deadline - you press
+
+<p align="center"><img src="docs/media/bandit-macro.png" alt="Bandit Macro tab (work in progress)" width="80%"></p>
 
 ### Tunnel Vision (`F5` + `V`)
 The game view is replaced by a backdrop of your choice, with only your player as a 3D model on a rainbow road that follows what the macro does. HUDs stay. Iris transition, notifications and a stats ticker. Two animations that switch in turns (or pick one): the **rainbow road** and a **magic carpet** that floats up and down while its left and right stay fixed to your character - the road dissolves into particles and the carpet appears. Pink crystals (road) and light-blue asteroids (carpet) appear ahead; you shoot them and they burst. A performance setting trades particles and road detail for FPS. Put your own pictures into `config/theprisons/tunnel/`.
@@ -96,6 +104,8 @@ Everything is in the dashboard (`/prisons`). Files live in `config/theprisons/` 
 ## FAQ
 **Is it allowed on Cosmic Prisons?** Read the server rules yourself. See the [disclaimer](#disclaimer).
 
+**Is the Bandit Macro ready?** No, about 2 %. See the note at the top.
+
 **The auction house opens by itself.** Update to the latest version: stray menus of the background scan are closed unseen and the scan waits while the macro runs.
 
 **Where do I put backdrops for Tunnel Vision?** Into `config/theprisons/tunnel/` (png or jpg), then pick them in the dashboard's **Tunnel** page.
@@ -105,4 +115,4 @@ Everything is in the dashboard (`/prisons`). Files live in `config/theprisons/` 
 ## Disclaimer
 ThePrisons is an unofficial fan project, **not affiliated with Mojang, Microsoft or the Cosmic Prisons server**. Automation and aim assistance (Ore Macro, Spear Helper aim assist, recall helpers) can **violate the rules of a server and lead to sanctions or bans**. You use the mod at your own risk; the authors are not liable for any consequence for your account. The code is **All Rights Reserved** (see [LICENSE](LICENSE)).
 
-Full history: [CHANGELOG.md](CHANGELOG.md).
+Full history: [CHANGELOG.md](CHANGELOG.md) · [Changelog (Deutsch)](CHANGELOG.de.md).

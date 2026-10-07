@@ -81,7 +81,7 @@ public final class ItemSorter {
     public static int looseStacks(Item[] inventory, List<String> abilityParts) {
         int stacks = 0;
         for (Item item : inventory) {
-            if (item != null && !item.empty() && !item.block() && !keep(item, abilityParts)) {
+            if (item != null && sorts(item, abilityParts)) {
                 stacks++;
             }
         }
@@ -99,7 +99,7 @@ public final class ItemSorter {
     public static boolean due(Item[] inventory, List<String> abilityParts, int limitPercent) {
         int used = 0;
         for (Item item : inventory) {
-            if (item != null && !item.empty() && !item.block() && !keep(item, abilityParts)) {
+            if (item != null && sorts(item, abilityParts)) {
                 used++;
             }
         }
@@ -114,7 +114,7 @@ public final class ItemSorter {
     public static boolean crowded(Item[] inventory, List<String> abilityParts, int limitPercent) {
         int used = 0;
         for (Item item : inventory) {
-            if (item != null && !item.empty() && !item.block() && !keep(item, abilityParts)) {
+            if (item != null && sorts(item, abilityParts)) {
                 used++;
             }
         }
@@ -194,6 +194,25 @@ public final class ItemSorter {
 
     private static final java.util.Set<String> ORE_DROPS = java.util.Set.of("minecraft:coal", "minecraft:diamond",
             "minecraft:emerald", "minecraft:lapis_lazuli", "minecraft:redstone", "minecraft:quartz");
+
+    /**
+     * An item that makes the inventory "crowded": not a block, not an ore of any kind (ores, deepslate ores, ore blocks,
+     * ingots, raw ores and the ores' drops are sold, with or without a name / lore - game 2026-10-07: mined diamonds
+     * and emeralds counted as important and sent the macro to spawn) and not what the macro keeps.
+     */
+    static boolean sorts(Item item, List<String> abilityParts) {
+        return item != null && !item.empty() && !item.block() && !oreLike(item) && !keep(item, abilityParts);
+    }
+
+    /** Ore in any form by its id (satchels carry ore ids and are no ore). */
+    static boolean oreLike(Item item) {
+        if (item.empty() || item.name().toLowerCase(java.util.Locale.ROOT).contains("satchel")) {
+            return false;
+        }
+        String id = item.id();
+        return id.endsWith("_ore") || id.endsWith("_ingot") || id.startsWith("minecraft:raw_") || ORE_DROPS.contains(id)
+                || id.matches("minecraft:(coal|iron|gold|diamond|emerald|lapis|redstone|copper|raw_[a-z]+|quartz)_block");
+    }
 
     /**
      * Sold with /sellall, never put into a vault: plain (no custom name / lore) ores, deepslate ores, ingots, raw ores,

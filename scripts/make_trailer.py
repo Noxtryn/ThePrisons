@@ -38,14 +38,23 @@ def card(d, box, alpha=200, accent=g.VIOLET):
     d.rounded_rectangle([box[0], box[1], box[0] + 5, box[3]], 3, fill=accent + (255,))
 
 
+DE = {
+    "Dashboard": "Dashboard", "Ore Macro": "Erz-Makro", "Guard Zones": "Wächter-Zonen", "Item Sorter": "Item-Sortierer",
+    "Market": "Markt", "HUD": "HUD", "Storage Overlay": "Lager-Übersicht", "Players": "Spieler", "Bandits": "Banditen",
+    "Tunnel Vision": "Tunnel-Blick", "Bandit Macro": "Banditen-Makro (in Arbeit)", "Followers": "Verfolger-Schutz",
+}
+
+
 def head(img, d, t, icon_name, title, lines):
     a = ease(t / 0.5)
+    if title in DE:
+        d.text((192 - int((1 - a) * 60), 196), DE[title], font=g.font(26), fill=g.PINK + (int(255 * a),))
     ic = g.icon(icon_name, 96)
     img.paste(ic, (70 - int((1 - a) * 60), 120), ic)
     d.text((190 - int((1 - a) * 60), 128), title, font=g.font(54, True), fill=g.WHITE + (int(255 * a),))
     for i, line in enumerate(lines):
         la = ease((t - 0.25 - i * 0.18) / 0.4)
-        d.text((78 + int((1 - la) * 50), 270 + i * 46), "▸ " + line, font=g.font(26), fill=g.CYAN + (int(255 * la),))
+        d.text((78 + int((1 - la) * 50), 262 + i * 44), "▸ " + line, font=g.font(26), fill=g.CYAN + (int(255 * la),))
 
 
 # ── the panels on the right ──────────────────────────────────────────────────
@@ -179,6 +188,58 @@ def panel_bandit(img, d, t):
     d.text((665, 540), "spear helper · aim assist (L) · recall timing", font=g.font(20, True), fill=g.CYAN)
 
 
+def panel_search(img, d, t):
+    card(d, (640, 110, 1210, 600), accent=g.GOLD)
+    d.rounded_rectangle((665, 135, 1185, 180), 10, fill=(40, 36, 70, 255))
+    d.text((685, 145), "search: " + "diamond"[:int(t * 6) % 9], font=g.font(22), fill=g.WHITE)
+    pages = int(ease(t / 2.0) * 24)
+    d.text((665, 200), f"searching... {pages} pages", font=g.font(18), fill=g.CYAN)
+    d.rounded_rectangle((665, 232, 1185, 244), 6, fill=(60, 56, 100, 255))
+    d.rounded_rectangle((665, 232, 665 + int(520 * pages / 24), 244), 6, fill=g.GOLD + (255,))
+    for i in range(4):
+        y = 270 + i * 80
+        a = ease(t * 1.2 - 0.6 - i * 0.25)
+        d.rounded_rectangle((665, y, 1185, y + 66), 10, fill=(30, 28, 60, int(255 * a)))
+        d.rectangle((682, y + 16, 714, y + 48), fill=hsv(0.5 + i / 9) + (int(255 * a),))
+        d.text((732, y + 8), ["Diamond Pickaxe", "Diamond Shard", "Diamond Block", "Diamond Crate"][i], font=g.font(20, True), fill=g.WHITE + (int(255 * a),))
+        d.text((732, y + 36), f"page {[3, 9, 14, 21][i]}  -  click to jump there", font=g.font(15), fill=g.CYAN + (int(255 * a),))
+
+
+def panel_banditmacro(img, d, t):
+    card(d, (640, 110, 1210, 600), accent=g.GOLD)
+    states = ["SEEK", "AIM", "CHARGE", "FLIGHT", "RECALL", "COOLDOWN"]
+    cur = int(t * 1.6) % len(states)
+    for i, name in enumerate(states):
+        x = 665 + (i % 3) * 175
+        y = 140 + (i // 3) * 90
+        on = i == cur
+        d.rounded_rectangle((x, y, x + 160, y + 66), 12, fill=(g.GOLD + (235,)) if on else (40, 36, 70, 220))
+        d.text((x + 80, y + 33), name, font=g.font(20, True), fill=(14, 12, 30) if on else g.WHITE, anchor="mm")
+    d.text((665, 340), "progress", font=g.font(20), fill=g.MUTED)
+    d.rounded_rectangle((665, 372, 1185, 396), 12, fill=(60, 56, 100, 255))
+    d.rounded_rectangle((665, 372, 665 + int(520 * 0.02), 396), 12, fill=g.PINK + (255,))
+    d.text((1185, 340), "about 2 %", font=g.font(24, True), fill=g.PINK, anchor="ra")
+    d.text((665, 430), "WORK IN PROGRESS", font=g.font(34, True), fill=g.GOLD)
+    d.text((665, 480), "Arbeit im Gange - noch lange nicht fertig", font=g.font(20), fill=g.CYAN)
+    d.text((665, 520), "do not leave it running unattended", font=g.font(18), fill=g.MUTED)
+
+
+def panel_follow(img, d, t):
+    card(d, (640, 110, 1210, 600), accent=g.GREEN)
+    cx, cy = 925, 330
+    d.ellipse((cx - 14, cy - 14, cx + 14, cy + 14), fill=g.GOLD + (255,))
+    k = (t % 2.6) / 2.6
+    fx, fy = cx - 150 + 40 * math.sin(t * 3), cy + 40
+    d.ellipse((fx - 11, fy - 11, fx + 11, fy + 11), fill=g.PINK + (255,))
+    msgs = ["somebody keeps following...", "-> /msg: pls stop follow me <3", "-> still there: /spawn and away"]
+    for i, m in enumerate(msgs):
+        a = ease(k * 3.2 - i * 0.9)
+        d.rounded_rectangle((670, 440 + i * 46, 1180, 440 + i * 46 + 38), 8, fill=(40, 36, 70, int(235 * a)))
+        d.text((686, 440 + i * 46 + 8), m, font=g.font(18), fill=g.WHITE + (int(255 * a),))
+    d.text((670, 150), "Ore Macro safety", font=g.font(24, True), fill=g.GREEN)
+    d.text((670, 190), "command cooldowns are waited out", font=g.font(18), fill=g.MUTED)
+
+
 def panel_tunnel(img, d, t):
     card(d, (640, 110, 1210, 600), accent=g.VIOLET)
     vx, vy = 925, 250
@@ -202,11 +263,13 @@ SCENES = [
     ("ore_macro", "Ore Macro", ["Own pathfinder, tunnel centring", "Planned routes from world memory", "Human view motion, failsafes"], panel_macro),
     ("waypoint_editor", "Guard Zones", ["Stays in the guarded area", "Strict outside rules near players", "Runs to a guard, recovers after death"], panel_guard),
     ("storage_overlay", "Item Sorter", ["Trips to spawn and the vaults", "Shards, contraband, energy, money", "Exact whitescrolls + absorbers"], panel_sorter),
-    ("satchel_hud", "Market", ["Auction house, history, /ee, shops", "Own screens with search", "Lowest prices and worth in energy"], panel_market),
+    ("satchel_hud", "Market", ["Auction house, history, /ee, shops", "Search reads every page of the AH", "Lowest prices and worth in energy"], panel_search),
     ("session_hud", "HUD", ["Session stats, pets, cooldowns, satchels", "Energy/h and XP/h from the action bar", "HUD editor: drag, scale, snap"], panel_hud),
     ("storage_overlay", "Storage Overlay", ["/pv shows all vaults as cards", "Pages stay fully usable"], panel_storage),
     ("player_cards", "Players", ["Friends and gang colours", "Player cards, Shift + Tab list", "Sneak Trade"], panel_players),
     ("spear_helper", "Bandits", ["Spear helper crosshair + lead and drop", "Aim assist on bandits", "Recall timing"], panel_bandit),
+    ("spear_helper", "Bandit Macro", ["NEW, work in progress: ~2 % done", "Seek, aim, charge, throw, recall", "Expect rough edges"], panel_banditmacro),
+    ("ore_macro", "Followers", ["Polite message first", "Still there: far away", "Remembers who killed you"], panel_follow),
     ("tunnel_vision", "Tunnel Vision", ["F5 + V: your player on a rainbow road", "Magic carpet, shootable targets", "Action bar and stats stay with you"], panel_tunnel),
 ]
 
@@ -220,6 +283,7 @@ def intro(t, version):
     img.paste(logo, (W // 2 - 110, 130 - int((1 - a) * 40)), logo)
     d.text((W // 2, 420), "THEPRISONS", font=g.font(96, True), fill=g.WHITE + (int(255 * a),), anchor="mm")
     b = ease((t - 0.6) / 0.6)
+    d.text((W // 2, 590), "Client-seitige Fabric-Mod für Cosmic Prisons", font=g.font(22), fill=g.PINK + (int(255 * b),), anchor="mm")
     d.text((W // 2, 505), "Client-side Fabric mod for Cosmic Prisons", font=g.font(32), fill=g.CYAN + (int(255 * b),), anchor="mm")
     d.text((W // 2, 555), f"v{version}  ·  Minecraft 1.21.11", font=g.font(22), fill=g.MUTED + (int(255 * b),), anchor="mm")
     return img
@@ -231,9 +295,10 @@ def outro(t, version):
     d = ImageDraw.Draw(img, "RGBA")
     a = ease(t / 0.6)
     d.text((W // 2, 280), "Mine smarter.", font=g.font(84, True), fill=g.WHITE + (int(255 * a),), anchor="mm")
-    d.text((W // 2, 380), f"ThePrisons v{version}", font=g.font(44, True), fill=g.CYAN + (int(255 * a),), anchor="mm")
-    d.text((W // 2, 450), "github.com/olb-freelocs/ThePrisons", font=g.font(30), fill=g.WHITE + (int(255 * a),), anchor="mm")
-    d.text((W // 2, 650), "trailer illustration - not a game recording", font=g.font(16), fill=g.MUTED, anchor="mm")
+    d.text((W // 2, 335), "Schlauer abbauen.", font=g.font(36), fill=g.PINK + (int(255 * a),), anchor="mm")
+    d.text((W // 2, 400), f"ThePrisons v{version}", font=g.font(44, True), fill=g.CYAN + (int(255 * a),), anchor="mm")
+    d.text((W // 2, 465), "github.com/olb-freelocs/ThePrisons", font=g.font(30), fill=g.WHITE + (int(255 * a),), anchor="mm")
+    d.text((W // 2, 650), "trailer illustration - not a game recording  ·  Illustration, keine Spielaufnahme", font=g.font(16), fill=g.MUTED, anchor="mm")
     return img
 
 
@@ -266,8 +331,8 @@ def frame_at(sec, version):
 
 
 def main():
-    version = sys.argv[1] if len(sys.argv) > 1 else "1.1.2"
-    total = 3.0 + SCENE * len(SCENES) + 3.2
+    version = sys.argv[1] if len(sys.argv) > 1 else "1.2.0"
+    total = 3.0 + SCENE * len(SCENES) + 3.2  # 37.4 s: the music has 20 bars at 128 BPM (37.5 s)
     out = os.path.join(g.OUT, "trailer.mp4")
     os.makedirs(g.OUT, exist_ok=True)
     ff = subprocess.Popen(["ffmpeg", "-y", "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{W}x{H}",
@@ -287,6 +352,13 @@ def main():
         ff.stdin.write(img.convert("RGB").tobytes())
     ff.stdin.close()
     ff.wait()
+    music = os.path.join(g.ROOT, "build", "trailer-music.wav")
+    if os.path.exists(music):  # scripts/make_music.py: the original house track, cut to the video
+        silent = out + ".silent.mp4"
+        os.replace(out, silent)
+        subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", silent, "-i", music, "-map", "0:v", "-map", "1:a",
+                        "-c:v", "copy", "-c:a", "aac", "-b:a", "192k", "-shortest", "-movflags", "+faststart", out], check=True)
+        os.remove(silent)
     print("wrote", os.path.relpath(out, g.ROOT), f"{total:.1f}s")
 
 

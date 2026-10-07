@@ -133,9 +133,10 @@ public final class Ui {
         int a = theme().accent();
         int b = theme().title();
         double t = Util.getMeasuringTimeMs() / 1400.0D;
-        for (int x = x0; x < x1; x += 2) {
+        // 4 px per piece: this line is drawn by every HUD card every frame (profile 2026-10-07: 2.5 % of the render thread).
+        for (int x = x0; x < x1; x += 4) {
             double f = 0.5D + 0.5D * Math.sin(t + (x - x0) * 0.045D);
-            c.fill(x, y, Math.min(x1, x + 2), y + 1, argb(Math.round(220 * alpha), mix(a, b, (float) f)));
+            c.fill(x, y, Math.min(x1, x + 4), y + 1, argb(Math.round(220 * alpha), mix(a, b, (float) f)));
         }
     }
 

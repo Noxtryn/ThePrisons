@@ -533,6 +533,8 @@ public final class ThePrisonsFeatureManager {
         }
     }
 
+    private static final java.util.Map<Integer, Object[]> CLUE_CACHE = new java.util.HashMap<>();
+
     private static void drawItemOverlay(DrawContext context, TextRenderer textRenderer, ItemStack stack, int x, int y) {
         ThePrisonsConfig config = ThePrisonsClient.CONFIG.get();
         if (stack == null || stack.isEmpty()) {
@@ -542,8 +544,22 @@ public final class ThePrisonsFeatureManager {
         List<String> lines = null;
 
         if (config.hud.showClueScrollSteps) {
-            lines = tooltipLines(stack, client);
-            String clue = clueStepLabel(stack, lines);
+            // The whole tooltip is built to find the label: once a second per stack, not for every slot every frame
+            // (profile 2026-10-07: 2.6 % of the render thread).
+            long now = System.currentTimeMillis();
+            int key = System.identityHashCode(stack) * 31 + stack.getCount();
+            Object[] cached = CLUE_CACHE.get(key);
+            String clue;
+            if (cached != null && now - (Long) cached[1] < 1_000L) {
+                clue = (String) cached[0];
+            } else {
+                lines = tooltipLines(stack, client);
+                clue = clueStepLabel(stack, lines);
+                if (CLUE_CACHE.size() > 400) {
+                    CLUE_CACHE.clear();
+                }
+                CLUE_CACHE.put(key, new Object[]{clue, now});
+            }
             if (clue != null) {
                 drawOverlayText(context, textRenderer, clue, x + 1, y + 1, ThePrisonsColors.ACCENT_AMBER);
             }

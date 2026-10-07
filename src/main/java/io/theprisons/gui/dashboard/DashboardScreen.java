@@ -474,6 +474,10 @@ public final class DashboardScreen extends Screen implements io.theprisons.gui.k
         if (spear != null) {
             bindable.add(spear);
         }
+        Module banditMacro = core.modules().get("bandit_macro");
+        if (banditMacro != null) {
+            bindable.add(banditMacro);
+        }
         for (int i = 0; i < bindable.size(); i++) {
             Module m = bindable.get(i);
             Settings.KeybindSetting key = m.keybind();
@@ -485,6 +489,7 @@ public final class DashboardScreen extends Screen implements io.theprisons.gui.k
             String label = switch (m.id()) {
                 case "click_gui" -> "Open dashboard";
                 case "spear_helper" -> "Spear aim assist (start / stop)";
+                case "bandit_macro" -> "Bandit macro (start / stop)";
                 default -> "Open storage overlay (/pv)";
             };
             Ui.draw(c, textRenderer, label, left + 10, ry + 8, Ui.VALUE, Math.round(255 * a));
@@ -560,7 +565,12 @@ public final class DashboardScreen extends Screen implements io.theprisons.gui.k
             new Sub("Aim & Recall", List.of("Aim assist (L)", "Recall signal (F)")),
             new Sub("Crosshair & Sight", List.of("Crosshair", "Sight point")),
             new Sub("Effects", List.of("Throw effects")),
-            new Sub("Advanced", List.of("Ballistics")));
+            new Sub("Advanced", List.of("Ballistics")),
+            // The bandit macro (module "bandit_macro"): sub-tabs 4 and up.
+            new Sub("Macro", List.of("Macro", "Targeting")),
+            new Sub("Combat & Recall", List.of("Combat", "Recall")),
+            new Sub("Safety & Debug", List.of("Safety", "Debug")));
+    private static final int MACRO_SUB = 4;
 
     private static final List<Sub> TUNNEL_SUBS = List.of(
             new Sub("Scene", List.of("Scene")),
@@ -600,22 +610,25 @@ public final class DashboardScreen extends Screen implements io.theprisons.gui.k
     }
 
     private void drawBandits(DrawContext c, int left, int y, int w, int mx, int my, float dt) {
-        Module m = core.modules().get("spear_helper");
+        int sub = subIndex.getOrDefault(Page.BANDITS, 0);
+        boolean macroTab = sub >= MACRO_SUB;
+        Module m = core.modules().get(macroTab ? "bandit_macro" : "spear_helper");
         if (m == null) {
-            Ui.drawCentered(c, textRenderer, "Spear Helper not available", left + w / 2, y + 40, Ui.LABEL, 255);
+            Ui.drawCentered(c, textRenderer, "Not available", left + w / 2, y + 40, Ui.LABEL, 255);
             return;
         }
-        int sub = subIndex.getOrDefault(Page.BANDITS, 0);
         int top = y;
         y = drawSubChips(c, Page.BANDITS, BANDIT_SUBS, m, left, y, w, mx, my, dt);
         float a0 = Ui.appear(pageMs, 0, 300.0F);
         boolean crosshairTab = sub == 1;
-        if (sub == 0 && m.toggleable()) {
+        if ((sub == 0 || sub == MACRO_SUB) && m.toggleable()) {
             // Module switch on top of the first tab.
             boolean enabled = m.enabled();
-            float t = Ui.approach(banditKnobs.getOrDefault("__on", enabled ? 1.0F : 0.0F), enabled ? 1.0F : 0.0F, dt, 14.0F);
-            banditKnobs.put("__on", t);
-            Ui.draw(c, textRenderer, "Spear Helper  ·  aim assist on key L", left, y + 2, Ui.theme().title(), Math.round(255 * a0));
+            float t = Ui.approach(banditKnobs.getOrDefault((macroTab ? "__on_macro" : "__on"), enabled ? 1.0F : 0.0F), enabled ? 1.0F : 0.0F, dt, 14.0F);
+            banditKnobs.put((macroTab ? "__on_macro" : "__on"), t);
+            Ui.draw(c, textRenderer, macroTab ? "Bandit Macro  ·  hunts with the spear, key "
+                    + (m.keybind().bound() ? keyName(m.keybind().key()) : "-") : "Spear Helper  ·  aim assist on key L", left, y + 2,
+                    Ui.theme().title(), Math.round(255 * a0));
             int sx = left + w - 132 - 24;
             c.fill(sx, y, sx + 22, y + 11, Ui.argb(Math.round(255 * a0), Ui.mix(0x3A3F4E, Ui.theme().accent(), t)));
             int kx = sx + 1 + Math.round(t * 11.0F);
@@ -656,11 +669,13 @@ public final class DashboardScreen extends Screen implements io.theprisons.gui.k
             io.theprisons.modules.qol.bandit.SpearHelperModule.previewSight(c, px + 93, top + 51);
             Ui.draw(c, textRenderer, "Crosshair", px + 12, top + 78, Ui.MUTED, Math.round(255 * a1));
             Ui.draw(c, textRenderer, "Sight point", px + 66, top + 78, Ui.MUTED, Math.round(255 * a1));
-        } else if (sub == 0) {
+        } else if (sub == 0 || sub == MACRO_SUB) {
             int px = left + w - 124;
             float a1 = Ui.appear(pageMs, 120L, 300.0F);
             section(c, "HOW IT WORKS", px, top + 20, a1);
-            String[] lines = {"L starts / stops", "the aim assist:", "the mod looks at", "the best line of", "bandits (mouse is", "locked meanwhile).", "", "F is yours: the", "timer says when."};
+            String[] lines = macroTab
+                    ? new String[]{"The key starts / stops", "the macro (/prisons", "stop too). It picks", "a bandit, walks into", "range, aims like a", "hand, throws, recalls", "with F and repeats.", "", "Backs off when another", "player comes near."}
+                    : new String[]{"L starts / stops", "the aim assist:", "the mod looks at", "the best line of", "bandits (mouse is", "locked meanwhile).", "", "F is yours: the", "timer says when."};
             for (int i = 0; i < lines.length; i++) {
                 Ui.draw(c, textRenderer, lines[i], px, top + 36 + i * 10, Ui.MUTED, Math.round(255 * a1));
             }

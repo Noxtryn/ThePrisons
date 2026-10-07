@@ -65,6 +65,12 @@ jobs:
           if ! [ -s notes.md ]; then
             echo "::error::CHANGELOG.md has no section [${{ steps.version.outputs.version }}]"; exit 1
           fi
+          # the German section (optional): appended to the release text and used for the second Discord embed
+          scripts/changelog-section.sh "${{ steps.version.outputs.version }}" CHANGELOG.de.md > notes-de.md || true
+          cp notes.md release-body.md
+          if [ -s notes-de.md ]; then
+            { echo; echo "---"; echo; echo "## 🇩🇪 Deutsch"; echo; sed 's/^### /#### /' notes-de.md; } >> release-body.md
+          fi
 
       - name: GitHub Release
         env:
@@ -75,7 +81,7 @@ jobs:
           gh release create "${GITHUB_REF_NAME}" \
             "build/libs/${{ steps.version.outputs.jar }}" \
             --title "ThePrisons v${{ steps.version.outputs.version }} · ${{ steps.version.outputs.codename }} · MC ${{ steps.version.outputs.mc }}" \
-            --notes-file notes.md \
+            --notes-file release-body.md \
             "${flags[@]}"
 
       - name: Discord embed
@@ -89,4 +95,6 @@ jobs:
           TAG: ${{ github.ref_name }}
           REPO: ${{ github.repository }}
           NOTES: notes.md
+          NOTES_DE: notes-de.md
+          MENTIONS: ${{ vars.DISCORD_MENTIONS }}
         run: scripts/discord-embed.sh

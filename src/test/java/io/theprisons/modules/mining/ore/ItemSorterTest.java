@@ -36,7 +36,7 @@ class ItemSorterTest {
         ItemSorter.Item[] inventory = new ItemSorter.Item[36];
         Arrays.fill(inventory, ItemSorter.Item.EMPTY);
         for (int i = 0; i < 17; i++) {
-            inventory[i] = item("minecraft:redstone", "Redstone");
+            inventory[i] = item("minecraft:stick", "Stick");
         }
         // Blocks do not count, however many: ores, deepslate ores, ore blocks.
         inventory[20] = new ItemSorter.Item("minecraft:deepslate_iron_ore", "Deepslate Iron Ore", false, true);
@@ -47,7 +47,7 @@ class ItemSorterTest {
         inventory[24] = item(ItemSorter.SPONGE, "Absorber");
         assertEquals(17, ItemSorter.looseStacks(inventory, List.of()));
         assertFalse(ItemSorter.due(inventory, List.of()), "17 of 36: not yet");
-        inventory[17] = item("minecraft:emerald", "Emerald");
+        inventory[17] = item("minecraft:bone", "Bone");
         assertTrue(ItemSorter.due(inventory, List.of()), "exactly 18 of 36 = 50 %");
     }
 
@@ -181,5 +181,19 @@ class ItemSorterTest {
                 "satchel (same id): kept");
         assertFalse(ItemSorter.other(new ItemSorter.Item("minecraft:diamond_pickaxe", "Pickaxe", true), none), "pickaxes go to /tinker");
         assertTrue(ItemSorter.other(item("minecraft:book", "Simple Enchant Book"), none));
+    }
+
+    @Test
+    void minedOreDropsDoNotCrowdTheInventory() {
+        ItemSorter.Item[] inventory = new ItemSorter.Item[ItemSorter.INVENTORY_SLOTS];
+        for (int i = 0; i < 30; i++) {
+            inventory[i] = i % 3 == 0 ? new ItemSorter.Item("minecraft:diamond", "Diamond", false, false, false)
+                    : i % 3 == 1 ? new ItemSorter.Item("minecraft:raw_gold", "Raw Gold", false, false, true)
+                    : new ItemSorter.Item("minecraft:emerald", "Emerald", false, false, true);
+        }
+        assertFalse(ItemSorter.crowded(inventory, List.of(), 65));
+        assertEquals(0, ItemSorter.looseStacks(inventory, List.of()));
+        inventory[30] = new ItemSorter.Item("minecraft:gold_ore", "Gold Ore Satchel", false, true, true);
+        assertEquals(1, ItemSorter.looseStacks(new ItemSorter.Item[]{new ItemSorter.Item("minecraft:stick", "Stick", false, false, true)}, List.of()));
     }
 }

@@ -73,6 +73,7 @@ public final class GuardArea {
 
     /** Tax mode: ways stay this far (blocks, sideways) from a block known to be outside. */
     static final int OUTSIDE_MARGIN = 1;
+    private static final double OUTSIDE_SLACK = 4.0D;
     private static final int OUTSIDE_HEIGHT = 2;
     /** Planner, tax mode: ground this far above / below a known guard counts as near it. */
     static final double GUARD_HEIGHT = 8.0D;
@@ -675,12 +676,41 @@ public final class GuardArea {
         if (scoreboard()) {
             // Not next to a block known to be outside (from outside: anything, the way back is planned). Standing
             // next to one already: only not onto it, so it can still walk away from the edge.
-            return taxed && nearOutside(x, y, z, nearOutside(fromX, fromY, fromZ) ? 0 : OUTSIDE_MARGIN);
+            if (!taxed) {
+                return false;
+            }
+            if (nearOutside(x, y, z, nearOutside(fromX, fromY, fromZ) ? 0 : OUTSIDE_MARGIN)) {
+                return true;
+            }
+            // No excursions: the tax shows "gone" seconds late, so never walk on to ground the guards' circles do not
+            // cover (4 blocks of slack) unless the tax already showed it to be guarded.
+            // Sideways only: jumping down from a height is wanted and must not count as leaving the zone.
+            return outsideBudget == 0 && !guards.isEmpty() && !learnedInside(x, y, z) && !flatNearGuard(x, z);
         }
         if (guards.isEmpty() || within(x, y, z, edge, BRIDGE_SLACK)) {
             return false;
         }
         return distance(x, y, z) >= distance(fromX, fromY, fromZ);
+    }
+
+    /** Within the radius (plus {@link #OUTSIDE_SLACK}) of a guard or on the strip between two, ignoring heights. */
+    private boolean flatNearGuard(double x, double z) {
+        int n = guards.size();
+        for (int i = 0; i < n; i++) {
+            double[] a = guards.get(i);
+            double da = Math.hypot(a[0] - x, a[2] - z);
+            if (da <= radius + OUTSIDE_SLACK) {
+                return true;
+            }
+            for (int j = i + 1; j < n; j++) {
+                double[] b = guards.get(j);
+                double apart = Math.hypot(a[0] - b[0], a[2] - b[2]);
+                if (apart <= 2.0D * radius + GAP && da + Math.hypot(b[0] - x, b[2] - z) <= apart + BRIDGE_SLACK) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /** The nearest guard {x, y, z, last seen} ({@code null} without one). */
