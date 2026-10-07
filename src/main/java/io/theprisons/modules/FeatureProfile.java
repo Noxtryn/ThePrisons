@@ -17,14 +17,17 @@ public final class FeatureProfile {
     /** Developer build (JVM flag {@code -Dtheprisons.dev=true}). */
     public static final boolean DEV = Boolean.getBoolean("theprisons.dev");
 
-    /** Features that are always on for users. */
+    /**
+     * Features that are always on for users. The "market" module (own /ah + /ee screens, overlay, price scan) is switched
+     * off for users since 2026-10-07 (too many bugs) until it is reviewed; its code is untouched and runs in the dev build.
+     */
     public static final Set<String> ON = Set.of(
             // Storage & items
             "storage_overlay", "item_look",
             // HUD
             "scoreboard", "better_tab", "session_hud", "pet_hud", "command_cooldowns", "satchel_hud", "armor_hud", "item_insights",
             // Quality of life
-            "tunnel_vision", "tunnel_actionbar", "sneak_trade", "player_cards", "friends", "market", "message_notifications", "peaceful_mining", "vitals_warnings", "ready_announcements",
+            "tunnel_vision", "tunnel_actionbar", "sneak_trade", "player_cards", "friends", "message_notifications", "peaceful_mining", "vitals_warnings", "ready_announcements",
             // Background services
             "cooldown_cache", "update_checker");
 
