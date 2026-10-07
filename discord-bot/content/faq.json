@@ -1,0 +1,75 @@
+{
+  "status": "approved",
+  "channel": "faq",
+  "messages": [
+    {
+      "key": "faq",
+      "en": {
+        "title": "Frequently asked questions",
+        "fields": [
+          {
+            "name": "Is it free?",
+            "value": "Yes. The download is free and needs no account. The source code is All Rights Reserved: free to use, not open source."
+          },
+          {
+            "name": "Can I get banned?",
+            "value": "We make no promise about that. Optional tools like the Ore Macro and aim assist automate or assist gameplay and can break a server's rules; sanctions are possible. The dashboard, HUDs, storage overlay and design features do not automate anything. Read the rules and decide for yourself."
+          },
+          {
+            "name": "Which versions work?",
+            "value": "Minecraft {minecraft} with Fabric Loader {loader} or newer, Java {java}+ and Fabric API. It is client-side only: nothing to install on the server."
+          },
+          {
+            "name": "Other servers or singleplayer?",
+            "value": "ThePrisons is built for Cosmic Prisons; many features read that server's menus, chat and sidebar. Elsewhere only the general parts (dashboard, design, Tunnel Vision) make sense."
+          },
+          {
+            "name": "Where is the auction house / market?",
+            "value": "The market module is switched off in release builds until it has been reviewed. It will come back when it is stable."
+          },
+          {
+            "name": "How do I update?",
+            "value": "Download the new jar from [the latest release]({release_url}) and replace the old one in `mods`."
+          },
+          {
+            "name": "Where do I get help?",
+            "value": "Ask in the community channels or [open an issue]({issues_url}). Include your version and `logs/latest.log`."
+          }
+        ]
+      },
+      "de": {
+        "title": "Häufige Fragen",
+        "fields": [
+          {
+            "name": "Ist es kostenlos?",
+            "value": "Ja. Der Download ist kostenlos und braucht keinen Account. Der Quellcode ist All Rights Reserved: kostenlos nutzbar, aber kein Open Source."
+          },
+          {
+            "name": "Kann ich gebannt werden?",
+            "value": "Dazu geben wir kein Versprechen. Optionale Werkzeuge wie das Ore Macro und die Zielhilfe automatisieren oder unterstützen das Spiel und können gegen Serverregeln verstoßen; Strafen sind möglich. Dashboard, HUDs, Lager-Übersicht und Design automatisieren nichts. Lies die Regeln und entscheide selbst."
+          },
+          {
+            "name": "Welche Versionen funktionieren?",
+            "value": "Minecraft {minecraft} mit Fabric Loader {loader} oder neuer, Java {java}+ und Fabric API. Nur clientseitig: auf dem Server ist nichts zu installieren."
+          },
+          {
+            "name": "Andere Server oder Einzelspieler?",
+            "value": "ThePrisons ist für Cosmic Prisons gebaut; viele Funktionen lesen Menüs, Chat und Sidebar dieses Servers. Anderswo sind nur die allgemeinen Teile (Dashboard, Design, Tunnel Vision) sinnvoll."
+          },
+          {
+            "name": "Wo ist das Auktionshaus / der Markt?",
+            "value": "Das Markt-Modul ist in Release-Builds abgeschaltet, bis es überprüft ist. Es kommt zurück, sobald es stabil ist."
+          },
+          {
+            "name": "Wie aktualisiere ich?",
+            "value": "Lade die neue Jar vom [neuesten Release]({release_url}) und ersetze die alte in `mods`."
+          },
+          {
+            "name": "Wo bekomme ich Hilfe?",
+            "value": "Frag in den Community-Kanälen oder [eröffne ein Issue]({issues_url}). Gib Version und `logs/latest.log` an."
+          }
+        ]
+      }
+    }
+  ]
+}

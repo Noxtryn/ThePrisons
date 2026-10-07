@@ -1,6 +1,6 @@
 // Stars, feature cards, gallery (from media/manifest.json) and the latest release (GitHub API).
 (function () {
-  var REPO = "olb-freelocs/ThePrisons";
+  var REPO = "Noxtryn/ThePrisons";
 
   // twinkling stars
   var canvas = document.getElementById("stars");

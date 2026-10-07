@@ -36,3 +36,7 @@ replay_pid*
 *.class
 *.jar
 !gradle/wrapper/gradle-wrapper.jar
+
+# Python caches
+__pycache__/
+!scripts/__pycache__/

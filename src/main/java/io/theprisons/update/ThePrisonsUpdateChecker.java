@@ -24,7 +24,7 @@ import java.util.concurrent.CompletableFuture;
 
 public final class ThePrisonsUpdateChecker {
     private static final URI MODRINTH_VERSIONS = URI.create("https://api.modrinth.com/v2/project/theprisons/version?loaders=%5B%22fabric%22%5D");
-    private static final URI GITHUB_LATEST_RELEASE = URI.create("https://api.github.com/repos/olb-freelocs/ThePrisons/releases/latest");
+    private static final URI GITHUB_LATEST_RELEASE = URI.create("https://api.github.com/repos/Noxtryn/ThePrisons/releases/latest");
     private static final String MODRINTH_PAGE = "https://modrinth.com/mod/theprisons";
     private static final HttpClient HTTP = HttpClient.newBuilder()
             .connectTimeout(Duration.ofSeconds(8))

@@ -1,0 +1,34 @@
+{
+  "status": "approved",
+  "channel": "roadmap",
+  "title": {
+    "en": "Roadmap",
+    "de": "Roadmap"
+  },
+  "disclaimer": {
+    "en": "No release dates. Priorities may change; features ship when they are stable.",
+    "de": "Keine Termine. Prioritäten können sich ändern; Funktionen erscheinen, wenn sie stabil sind."
+  },
+  "now": [
+    {
+      "en": "Test the Ore Macro, item sorter and HUDs on the server and fix what breaks (stability first).",
+      "de": "Ore Macro, Item Sorter und HUDs auf dem Server testen und reparieren, was kaputtgeht (Stabilität zuerst)."
+    }
+  ],
+  "next": [
+    {
+      "en": "Bandit Macro: early work in progress (about 2 % done).",
+      "de": "Bandit-Makro: frühe Arbeit in Arbeit (etwa 2 % fertig)."
+    },
+    {
+      "en": "Real screenshots and clips of the current version.",
+      "de": "Echte Screenshots und Clips der aktuellen Version."
+    }
+  ],
+  "later": [
+    {
+      "en": "Review the market module (auction house, shop overlays, item list) and bring it back when it is stable.",
+      "de": "Markt-Modul (Auktionshaus, Shop-Overlays, Item List) prüfen und zurückbringen, sobald es stabil ist."
+    }
+  ]
+}

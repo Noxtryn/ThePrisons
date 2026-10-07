@@ -8,7 +8,7 @@
 
 Eine **clientseitige Fabric-Mod** für Minecraft `1.21.11` und den **Cosmic-Prisons**-Server: ein Design-orientiertes Dashboard, HUD-Widgets mit Live-Session-Stats, eine Lager-Übersicht, Spieler-Werkzeuge, Tunnel Vision und als optionale Extras eine Mining-Automatik mit eingebautem Pathfinder und Banditen-Helfer.
 
-- **[Website](https://olb-freelocs.github.io/ThePrisons/)** · [Funktionen](#funktionen) · [Installation](#installation) · [Befehle](#befehle) · [FAQ](#faq) · [Haftungsausschluss](#haftungsausschluss) · [Changelog (Deutsch)](CHANGELOG.de.md)
+- **[Website](https://noxtryn.github.io/ThePrisons/)** · [Funktionen](#funktionen) · [Installation](#installation) · [Befehle](#befehle) · [FAQ](#faq) · [Haftungsausschluss](#haftungsausschluss) · [Changelog (Deutsch)](CHANGELOG.de.md)
 
 > **Neu in 1.2.0 - das Bandit-Makro ist in Arbeit (erst zu etwa 2 % fertig).** Es ist im Release, damit ihr seht, wohin die Reise geht. Rechnet mit Ecken und Kanten, das meiste ist auf dem Server noch ungetestet, und lasst es nicht unbeaufsichtigt laufen.
 
@@ -56,7 +56,7 @@ Nachrichten-Benachrichtigungen, friedliches Mining, Vitalwarnungen, Bereit-Ansag
 ## Installation
 1. Installiere den [Fabric Loader](https://fabricmc.net/use/) `0.17.3` oder neuer für Minecraft `1.21.11` und Java 21.
 2. Lege die [Fabric API](https://modrinth.com/mod/fabric-api) in deinen `mods`-Ordner ([Mod Menu](https://modrinth.com/mod/modmenu) ist optional).
-3. Lade die Jar vom [neuesten Release](https://github.com/olb-freelocs/ThePrisons/releases/latest) und lege sie in `mods`. Der Dateiname sagt alles: `ThePrisons-<Codename>-v<Version>-mc<Minecraft>.jar`, z. B. `ThePrisons-Nebula-v1.2.0-mc1.21.11.jar`.
+3. Lade die Jar vom [neuesten Release](https://github.com/Noxtryn/ThePrisons/releases/latest) und lege sie in `mods`. Der Dateiname sagt alles: `ThePrisons-<Codename>-v<Version>-mc<Minecraft>.jar`, z. B. `ThePrisons-Nebula-v1.2.0-mc1.21.11.jar`.
 4. Starte das Spiel und tritt dem Server bei; `/prisons` öffnet das Dashboard.
 
 ## Befehle
