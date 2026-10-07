@@ -168,6 +168,25 @@ class ItemSorterTest {
     }
 
     @Test
+    void itemsOfOneFamilyShareAVaultWhateverTheirLevel() {
+        String orb = ItemSorter.key(item("minecraft:magma_cream", "Charge Orb 12"));
+        assertEquals(orb, ItemSorter.key(item("minecraft:magma_cream", "Charge Orb 6")));
+        assertEquals(orb, ItemSorter.key(item("minecraft:magma_cream", "6% Charge Orb")));
+        assertEquals(orb, ItemSorter.key(item("minecraft:magma_cream", "Charge Orb (45%)")));
+        assertEquals(ItemSorter.key(item("minecraft:book", "Aegis I")), ItemSorter.key(item("minecraft:book", "Aegis IV")));
+        assertFalse(ItemSorter.key(item("minecraft:book", "Aegis I")).equals(ItemSorter.key(item("minecraft:book", "Haste I"))));
+        assertFalse(orb.equals(ItemSorter.key(item("minecraft:magma_cream", "Charge Orb Slot"))));
+        assertEquals("g-kit", ItemSorter.family("G-Kit"));
+    }
+
+    @Test
+    void namedOresNeverGoIntoAVault() {
+        assertFalse(ItemSorter.other(new ItemSorter.Item("minecraft:diamond_ore", "Diamond Ore", false, true, false), List.of()),
+                "an ore with a name / lore is still an ore");
+        assertFalse(ItemSorter.other(new ItemSorter.Item("minecraft:deepslate_diamond_ore", "Deepslate Diamond Ore", false, true, false), List.of()));
+    }
+
+    @Test
     void itemsAreMatchedWithAVaultByIdAndName() {
         assertEquals(ItemSorter.key(item("minecraft:book", "Simple Enchant Book")), ItemSorter.key(item("minecraft:book", "Simple Enchant Book")));
         assertFalse(ItemSorter.key(item("minecraft:book", "Simple Enchant Book")).equals(ItemSorter.key(item("minecraft:book", "Elite Enchant Book"))));

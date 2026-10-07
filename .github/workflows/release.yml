@@ -85,6 +85,8 @@ jobs:
             "${flags[@]}"
 
       - name: Discord embed
+        # a tagged commit with "[no-discord]" in its message publishes the release without the Discord post
+        if: ${{ !contains(github.event.head_commit.message, '[no-discord]') }}
         continue-on-error: true
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}

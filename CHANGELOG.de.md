@@ -2,6 +2,18 @@
 
 Die deutsche Fassung der Release-Notizen von ThePrisons. Der vollständige englische Verlauf steht in [CHANGELOG.md](CHANGELOG.md); die Formatregeln sind dort beschrieben.
 
+## [1.2.1] - 2026-10-07
+
+### Geändert
+
+- **Item-Sortierer:** Items einer Art kommen jetzt in denselben privaten Tresor, egal welches Level, Prozent oder welche Zahl - „Charge Orb 6“ landet neben „Charge Orb 12“, „Aegis I“ neben „Aegis IV“ (Seltenheits-Wörter trennen weiterhin: ein Godly-Buch ist kein Simple-Buch)
+- **Wormhole-Powerups:** Double Tap, Overdrive und BOGO haben je eine Textur pro Seltenheit, in der Farbe der Seltenheit, die das Enchant am Wormhole hat
+- **„Random“-Items** (Random Enchant Book, Random Page, Random Prestige Token, Random Boss Egg, Random Trinket, Random Powerup, Random Satchel, ...) sind schwarz: die schwarze Version des Items, für das sie stehen, mit einem kleinen „?“
+
+### Behoben
+
+- **Item-Sortierer:** Erze mit Namen oder Lore (z. B. `diamond_ore`) kommen nicht mehr in private Tresore
+
 ## [1.2.0] - 2026-10-07
 
 > **In Arbeit:** Das **Bandit-Makro** ist erst zu etwa 2 % fertig. Es ist in diesem Release, damit ihr seht, wohin die Reise geht – nicht, weil es fertig ist. Rechnet mit unsinnigem Verhalten und lasst es nicht unbeaufsichtigt laufen.

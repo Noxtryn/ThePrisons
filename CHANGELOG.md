@@ -6,6 +6,18 @@ The long development notes of the core rewrite live in [docs/dev-notes/core-rewr
 
 ## [Unreleased]
 
+## [1.2.1] - 2026-10-07
+
+### Changed
+
+- **Item sorter:** items of one kind now go into the same private vault whatever their level, percent or numeral - "Charge Orb 6" lands next to "Charge Orb 12", "Aegis I" next to "Aegis IV" (rarity words still separate: a Godly book is no Simple book)
+- **Wormhole powerups:** Double Tap, Overdrive and BOGO each have a texture per rarity, in the colour of the rarity the enchant has at the wormhole
+- **"Random" items** (Random Enchant Book, Random Page, Random Prestige Token, Random Boss Egg, Random Trinket, Random Powerup, Random Satchel, ...) are drawn black: the black version of the item they stand for, with a small "?"
+
+### Fixed
+
+- **Item sorter:** ores with a name or lore (e.g. `diamond_ore`) are no longer put into private vaults
+
 ## [1.2.0] - 2026-10-07
 
 > **Work in progress:** the **Bandit Macro** is only about 2 % done. It is in this release so you can see where it is going, not because it is ready. Expect it to do silly things; do not leave it running unattended.

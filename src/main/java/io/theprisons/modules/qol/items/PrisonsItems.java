@@ -68,6 +68,12 @@ public final class PrisonsItems {
     /** "Tool Enchant Orb", "whistle orbs", "pickaxe_enchant_orb" (not charge / energy orbs, checked separately). */
     private static final java.util.regex.Pattern ORB = java.util.regex.Pattern.compile("(?i)(?:\\b|_)orbs?\\b");
     private static final java.util.regex.Pattern ENCHANT_ORB = java.util.regex.Pattern.compile("(?i)\\benchant(?:ment)?\\s*orb\\b");
+    /** "Random Elite Enchant Book", "Random Pickaxe Prestige Modifier" (not "Randomization Scroll"): drawn black. */
+    private static final java.util.regex.Pattern RANDOM = java.util.regex.Pattern.compile("(?i)\\brandom\\b");
+    /** Families that have a {@code random_<name>} texture next to every texture (tools/textures/variants.py). */
+    static final java.util.Set<String> RANDOM_FAMILIES = java.util.Set.of("book", "book_revealed", "page", "key", "shard",
+            "dust", "secret_dust", "xp_bottle", "clue_scroll", "randomization_scroll", "contraband", "enchant_orb",
+            "spear_orb", "reroll", "candy", "upgrade", "gkit", "prestige_token");
     private static final java.util.regex.Pattern REROLL = java.util.regex.Pattern.compile("(?i)\\bre-?\\s?roll\\b");
     /** Generic animals for unknown pets, same order as tools/textures/pets.py GENERIC (names are hashed into it). */
     static final String[] GENERIC_PETS = {"slime", "fox", "rabbit", "owl", "dragon", "pig"};
@@ -221,8 +227,12 @@ public final class PrisonsItems {
             return "misc/executive_shard";
         }
         if (n.contains("powerup") || n.contains("power-up")) {
-            return n.contains("overdrive") ? "powerup/overdrive" : n.contains("bogo") ? "powerup/bogo"
-                    : n.contains("double tap") ? "powerup/double_tap" : n.contains("random") ? "powerup/random" : "powerup/generic";
+            // One look per wormhole enchant, in the colour of the rarity the enchant has at the wormhole.
+            if (RANDOM.matcher(n).find()) {
+                return "powerup/random";
+            }
+            return "powerup/" + (n.contains("overdrive") ? "overdrive" : n.contains("bogo") ? "bogo"
+                    : n.contains("double tap") ? "double_tap" : "generic") + "_" + tid;
         }
         if (n.contains("rare candy") || n.contains("candy")) {
             Tier ct = t != null ? t : Tier.ofIndex(Math.max(0, Math.min(5, romanLevel(n) - 1)));
@@ -454,8 +464,32 @@ public final class PrisonsItems {
         return resolve(values, customName, null);
     }
 
-    /** Pure lookup on the {@code PublicBukkitValues} compound (unit tested). */
+    /** Pure lookup on the {@code PublicBukkitValues} compound (unit tested); "Random ..." items get their black look. */
     static Info resolve(NbtCompound values, @Nullable String customName, @Nullable Tier hint) {
+        return randomised(resolveLook(values, customName, hint), customName);
+    }
+
+    /** "Random Godly Page": the black version of the page's look (a book stays a book, a page a page). */
+    static Info randomised(Info info, @Nullable String name) {
+        if (name == null || info.model() == null || !RANDOM.matcher(name).find()) {
+            return info;
+        }
+        String path = info.model().getPath().substring("prisons/".length());
+        int slash = path.indexOf('/');
+        String family = path.substring(0, slash);
+        String variant = path.substring(slash + 1);
+        String black;
+        if (path.equals("misc/boss_egg")) {
+            black = "misc/boss_egg_random";
+        } else if (RANDOM_FAMILIES.contains(family) && !variant.startsWith("random")) {
+            black = family + "/random_" + variant;
+        } else {
+            return info;
+        }
+        return new Info(Identifier.of("theprisons", "prisons/" + black), info.tier(), info.badge(), info.plainModel());
+    }
+
+    private static Info resolveLook(NbtCompound values, @Nullable String customName, @Nullable Tier hint) {
         if (values.isEmpty() && customName == null && hint == null) {
             return Info.NONE;
         }
