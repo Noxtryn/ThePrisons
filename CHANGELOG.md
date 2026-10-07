@@ -6,6 +6,10 @@ The long development notes of the core rewrite live in [docs/dev-notes/core-rewr
 
 ## [Unreleased]
 
+### Changed
+
+- **Market module off for users:** the auction house and `/ee` screens, the `/gz` and `/pb` shop overlays, the item list and the price scan are switched off in release builds until they are reviewed. Earlier entries below describe them as they were
+
 ## [1.2.1] - 2026-10-07
 
 ### Changed

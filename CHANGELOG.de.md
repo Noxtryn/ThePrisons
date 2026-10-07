@@ -2,6 +2,12 @@
 
 Die deutsche Fassung der Release-Notizen von ThePrisons. Der vollständige englische Verlauf steht in [CHANGELOG.md](CHANGELOG.md); die Formatregeln sind dort beschrieben.
 
+## [Unreleased]
+
+### Geändert
+
+- **Markt-Modul für Nutzer aus:** Auktionshaus- und `/ee`-Bildschirme, die Shop-Overlays `/gz` und `/pb`, die Item List und der Preis-Scan sind in Release-Builds abgeschaltet, bis sie überprüft sind. Frühere Einträge weiter unten beschreiben sie noch so, wie sie waren
+
 ## [1.2.1] - 2026-10-07
 
 ### Geändert

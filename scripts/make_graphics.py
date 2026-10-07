@@ -97,7 +97,7 @@ def banner():
     img.paste(logo, (70, 60), logo)
     d.text((310, 78), "THEPRISONS", font=font(86, True), fill=WHITE)
     d.text((314, 178), "Client-side Fabric mod for Cosmic Prisons", font=font(30), fill=CYAN)
-    d.text((314, 222), "Minecraft 1.21.11  ·  dashboard, HUDs, market, Ore Macro, Tunnel Vision", font=font(22), fill=MUTED)
+    d.text((314, 222), "Minecraft 1.21.11  ·  dashboard, HUDs, session stats, storage overlay, Tunnel Vision", font=font(22), fill=MUTED)
     rainbow_bar(img, h - 8, 8)
     save(img, "banner.png")
 

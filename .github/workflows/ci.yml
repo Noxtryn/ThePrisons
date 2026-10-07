@@ -1,0 +1,37 @@
+name: CI
+
+# Every push and pull request: release consistency check, unit tests, build. No secrets needed.
+on:
+  push:
+    branches: [dev, Release]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Release metadata and website check
+        run: scripts/check-release.sh
+      - name: Test and build
+        run: |
+          chmod +x gradlew
+          ./gradlew test build --no-daemon
+      - uses: actions/upload-artifact@v4
+        with:
+          name: jar
+          path: build/libs/*.jar
+          retention-days: 7

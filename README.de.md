@@ -6,15 +6,13 @@
 
 [English](README.md) · **Deutsch**
 
-Eine **clientseitige Fabric-Mod** für Minecraft `1.21.11` und den **Cosmic-Prisons**-Server: ein Design-orientiertes Dashboard, HUD-Widgets, ein Markt-Tracker mit eigenen Auktionshaus-Bildschirmen, eine Mining-Automatik mit eingebautem Pathfinder, Banditen-Helfer und ein paar Extras.
+Eine **clientseitige Fabric-Mod** für Minecraft `1.21.11` und den **Cosmic-Prisons**-Server: ein Design-orientiertes Dashboard, HUD-Widgets mit Live-Session-Stats, eine Lager-Übersicht, Spieler-Werkzeuge, Tunnel Vision und als optionale Extras eine Mining-Automatik mit eingebautem Pathfinder und Banditen-Helfer.
 
 - **[Website](https://olb-freelocs.github.io/ThePrisons/)** · [Funktionen](#funktionen) · [Installation](#installation) · [Befehle](#befehle) · [FAQ](#faq) · [Haftungsausschluss](#haftungsausschluss) · [Changelog (Deutsch)](CHANGELOG.de.md)
 
 > **Neu in 1.2.0 - das Bandit-Makro ist in Arbeit (erst zu etwa 2 % fertig).** Es ist im Release, damit ihr seht, wohin die Reise geht. Rechnet mit Ecken und Kanten, das meiste ist auf dem Server noch ungetestet, und lasst es nicht unbeaufsichtigt laufen.
 
 ## Funktionen
-
-Eine kurze animierte Vorstellung mit einem eigenen House-Track: [docs/media/trailer.mp4](docs/media/trailer.mp4) (eine Illustration, keine Spielaufnahme; die Musik erzeugt `scripts/make_music.py`).
 
 ### Dashboard
 Öffnet sich mit `/prisons`, den Tasten (`I`, oder rechte Shift-Taste für das Modmenü) oder Mod Menu. Animierte Seiten: **Overview**, **Mining**, **Bandits**, **Tunnel**, **Design**, **Controls** und **HUD**. Jede Einstellung hat Schalter, Regler, Auswahl, Farbpalette oder Textfeld und einen Tooltip. Themes, Kartendunkelheit, Animationen, eine kantige Schrift und Comic-Texturen gibt es unter **Design**.
@@ -28,10 +26,9 @@ Eine kurze animierte Vorstellung mit einem eigenen House-Track: [docs/media/trai
 - **Wegpunkt-Editor und Routen-Rekorder**, Grenzmarkierungen
 - Taste `K` schaltet das Makro; `/prisons stop` stoppt es
 
-### Markt
-- Liest **Auktionshaus**, Verlauf, `/ee` und die Shops `/gz` und `/pb` im Hintergrund und merkt sich den niedrigsten Preis jedes Items und seinen Wert in Cosmic Energy
-- Eigene **Auktionshaus- und `/ee`-Bildschirme** (Kategorien, clientseitige Seiten); die **Suche liest jede Seite des Auktionshauses** und zeigt alle Treffer in einer Liste (Hover für Preis und Seite, Klick springt dorthin). Dazu ein **Tinker**-Bildschirm und die **Item-Liste** über der Hotbar
-- Der Hintergrund-Scan wartet, solange das Erz-Makro läuft
+### Markt (noch nicht verfügbar)
+Das Markt-Modul (eigene Auktionshaus- und `/ee`-Bildschirme, Shop-Overlays, Item List, Preis-Scan) ist in Release-Builds **abgeschaltet**, bis es überprüft ist. Der Code bleibt im Repository und läuft nur im Entwickler-Build.
+
 
 ### HUD
 Scoreboard (ersetzt die Server-Sidebar), **Better Tab**, **Session-HUD** (Ore-Mining- und Bandit-Modus, Laufzeit, Erze pro Sekunde, Steuer, Booster, Level-Up-Prognose, live **Energy/h und XP/h** aus der Action Bar mit dem Durchschnitt darunter), Pets und Trinkets, Befehls-Abklingzeiten, Satchels, Rüstungshaltbarkeit, Item-Einblicke und Benachrichtigungen als Karten. Ein **HUD-Editor** verschiebt und skaliert jedes Widget.
@@ -63,14 +60,12 @@ Nachrichten-Benachrichtigungen, friedliches Mining, Vitalwarnungen, Bereit-Ansag
 4. Starte das Spiel und tritt dem Server bei; `/prisons` öffnet das Dashboard.
 
 ## Befehle
-`/prisons` (Alias `/theprisons`): `gui`, `toggle <modul>`, `stop`, `stats`, `reset`, `perf`, `sprint`, `routes`, `set border`, `price <item>`, `market scan`, `friend add|remove|list <name>`, `lang [de|en]`. Die ausführliche Tabelle steht in der [englischen README](README.md#commands).
+`/prisons` (Alias `/theprisons`): `gui`, `toggle <modul>`, `stop`, `stats`, `reset`, `perf`, `sprint`, `routes`, `set border`, `friend add|remove|list <name>`, `lang [de|en]`. Die ausführliche Tabelle steht in der [englischen README](README.md#commands).
 
 ## FAQ
 **Ist es auf Cosmic Prisons erlaubt?** Lies die Serverregeln selbst. Siehe [Haftungsausschluss](#haftungsausschluss).
 
 **Ist das Bandit-Makro fertig?** Nein, etwa 2 %. Siehe den Hinweis oben.
-
-**Das Auktionshaus öffnet sich von selbst.** Aktualisiere auf die neueste Version: verirrte Menüs des Hintergrund-Scans werden unsichtbar geschlossen, und der Scan wartet, solange das Makro läuft.
 
 **Läuft es im Einzelspieler oder auf anderen Servern?** Es ist für Cosmic Prisons gebaut; viele Funktionen lesen Menüs, Chat und Sidebar dieses Servers.
 

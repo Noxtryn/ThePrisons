@@ -14,7 +14,7 @@
 
 **English** · [Deutsch](README.de.md)
 
-A **client-side Fabric mod** for Minecraft `1.21.11` and the **Cosmic Prisons** server: a design-first dashboard, HUD widgets, a market tracker with its own auction house screens, a mining automation with a built-in pathfinder, bandit helpers and a few extras for fun.
+A **client-side Fabric mod** for Minecraft `1.21.11` and the **Cosmic Prisons** server: a design-first dashboard, HUD widgets with live session stats, a storage overlay, player tools, Tunnel Vision and, as optional extras, a mining automation with a built-in pathfinder and bandit helpers.
 
 - **[Website](https://olb-freelocs.github.io/ThePrisons/)** · [Features](#features) · [Installation](#installation) · [Configuration](#configuration) · [Commands](#commands) · [FAQ](#faq) · [Disclaimer](#disclaimer) · [Changelog](CHANGELOG.md)
 
@@ -23,8 +23,6 @@ A **client-side Fabric mod** for Minecraft `1.21.11` and the **Cosmic Prisons** 
 > The mod ships a fixed feature set (`FeatureProfile`): users change the design, the HUD layout, keybinds and the settings of each feature - features themselves are not switched on and off. The Ore Macro, the waypoint editor and the Spear Helper are the user-configurable exceptions.
 
 ## Features
-
-A short animated introduction with an original house track: [docs/media/trailer.mp4](docs/media/trailer.mp4) (an illustration, not a game recording; the music is synthesised by `scripts/make_music.py`).
 
 ### Dashboard
 Opens with `/prisons`, the keybinds (`I`, or right shift for the module menu) or Mod Menu. Animated pages: **Overview**, **Mining**, **Bandits**, **Tunnel**, **Design**, **Controls** and **HUD**. Every setting has a switch, slider, choice button, colour palette or text field, a tooltip, and each section can be reset. Themes, card darkness, animations, a boxy font and comic textures are in **Design**.
@@ -44,14 +42,9 @@ Opens with `/prisons`, the keybinds (`I`, or right shift for the module menu) or
 <!-- SCREENSHOT: docs/media/item-sorter.webp - the item sorter trip (see docs/raw/BENÖTIGT.md) -->
 <!-- SCREENSHOT: docs/media/guard-zones.webp - guard zone and border marks (see docs/raw/BENÖTIGT.md) -->
 
-### Market
-- Reads the **auction house**, its history, `/ee` and the shops `/gz` and `/pb` in the background and keeps the lowest price of every item and its worth in Cosmic Energy
-- Own **auction house and `/ee` screens** (categories, client-side pages) whose **search reads every page of the auction house** and shows all matches in one list (hover for price and page, click to jump there) and a **Tinker** screen; the **item list** above the hotbar searches every known item with tiers, rarities and prices
-- The background scan waits while the Ore Macro runs (the server blocks mining while a menu is open)
+### Market (not available yet)
+The market module (own auction house and `/ee` screens, shop overlays, item list, price scan) is **switched off in release builds** until it has been reviewed. Its code stays in the repository and runs in the developer build only.
 
-<p align="center"><img src="docs/media/market-overlay.png" alt="market-overlay" width="80%"></p>
-<!-- SCREENSHOT: docs/media/shop-overlays.webp - the /gz and /pb shop overlays (see docs/raw/BENÖTIGT.md) -->
-<!-- SCREENSHOT: docs/media/item-list.webp - the item list with prices (see docs/raw/BENÖTIGT.md) -->
 
 ### HUD
 Scoreboard (replaces the server sidebar), **Better Tab**, **Session HUD** (Ore Mining and Bandit modes, uptime, ores per second, tax, boosters, level-up ETA, live **Energy/h and XP/h** from the action bar with the average below), pets and trinkets, command cooldowns, satchels, armour durability, item insights and notifications as sliding cards. A **HUD editor** moves and scales every widget (drag, scroll, snapping).
@@ -83,7 +76,7 @@ Message notifications, peaceful mining, vitals warnings, ready announcements, a 
 4. Start the game and join the server; `/prisons` opens the dashboard.
 
 ## Configuration
-Everything is in the dashboard (`/prisons`). Files live in `config/theprisons/` (settings, routes, guards, market prices, friends, tunnel backdrops). Keybinds are in the dashboard's **Controls** page and in Minecraft's controls screen.
+Everything is in the dashboard (`/prisons`). Files live in `config/theprisons/` (settings, routes, guards, friends, tunnel backdrops). Keybinds are in the dashboard's **Controls** page and in Minecraft's controls screen.
 
 ## Commands
 `/prisons` (alias `/theprisons`):
@@ -96,8 +89,6 @@ Everything is in the dashboard (`/prisons`). Files live in `config/theprisons/` 
 | `/prisons sprint [on\|off]` | auto sprint of the Ore Macro |
 | `/prisons routes`, `route delete <name>` | list and delete saved routes (recording: the route keybinds) |
 | `/prisons set border`, `remove border`, `borders`, `clear borders` | border marks |
-| `/prisons price <item>` | the market price and worth of an item |
-| `/prisons market scan`, `market shops` | scan the market now / shop report |
 | `/prisons friend add\|remove\|list <name>` | friends list |
 | `/prisons lang [de\|en]` | interface language |
 
@@ -105,8 +96,6 @@ Everything is in the dashboard (`/prisons`). Files live in `config/theprisons/` 
 **Is it allowed on Cosmic Prisons?** Read the server rules yourself. See the [disclaimer](#disclaimer).
 
 **Is the Bandit Macro ready?** No, about 2 %. See the note at the top.
-
-**The auction house opens by itself.** Update to the latest version: stray menus of the background scan are closed unseen and the scan waits while the macro runs.
 
 **Where do I put backdrops for Tunnel Vision?** Into `config/theprisons/tunnel/` (png or jpg), then pick them in the dashboard's **Tunnel** page.
 
