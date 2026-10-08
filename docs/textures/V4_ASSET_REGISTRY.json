@@ -1,0 +1,4655 @@
+{
+  "schema_version": 1,
+  "assets": [
+    {
+      "technical_item_id": "book/elite",
+      "item_family": "book",
+      "variant": "elite",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/book/elite",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "book/godly",
+      "item_family": "book",
+      "variant": "godly",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/book/godly",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "book/legendary",
+      "item_family": "book",
+      "variant": "legendary",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/book/legendary",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "book/random_elite",
+      "item_family": "book",
+      "variant": "random_elite",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/book/random_elite",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "book/random_godly",
+      "item_family": "book",
+      "variant": "random_godly",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/book/random_godly",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "book/random_legendary",
+      "item_family": "book",
+      "variant": "random_legendary",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/book/random_legendary",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "book/random_simple",
+      "item_family": "book",
+      "variant": "random_simple",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/book/random_simple",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "book/random_ultimate",
+      "item_family": "book",
+      "variant": "random_ultimate",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/book/random_ultimate",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "book/random_uncommon",
+      "item_family": "book",
+      "variant": "random_uncommon",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/book/random_uncommon",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "book/simple",
+      "item_family": "book",
+      "variant": "simple",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/book/simple",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "book/ultimate",
+      "item_family": "book",
+      "variant": "ultimate",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/book/ultimate",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "book/uncommon",
+      "item_family": "book",
+      "variant": "uncommon",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/book/uncommon",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "book_revealed/elite",
+      "item_family": "book_revealed",
+      "variant": "elite",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/book_revealed/elite",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "book_revealed/godly",
+      "item_family": "book_revealed",
+      "variant": "godly",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/book_revealed/godly",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "book_revealed/legendary",
+      "item_family": "book_revealed",
+      "variant": "legendary",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/book_revealed/legendary",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "book_revealed/random_elite",
+      "item_family": "book_revealed",
+      "variant": "random_elite",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/book_revealed/random_elite",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "book_revealed/random_godly",
+      "item_family": "book_revealed",
+      "variant": "random_godly",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/book_revealed/random_godly",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "book_revealed/random_legendary",
+      "item_family": "book_revealed",
+      "variant": "random_legendary",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/book_revealed/random_legendary",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "book_revealed/random_simple",
+      "item_family": "book_revealed",
+      "variant": "random_simple",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/book_revealed/random_simple",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "book_revealed/random_ultimate",
+      "item_family": "book_revealed",
+      "variant": "random_ultimate",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/book_revealed/random_ultimate",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "book_revealed/random_uncommon",
+      "item_family": "book_revealed",
+      "variant": "random_uncommon",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/book_revealed/random_uncommon",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "book_revealed/simple",
+      "item_family": "book_revealed",
+      "variant": "simple",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/book_revealed/simple",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "book_revealed/ultimate",
+      "item_family": "book_revealed",
+      "variant": "ultimate",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/book_revealed/ultimate",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "book_revealed/uncommon",
+      "item_family": "book_revealed",
+      "variant": "uncommon",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/book_revealed/uncommon",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "booster/energy",
+      "item_family": "booster",
+      "variant": "energy",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/booster/energy",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "booster/gp",
+      "item_family": "booster",
+      "variant": "gp",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/booster/gp",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "booster/xp",
+      "item_family": "booster",
+      "variant": "xp",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/booster/xp",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "candy/elite",
+      "item_family": "candy",
+      "variant": "elite",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/candy/elite",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "candy/godly",
+      "item_family": "candy",
+      "variant": "godly",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/candy/godly",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "candy/legendary",
+      "item_family": "candy",
+      "variant": "legendary",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/candy/legendary",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "candy/random_elite",
+      "item_family": "candy",
+      "variant": "random_elite",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/candy/random_elite",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "candy/random_godly",
+      "item_family": "candy",
+      "variant": "random_godly",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/candy/random_godly",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "candy/random_legendary",
+      "item_family": "candy",
+      "variant": "random_legendary",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/candy/random_legendary",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "candy/random_simple",
+      "item_family": "candy",
+      "variant": "random_simple",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/candy/random_simple",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "candy/random_ultimate",
+      "item_family": "candy",
+      "variant": "random_ultimate",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/candy/random_ultimate",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "candy/random_uncommon",
+      "item_family": "candy",
+      "variant": "random_uncommon",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/candy/random_uncommon",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "candy/simple",
+      "item_family": "candy",
+      "variant": "simple",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/candy/simple",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "candy/ultimate",
+      "item_family": "candy",
+      "variant": "ultimate",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/candy/ultimate",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "candy/uncommon",
+      "item_family": "candy",
+      "variant": "uncommon",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/candy/uncommon",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "charge_orb/stage_1",
+      "item_family": "charge_orb",
+      "variant": "stage_1",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/charge_orb/stage_1",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "charge_orb/stage_2",
+      "item_family": "charge_orb",
+      "variant": "stage_2",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/charge_orb/stage_2",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "charge_orb/stage_3",
+      "item_family": "charge_orb",
+      "variant": "stage_3",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/charge_orb/stage_3",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "charge_orb/stage_4",
+      "item_family": "charge_orb",
+      "variant": "stage_4",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/charge_orb/stage_4",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "clue_scroll/elite",
+      "item_family": "clue_scroll",
+      "variant": "elite",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/clue_scroll/elite",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "clue_scroll/godly",
+      "item_family": "clue_scroll",
+      "variant": "godly",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/clue_scroll/godly",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "clue_scroll/legendary",
+      "item_family": "clue_scroll",
+      "variant": "legendary",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/clue_scroll/legendary",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "clue_scroll/random_elite",
+      "item_family": "clue_scroll",
+      "variant": "random_elite",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/clue_scroll/random_elite",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "clue_scroll/random_godly",
+      "item_family": "clue_scroll",
+      "variant": "random_godly",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/clue_scroll/random_godly",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "clue_scroll/random_legendary",
+      "item_family": "clue_scroll",
+      "variant": "random_legendary",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/clue_scroll/random_legendary",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "clue_scroll/random_simple",
+      "item_family": "clue_scroll",
+      "variant": "random_simple",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/clue_scroll/random_simple",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "clue_scroll/random_ultimate",
+      "item_family": "clue_scroll",
+      "variant": "random_ultimate",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/clue_scroll/random_ultimate",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "clue_scroll/random_uncommon",
+      "item_family": "clue_scroll",
+      "variant": "random_uncommon",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/clue_scroll/random_uncommon",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "clue_scroll/simple",
+      "item_family": "clue_scroll",
+      "variant": "simple",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/clue_scroll/simple",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "clue_scroll/ultimate",
+      "item_family": "clue_scroll",
+      "variant": "ultimate",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/clue_scroll/ultimate",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "clue_scroll/uncommon",
+      "item_family": "clue_scroll",
+      "variant": "uncommon",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/clue_scroll/uncommon",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "contraband/elite",
+      "item_family": "contraband",
+      "variant": "elite",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/contraband/elite",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "contraband/godly",
+      "item_family": "contraband",
+      "variant": "godly",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/contraband/godly",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "contraband/legendary",
+      "item_family": "contraband",
+      "variant": "legendary",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/contraband/legendary",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "contraband/random_elite",
+      "item_family": "contraband",
+      "variant": "random_elite",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/contraband/random_elite",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "contraband/random_godly",
+      "item_family": "contraband",
+      "variant": "random_godly",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/contraband/random_godly",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "contraband/random_legendary",
+      "item_family": "contraband",
+      "variant": "random_legendary",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/contraband/random_legendary",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "contraband/random_simple",
+      "item_family": "contraband",
+      "variant": "random_simple",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/contraband/random_simple",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "contraband/random_ultimate",
+      "item_family": "contraband",
+      "variant": "random_ultimate",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/contraband/random_ultimate",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "contraband/random_uncommon",
+      "item_family": "contraband",
+      "variant": "random_uncommon",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/contraband/random_uncommon",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "contraband/simple",
+      "item_family": "contraband",
+      "variant": "simple",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/contraband/simple",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "contraband/ultimate",
+      "item_family": "contraband",
+      "variant": "ultimate",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/contraband/ultimate",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "contraband/uncommon",
+      "item_family": "contraband",
+      "variant": "uncommon",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/contraband/uncommon",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "dust/elite",
+      "item_family": "dust",
+      "variant": "elite",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/dust/elite",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "dust/godly",
+      "item_family": "dust",
+      "variant": "godly",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/dust/godly",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "dust/legendary",
+      "item_family": "dust",
+      "variant": "legendary",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/dust/legendary",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "dust/random_elite",
+      "item_family": "dust",
+      "variant": "random_elite",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/dust/random_elite",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "dust/random_godly",
+      "item_family": "dust",
+      "variant": "random_godly",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/dust/random_godly",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "dust/random_legendary",
+      "item_family": "dust",
+      "variant": "random_legendary",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/dust/random_legendary",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "dust/random_simple",
+      "item_family": "dust",
+      "variant": "random_simple",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/dust/random_simple",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "dust/random_ultimate",
+      "item_family": "dust",
+      "variant": "random_ultimate",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/dust/random_ultimate",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "dust/random_uncommon",
+      "item_family": "dust",
+      "variant": "random_uncommon",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/dust/random_uncommon",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "dust/simple",
+      "item_family": "dust",
+      "variant": "simple",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/dust/simple",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "dust/ultimate",
+      "item_family": "dust",
+      "variant": "ultimate",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/dust/ultimate",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "dust/uncommon",
+      "item_family": "dust",
+      "variant": "uncommon",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/dust/uncommon",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "enchant/absorber",
+      "item_family": "enchant",
+      "variant": "absorber",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/enchant/absorber",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "enchant/black_scroll",
+      "item_family": "enchant",
+      "variant": "black_scroll",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/enchant/black_scroll",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "enchant/eraser",
+      "item_family": "enchant",
+      "variant": "eraser",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/enchant/eraser",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "enchant/white_scroll",
+      "item_family": "enchant",
+      "variant": "white_scroll",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/enchant/white_scroll",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "enchant_orb/elite",
+      "item_family": "enchant_orb",
+      "variant": "elite",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/enchant_orb/elite",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "enchant_orb/godly",
+      "item_family": "enchant_orb",
+      "variant": "godly",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/enchant_orb/godly",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "enchant_orb/legendary",
+      "item_family": "enchant_orb",
+      "variant": "legendary",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/enchant_orb/legendary",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "enchant_orb/random_elite",
+      "item_family": "enchant_orb",
+      "variant": "random_elite",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/enchant_orb/random_elite",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "enchant_orb/random_godly",
+      "item_family": "enchant_orb",
+      "variant": "random_godly",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/enchant_orb/random_godly",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "enchant_orb/random_legendary",
+      "item_family": "enchant_orb",
+      "variant": "random_legendary",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/enchant_orb/random_legendary",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "enchant_orb/random_simple",
+      "item_family": "enchant_orb",
+      "variant": "random_simple",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/enchant_orb/random_simple",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "enchant_orb/random_ultimate",
+      "item_family": "enchant_orb",
+      "variant": "random_ultimate",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/enchant_orb/random_ultimate",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "enchant_orb/random_uncommon",
+      "item_family": "enchant_orb",
+      "variant": "random_uncommon",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/enchant_orb/random_uncommon",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "enchant_orb/simple",
+      "item_family": "enchant_orb",
+      "variant": "simple",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/enchant_orb/simple",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "enchant_orb/ultimate",
+      "item_family": "enchant_orb",
+      "variant": "ultimate",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/enchant_orb/ultimate",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "enchant_orb/uncommon",
+      "item_family": "enchant_orb",
+      "variant": "uncommon",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/enchant_orb/uncommon",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "flare/basic",
+      "item_family": "flare",
+      "variant": "basic",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/flare/basic",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "flare/fractured",
+      "item_family": "flare",
+      "variant": "fractured",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/flare/fractured",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "flare/gkit",
+      "item_family": "flare",
+      "variant": "gkit",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/flare/gkit",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "flare/meteor",
+      "item_family": "flare",
+      "variant": "meteor",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/flare/meteor",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "gkit/astronaut",
+      "item_family": "gkit",
+      "variant": "astronaut",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/gkit/astronaut",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "gkit/generic",
+      "item_family": "gkit",
+      "variant": "generic",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/gkit/generic",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "gkit/random_astronaut",
+      "item_family": "gkit",
+      "variant": "random_astronaut",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/gkit/random_astronaut",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "gkit/random_generic",
+      "item_family": "gkit",
+      "variant": "random_generic",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/gkit/random_generic",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "gkit/random_slasher",
+      "item_family": "gkit",
+      "variant": "random_slasher",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/gkit/random_slasher",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "gkit/random_sludge",
+      "item_family": "gkit",
+      "variant": "random_sludge",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/gkit/random_sludge",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "gkit/random_starforged",
+      "item_family": "gkit",
+      "variant": "random_starforged",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/gkit/random_starforged",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "gkit/slasher",
+      "item_family": "gkit",
+      "variant": "slasher",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/gkit/slasher",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "gkit/sludge",
+      "item_family": "gkit",
+      "variant": "sludge",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/gkit/sludge",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "gkit/starforged",
+      "item_family": "gkit",
+      "variant": "starforged",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/gkit/starforged",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "key/elite",
+      "item_family": "key",
+      "variant": "elite",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/key/elite",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "key/godly",
+      "item_family": "key",
+      "variant": "godly",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/key/godly",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "key/legendary",
+      "item_family": "key",
+      "variant": "legendary",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/key/legendary",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "key/random_elite",
+      "item_family": "key",
+      "variant": "random_elite",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/key/random_elite",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "key/random_godly",
+      "item_family": "key",
+      "variant": "random_godly",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/key/random_godly",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "key/random_legendary",
+      "item_family": "key",
+      "variant": "random_legendary",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/key/random_legendary",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "key/random_simple",
+      "item_family": "key",
+      "variant": "random_simple",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/key/random_simple",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "key/random_ultimate",
+      "item_family": "key",
+      "variant": "random_ultimate",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/key/random_ultimate",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "key/random_uncommon",
+      "item_family": "key",
+      "variant": "random_uncommon",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/key/random_uncommon",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "key/simple",
+      "item_family": "key",
+      "variant": "simple",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/key/simple",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "key/ultimate",
+      "item_family": "key",
+      "variant": "ultimate",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/key/ultimate",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "key/uncommon",
+      "item_family": "key",
+      "variant": "uncommon",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/key/uncommon",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "mask/anonymous",
+      "item_family": "mask",
+      "variant": "anonymous",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/mask/anonymous",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "mask/clue",
+      "item_family": "mask",
+      "variant": "clue",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/mask/clue",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "mask/elite",
+      "item_family": "mask",
+      "variant": "elite",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/mask/elite",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "mask/godly",
+      "item_family": "mask",
+      "variant": "godly",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/mask/godly",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "mask/legendary",
+      "item_family": "mask",
+      "variant": "legendary",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/mask/legendary",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "mask/leprechaun",
+      "item_family": "mask",
+      "variant": "leprechaun",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/mask/leprechaun",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "mask/nitro",
+      "item_family": "mask",
+      "variant": "nitro",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/mask/nitro",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "mask/outpost",
+      "item_family": "mask",
+      "variant": "outpost",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/mask/outpost",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "mask/prisoner",
+      "item_family": "mask",
+      "variant": "prisoner",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/mask/prisoner",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "mask/sentinel",
+      "item_family": "mask",
+      "variant": "sentinel",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/mask/sentinel",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "mask/simple",
+      "item_family": "mask",
+      "variant": "simple",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/mask/simple",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "mask/turkey",
+      "item_family": "mask",
+      "variant": "turkey",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/mask/turkey",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "mask/ultimate",
+      "item_family": "mask",
+      "variant": "ultimate",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/mask/ultimate",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "mask/uncommon",
+      "item_family": "mask",
+      "variant": "uncommon",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/mask/uncommon",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "mask/valor",
+      "item_family": "mask",
+      "variant": "valor",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/mask/valor",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "menu/back",
+      "item_family": "menu",
+      "variant": "back",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/menu/back",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "menu/close",
+      "item_family": "menu",
+      "variant": "close",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/menu/close",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "menu/next",
+      "item_family": "menu",
+      "variant": "next",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/menu/next",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "menu/previous",
+      "item_family": "menu",
+      "variant": "previous",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/menu/previous",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "menu/refresh",
+      "item_family": "menu",
+      "variant": "refresh",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/menu/refresh",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "misc/aether_bloom",
+      "item_family": "misc",
+      "variant": "aether_bloom",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/misc/aether_bloom",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "misc/altar_pillar",
+      "item_family": "misc",
+      "variant": "altar_pillar",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/misc/altar_pillar",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "misc/boss_egg",
+      "item_family": "misc",
+      "variant": "boss_egg",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/misc/boss_egg",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "misc/boss_egg_random",
+      "item_family": "misc",
+      "variant": "boss_egg_random",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/misc/boss_egg_random",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "misc/charge_orb_slot",
+      "item_family": "misc",
+      "variant": "charge_orb_slot",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/misc/charge_orb_slot",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "misc/cosmic_coins",
+      "item_family": "misc",
+      "variant": "cosmic_coins",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/misc/cosmic_coins",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "misc/cosmic_crate",
+      "item_family": "misc",
+      "variant": "cosmic_crate",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/misc/cosmic_crate",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "misc/cosmic_energy",
+      "item_family": "misc",
+      "variant": "cosmic_energy",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/misc/cosmic_energy",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "misc/executive_shard",
+      "item_family": "misc",
+      "variant": "executive_shard",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/misc/executive_shard",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "misc/expander",
+      "item_family": "misc",
+      "variant": "expander",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/misc/expander",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "misc/flip_credit",
+      "item_family": "misc",
+      "variant": "flip_credit",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/misc/flip_credit",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "misc/gang_points",
+      "item_family": "misc",
+      "variant": "gang_points",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/misc/gang_points",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "misc/gen_breaker",
+      "item_family": "misc",
+      "variant": "gen_breaker",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/misc/gen_breaker",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "misc/home_expander",
+      "item_family": "misc",
+      "variant": "home_expander",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/misc/home_expander",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "misc/inmate_rations",
+      "item_family": "misc",
+      "variant": "inmate_rations",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/misc/inmate_rations",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "misc/kill_message",
+      "item_family": "misc",
+      "variant": "kill_message",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/misc/kill_message",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "misc/lore_crystal",
+      "item_family": "misc",
+      "variant": "lore_crystal",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/misc/lore_crystal",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "misc/lucky_charm",
+      "item_family": "misc",
+      "variant": "lucky_charm",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/misc/lucky_charm",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "misc/money_note",
+      "item_family": "misc",
+      "variant": "money_note",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/misc/money_note",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "misc/nametag",
+      "item_family": "misc",
+      "variant": "nametag",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/misc/nametag",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "misc/pet_incubator",
+      "item_family": "misc",
+      "variant": "pet_incubator",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/misc/pet_incubator",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "misc/pet_leash",
+      "item_family": "misc",
+      "variant": "pet_leash",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/misc/pet_leash",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "misc/prestige_modifier",
+      "item_family": "misc",
+      "variant": "prestige_modifier",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/misc/prestige_modifier",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "misc/prestige_modifier_random",
+      "item_family": "misc",
+      "variant": "prestige_modifier_random",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/misc/prestige_modifier_random",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "misc/pv_expander",
+      "item_family": "misc",
+      "variant": "pv_expander",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/misc/pv_expander",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "misc/rabbits_foot",
+      "item_family": "misc",
+      "variant": "rabbits_foot",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/misc/rabbits_foot",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "misc/rare_pickaxe_enchant",
+      "item_family": "misc",
+      "variant": "rare_pickaxe_enchant",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/misc/rare_pickaxe_enchant",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "misc/red_roses",
+      "item_family": "misc",
+      "variant": "red_roses",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/misc/red_roses",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "misc/showcase_row",
+      "item_family": "misc",
+      "variant": "showcase_row",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/misc/showcase_row",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "misc/skill_token",
+      "item_family": "misc",
+      "variant": "skill_token",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/misc/skill_token",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "misc/skill_tree_reset",
+      "item_family": "misc",
+      "variant": "skill_tree_reset",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/misc/skill_tree_reset",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "misc/slot_bot_ticket",
+      "item_family": "misc",
+      "variant": "slot_bot_ticket",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/misc/slot_bot_ticket",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "misc/ticket_scrap",
+      "item_family": "misc",
+      "variant": "ticket_scrap",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/misc/ticket_scrap",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "misc/ticket_sleeve",
+      "item_family": "misc",
+      "variant": "ticket_sleeve",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/misc/ticket_sleeve",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "misc/time_extender",
+      "item_family": "misc",
+      "variant": "time_extender",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/misc/time_extender",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "misc/title",
+      "item_family": "misc",
+      "variant": "title",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/misc/title",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "page/elite",
+      "item_family": "page",
+      "variant": "elite",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/page/elite",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "page/godly",
+      "item_family": "page",
+      "variant": "godly",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/page/godly",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "page/legendary",
+      "item_family": "page",
+      "variant": "legendary",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/page/legendary",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "page/random_elite",
+      "item_family": "page",
+      "variant": "random_elite",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/page/random_elite",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "page/random_godly",
+      "item_family": "page",
+      "variant": "random_godly",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/page/random_godly",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "page/random_legendary",
+      "item_family": "page",
+      "variant": "random_legendary",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/page/random_legendary",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "page/random_simple",
+      "item_family": "page",
+      "variant": "random_simple",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/page/random_simple",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "page/random_ultimate",
+      "item_family": "page",
+      "variant": "random_ultimate",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/page/random_ultimate",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "page/random_uncommon",
+      "item_family": "page",
+      "variant": "random_uncommon",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/page/random_uncommon",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "page/simple",
+      "item_family": "page",
+      "variant": "simple",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/page/simple",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "page/ultimate",
+      "item_family": "page",
+      "variant": "ultimate",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/page/ultimate",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "page/uncommon",
+      "item_family": "page",
+      "variant": "uncommon",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/page/uncommon",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/anti_xp_tax_elite",
+      "item_family": "pet",
+      "variant": "anti_xp_tax_elite",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/anti_xp_tax_elite",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/anti_xp_tax_godly",
+      "item_family": "pet",
+      "variant": "anti_xp_tax_godly",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/anti_xp_tax_godly",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/anti_xp_tax_legendary",
+      "item_family": "pet",
+      "variant": "anti_xp_tax_legendary",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/anti_xp_tax_legendary",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/anti_xp_tax_simple",
+      "item_family": "pet",
+      "variant": "anti_xp_tax_simple",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/anti_xp_tax_simple",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/anti_xp_tax_ultimate",
+      "item_family": "pet",
+      "variant": "anti_xp_tax_ultimate",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/anti_xp_tax_ultimate",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/anti_xp_tax_uncommon",
+      "item_family": "pet",
+      "variant": "anti_xp_tax_uncommon",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/anti_xp_tax_uncommon",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/bandit_king_elite",
+      "item_family": "pet",
+      "variant": "bandit_king_elite",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/bandit_king_elite",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/bandit_king_godly",
+      "item_family": "pet",
+      "variant": "bandit_king_godly",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/bandit_king_godly",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/bandit_king_legendary",
+      "item_family": "pet",
+      "variant": "bandit_king_legendary",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/bandit_king_legendary",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/bandit_king_simple",
+      "item_family": "pet",
+      "variant": "bandit_king_simple",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/bandit_king_simple",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/bandit_king_ultimate",
+      "item_family": "pet",
+      "variant": "bandit_king_ultimate",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/bandit_king_ultimate",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/bandit_king_uncommon",
+      "item_family": "pet",
+      "variant": "bandit_king_uncommon",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/bandit_king_uncommon",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/blacksmith_elite",
+      "item_family": "pet",
+      "variant": "blacksmith_elite",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/blacksmith_elite",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/blacksmith_godly",
+      "item_family": "pet",
+      "variant": "blacksmith_godly",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/blacksmith_godly",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/blacksmith_legendary",
+      "item_family": "pet",
+      "variant": "blacksmith_legendary",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/blacksmith_legendary",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/blacksmith_simple",
+      "item_family": "pet",
+      "variant": "blacksmith_simple",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/blacksmith_simple",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/blacksmith_ultimate",
+      "item_family": "pet",
+      "variant": "blacksmith_ultimate",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/blacksmith_ultimate",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/blacksmith_uncommon",
+      "item_family": "pet",
+      "variant": "blacksmith_uncommon",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/blacksmith_uncommon",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/cleanse_elite",
+      "item_family": "pet",
+      "variant": "cleanse_elite",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/cleanse_elite",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/cleanse_godly",
+      "item_family": "pet",
+      "variant": "cleanse_godly",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/cleanse_godly",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/cleanse_legendary",
+      "item_family": "pet",
+      "variant": "cleanse_legendary",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/cleanse_legendary",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/cleanse_simple",
+      "item_family": "pet",
+      "variant": "cleanse_simple",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/cleanse_simple",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/cleanse_ultimate",
+      "item_family": "pet",
+      "variant": "cleanse_ultimate",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/cleanse_ultimate",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/cleanse_uncommon",
+      "item_family": "pet",
+      "variant": "cleanse_uncommon",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/cleanse_uncommon",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/dragon_elite",
+      "item_family": "pet",
+      "variant": "dragon_elite",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/dragon_elite",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/dragon_godly",
+      "item_family": "pet",
+      "variant": "dragon_godly",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/dragon_godly",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/dragon_legendary",
+      "item_family": "pet",
+      "variant": "dragon_legendary",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/dragon_legendary",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/dragon_simple",
+      "item_family": "pet",
+      "variant": "dragon_simple",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/dragon_simple",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/dragon_ultimate",
+      "item_family": "pet",
+      "variant": "dragon_ultimate",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/dragon_ultimate",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/dragon_uncommon",
+      "item_family": "pet",
+      "variant": "dragon_uncommon",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/dragon_uncommon",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/fox_elite",
+      "item_family": "pet",
+      "variant": "fox_elite",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/fox_elite",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/fox_godly",
+      "item_family": "pet",
+      "variant": "fox_godly",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/fox_godly",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/fox_legendary",
+      "item_family": "pet",
+      "variant": "fox_legendary",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/fox_legendary",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/fox_simple",
+      "item_family": "pet",
+      "variant": "fox_simple",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/fox_simple",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/fox_ultimate",
+      "item_family": "pet",
+      "variant": "fox_ultimate",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/fox_ultimate",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/fox_uncommon",
+      "item_family": "pet",
+      "variant": "fox_uncommon",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/fox_uncommon",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/lucky_elite",
+      "item_family": "pet",
+      "variant": "lucky_elite",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/lucky_elite",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/lucky_godly",
+      "item_family": "pet",
+      "variant": "lucky_godly",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/lucky_godly",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/lucky_legendary",
+      "item_family": "pet",
+      "variant": "lucky_legendary",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/lucky_legendary",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/lucky_simple",
+      "item_family": "pet",
+      "variant": "lucky_simple",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/lucky_simple",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/lucky_ultimate",
+      "item_family": "pet",
+      "variant": "lucky_ultimate",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/lucky_ultimate",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/lucky_uncommon",
+      "item_family": "pet",
+      "variant": "lucky_uncommon",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/lucky_uncommon",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/owl_elite",
+      "item_family": "pet",
+      "variant": "owl_elite",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/owl_elite",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/owl_godly",
+      "item_family": "pet",
+      "variant": "owl_godly",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/owl_godly",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/owl_legendary",
+      "item_family": "pet",
+      "variant": "owl_legendary",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/owl_legendary",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/owl_simple",
+      "item_family": "pet",
+      "variant": "owl_simple",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/owl_simple",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/owl_ultimate",
+      "item_family": "pet",
+      "variant": "owl_ultimate",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/owl_ultimate",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/owl_uncommon",
+      "item_family": "pet",
+      "variant": "owl_uncommon",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/owl_uncommon",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/pig_elite",
+      "item_family": "pet",
+      "variant": "pig_elite",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/pig_elite",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/pig_godly",
+      "item_family": "pet",
+      "variant": "pig_godly",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/pig_godly",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/pig_legendary",
+      "item_family": "pet",
+      "variant": "pig_legendary",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/pig_legendary",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/pig_simple",
+      "item_family": "pet",
+      "variant": "pig_simple",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/pig_simple",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/pig_ultimate",
+      "item_family": "pet",
+      "variant": "pig_ultimate",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/pig_ultimate",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/pig_uncommon",
+      "item_family": "pet",
+      "variant": "pig_uncommon",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/pig_uncommon",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/rabbit_elite",
+      "item_family": "pet",
+      "variant": "rabbit_elite",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/rabbit_elite",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/rabbit_godly",
+      "item_family": "pet",
+      "variant": "rabbit_godly",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/rabbit_godly",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/rabbit_legendary",
+      "item_family": "pet",
+      "variant": "rabbit_legendary",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/rabbit_legendary",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/rabbit_simple",
+      "item_family": "pet",
+      "variant": "rabbit_simple",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/rabbit_simple",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/rabbit_ultimate",
+      "item_family": "pet",
+      "variant": "rabbit_ultimate",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/rabbit_ultimate",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/rabbit_uncommon",
+      "item_family": "pet",
+      "variant": "rabbit_uncommon",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/rabbit_uncommon",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/shockwave_elite",
+      "item_family": "pet",
+      "variant": "shockwave_elite",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/shockwave_elite",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/shockwave_godly",
+      "item_family": "pet",
+      "variant": "shockwave_godly",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/shockwave_godly",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/shockwave_legendary",
+      "item_family": "pet",
+      "variant": "shockwave_legendary",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/shockwave_legendary",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/shockwave_simple",
+      "item_family": "pet",
+      "variant": "shockwave_simple",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/shockwave_simple",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/shockwave_ultimate",
+      "item_family": "pet",
+      "variant": "shockwave_ultimate",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/shockwave_ultimate",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/shockwave_uncommon",
+      "item_family": "pet",
+      "variant": "shockwave_uncommon",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/shockwave_uncommon",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/signal_jammer_elite",
+      "item_family": "pet",
+      "variant": "signal_jammer_elite",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/signal_jammer_elite",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/signal_jammer_godly",
+      "item_family": "pet",
+      "variant": "signal_jammer_godly",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/signal_jammer_godly",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/signal_jammer_legendary",
+      "item_family": "pet",
+      "variant": "signal_jammer_legendary",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/signal_jammer_legendary",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/signal_jammer_simple",
+      "item_family": "pet",
+      "variant": "signal_jammer_simple",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/signal_jammer_simple",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/signal_jammer_ultimate",
+      "item_family": "pet",
+      "variant": "signal_jammer_ultimate",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/signal_jammer_ultimate",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/signal_jammer_uncommon",
+      "item_family": "pet",
+      "variant": "signal_jammer_uncommon",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/signal_jammer_uncommon",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/slime_elite",
+      "item_family": "pet",
+      "variant": "slime_elite",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/slime_elite",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/slime_godly",
+      "item_family": "pet",
+      "variant": "slime_godly",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/slime_godly",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/slime_legendary",
+      "item_family": "pet",
+      "variant": "slime_legendary",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/slime_legendary",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/slime_simple",
+      "item_family": "pet",
+      "variant": "slime_simple",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/slime_simple",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/slime_ultimate",
+      "item_family": "pet",
+      "variant": "slime_ultimate",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/slime_ultimate",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/slime_uncommon",
+      "item_family": "pet",
+      "variant": "slime_uncommon",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/slime_uncommon",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/wormhole_elite",
+      "item_family": "pet",
+      "variant": "wormhole_elite",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/wormhole_elite",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/wormhole_godly",
+      "item_family": "pet",
+      "variant": "wormhole_godly",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/wormhole_godly",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/wormhole_legendary",
+      "item_family": "pet",
+      "variant": "wormhole_legendary",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/wormhole_legendary",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/wormhole_simple",
+      "item_family": "pet",
+      "variant": "wormhole_simple",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/wormhole_simple",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/wormhole_ultimate",
+      "item_family": "pet",
+      "variant": "wormhole_ultimate",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/wormhole_ultimate",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pet/wormhole_uncommon",
+      "item_family": "pet",
+      "variant": "wormhole_uncommon",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pet/wormhole_uncommon",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pickaxe/copper",
+      "item_family": "pickaxe",
+      "variant": "copper",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pickaxe/copper",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pickaxe/diamond",
+      "item_family": "pickaxe",
+      "variant": "diamond",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pickaxe/diamond",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pickaxe/golden",
+      "item_family": "pickaxe",
+      "variant": "golden",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pickaxe/golden",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pickaxe/iron",
+      "item_family": "pickaxe",
+      "variant": "iron",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pickaxe/iron",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pickaxe/netherite",
+      "item_family": "pickaxe",
+      "variant": "netherite",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pickaxe/netherite",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pickaxe/stone",
+      "item_family": "pickaxe",
+      "variant": "stone",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pickaxe/stone",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "pickaxe/wooden",
+      "item_family": "pickaxe",
+      "variant": "wooden",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/pickaxe/wooden",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "powerup/bogo",
+      "item_family": "powerup",
+      "variant": "bogo",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/powerup/bogo",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "powerup/bogo_elite",
+      "item_family": "powerup",
+      "variant": "bogo_elite",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/powerup/bogo_elite",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "powerup/bogo_godly",
+      "item_family": "powerup",
+      "variant": "bogo_godly",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/powerup/bogo_godly",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "powerup/bogo_legendary",
+      "item_family": "powerup",
+      "variant": "bogo_legendary",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/powerup/bogo_legendary",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "powerup/bogo_simple",
+      "item_family": "powerup",
+      "variant": "bogo_simple",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/powerup/bogo_simple",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "powerup/bogo_ultimate",
+      "item_family": "powerup",
+      "variant": "bogo_ultimate",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/powerup/bogo_ultimate",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "powerup/bogo_uncommon",
+      "item_family": "powerup",
+      "variant": "bogo_uncommon",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/powerup/bogo_uncommon",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "powerup/double_tap",
+      "item_family": "powerup",
+      "variant": "double_tap",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/powerup/double_tap",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "powerup/double_tap_elite",
+      "item_family": "powerup",
+      "variant": "double_tap_elite",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/powerup/double_tap_elite",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "powerup/double_tap_godly",
+      "item_family": "powerup",
+      "variant": "double_tap_godly",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/powerup/double_tap_godly",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "powerup/double_tap_legendary",
+      "item_family": "powerup",
+      "variant": "double_tap_legendary",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/powerup/double_tap_legendary",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "powerup/double_tap_simple",
+      "item_family": "powerup",
+      "variant": "double_tap_simple",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/powerup/double_tap_simple",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "powerup/double_tap_ultimate",
+      "item_family": "powerup",
+      "variant": "double_tap_ultimate",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/powerup/double_tap_ultimate",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "powerup/double_tap_uncommon",
+      "item_family": "powerup",
+      "variant": "double_tap_uncommon",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/powerup/double_tap_uncommon",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "powerup/generic",
+      "item_family": "powerup",
+      "variant": "generic",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/powerup/generic",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "powerup/generic_elite",
+      "item_family": "powerup",
+      "variant": "generic_elite",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/powerup/generic_elite",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "powerup/generic_godly",
+      "item_family": "powerup",
+      "variant": "generic_godly",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/powerup/generic_godly",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "powerup/generic_legendary",
+      "item_family": "powerup",
+      "variant": "generic_legendary",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/powerup/generic_legendary",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "powerup/generic_simple",
+      "item_family": "powerup",
+      "variant": "generic_simple",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/powerup/generic_simple",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "powerup/generic_ultimate",
+      "item_family": "powerup",
+      "variant": "generic_ultimate",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/powerup/generic_ultimate",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "powerup/generic_uncommon",
+      "item_family": "powerup",
+      "variant": "generic_uncommon",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/powerup/generic_uncommon",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "powerup/overdrive",
+      "item_family": "powerup",
+      "variant": "overdrive",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/powerup/overdrive",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "powerup/overdrive_elite",
+      "item_family": "powerup",
+      "variant": "overdrive_elite",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/powerup/overdrive_elite",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "powerup/overdrive_godly",
+      "item_family": "powerup",
+      "variant": "overdrive_godly",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/powerup/overdrive_godly",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "powerup/overdrive_legendary",
+      "item_family": "powerup",
+      "variant": "overdrive_legendary",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/powerup/overdrive_legendary",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "powerup/overdrive_simple",
+      "item_family": "powerup",
+      "variant": "overdrive_simple",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/powerup/overdrive_simple",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "powerup/overdrive_ultimate",
+      "item_family": "powerup",
+      "variant": "overdrive_ultimate",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/powerup/overdrive_ultimate",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "powerup/overdrive_uncommon",
+      "item_family": "powerup",
+      "variant": "overdrive_uncommon",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/powerup/overdrive_uncommon",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "powerup/random",
+      "item_family": "powerup",
+      "variant": "random",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/powerup/random",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "prestige_token/level_1",
+      "item_family": "prestige_token",
+      "variant": "level_1",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/prestige_token/level_1",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "prestige_token/level_10",
+      "item_family": "prestige_token",
+      "variant": "level_10",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/prestige_token/level_10",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "prestige_token/level_2",
+      "item_family": "prestige_token",
+      "variant": "level_2",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/prestige_token/level_2",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "prestige_token/level_3",
+      "item_family": "prestige_token",
+      "variant": "level_3",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/prestige_token/level_3",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "prestige_token/level_4",
+      "item_family": "prestige_token",
+      "variant": "level_4",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/prestige_token/level_4",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "prestige_token/level_5",
+      "item_family": "prestige_token",
+      "variant": "level_5",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/prestige_token/level_5",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "prestige_token/level_6",
+      "item_family": "prestige_token",
+      "variant": "level_6",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/prestige_token/level_6",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "prestige_token/level_7",
+      "item_family": "prestige_token",
+      "variant": "level_7",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/prestige_token/level_7",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "prestige_token/level_8",
+      "item_family": "prestige_token",
+      "variant": "level_8",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/prestige_token/level_8",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "prestige_token/level_9",
+      "item_family": "prestige_token",
+      "variant": "level_9",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/prestige_token/level_9",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "prestige_token/random_level_1",
+      "item_family": "prestige_token",
+      "variant": "random_level_1",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/prestige_token/random_level_1",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "prestige_token/random_level_10",
+      "item_family": "prestige_token",
+      "variant": "random_level_10",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/prestige_token/random_level_10",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "prestige_token/random_level_2",
+      "item_family": "prestige_token",
+      "variant": "random_level_2",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/prestige_token/random_level_2",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "prestige_token/random_level_3",
+      "item_family": "prestige_token",
+      "variant": "random_level_3",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/prestige_token/random_level_3",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "prestige_token/random_level_4",
+      "item_family": "prestige_token",
+      "variant": "random_level_4",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/prestige_token/random_level_4",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "prestige_token/random_level_5",
+      "item_family": "prestige_token",
+      "variant": "random_level_5",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/prestige_token/random_level_5",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "prestige_token/random_level_6",
+      "item_family": "prestige_token",
+      "variant": "random_level_6",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/prestige_token/random_level_6",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "prestige_token/random_level_7",
+      "item_family": "prestige_token",
+      "variant": "random_level_7",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/prestige_token/random_level_7",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "prestige_token/random_level_8",
+      "item_family": "prestige_token",
+      "variant": "random_level_8",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/prestige_token/random_level_8",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "prestige_token/random_level_9",
+      "item_family": "prestige_token",
+      "variant": "random_level_9",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/prestige_token/random_level_9",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "randomization_scroll/elite",
+      "item_family": "randomization_scroll",
+      "variant": "elite",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/randomization_scroll/elite",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "randomization_scroll/godly",
+      "item_family": "randomization_scroll",
+      "variant": "godly",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/randomization_scroll/godly",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "randomization_scroll/legendary",
+      "item_family": "randomization_scroll",
+      "variant": "legendary",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/randomization_scroll/legendary",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "randomization_scroll/random_elite",
+      "item_family": "randomization_scroll",
+      "variant": "random_elite",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/randomization_scroll/random_elite",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "randomization_scroll/random_godly",
+      "item_family": "randomization_scroll",
+      "variant": "random_godly",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/randomization_scroll/random_godly",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "randomization_scroll/random_legendary",
+      "item_family": "randomization_scroll",
+      "variant": "random_legendary",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/randomization_scroll/random_legendary",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "randomization_scroll/random_simple",
+      "item_family": "randomization_scroll",
+      "variant": "random_simple",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/randomization_scroll/random_simple",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "randomization_scroll/random_ultimate",
+      "item_family": "randomization_scroll",
+      "variant": "random_ultimate",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/randomization_scroll/random_ultimate",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "randomization_scroll/random_uncommon",
+      "item_family": "randomization_scroll",
+      "variant": "random_uncommon",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/randomization_scroll/random_uncommon",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "randomization_scroll/simple",
+      "item_family": "randomization_scroll",
+      "variant": "simple",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/randomization_scroll/simple",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "randomization_scroll/ultimate",
+      "item_family": "randomization_scroll",
+      "variant": "ultimate",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/randomization_scroll/ultimate",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "randomization_scroll/uncommon",
+      "item_family": "randomization_scroll",
+      "variant": "uncommon",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/randomization_scroll/uncommon",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "reroll/elite",
+      "item_family": "reroll",
+      "variant": "elite",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/reroll/elite",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "reroll/godly",
+      "item_family": "reroll",
+      "variant": "godly",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/reroll/godly",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "reroll/legendary",
+      "item_family": "reroll",
+      "variant": "legendary",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/reroll/legendary",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "reroll/random_elite",
+      "item_family": "reroll",
+      "variant": "random_elite",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/reroll/random_elite",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "reroll/random_godly",
+      "item_family": "reroll",
+      "variant": "random_godly",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/reroll/random_godly",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "reroll/random_legendary",
+      "item_family": "reroll",
+      "variant": "random_legendary",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/reroll/random_legendary",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "reroll/random_simple",
+      "item_family": "reroll",
+      "variant": "random_simple",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/reroll/random_simple",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "reroll/random_ultimate",
+      "item_family": "reroll",
+      "variant": "random_ultimate",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/reroll/random_ultimate",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "reroll/random_uncommon",
+      "item_family": "reroll",
+      "variant": "random_uncommon",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/reroll/random_uncommon",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "reroll/simple",
+      "item_family": "reroll",
+      "variant": "simple",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/reroll/simple",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "reroll/ultimate",
+      "item_family": "reroll",
+      "variant": "ultimate",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/reroll/ultimate",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "reroll/uncommon",
+      "item_family": "reroll",
+      "variant": "uncommon",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/reroll/uncommon",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "satchel/amethyst",
+      "item_family": "satchel",
+      "variant": "amethyst",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/satchel/amethyst",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "satchel/amethyst_block",
+      "item_family": "satchel",
+      "variant": "amethyst_block",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/satchel/amethyst_block",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "satchel/amethyst_deepslate",
+      "item_family": "satchel",
+      "variant": "amethyst_deepslate",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/satchel/amethyst_deepslate",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "satchel/coal",
+      "item_family": "satchel",
+      "variant": "coal",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/satchel/coal",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "satchel/coal_block",
+      "item_family": "satchel",
+      "variant": "coal_block",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/satchel/coal_block",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "satchel/coal_deepslate",
+      "item_family": "satchel",
+      "variant": "coal_deepslate",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/satchel/coal_deepslate",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "satchel/diamond",
+      "item_family": "satchel",
+      "variant": "diamond",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/satchel/diamond",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "satchel/diamond_block",
+      "item_family": "satchel",
+      "variant": "diamond_block",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/satchel/diamond_block",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "satchel/diamond_deepslate",
+      "item_family": "satchel",
+      "variant": "diamond_deepslate",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/satchel/diamond_deepslate",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "satchel/emerald",
+      "item_family": "satchel",
+      "variant": "emerald",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/satchel/emerald",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "satchel/emerald_block",
+      "item_family": "satchel",
+      "variant": "emerald_block",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/satchel/emerald_block",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "satchel/emerald_deepslate",
+      "item_family": "satchel",
+      "variant": "emerald_deepslate",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/satchel/emerald_deepslate",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "satchel/gold",
+      "item_family": "satchel",
+      "variant": "gold",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/satchel/gold",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "satchel/gold_block",
+      "item_family": "satchel",
+      "variant": "gold_block",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/satchel/gold_block",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "satchel/gold_deepslate",
+      "item_family": "satchel",
+      "variant": "gold_deepslate",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/satchel/gold_deepslate",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "satchel/iron",
+      "item_family": "satchel",
+      "variant": "iron",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/satchel/iron",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "satchel/iron_block",
+      "item_family": "satchel",
+      "variant": "iron_block",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/satchel/iron_block",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "satchel/iron_deepslate",
+      "item_family": "satchel",
+      "variant": "iron_deepslate",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/satchel/iron_deepslate",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "satchel/lapis",
+      "item_family": "satchel",
+      "variant": "lapis",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/satchel/lapis",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "satchel/lapis_block",
+      "item_family": "satchel",
+      "variant": "lapis_block",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/satchel/lapis_block",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "satchel/lapis_deepslate",
+      "item_family": "satchel",
+      "variant": "lapis_deepslate",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/satchel/lapis_deepslate",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "satchel/prismarine",
+      "item_family": "satchel",
+      "variant": "prismarine",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/satchel/prismarine",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "satchel/prismarine_block",
+      "item_family": "satchel",
+      "variant": "prismarine_block",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/satchel/prismarine_block",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "satchel/prismarine_deepslate",
+      "item_family": "satchel",
+      "variant": "prismarine_deepslate",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/satchel/prismarine_deepslate",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "satchel/quartz",
+      "item_family": "satchel",
+      "variant": "quartz",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/satchel/quartz",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "satchel/quartz_block",
+      "item_family": "satchel",
+      "variant": "quartz_block",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/satchel/quartz_block",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "satchel/quartz_deepslate",
+      "item_family": "satchel",
+      "variant": "quartz_deepslate",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/satchel/quartz_deepslate",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "satchel/random",
+      "item_family": "satchel",
+      "variant": "random",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/satchel/random",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "satchel/redstone",
+      "item_family": "satchel",
+      "variant": "redstone",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/satchel/redstone",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "satchel/redstone_block",
+      "item_family": "satchel",
+      "variant": "redstone_block",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/satchel/redstone_block",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "satchel/redstone_deepslate",
+      "item_family": "satchel",
+      "variant": "redstone_deepslate",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/satchel/redstone_deepslate",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "secret_dust/elite",
+      "item_family": "secret_dust",
+      "variant": "elite",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/secret_dust/elite",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "secret_dust/godly",
+      "item_family": "secret_dust",
+      "variant": "godly",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/secret_dust/godly",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "secret_dust/legendary",
+      "item_family": "secret_dust",
+      "variant": "legendary",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/secret_dust/legendary",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "secret_dust/random_elite",
+      "item_family": "secret_dust",
+      "variant": "random_elite",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/secret_dust/random_elite",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "secret_dust/random_godly",
+      "item_family": "secret_dust",
+      "variant": "random_godly",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/secret_dust/random_godly",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "secret_dust/random_legendary",
+      "item_family": "secret_dust",
+      "variant": "random_legendary",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/secret_dust/random_legendary",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "secret_dust/random_simple",
+      "item_family": "secret_dust",
+      "variant": "random_simple",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/secret_dust/random_simple",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "secret_dust/random_ultimate",
+      "item_family": "secret_dust",
+      "variant": "random_ultimate",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/secret_dust/random_ultimate",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "secret_dust/random_uncommon",
+      "item_family": "secret_dust",
+      "variant": "random_uncommon",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/secret_dust/random_uncommon",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "secret_dust/simple",
+      "item_family": "secret_dust",
+      "variant": "simple",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/secret_dust/simple",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "secret_dust/ultimate",
+      "item_family": "secret_dust",
+      "variant": "ultimate",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/secret_dust/ultimate",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "secret_dust/uncommon",
+      "item_family": "secret_dust",
+      "variant": "uncommon",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/secret_dust/uncommon",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "shard/elite",
+      "item_family": "shard",
+      "variant": "elite",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/shard/elite",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "shard/godly",
+      "item_family": "shard",
+      "variant": "godly",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/shard/godly",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "shard/legendary",
+      "item_family": "shard",
+      "variant": "legendary",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/shard/legendary",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "shard/random_elite",
+      "item_family": "shard",
+      "variant": "random_elite",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/shard/random_elite",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "shard/random_executive",
+      "item_family": "shard",
+      "variant": "random_executive",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/shard/random_executive",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "shard/random_godly",
+      "item_family": "shard",
+      "variant": "random_godly",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/shard/random_godly",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "shard/random_legendary",
+      "item_family": "shard",
+      "variant": "random_legendary",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/shard/random_legendary",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "shard/random_simple",
+      "item_family": "shard",
+      "variant": "random_simple",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/shard/random_simple",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "shard/random_ultimate",
+      "item_family": "shard",
+      "variant": "random_ultimate",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/shard/random_ultimate",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "shard/random_uncommon",
+      "item_family": "shard",
+      "variant": "random_uncommon",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/shard/random_uncommon",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "shard/simple",
+      "item_family": "shard",
+      "variant": "simple",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/shard/simple",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "shard/ultimate",
+      "item_family": "shard",
+      "variant": "ultimate",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/shard/ultimate",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "shard/uncommon",
+      "item_family": "shard",
+      "variant": "uncommon",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/shard/uncommon",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "spear/copper",
+      "item_family": "spear",
+      "variant": "copper",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/spear/copper",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "spear/diamond",
+      "item_family": "spear",
+      "variant": "diamond",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/spear/diamond",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "spear/golden",
+      "item_family": "spear",
+      "variant": "golden",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/spear/golden",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "spear/iron",
+      "item_family": "spear",
+      "variant": "iron",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/spear/iron",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "spear/netherite",
+      "item_family": "spear",
+      "variant": "netherite",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/spear/netherite",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "spear/stone",
+      "item_family": "spear",
+      "variant": "stone",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/spear/stone",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "spear/wooden",
+      "item_family": "spear",
+      "variant": "wooden",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/spear/wooden",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "spear_orb/elite",
+      "item_family": "spear_orb",
+      "variant": "elite",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/spear_orb/elite",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "spear_orb/godly",
+      "item_family": "spear_orb",
+      "variant": "godly",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/spear_orb/godly",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "spear_orb/legendary",
+      "item_family": "spear_orb",
+      "variant": "legendary",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/spear_orb/legendary",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "spear_orb/random_elite",
+      "item_family": "spear_orb",
+      "variant": "random_elite",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/spear_orb/random_elite",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "spear_orb/random_godly",
+      "item_family": "spear_orb",
+      "variant": "random_godly",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/spear_orb/random_godly",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "spear_orb/random_legendary",
+      "item_family": "spear_orb",
+      "variant": "random_legendary",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/spear_orb/random_legendary",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "spear_orb/random_simple",
+      "item_family": "spear_orb",
+      "variant": "random_simple",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/spear_orb/random_simple",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "spear_orb/random_ultimate",
+      "item_family": "spear_orb",
+      "variant": "random_ultimate",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/spear_orb/random_ultimate",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "spear_orb/random_uncommon",
+      "item_family": "spear_orb",
+      "variant": "random_uncommon",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/spear_orb/random_uncommon",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "spear_orb/simple",
+      "item_family": "spear_orb",
+      "variant": "simple",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/spear_orb/simple",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "spear_orb/ultimate",
+      "item_family": "spear_orb",
+      "variant": "ultimate",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/spear_orb/ultimate",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "spear_orb/uncommon",
+      "item_family": "spear_orb",
+      "variant": "uncommon",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/spear_orb/uncommon",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "sword/copper",
+      "item_family": "sword",
+      "variant": "copper",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/sword/copper",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "sword/diamond",
+      "item_family": "sword",
+      "variant": "diamond",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/sword/diamond",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "sword/golden",
+      "item_family": "sword",
+      "variant": "golden",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/sword/golden",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "sword/iron",
+      "item_family": "sword",
+      "variant": "iron",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/sword/iron",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "sword/netherite",
+      "item_family": "sword",
+      "variant": "netherite",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/sword/netherite",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "sword/stone",
+      "item_family": "sword",
+      "variant": "stone",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/sword/stone",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "sword/wooden",
+      "item_family": "sword",
+      "variant": "wooden",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/sword/wooden",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "trinket/absorption",
+      "item_family": "trinket",
+      "variant": "absorption",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/trinket/absorption",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "trinket/blink",
+      "item_family": "trinket",
+      "variant": "blink",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/trinket/blink",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "trinket/generic",
+      "item_family": "trinket",
+      "variant": "generic",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/trinket/generic",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "trinket/healing",
+      "item_family": "trinket",
+      "variant": "healing",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/trinket/healing",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "trinket/random",
+      "item_family": "trinket",
+      "variant": "random",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/trinket/random",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "trinket/resistance",
+      "item_family": "trinket",
+      "variant": "resistance",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/trinket/resistance",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "upgrade/elite",
+      "item_family": "upgrade",
+      "variant": "elite",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/upgrade/elite",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "upgrade/godly",
+      "item_family": "upgrade",
+      "variant": "godly",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/upgrade/godly",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "upgrade/legendary",
+      "item_family": "upgrade",
+      "variant": "legendary",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/upgrade/legendary",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "upgrade/random_elite",
+      "item_family": "upgrade",
+      "variant": "random_elite",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/upgrade/random_elite",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "upgrade/random_godly",
+      "item_family": "upgrade",
+      "variant": "random_godly",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/upgrade/random_godly",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "upgrade/random_legendary",
+      "item_family": "upgrade",
+      "variant": "random_legendary",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/upgrade/random_legendary",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "upgrade/random_simple",
+      "item_family": "upgrade",
+      "variant": "random_simple",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/upgrade/random_simple",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "upgrade/random_ultimate",
+      "item_family": "upgrade",
+      "variant": "random_ultimate",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/upgrade/random_ultimate",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "upgrade/random_uncommon",
+      "item_family": "upgrade",
+      "variant": "random_uncommon",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/upgrade/random_uncommon",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "upgrade/simple",
+      "item_family": "upgrade",
+      "variant": "simple",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/upgrade/simple",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "upgrade/ultimate",
+      "item_family": "upgrade",
+      "variant": "ultimate",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/upgrade/ultimate",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "upgrade/uncommon",
+      "item_family": "upgrade",
+      "variant": "uncommon",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/upgrade/uncommon",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "xp_bottle/elite",
+      "item_family": "xp_bottle",
+      "variant": "elite",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/xp_bottle/elite",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "xp_bottle/godly",
+      "item_family": "xp_bottle",
+      "variant": "godly",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/xp_bottle/godly",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "xp_bottle/legendary",
+      "item_family": "xp_bottle",
+      "variant": "legendary",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/xp_bottle/legendary",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "xp_bottle/random_elite",
+      "item_family": "xp_bottle",
+      "variant": "random_elite",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/xp_bottle/random_elite",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "xp_bottle/random_godly",
+      "item_family": "xp_bottle",
+      "variant": "random_godly",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/xp_bottle/random_godly",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "xp_bottle/random_legendary",
+      "item_family": "xp_bottle",
+      "variant": "random_legendary",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/xp_bottle/random_legendary",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "xp_bottle/random_simple",
+      "item_family": "xp_bottle",
+      "variant": "random_simple",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/xp_bottle/random_simple",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "xp_bottle/random_ultimate",
+      "item_family": "xp_bottle",
+      "variant": "random_ultimate",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/xp_bottle/random_ultimate",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "xp_bottle/random_uncommon",
+      "item_family": "xp_bottle",
+      "variant": "random_uncommon",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/xp_bottle/random_uncommon",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "xp_bottle/simple",
+      "item_family": "xp_bottle",
+      "variant": "simple",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/xp_bottle/simple",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "xp_bottle/ultimate",
+      "item_family": "xp_bottle",
+      "variant": "ultimate",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/xp_bottle/ultimate",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    },
+    {
+      "technical_item_id": "xp_bottle/uncommon",
+      "item_family": "xp_bottle",
+      "variant": "uncommon",
+      "visual_asset_id": "",
+      "source_image": "",
+      "target_texture": "item/prisons/xp_bottle/uncommon",
+      "sha256": "",
+      "validation_status": "NEEDS_REFERENCE"
+    }
+  ]
+}
