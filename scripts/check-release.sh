@@ -30,7 +30,7 @@ fi
 
 # disabled market module must not be advertised as available (site, READMEs); a line is fine if it says it is off
 market_re='auction house|auktionshaus|shop overlay|shop-overlay|item list|item-list|market tracker|markt-tracker|/prisons price|market scan'
-off_re='switched off|off in release|abgeschaltet|not available|nicht verfügbar|re-enable|wieder aktiv|reviewed|überprüft|disabled|deaktiviert|not in the mod|fehlt'
+off_re='switched off|off in release|abgeschaltet|not available|nicht verfügbar|re-enable|wieder aktiv|reviewed|überprüft|disabled|deaktiviert|not in the mod|fehlt|beta'
 if grep -niE "$market_re" site/index.html site/app.js README.md README.de.md | grep -viE "$off_re"; then
   err "disabled market feature mentioned as available (see lines above)"
 fi

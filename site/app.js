@@ -70,7 +70,7 @@
     });
   }).catch(function () {});
 
-  // latest release: version, download link, notes
+  // newest published release, including prereleases: version, direct jar link, notes
   function esc(s) { return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
   function inline(s) { return esc(s).replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>").replace(/`(.+?)`/g, "<code>$1</code>"); }
   function render(md) {
@@ -89,9 +89,10 @@
     if (!release) return;
     document.getElementById("release-notes").innerHTML = "<h3>" + esc(release.title) + "</h3>" + render(lang === "de" ? release.de : release.en);
   }
-  fetch("https://api.github.com/repos/" + REPO + "/releases/latest").then(function (r) { return r.ok ? r.json() : null; }).then(function (rel) {
+  fetch("https://api.github.com/repos/" + REPO + "/releases?per_page=10").then(function (r) { return r.ok ? r.json() : null; }).then(function (rels) {
+    var rel = Array.isArray(rels) ? rels.filter(function (r) { return !r.draft; })[0] : null;
     if (!rel) throw new Error("no release");
-    document.getElementById("version").textContent = rel.tag_name + (rel.name && rel.name.indexOf("·") > -1 ? " · " + rel.name.split("·")[1].trim() : "");
+    document.getElementById("version").textContent = rel.tag_name + (rel.prerelease ? (lang === "de" ? " · ÖFFENTLICHE BETA" : " · PUBLIC BETA") : "") + (rel.name && rel.name.indexOf("·") > -1 ? " · " + rel.name.split("·")[1].trim() : "");
     var jar = (rel.assets || []).filter(function (a) { return /\.jar$/.test(a.name); })[0];
     if (jar) { var d2 = document.getElementById("download2"); if (d2) d2.href = jar.browser_download_url;
       var total = 0; (rel.assets || []).forEach(function (a) { total += a.download_count || 0; });
