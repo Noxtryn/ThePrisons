@@ -1,0 +1,14 @@
+{
+  "layers": {
+    "humanoid": [
+      {
+        "texture": "theprisons:chainmail"
+      }
+    ],
+    "humanoid_leggings": [
+      {
+        "texture": "theprisons:chainmail"
+      }
+    ]
+  }
+}
