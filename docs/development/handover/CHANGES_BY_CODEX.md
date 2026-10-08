@@ -46,3 +46,7 @@ keep future entries scoped to one reviewed change set.
 - Item-price details now expose source/window, sample count and observation age in addition to
   fair price, range, trend and confidence. They remain a formatting view of `MarketStats`, not a
   second calculation.
+- The Dashboard's module tiles and HUD-page link now open the complete Click-GUI editor in every
+  profile, not just DEV. This deliberately reuses its established category navigation and all
+  setting controls (including market and multi-choice values) rather than creating a partial
+  parallel configuration architecture.

@@ -48,3 +48,5 @@ Run and record:
   inventory layout/input behaviour.
 - This is source-level and fixture validation. Original Cosmic server lore still requires a live
   server capture because registry-only list icons cannot contain unretrieved server components.
+- Dashboard-to-Click-GUI delegation is a source-level integration path: both screens receive the
+  same `ThePrisonsCore`; a live client smoke test remains appropriate for pointer flow and scale.

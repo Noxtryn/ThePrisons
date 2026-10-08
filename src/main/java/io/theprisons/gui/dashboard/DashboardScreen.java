@@ -299,6 +299,11 @@ public final class DashboardScreen extends Screen implements io.theprisons.gui.k
             for (int l = 0; l < lines.size(); l++) {
                 Ui.draw(c, textRenderer, lines.get(l), tx + 8, yy + 18 + l * 10, Ui.LABEL, Math.round(230 * a));
             }
+            if (openClassic != null) {
+                // A module tile is the intentional bridge to the complete editor.  This keeps the dashboard
+                // focused while every setting type (including market multi-choice controls) remains reachable.
+                hits.add(new Hit(tx, ty, tw, th, "page:module:" + m.id(), openClassic));
+            }
         }
         if (features.isEmpty()) {
             Ui.drawCentered(c, textRenderer, "No features active", left + w / 2, y + 40, Ui.LABEL, 255);
@@ -533,7 +538,7 @@ public final class DashboardScreen extends Screen implements io.theprisons.gui.k
             Ui.draw(c, textRenderer, names[i], cx + 7, cy + 3, Ui.VALUE, Math.round(255 * ai));
         }
         if (openClassic != null) {
-            String dev = "Developer: classic module GUI";
+            String dev = "All module & market settings";
             int dw = Ui.width(textRenderer, dev);
             int dx = left + w - dw;
             int dy = y + ch + 60;

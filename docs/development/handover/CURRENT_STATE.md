@@ -30,5 +30,10 @@ the adapter appends only cache-backed fair price, confidence, source/window, sam
 The inventory list now starts from Minecraft's tooltip for its actual rendered stack, so its
 generated registry icons do not claim unretrieved server lore.
 
+The Sci-Fi Dashboard remains the curated control surface. Every feature tile, plus the HUD-page
+"All module & market settings" link, opens the complete existing Click-GUI editor for the same
+core instance. This makes QoL market controls and advanced settings reachable in production while
+avoiding a second, divergent setting mutation path.
+
 Remote: `origin` is `https://github.com/Noxtryn/ThePrisons.git`; development is on `dev`.
 `Release` is not a target for this work.
