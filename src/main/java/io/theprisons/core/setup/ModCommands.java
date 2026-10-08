@@ -26,6 +26,10 @@ public final class ModCommands {
                     .then(ClientCommandManager.argument("note", StringArgumentType.greedyString())
                             .executes(ctx -> capture(core, StringArgumentType.getString(ctx, "note"))))));
         }
+        core.commands().contribute(root -> root.then(ClientCommandManager.literal("items").executes(ctx -> {
+            io.theprisons.items.client.ItemListModule.open();
+            return 1;
+        })));
         core.commands().contribute(root -> root
                 .then(ClientCommandManager.literal("lang")
                         .executes(ctx -> {
