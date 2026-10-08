@@ -33,4 +33,11 @@ class ItemPresentationTest {
         assertTrue(ItemMarketTooltip.lines(facts, key -> List.of()).isEmpty());
         assertFalse(ItemMarketTooltip.lines("", key -> List.of("not used")).contains("not used"));
     }
+
+    @Test
+    void marketBlockHasOneStableHeaderForUiDeduplication() {
+        List<String> lines = ItemMarketTooltip.lines("shard|godly", key -> List.of("Fair    $1,250 (High)"));
+        assertEquals(1, lines.stream().filter("MARKET DATA"::equals).count());
+        assertEquals("MARKET DATA", lines.getFirst());
+    }
 }

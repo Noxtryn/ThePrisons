@@ -50,3 +50,5 @@ keep future entries scoped to one reviewed change set.
   profile, not just DEV. This deliberately reuses its established category navigation and all
   setting controls (including market and multi-choice values) rather than creating a partial
   parallel configuration architecture.
+- The inventory-list tooltip detects a market block already supplied by Fabric's normal tooltip
+  callback before adding its registry fallback, so real market facts cannot be duplicated.

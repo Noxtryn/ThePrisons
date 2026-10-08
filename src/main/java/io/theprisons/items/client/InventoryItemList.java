@@ -406,8 +406,6 @@ public final class InventoryItemList {
         }
         if (e.tier() != null) {
             c.fill(x + 6, y + h - 3, x + w - 6, y + h - 2, 0xFF000000 | TierColors.rgb(e.tier()));     // a thin tier line, not a neon card
-            String badge = ItemRarity.badge(e.tier());
-            Ui.draw(c, tr, badge, x + 4, y + 4, ItemRarity.rgb(e.tier()), 220);
         }
     }
 
@@ -469,8 +467,14 @@ public final class InventoryItemList {
         if (e.meta().hasTiers()) {
             out.add(Text.literal("Tiers: " + String.join(", ", e.meta().tiers())));
         }
-        for (String line : ItemMarketTooltip.lines(e.key(), ItemsService.get()::marketDetail)) {
-            out.add(Text.literal(line));
+        // Screen.getTooltipFromItem normally already ran the Fabric tooltip callback.  Add the
+        // registry-card block only if that original path did not identify this generated stack;
+        // otherwise the fair price would be shown twice.
+        boolean hasMarketBlock = out.stream().anyMatch(line -> line.getString().equals("[TP] MARKET DATA"));
+        if (!hasMarketBlock) {
+            for (String line : ItemMarketTooltip.lines(e.key(), ItemsService.get()::marketDetail)) {
+                out.add(Text.literal(line));
+            }
         }
         if (FeatureProfile.DEV) {
             out.add(Text.literal(e.internalName() + " · " + e.identity().confidence()));
