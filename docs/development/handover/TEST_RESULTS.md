@@ -36,5 +36,6 @@ Run and record:
   in-game production Macro test.
 - Targeted HD pack, dashboard and AH tests: pass. V4 pipeline partial-family fallback is covered
   by a Python unit test; GUI-scale coverage is layout simulation, not an in-game GUI smoke test.
-- Required before push: final `./gradlew test build --no-daemon`, release guard, V4 pipeline tests,
-  remote-SHA verification, and an update of this section with the resulting commit.
+- Verification on `7e65092`: `./gradlew test build --no-daemon` passed (8 tasks) and
+  `python3 -m unittest tools/textures/v4/test_pipeline.py` passed (5 tests). Final release guard,
+  remote-SHA verification and the same build/test commands still run immediately before push.
