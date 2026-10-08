@@ -1,169 +1,116 @@
 <!doctype html>
-<html lang="en" data-lang="en">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ThePrisons - Cosmic Prisons client mod</title>
-  <meta name="description" content="Free client-side Fabric mod for Minecraft 1.21.11 and Cosmic Prisons: dashboard, live session HUD, storage overlay, customization and optional tools. / Kostenlose clientseitige Fabric-Mod für Cosmic Prisons.">
+  <meta name="theme-color" content="#101419">
+  <title>THEPRISONS — COSMIC EVOLUTION</title>
+  <meta name="description" content="A client-side Fabric mod for Cosmic Prisons: sci-fi item art, Config GUI, inventory item browser, market views and a live session HUD.">
   <link rel="canonical" href="https://noxtryn.github.io/ThePrisons/">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://noxtryn.github.io/ThePrisons/">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta property="og:title" content="ThePrisons - the most useful Cosmic Prisons tools in one clean client">
-  <meta property="og:description" content="The most useful Cosmic Prisons tools in one clean client: dashboard, live session HUD, storage overlay, customization. Free, client-side, Fabric 1.21.11.">
+  <meta property="og:title" content="THEPRISONS — COSMIC EVOLUTION">
+  <meta property="og:description" content="A new visual era for ThePrisons. Client-side tools for Minecraft 1.21.11 and Cosmic Prisons.">
   <meta property="og:image" content="media/banner.png">
   <link rel="icon" href="media/banner.png">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <canvas id="stars" aria-hidden="true"></canvas>
-  <header class="top">
-    <a class="brand" href="#top">ThePrisons</a>
-    <nav>
-      <a href="#features"><span class="en">Features</span><span class="de">Funktionen</span></a>
-      <a href="#gallery"><span class="en">Screenshots</span><span class="de">Screenshots</span></a>
-      <a href="#compat"><span class="en">Compatibility</span><span class="de">Kompatibilität</span></a>
+  <header class="topbar">
+    <a class="wordmark" href="#top" aria-label="ThePrisons home"><span class="sigil">T</span><span>THE<span>PRISONS</span></span></a>
+    <nav aria-label="Main navigation">
+      <a href="#features"><span class="en">Features</span><span class="de">Features</span></a>
+      <a href="#textures"><span class="en">Textures</span><span class="de">Texturen</span></a>
+      <a href="#screenshots"><span class="en">Screens</span><span class="de">Screenshots</span></a>
       <a href="#install"><span class="en">Install</span><span class="de">Installation</span></a>
-      <a href="#changelog">Changelog</a>
-      <a href="#faq">FAQ</a>
-      <a href="#roadmap">Roadmap</a>
-      <a class="gh" href="https://github.com/Noxtryn/ThePrisons">GitHub</a>
-      <button id="lang" class="lang" type="button" aria-label="Language / Sprache">EN | DE</button>
+      <a href="#release"><span class="en">Release</span><span class="de">Release</span></a>
     </nav>
+    <div class="top-actions">
+      <button id="lang" class="lang" type="button" aria-label="Switch language">EN / DE</button>
+      <a class="nav-github" href="https://github.com/Noxtryn/ThePrisons">GitHub <span aria-hidden="true">↗</span></a>
+    </div>
   </header>
 
   <main id="top">
     <section class="hero">
-      <img class="banner" src="media/banner.png" alt="ThePrisons banner (graphic)">
-      <h1><span class="en">The most useful Cosmic Prisons tools in <span class="rainbow">one clean client</span>.</span><span class="de">Die nützlichsten Cosmic-Prisons-Tools in <span class="rainbow">einem sauberen Client</span>.</span></h1>
-      <p class="lead en">ThePrisons is a free, client-side Fabric mod for Cosmic Prisons on Minecraft 1.21.11. A clean dashboard, live session stats, HUD widgets, a storage overlay and customization - configured in one place, installed with one jar.</p>
-      <p class="lead de">ThePrisons ist eine kostenlose, clientseitige Fabric-Mod für Cosmic Prisons auf Minecraft 1.21.11. Ein sauberes Dashboard, Live-Session-Stats, HUD-Widgets, eine Lager-Übersicht und Anpassung - an einem Ort eingestellt, mit einer Jar installiert.</p>
-      <ul class="facts">
-        <li><strong class="en">What</strong><strong class="de">Was</strong><span class="en">Client-side Fabric mod</span><span class="de">Clientseitige Fabric-Mod</span></li>
-        <li><strong class="en">For</strong><strong class="de">Für</strong><span>Cosmic Prisons · MC 1.21.11</span></li>
-        <li><strong class="en">Price</strong><strong class="de">Preis</strong><span class="en">Free download</span><span class="de">Kostenloser Download</span></li>
-        <li><strong class="en">Install</strong><strong class="de">Installation</strong><span class="en">Drop the jar in <code>mods</code></span><span class="de">Jar in <code>mods</code> legen</span></li>
-        <li><strong class="en">Support</strong><strong class="de">Support</strong><a href="#support"><span class="en">Discord &amp; GitHub</span><span class="de">Discord &amp; GitHub</span></a></li>
-      </ul>
-      <div class="cta">
-        <a id="download" class="btn primary" data-track="download" href="https://github.com/Noxtryn/ThePrisons/releases/latest"><span class="en">Try ThePrisons</span><span class="de">ThePrisons ausprobieren</span></a>
-        <a class="btn" href="#install" data-track="install-interest"><span class="en">How to install</span><span class="de">So installierst du</span></a>
-        <a class="btn" data-track="github" href="https://github.com/Noxtryn/ThePrisons"><span class="en">View on GitHub</span><span class="de">Auf GitHub ansehen</span></a>
+      <div class="hero-grid"></div>
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="pulse"></span> COSMIC PRISONS · FABRIC CLIENT MOD</p>
+        <h1>THEPRISONS<br><span class="title-accent">COSMIC EVOLUTION</span></h1>
+        <p class="hero-lead en">A sharper command center for your Cosmic Prisons session. New sci-fi item art, a redesigned Config GUI, an inventory item browser, market context and a live session HUD.</p>
+        <p class="hero-lead de">Dein aufgerüstetes Command Center für Cosmic Prisons: neue Sci-Fi-Itemgrafiken, eine überarbeitete Config-GUI, eine Item-Übersicht im Inventar, Marktkontext und ein Live-Session-HUD.</p>
+        <div class="hero-actions">
+          <a class="button primary" id="download" href="https://github.com/Noxtryn/ThePrisons/releases"><span class="en">Explore releases</span><span class="de">Releases ansehen</span><span aria-hidden="true">↗</span></a>
+          <a class="button secondary" href="#features"><span class="en">Explore features</span><span class="de">Funktionen entdecken</span><span aria-hidden="true">↓</span></a>
+        </div>
+        <div class="release-line"><span class="status-pill" id="release-status">RELEASE INFO</span><span id="version">Checking latest release…</span><span class="separator">/</span><span>MC 1.21.11</span><span class="separator">/</span><span>FABRIC · JAVA 21</span></div>
       </div>
-      <p class="meta"><span id="version">latest</span> · Minecraft 1.21.11 · Fabric · Java 21 <span id="dlcount"></span></p>
-    </section>
-
-    <section id="why">
-      <h2><span class="en">Why use it?</span><span class="de">Warum nutzen?</span></h2>
-      <ul class="why">
-        <li><strong class="en">See what matters</strong><strong class="de">Sieh, was zählt</strong><span class="en">Session HUD with uptime, ores per second, Energy/h, XP/h, boosters and level-up ETA; pets, cooldowns, satchels and armour at a glance.</span><span class="de">Session-HUD mit Laufzeit, Erzen pro Sekunde, Energy/h, XP/h, Boostern und Level-Up-ETA; Pets, Abklingzeiten, Satchels und Rüstung auf einen Blick.</span></li>
-        <li><strong class="en">Make it yours</strong><strong class="de">Mach es zu deinem</strong><span class="en">Themes, a HUD editor to move and scale every widget, and one dashboard for every setting.</span><span class="de">Themes, ein HUD-Editor zum Verschieben und Skalieren jedes Widgets und ein Dashboard für alle Einstellungen.</span></li>
-        <li><strong class="en">Tidier inventory</strong><strong class="de">Aufgeräumteres Inventar</strong><span class="en">Storage overlay: <code>/pv</code> shows all private vaults as cards.</span><span class="de">Lager-Übersicht: <code>/pv</code> zeigt alle privaten Vaults als Karten.</span></li>
-        <li><strong class="en">Small quality of life</strong><strong class="de">Kleine Komfort-Helfer</strong><span class="en">Friends and gang colours, player cards, sneak-trade, message notifications, vitals warnings.</span><span class="de">Freunde und Gang-Farben, Spielerkarten, Sneak-Trade, Nachrichten-Hinweise, Vitalwarnungen.</span></li>
-      </ul>
-    </section>
-
-    <section id="features">
-      <h2><span class="en">Features</span><span class="de">Funktionen</span></h2>
-      <div class="grid" id="feature-grid"></div>
-      <div class="wip" id="automation">
-        <strong class="en">Optional automation tools</strong><strong class="de">Optionale Automatisierungs-Werkzeuge</strong>
-        <span class="en">ThePrisons also contains an Ore Macro (with item sorter and guard-zone logic), a Spear Helper with aim assist and an early Bandit Macro (work in progress, about 2 % done). They automate or assist gameplay and can break a server's rules - sanctions are possible. Read the rules first; you use them at your own risk. Nothing else in the mod depends on them.</span>
-        <span class="de">ThePrisons enthält außerdem ein Ore Macro (mit Item Sorter und Wächter-Zonen-Logik), einen Spear Helper mit Zielhilfe und ein frühes Bandit-Makro (in Arbeit, etwa 2 % fertig). Sie automatisieren oder unterstützen das Spiel und können gegen Serverregeln verstoßen - Strafen sind möglich. Lies zuerst die Regeln; Nutzung auf eigenes Risiko. Nichts anderes in der Mod hängt davon ab.</span>
+      <div class="hero-art" aria-label="ThePrisons artwork">
+        <div class="art-frame"><img src="media/banner.png" alt="ThePrisons Cosmic Evolution artwork"><span class="frame-corner tl"></span><span class="frame-corner br"></span></div>
+        <div class="hero-stamp"><span>35</span><small>NEW ITEM<br>TEXTURES</small></div>
+        <div class="hero-caption">SYSTEMS ONLINE <span>●</span> COSMIC EVOLUTION / V4</div>
       </div>
-      <p class="note en">Most card pictures are generated illustrations, not screenshots (the storage overlay is a real screenshot).</p>
-      <p class="note de">Die meisten Kartenbilder sind erzeugte Illustrationen, keine Screenshots (die Lager-Übersicht ist ein echter Screenshot).</p>
+      <div class="hero-foot"><span>01 — THE NEW FRONTIER</span><span>SCROLL TO EXPLORE ↓</span></div>
     </section>
 
-    <section id="gallery">
-      <h2>Screenshots</h2>
-      <div class="gallery" id="gallery-grid"><p class="note" id="gallery-empty"><span class="en">Real in-game screenshots and clips are coming soon.</span><span class="de">Echte Spiel-Screenshots und Clips kommen bald.</span></p></div>
+    <section class="intro-strip" aria-label="Project summary">
+      <p class="en">BUILT FOR COSMIC PRISONS <b>·</b> CLIENT-SIDE <b>·</b> FABRIC 1.21.11 <b>·</b> PUBLIC BETA</p>
+      <p class="de">FÜR COSMIC PRISONS <b>·</b> CLIENTSEITIG <b>·</b> FABRIC 1.21.11 <b>·</b> ÖFFENTLICHE BETA</p>
     </section>
 
-    <section id="compat">
-      <h2><span class="en">Compatibility</span><span class="de">Kompatibilität</span></h2>
-      <table class="compat">
-        <tr><th>Minecraft</th><td>1.21.11</td></tr>
-        <tr><th>Loader</th><td>Fabric Loader 0.17.3+</td></tr>
-        <tr><th>Java</th><td>21+</td></tr>
-        <tr><th>Fabric API</th><td><span class="en">required</span><span class="de">erforderlich</span></td></tr>
-        <tr><th>Mod Menu</th><td><span class="en">optional</span><span class="de">optional</span></td></tr>
-        <tr><th>Side</th><td><span class="en">client only - nothing to install on the server</span><span class="de">nur Client - auf dem Server ist nichts zu installieren</span></td></tr>
-        <tr><th><span class="en">Server</span><span class="de">Server</span></th><td><span class="en">built for Cosmic Prisons; many features read that server's menus, chat and sidebar</span><span class="de">gebaut für Cosmic Prisons; viele Funktionen lesen Menüs, Chat und Sidebar dieses Servers</span></td></tr>
-      </table>
-    </section>
-
-    <section id="install">
-      <h2><span class="en">Install</span><span class="de">Installation</span></h2>
-      <ol class="steps">
-        <li><span class="en">Install <a href="https://fabricmc.net/use/">Fabric Loader</a> 0.17.3 or newer for Minecraft 1.21.11 with Java 21.</span><span class="de">Installiere den <a href="https://fabricmc.net/use/">Fabric Loader</a> 0.17.3 oder neuer für Minecraft 1.21.11 mit Java 21.</span></li>
-        <li><span class="en">Put <a href="https://modrinth.com/mod/fabric-api">Fabric API</a> into your <code>mods</code> folder (<a href="https://modrinth.com/mod/modmenu">Mod Menu</a> is optional).</span><span class="de">Lege die <a href="https://modrinth.com/mod/fabric-api">Fabric API</a> in deinen <code>mods</code>-Ordner (<a href="https://modrinth.com/mod/modmenu">Mod Menu</a> ist optional).</span></li>
-        <li><span class="en">Download the jar (<code>ThePrisons-&lt;Codename&gt;-v&lt;version&gt;-mc&lt;Minecraft&gt;.jar</code>) from the <a href="https://github.com/Noxtryn/ThePrisons/releases/latest">latest release</a> and put it into <code>mods</code>.</span><span class="de">Lade die Jar (<code>ThePrisons-&lt;Codename&gt;-v&lt;Version&gt;-mc&lt;Minecraft&gt;.jar</code>) vom <a href="https://github.com/Noxtryn/ThePrisons/releases/latest">neuesten Release</a> und lege sie in <code>mods</code>.</span></li>
-        <li><span class="en">Join the server and type <code>/prisons</code> to open the dashboard. That is your first session: pick a design, arrange the HUD, done.</span><span class="de">Tritt dem Server bei und tippe <code>/prisons</code>, um das Dashboard zu öffnen.</span></li>
-      </ol>
-      <p class="cta-inline"><a class="btn primary" data-track="download" id="download2" href="https://github.com/Noxtryn/ThePrisons/releases/latest"><span class="en">Try ThePrisons</span><span class="de">ThePrisons ausprobieren</span></a></p>
-      <h3><span class="en">Handy keys and commands</span><span class="de">Nützliche Tasten und Befehle</span></h3>
-      <ul class="keys">
-        <li><kbd>F5</kbd> + <kbd>V</kbd> Tunnel Vision</li>
-        <li><kbd>L</kbd> bandit aim assist (optional)</li>
-        <li><kbd>K</kbd> Ore Macro (optional)</li>
-        <li><kbd>J</kbd> Bandit Macro (WIP)</li>
-        <li><kbd>I</kbd> config</li>
-        <li><code>/prisons</code> Dashboard</li>
-                <li><code>/pv</code> storage overlay</li>
-      </ul>
-    </section>
-
-    <section id="changelog">
-      <h2>Changelog</h2>
-      <div class="card" id="release-notes"><p class="note">…</p></div>
-      <p><a href="https://github.com/Noxtryn/ThePrisons/blob/dev/CHANGELOG.md">Full changelog</a> · <a href="https://github.com/Noxtryn/ThePrisons/blob/dev/CHANGELOG.de.md">Changelog (Deutsch)</a></p>
-    </section>
-
-    <section id="faq">
-      <h2>FAQ</h2>
-      <details><summary><span class="en">Is it allowed on Cosmic Prisons?</span><span class="de">Ist es auf Cosmic Prisons erlaubt?</span></summary><p class="en">Read the server rules yourself. Automation and aim assistance can violate them and lead to sanctions.</p><p class="de">Lies die Serverregeln selbst. Automatisierung und Zielhilfen können dagegen verstoßen und zu Strafen führen.</p></details>
-      <details><summary><span class="en">Is the Bandit Macro ready?</span><span class="de">Ist das Bandit-Makro fertig?</span></summary><p class="en">No. It is about 2 % done and mostly untested on the server. Do not leave it running unattended.</p><p class="de">Nein. Es ist zu etwa 2 % fertig und größtenteils noch nicht auf dem Server getestet. Lass es nicht unbeaufsichtigt laufen.</p></details>
-      <details><summary><span class="en">Where do I put backdrops for Tunnel Vision?</span><span class="de">Wohin kommen die Hintergründe für Tunnel Vision?</span></summary><p class="en">Into <code>config/theprisons/tunnel/</code> (png or jpg), then pick them on the Tunnel page of the dashboard.</p><p class="de">In <code>config/theprisons/tunnel/</code> (png oder jpg), dann auf der Tunnel-Seite des Dashboards auswählen.</p></details>
-      <details><summary><span class="en">Is it free?</span><span class="de">Ist es kostenlos?</span></summary><p class="en">Yes. The download is free, needs no account and nothing is sold on this site. The source code is All Rights Reserved (see the licence), so it is free to use, not open source.</p><p class="de">Ja. Der Download ist kostenlos, braucht keinen Account, und auf dieser Seite wird nichts verkauft. Der Quellcode ist All Rights Reserved (siehe Lizenz): kostenlos nutzbar, aber kein Open Source.</p></details>
-      <details><summary><span class="en">Is it safe? Can I get banned?</span><span class="de">Ist es sicher? Kann ich gebannt werden?</span></summary><p class="en">We make no promise about that. Some features (Ore Macro, aim assist, recall helper) automate or assist gameplay and can break a server's rules; sanctions are possible. The HUD, dashboard, storage overlay and design features do not automate anything. Read the rules and decide for yourself.</p><p class="de">Dazu geben wir kein Versprechen. Einige Funktionen (Ore Macro, Zielhilfe, Rückruf-Helfer) automatisieren oder unterstützen das Spiel und können gegen Serverregeln verstoßen; Strafen sind möglich. HUD, Dashboard, Lager-Übersicht und Design automatisieren nichts. Lies die Regeln und entscheide selbst.</p></details>
-      <details><summary><span class="en">Does it work in singleplayer or on other servers?</span><span class="de">Geht es im Einzelspieler oder auf anderen Servern?</span></summary><p class="en">It is built for Cosmic Prisons; many features read that server's menus, chat and sidebar. Elsewhere only the generic parts (dashboard, design, Tunnel Vision) make sense.</p><p class="de">Sie ist für Cosmic Prisons gebaut; viele Funktionen lesen Menüs, Chat und Sidebar dieses Servers. Anderswo sind nur die allgemeinen Teile (Dashboard, Design, Tunnel Vision) sinnvoll.</p></details>
-      <details><summary><span class="en">How reliable are AH / EE prices?</span><span class="de">Wie zuverlässig sind AH-/EE-Preise?</span></summary><p class="en">Market views are available in this public beta, but live Cosmic Prisons validation is incomplete. Prices reflect observed data and may be stale or incomplete; do not treat them as trading guarantees.</p><p class="de">Marktansichten sind in dieser öffentlichen Beta verfügbar, aber der Live-Test auf Cosmic Prisons ist unvollständig. Preise beruhen auf beobachteten Daten und können veraltet oder unvollständig sein; sie sind keine Handelsgarantie.</p></details>
-      <details><summary><span class="en">Where can I get help?</span><span class="de">Wo bekomme ich Hilfe?</span></summary><p class="en">See <a href="#support">Support</a>: the Discord (if linked) or a GitHub issue. Please include your version and <code>logs/latest.log</code>.</p><p class="de">Siehe <a href="#support">Support</a>: der Discord (falls verlinkt) oder ein GitHub-Issue. Bitte Version und <code>logs/latest.log</code> beilegen.</p></details>
-    </section>
-
-    <section id="support">
-      <h2>Support &amp; Discord</h2>
-      <div class="cta" id="support-links">
-        <a class="btn primary" id="discord" data-track="discord" hidden href="#"><span class="en">Join the Discord</span><span class="de">Dem Discord beitreten</span></a>
-        <a class="btn" data-track="issues" href="https://github.com/Noxtryn/ThePrisons/issues/new"><span class="en">Report a bug / ask on GitHub</span><span class="de">Fehler melden / auf GitHub fragen</span></a>
+    <section id="features" class="section-block">
+      <div class="section-heading"><div><p class="eyebrow">02 / SYSTEMS</p><h2><span class="en">Built for the session.</span><span class="de">Gemacht für deine Session.</span></h2></div><p class="section-lead en">A practical toolkit wrapped in one coherent interface. Server-dependent features are marked honestly: test data is not live-server validation.</p><p class="section-lead de">Ein Werkzeugkasten in einer einheitlichen Oberfläche. Serverabhängige Funktionen kennzeichnen wir ehrlich: Testdaten sind kein Live-Server-Nachweis.</p></div>
+      <div class="feature-grid">
+        <article class="feature-card featured"><span class="feature-index">01 / VISUALS</span><span class="feature-glyph crystal">✦</span><h3>HD Item Textures</h3><p class="en">35 approved built-in artworks across six item families. Original appearance remains for items without a replacement.</p><p class="de">35 freigegebene Motive aus sechs Item-Familien. Items ohne Ersatz behalten ihre Originaldarstellung.</p><span class="feature-foot">STANDARD TEXTURE SOURCE</span></article>
+        <article class="feature-card"><span class="feature-index">02 / CONTROL</span><span class="feature-glyph">⌘</span><h3>Config GUI</h3><p class="en">The production configuration screen organizes module settings into searchable categories.</p><p class="de">Die produktive Config-GUI bündelt Moduleinstellungen in durchsuchbaren Kategorien.</p><span class="feature-foot">IN-GAME · /PRISONS</span></article>
+        <article class="feature-card"><span class="feature-index">03 / INVENTORY</span><span class="feature-glyph">▦</span><h3>Inventory Item List</h3><p class="en">Search and browse items beside the open inventory with real item stacks and original tooltips.</p><p class="de">Items neben dem geöffneten Inventar suchen und durchstöbern – mit echten Item-Stacks und Original-Tooltips.</p><span class="feature-foot">SEARCH · FILTER · INSPECT</span></article>
+        <article class="feature-card"><span class="feature-index">04 / MARKET</span><span class="feature-glyph">◈</span><h3>Auction House Analytics</h3><p class="en">Adds comparisons and observed-price context to visible AH listings. Live-server behavior remains to be validated.</p><p class="de">Ergänzt sichtbare AH-Angebote um Vergleiche und beobachtete Preise. Der Live-Server-Test steht noch aus.</p><span class="feature-foot">OBSERVATIONS · NOT A GUARANTEE</span></article>
+        <article class="feature-card"><span class="feature-index">05 / ENERGY</span><span class="feature-glyph">ϟ</span><h3>Energy Exchange</h3><p class="en">Reads visible offers for per-1k and quantity context where the menu provides data; historical values depend on observations.</p><p class="de">Liest sichtbare Angebote für Preis-je-1k und Mengen-Kontext; historische Werte hängen von Beobachtungen ab.</p><span class="feature-foot">LIVE DATA NOT SERVER-VERIFIED</span></article>
+        <article class="feature-card"><span class="feature-index">06 / SESSION</span><span class="feature-glyph">▤</span><h3>Session HUD</h3><p class="en">Activity, ore rate, Energy/h, XP/h and other readouts from data available to the client.</p><p class="de">Aktivität, Erzrate, Energy/h, XP/h und weitere Anzeigen aus den verfügbaren Clientdaten.</p><span class="feature-foot">CLIENT READOUTS</span></article>
+        <article class="feature-card"><span class="feature-index">07 / MINING</span><span class="feature-glyph">⌁</span><h3>Mining Tools</h3><p class="en">Ore Macro, route recording and waypoints are configurable. Automation may violate server rules.</p><p class="de">Ore Macro, Routenaufzeichnung und Wegpunkte sind konfigurierbar. Automatisierung kann Serverregeln verletzen.</p><span class="feature-foot">OPTIONAL · USE WITH CARE</span></article>
+        <article class="feature-card caution"><span class="feature-index">08 / BANDITS</span><span class="feature-glyph">⌖</span><h3>Bandit Tools</h3><p class="en">Spear Helper and an early Bandit Macro. The macro remains experimental and mostly untested on the live server.</p><p class="de">Spear Helper und ein frühes Bandit Macro. Das Makro ist experimentell und live-serverseitig kaum getestet.</p><span class="feature-foot">WORK IN PROGRESS</span></article>
+        <article class="feature-card"><span class="feature-index">09 / EVERYDAY</span><span class="feature-glyph">＋</span><h3>Quality of Life</h3><p class="en">Private-vault overlay, player cards, friend colours, notifications, cooldowns and other client helpers.</p><p class="de">Private-Vault-Overlay, Spielerkarten, Freundesfarben, Hinweise, Abklingzeiten und weitere Client-Helfer.</p><span class="feature-foot">CLIENT-SIDE TOOLS</span></article>
       </div>
-      <p class="note en" id="discord-soon">The Discord link will appear here as soon as it is published. Until then, GitHub issues are the support channel.</p>
-      <p class="note de" id="discord-soon-de">Der Discord-Link erscheint hier, sobald er veröffentlicht ist. Bis dahin sind GitHub-Issues der Support-Kanal.</p>
     </section>
 
-    <section id="roadmap">
-      <h2>Roadmap</h2>
-      <ul class="road">
-        <li><strong class="en">Now</strong><strong class="de">Jetzt</strong><span class="en">Test the Ore Macro, item sorter and HUDs on the server and fix what breaks (stability first).</span><span class="de">Ore Macro, Item Sorter und HUDs auf dem Server testen und reparieren, was kaputtgeht (Stabilität zuerst).</span></li>
-        <li><strong class="en">In progress</strong><strong class="de">In Arbeit</strong><span class="en">Bandit Macro (about 2 % done).</span><span class="de">Bandit-Makro (etwa 2 % fertig).</span></li>
-        <li><strong class="en">Beta validation</strong><strong class="de">Beta-Prüfung</strong><span class="en">Validate AH/EE against live Cosmic Prisons data, finish responsive UI fixes and capture real in-game screenshots.</span><span class="de">AH/EE mit Live-Daten von Cosmic Prisons prüfen, responsive UI-Korrekturen abschließen und echte Spiel-Screenshots aufnehmen.</span></li>
-      </ul>
-      <p class="note en">No dates: features ship when they are stable.</p>
-      <p class="note de">Keine Termine: Funktionen erscheinen, wenn sie stabil sind.</p>
+    <section id="textures" class="texture-section">
+      <div class="section-heading"><div><p class="eyebrow">03 / ITEM ART</p><h2><span class="en">Forged for the frontier.</span><span class="de">Für die Frontier geschmiedet.</span></h2></div><p class="section-lead en">A focused first batch of approved item art—gunmetal, crystal and energy. These previews are loaded from the same resource files bundled with the mod.</p><p class="section-lead de">Ein gezielter erster Batch freigegebener Itemgrafiken – Gunmetal, Kristall und Energie. Die Vorschauen stammen direkt aus denselben Ressourcen wie die Mod.</p></div>
+      <div class="texture-grid">
+        <article class="texture-card"><div class="texture-icon"><img src="media/textures/shard/legendary.png" alt="Legendary shard texture"></div><span>01 / SHARDS</span><h3>Shards</h3><p>7 rarity variants</p></article>
+        <article class="texture-card"><div class="texture-icon"><img src="media/textures/contraband/godly.png" alt="Godly contraband texture"></div><span>02 / CONTRABAND</span><h3>Contraband</h3><p>6 rarity variants</p></article>
+        <article class="texture-card"><div class="texture-icon"><img src="media/textures/book_revealed/elite.png" alt="Elite revealed book texture"></div><span>03 / REVEALED</span><h3>Revealed Books</h3><p>6 rarity variants</p></article>
+        <article class="texture-card"><div class="texture-icon"><img src="media/textures/book/ultimate.png" alt="Ultimate book texture"></div><span>04 / BOOKS</span><h3>Books</h3><p>6 rarity variants</p></article>
+        <article class="texture-card"><div class="texture-icon"><img src="media/textures/key/godly.png" alt="Godly key texture"></div><span>05 / KEYS</span><h3>Keys</h3><p>6 rarity variants</p></article>
+        <article class="texture-card"><div class="texture-icon"><img src="media/textures/charge_orb/stage_4.png" alt="Charge Orb stage four texture"></div><span>06 / ENERGY</span><h3>Charge Orbs</h3><p>4 stages</p></article>
+      </div>
+      <p class="texture-total"><span>35</span> APPROVED TEXTURES <i></i> ORIGINAL COSMIC FALLBACK PRESERVED</p>
     </section>
 
-    <section class="disclaimer">
-      <h2>Disclaimer</h2>
-      <p class="de">ThePrisons ist ein inoffizielles Fan-Projekt, nicht verbunden mit Mojang, Microsoft oder dem Cosmic-Prisons-Server. Die Nutzung erfolgt auf eigenes Risiko; die Autoren haften nicht für Folgen für deinen Account. Der Code ist All Rights Reserved.</p>
-      <p class="en">ThePrisons is an unofficial fan project, not affiliated with Mojang, Microsoft or the Cosmic Prisons server. You use it at your own risk; the authors are not liable for any consequence for your account. The code is All Rights Reserved.</p>
+    <section id="screenshots" class="section-block">
+      <div class="section-heading"><div><p class="eyebrow">04 / FIELD CAPTURES</p><h2><span class="en">Inside the interface.</span><span class="de">Ein Blick ins Interface.</span></h2></div><p class="section-lead en">Actual production UI rendered by automated Fabric client tests. AH and EE examples use synthetic market fixtures; none of these images is a Cosmic Prisons live-server acceptance test.</p><p class="section-lead de">Echte produktive UI aus automatisierten Fabric-Client-Tests. AH-/EE-Beispiele nutzen synthetische Markt-Fixtures; keines der Bilder ist eine Live-Abnahme auf Cosmic Prisons.</p></div>
+      <div class="shot-grid">
+        <figure class="shot shot-large"><img src="media/screenshots/config-session.png" alt="Production Config GUI with session HUD in the game background" loading="lazy"><figcaption><span>01 / CONTROL DECK</span><b>Config GUI + Session HUD</b><small>Fabric client test capture · not Cosmic live server</small></figcaption></figure>
+        <figure class="shot"><img src="media/screenshots/item-list.png" alt="Inventory Item List with search, item cards and tooltip" loading="lazy"><figcaption><span>02 / ITEM INDEX</span><b>Inventory Item List</b><small>Local test world · item market data unavailable</small></figcaption></figure>
+        <figure class="shot"><img src="media/screenshots/ah-overlay.png" alt="Auction House overlay with a synthetic observation fixture" loading="lazy"><figcaption><span>03 / MARKET INTEL</span><b>Auction House</b><small>Synthetic test offer · not a live listing</small></figcaption></figure>
+        <figure class="shot"><img src="media/screenshots/ee-overlay.png" alt="Energy Exchange overlay with synthetic offer fixtures" loading="lazy"><figcaption><span>04 / ENERGY EXCHANGE</span><b>EE Analytics</b><small>Synthetic offer data · not a live quote</small></figcaption></figure>
+      </div>
     </section>
+
+    <section id="release" class="release-section">
+      <div class="section-heading"><div><p class="eyebrow">05 / RELEASE INTEL</p><h2><span class="en">The latest transmission.</span><span class="de">Das neueste Signal.</span></h2></div><a class="text-link" href="https://github.com/Noxtryn/ThePrisons/releases"><span class="en">All releases ↗</span><span class="de">Alle Releases ↗</span></a></div>
+      <div class="release-layout"><div class="release-notes" id="release-notes"><p class="note">Loading published release notes…</p></div><aside class="beta-panel"><span class="beta-mark">BETA</span><h3><span class="en">Known limitations</span><span class="de">Bekannte Einschränkungen</span></h3><ul><li class="en">Config GUI may clip at 1280×720 / Scale 3.</li><li class="de">Config-GUI kann bei 1280×720 / Skalierung 3 abgeschnitten sein.</li><li class="en">Cosmic `/ah` and `/ee` live validation is incomplete.</li><li class="de">Live-Prüfung von Cosmic `/ah` und `/ee` ist unvollständig.</li><li class="en">Market screenshots use synthetic test observations.</li><li class="de">Markt-Screenshots verwenden synthetische Testbeobachtungen.</li><li class="en">Bandit Macro is early WIP.</li><li class="de">Bandit Macro ist früher Entwicklungsstand.</li></ul><a href="https://github.com/Noxtryn/ThePrisons/blob/dev/CHANGELOG.md"><span class="en">Read full changelog ↗</span><span class="de">Vollständigen Changelog lesen ↗</span></a></aside></div>
+      <div class="history-link"><span>CHANGELOG / HISTORY</span><a href="https://github.com/Noxtryn/ThePrisons/blob/Release/CHANGELOG.md">EN ↗</a><a href="https://github.com/Noxtryn/ThePrisons/blob/Release/CHANGELOG.de.md">DE ↗</a></div>
+    </section>
+
+    <section id="install" class="install-section">
+      <div class="section-heading"><div><p class="eyebrow">06 / DEPLOY TO PRISM</p><h2><span class="en">Your next session starts here.</span><span class="de">Deine nächste Session beginnt hier.</span></h2></div><p class="section-lead en">Client-side install. No server files required.</p><p class="section-lead de">Clientseitige Installation. Keine Serverdateien erforderlich.</p></div>
+      <div class="install-layout"><div class="requirements"><div><span>GAME</span><b>Minecraft 1.21.11</b></div><div><span>LOADER</span><b>Fabric 0.17.3+</b></div><div><span>RUNTIME</span><b>Java 21+</b></div><div><span>DEPENDENCY</span><b>Fabric API</b></div><div><span>OPTIONAL</span><b>Mod Menu</b></div></div><ol class="install-steps"><li><span>01</span><p class="en">Create or choose a Minecraft 1.21.11 Prism instance and install Fabric Loader.</p><p class="de">Erstelle oder wähle eine Prism-Instanz für Minecraft 1.21.11 und installiere Fabric Loader.</p></li><li><span>02</span><p class="en">Add Fabric API and use Java 21 for the instance.</p><p class="de">Füge Fabric API hinzu und stelle Java 21 für die Instanz ein.</p></li><li><span>03</span><p class="en">Download the JAR from the published release, then add it from Prism → Edit Instance → Mods → Add.</p><p class="de">Lade die JAR aus dem veröffentlichten Release und füge sie über Prism → Instanz bearbeiten → Mods → Hinzufügen hinzu.</p></li><li><span>04</span><p class="en">Launch the game and open `/prisons` for the Config GUI.</p><p class="de">Starte das Spiel und öffne `/prisons` für die Config-GUI.</p></li></ol></div>
+    </section>
+
+    <section id="community" class="community-section"><div><p class="eyebrow">07 / COMMUNITY</p><h2><span class="en">Join the expedition.</span><span class="de">Werde Teil der Expedition.</span></h2><p class="en">Found a bug or have feedback? Open a GitHub issue with your mod version and `logs/latest.log`. A public Discord invite is not configured yet.</p><p class="de">Fehler gefunden oder Feedback? Erstelle ein GitHub-Issue mit Mod-Version und `logs/latest.log`. Ein öffentlicher Discord-Einladungslink ist derzeit nicht eingerichtet.</p></div><div class="community-actions"><a class="button primary" id="discord" href="#" hidden><span class="en">Join Discord ↗</span><span class="de">Discord beitreten ↗</span></a><a class="button secondary" href="https://github.com/Noxtryn/ThePrisons/issues/new"><span class="en">Feedback / bug report ↗</span><span class="de">Feedback / Fehler melden ↗</span></a><a class="text-link" href="https://github.com/Noxtryn/ThePrisons">GitHub repository ↗</a></div></section>
   </main>
-
-  <footer>
-    <div class="bar"></div>
-    <p><a href="https://github.com/Noxtryn/ThePrisons">GitHub</a> · <a href="https://github.com/Noxtryn/ThePrisons/releases">Releases</a> · <a href="https://github.com/Noxtryn/ThePrisons/issues">Issues</a> · <a href="privacy.html">Privacy / Datenschutz</a></p>
-  </footer>
+  <footer><a class="wordmark" href="#top"><span class="sigil">T</span><span>THE<span>PRISONS</span></span></a><p>UNOFFICIAL FAN PROJECT · NOT AFFILIATED WITH MOJANG, MICROSOFT OR COSMIC PRISONS</p><div><a href="https://github.com/Noxtryn/ThePrisons">GitHub</a><a href="https://github.com/Noxtryn/ThePrisons/releases">Releases</a><a href="https://github.com/Noxtryn/ThePrisons/issues">Issues</a><a href="privacy.html">Privacy</a></div></footer>
   <script src="app.js"></script>
 </body>
 </html>

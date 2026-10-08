@@ -1,73 +1,75 @@
 <p align="center">
-  <img src="docs/media/banner.png" alt="ThePrisons Banner (Grafik)" width="100%">
+  <img src="docs/media/banner.png" alt="ThePrisons — Cosmic Evolution" width="100%">
 </p>
 
-# ThePrisons
+<p align="center">
+  <strong>THEPRISONS — COSMIC EVOLUTION</strong><br>
+  <strong>ÖFFENTLICHER BETA-RELEASEKANDIDAT · v1.3.0-beta.1 · Minecraft 1.21.11 · Fabric · Java 21</strong>
+</p>
 
-[English](README.md) · **Deutsch**
+<p align="center">
+  <a href="https://noxtryn.github.io/ThePrisons/">Offizielle Website</a> ·
+  <a href="https://github.com/Noxtryn/ThePrisons/releases">Download / Releases</a> ·
+  <a href="CHANGELOG.de.md">Changelog</a> ·
+  <a href="README.md">English</a> ·
+  <a href="https://github.com/Noxtryn/ThePrisons/issues/new">Feedback & Fehler melden</a>
+</p>
 
-Eine **clientseitige Fabric-Mod** für Minecraft `1.21.11` und den **Cosmic-Prisons**-Server: ein Design-orientiertes Dashboard, HUD-Widgets mit Live-Session-Stats, eine Lager-Übersicht, Spieler-Werkzeuge, Tunnel Vision und als optionale Extras eine Mining-Automatik mit eingebautem Pathfinder und Banditen-Helfer.
+ThePrisons ist eine clientseitige Fabric-Mod für Cosmic Prisons. Cosmic Evolution verbindet die vorhandenen Ingame-Werkzeuge mit 35 freigegebenen Sci-Fi-Itemtexturen, einer überarbeiteten Config-GUI, einer Item-Übersicht im Inventar, Markt-Overlays und einem Live-Session-HUD.
 
-- **[Website](https://noxtryn.github.io/ThePrisons/)** · [Funktionen](#funktionen) · [Installation](#installation) · [Befehle](#befehle) · [FAQ](#faq) · [Haftungsausschluss](#haftungsausschluss) · [Changelog (Deutsch)](CHANGELOG.de.md)
+> **Beta-Hinweis:** Dies ist ein öffentlicher Vorab-Release. AH-/EE-Verhalten und serverspezifische Itemdaten wurden auf Cosmic Prisons noch nicht vollständig geprüft. Marktwerte sind Beobachtungen, keine Handelsgarantie. Bei 1280×720 und GUI-Skalierung 3 können Inhalte der Config-GUI überlaufen oder gedrängt wirken.
 
-> **Neu in 1.2.0 - das Bandit-Makro ist in Arbeit (erst zu etwa 2 % fertig).** Es ist im Release, damit ihr seht, wohin die Reise geht. Rechnet mit Ecken und Kanten, das meiste ist auf dem Server noch ungetestet, und lasst es nicht unbeaufsichtigt laufen.
+## Funktionen im Beta-Release
 
-## Funktionen
+- **Sci-Fi-Itemgrafiken:** 35 freigegebene integrierte Texturen für Shards, Contraband, Books, Revealed Books, Keys und Charge Orbs. Items ohne freigegebenen Ersatz behalten ihre bisherige Cosmic-Prisons-/Minecraft-Darstellung.
+- **Config-GUI:** Die produktive Konfigurationsoberfläche bündelt Module und Einstellungen in durchsuchbaren Kategorien. `/prisons` öffnet das Dashboard; die Standardtaste steht in der Minecraft-Steuerung.
+- **Inventory Item List:** Items im Inventar durchsuchen und filtern; Karten verwenden echte Item-Stacks und erhalten die originalen Spiel-Tooltips.
+- **Auction-House-Analyse:** Das Overlay liest sichtbare Cosmic-Marktfenster und lokale Beobachtungen für Preisvergleiche. Das Verhalten wurde noch nicht vollständig auf einem Live-Server geprüft.
+- **Energy-Exchange-Analyse:** `/ee`-Angebotsdetails zeigen beobachtete Preise je 1.000 Energy und Mengen-Kontext, sofern das Menü genug Daten enthält. Verfügbarkeit und Aktualität hängen von den gesehenen Angeboten ab.
+- **Session-HUD:** Aktivität, Erze, Energy-/XP-Raten und weitere Session-Werte stammen aus den verfügbaren Clientdaten; manche Cosmic-spezifischen Angaben können fehlen oder nicht erkannt werden.
+- **Mining-Werkzeuge:** Ore Macro, Wegpunkte und Routenaufzeichnung sind konfigurierbare Werkzeuge. Automatisierung kann gegen Serverregeln verstoßen; Nutzung auf eigenes Risiko.
+- **Banditen-Werkzeuge:** Spear Helper und Bandit Macro sind enthalten. Das Bandit Macro ist jedoch ein frühes, größtenteils live-server-ungetestetes Experiment. Nicht unbeaufsichtigt laufen lassen.
+- **Komfortfunktionen:** Private-Vault-Overlay, Spielerkarten, Freunde-/Gang-Farben, Benachrichtigungen, Abklingzeiten und weitere Client-Helfer.
 
-### Dashboard
-Öffnet sich mit `/prisons`, den Tasten (`I`, oder rechte Shift-Taste für das Modmenü) oder Mod Menu. Animierte Seiten: **Overview**, **Mining**, **Bandits**, **Tunnel**, **Design**, **Controls** und **HUD**. Jede Einstellung hat Schalter, Regler, Auswahl, Farbpalette oder Textfeld und einen Tooltip. Themes, Kartendunkelheit, Animationen, eine kantige Schrift und Comic-Texturen gibt es unter **Design**.
+## Screenshots und Texturen
 
-### Erz-Makro und Mining-Werkzeuge
-- Eigener **Pathfinder** mit Tunnel-Zentrierung, geplanten Routen (Weltgedächtnis), Routen-Erinnerung, Anti-Stuck und Kampf-Sicherung
-- **Wächter-Zonen-Logik**: bleibt im bewachten Bereich, schaut voraus, rennt zu einem Wächter zurück, passt sich Spielern in der Nähe an
-- **Pausen** bei einem Warden, **menschliche Blickbewegung** (Frame-genaue Rotation, kein Springen)
-- **Verfolger-Schutz**: wer ständig folgt, bekommt eine höfliche `/msg`, danach geht das Makro weit weg (`/spawn` und zurück); bekannte Killer werden gemieden; Befehls-Abklingzeiten werden abgewartet
-- **Item-Sortierer**: Fahrten zum Spawn und zu den privaten Lagern (Shards, Contraband, Energie, Geld), Pet- und Fähigkeits-Nutzung, Tod-Wiederherstellung
-- **Wegpunkt-Editor und Routen-Rekorder**, Grenzmarkierungen
-- Taste `K` schaltet das Makro; `/prisons stop` stoppt es
+Die Screenshots auf der [Website](https://noxtryn.github.io/ThePrisons/#screenshots) stammen aus echten Fabric-Client-Aufnahmen in automatisierten lokalen Testwelten. Die AH-/EE-Bilder verwenden synthetische Testdaten, keine Live-Angebote von Cosmic Prisons. Sie sind kein Nachweis eines Live-Server-Tests.
 
-### Markt (öffentliche Beta)
-Die AH-/EE-Marktansichten und Item List sind in **v1.3.0-beta.1** enthalten. Das serverspezifische Verhalten wurde noch nicht vollständig auf Cosmic Prisons geprüft; Marktbeobachtungen können veraltet oder unvollständig sein und sind keine Handelsgarantie. Weitere Marktoberflächen können separate Einschränkungen haben, die in den Release-Notizen stehen.
+Die integrierte Standard-Texturquelle enthält den freigegebenen Batch mit 35 Motiven. Website-Vorschaubilder werden beim GitHub-Pages-Build aus denselben kanonischen PNG-Dateien kopiert und nicht separat nachgezeichnet.
 
+## Installation mit Prism Launcher
 
-### HUD
-Scoreboard (ersetzt die Server-Sidebar), **Better Tab**, **Session-HUD** (Ore-Mining- und Bandit-Modus, Laufzeit, Erze pro Sekunde, Steuer, Booster, Level-Up-Prognose, live **Energy/h und XP/h** aus der Action Bar mit dem Durchschnitt darunter), Pets und Trinkets, Befehls-Abklingzeiten, Satchels, Rüstungshaltbarkeit, Item-Einblicke und Benachrichtigungen als Karten. Ein **HUD-Editor** verschiebt und skaliert jedes Widget.
+1. Erstelle oder wähle in Prism eine Instanz für **Minecraft 1.21.11**.
+2. Installiere **Fabric Loader 0.17.3 oder neuer** und verwende **Java 21**.
+3. Füge Fabric API für Minecraft 1.21.11 hinzu. Mod Menu ist optional.
+4. Lade die aktuelle JAR aus den [GitHub-Releases](https://github.com/Noxtryn/ThePrisons/releases). Öffne in Prism **Instanz bearbeiten → Mods → Hinzufügen** und wähle die `.jar` aus.
+5. Starte die Instanz. `/prisons` öffnet im Spiel das Konfigurations-Dashboard. Die Release-Seite nennt die passende JAR und Version.
 
-### Lager-Übersicht
-`/pv` öffnet alle privaten Lager als Karten; geöffnete Seiten bleiben voll benutzbar.
+## Kompatibilität
 
-### Spieler
-Freunde und Gang-Färbung (`/prisons friend ...`), **Sneak Trade** (Sneak + Rechtsklick auf einen Spieler sendet `/trade`), **Spielerkarten** (Rechtsklick auf einen Spieler, `Shift + Tab` für die Spielerliste).
+| Komponente | Version |
+| --- | --- |
+| Minecraft | 1.21.11 |
+| Fabric Loader | 0.17.3+ |
+| Java | 21+ |
+| Fabric API | Erforderlich, für Minecraft 1.21.11 |
+| Mod Menu | Optional |
+| Server | Für Cosmic Prisons entwickelt; allgemeine Client-Funktionen können anderswo nutzbar sein |
 
-### Banditen
-- **Speer-Helfer**: statisches Schützen-Fadenkreuz, Zielpunkt mit Vorhalt und Fall, Wurf- und Rückkehr-Effekte
-- **Zielhilfe (Taste `L`)**: die Mod schaut auf die beste Linie von Banditen (Banditen sind die Spieler `bandit_xx_xxxxxx`), mit der menschlichen Blickbewegung des Erz-Makros
-- **Bandit-Makro (Taste `J`, in Arbeit, ~2 %)**: ein Zustandsautomat, der einen Banditen sucht, zielt, auflädt, wirft und den Speer zurückruft, mit Gefahrencheck, Patrouillen-Route und eigenen Unter-Tabs im Dashboard. Unfertig und größtenteils auf dem Server ungetestet
-- **Rückruf-Timing**: zeigt den besten Moment für `F` - du drückst
+## Bekannte Einschränkungen
 
-<p align="center"><img src="docs/media/bandit-macro.png" alt="Bandit-Makro-Tab (in Arbeit)" width="80%"></p>
+- Inhalte der Config-GUI können bei 1280×720 / GUI-Skalierung 3 gedrängt oder abgeschnitten sein.
+- Cosmic-Prisons-Liveabnahme für `/ah` und `/ee`, Live-Marktbeobachtungen und serverspezifische Lore sind noch nicht vollständig erfolgt. Synthetische Client-Fixtures prüfen nur Darstellung und Berechnungen anhand von Testdaten.
+- Markthistorie, Confidence und Aktualität hängen von den verfügbaren Client-Beobachtungen ab; fehlende Daten sind kein Angebotspreis.
+- Das Bandit Macro ist experimentell. Automatisierung und Zielhilfe können Serverregeln verletzen oder zu Sanktionen führen.
+- Der aktuelle Stand ist ein Release-Kandidat. Eine Beta-JAR ist erst nach Veröffentlichung im [GitHub-Releases-Bereich](https://github.com/Noxtryn/ThePrisons/releases) herunterladbar.
 
-### Tunnel Vision (`F5` + `V`)
-Die Spielansicht wird durch einen Hintergrund deiner Wahl ersetzt, nur dein Spieler bleibt als 3D-Modell auf einer Regenbogenstraße, die dem Makro folgt. Zwei Animationen (Regenbogenstraße und fliegender Teppich), abschießbare Ziele und eine Leistungs-Einstellung. Eigene Bilder in `config/theprisons/tunnel/`.
+## Community und Projektlinks
 
-### Komfort
-Nachrichten-Benachrichtigungen, friedliches Mining, Vitalwarnungen, Bereit-Ansagen, ein Abklingzeiten-Cache und ein Update-Check (GitHub-Releases). Item- und Rüstungstexturen im Comic-Look (nichts von Mojangs Grafik wird mitgeliefert).
+- [Offizielle Website](https://noxtryn.github.io/ThePrisons/)
+- [GitHub-Repository](https://github.com/Noxtryn/ThePrisons)
+- [Releases](https://github.com/Noxtryn/ThePrisons/releases)
+- [Fehler melden / Feedback geben](https://github.com/Noxtryn/ThePrisons/issues/new)
+- Discord: Auf der Projektwebsite ist noch kein öffentlicher Einladungslink eingerichtet. Bis dahin bitte GitHub-Issues verwenden.
 
-## Installation
-1. Installiere den [Fabric Loader](https://fabricmc.net/use/) `0.17.3` oder neuer für Minecraft `1.21.11` und Java 21.
-2. Lege die [Fabric API](https://modrinth.com/mod/fabric-api) in deinen `mods`-Ordner ([Mod Menu](https://modrinth.com/mod/modmenu) ist optional).
-3. Lade die Jar vom [neuesten Release](https://github.com/Noxtryn/ThePrisons/releases/latest) und lege sie in `mods`. Der Dateiname sagt alles: `ThePrisons-<Codename>-v<Version>-mc<Minecraft>.jar`, z. B. `ThePrisons-Nebula-v1.2.0-mc1.21.11.jar`.
-4. Starte das Spiel und tritt dem Server bei; `/prisons` öffnet das Dashboard.
-
-## Befehle
-`/prisons` (Alias `/theprisons`): `gui`, `toggle <modul>`, `stop`, `stats`, `reset`, `perf`, `sprint`, `routes`, `set border`, `friend add|remove|list <name>`, `lang [de|en]`. Die ausführliche Tabelle steht in der [englischen README](README.md#commands).
-
-## FAQ
-**Ist es auf Cosmic Prisons erlaubt?** Lies die Serverregeln selbst. Siehe [Haftungsausschluss](#haftungsausschluss).
-
-**Ist das Bandit-Makro fertig?** Nein, etwa 2 %. Siehe den Hinweis oben.
-
-**Läuft es im Einzelspieler oder auf anderen Servern?** Es ist für Cosmic Prisons gebaut; viele Funktionen lesen Menüs, Chat und Sidebar dieses Servers.
-
-## Haftungsausschluss
-ThePrisons ist ein inoffizielles Fan-Projekt, **nicht verbunden mit Mojang, Microsoft oder dem Cosmic-Prisons-Server**. Automatisierung und Zielhilfen (Erz-Makro, Bandit-Makro, Speer-Helfer, Rückruf-Helfer) können **gegen die Regeln eines Servers verstoßen und zu Strafen oder Sperren führen**. Du nutzt die Mod auf eigenes Risiko; die Autoren haften nicht für Folgen für deinen Account. Der Code ist **All Rights Reserved** (siehe [LICENSE](LICENSE)).
+ThePrisons ist ein inoffizielles Fanprojekt und nicht mit Mojang, Microsoft oder Cosmic Prisons verbunden. Nutzung auf eigenes Risiko. Der Quellcode ist All Rights Reserved; siehe [LICENSE](LICENSE).

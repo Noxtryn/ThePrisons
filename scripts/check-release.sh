@@ -28,11 +28,11 @@ fi
 # Discord content: parses, fits Discord's limits, no emoji / forbidden claims / open placeholders
 (cd discord-bot && python3 -m prisonsbot check) || err "discord-bot content check failed (see above)"
 
-# disabled market module must not be advertised as available (site, READMEs); a line is fine if it says it is off
+# The current beta includes market surfaces; reject only stale explicit claims that they are disabled.
 market_re='auction house|auktionshaus|shop overlay|shop-overlay|item list|item-list|market tracker|markt-tracker|/prisons price|market scan'
-off_re='switched off|off in release|abgeschaltet|not available|nicht verfügbar|re-enable|wieder aktiv|reviewed|überprüft|disabled|deaktiviert|not in the mod|fehlt|beta'
-if grep -niE "$market_re" site/index.html site/app.js README.md README.de.md | grep -viE "$off_re"; then
-  err "disabled market feature mentioned as available (see lines above)"
+disabled_re='switched off|off in release|abgeschaltet|not available|nicht verfügbar|disabled|deaktiviert|not in the mod|fehlt'
+if grep -niE "$market_re" site/index.html site/app.js README.md README.de.md | grep -iE "$disabled_re"; then
+  err "stale claim that a beta market feature is disabled (see lines above)"
 fi
 for f in market shops item-list; do
   grep -q "\"$f\"" site/app.js && err "feature card '$f' (market module) on the website"
@@ -49,14 +49,7 @@ ok = True
 site = pathlib.Path("site")
 json.load(open(site / "config.json"))
 html = (site / "index.html").read_text(encoding="utf-8")
-for src in re.findall(r'(?:src|href)="(media/[^"]+)"', html):
-    # media/ is copied from docs/media at deploy time
-    if not pathlib.Path("docs", src).exists():
-        print("ERROR: missing", src); ok = False
 js = (site / "app.js").read_text(encoding="utf-8")
-for card in re.findall(r'^    \["([a-z-]+)", "[A-Z]', js, re.M):
-    if not pathlib.Path("docs/media/cards", card + ".png").exists():
-        print("ERROR: no card image for", card); ok = False
 for a in set(re.findall(r'href="#([^"]+)"', html)):
     if a != "top" and f'id="{a}"' not in html:
         print("ERROR: broken anchor #" + a); ok = False
@@ -65,9 +58,39 @@ for url in set(re.findall(r'href="(https?://[^"]+)"', html)):
         print("ERROR: odd link", url); ok = False
 if 'href="https://github.com/Noxtryn/ThePrisons/issues' not in html:
     print("ERROR: GitHub issues link (support fallback) missing"); ok = False
-for need in ("download", "install", "compat", "faq", "support", "roadmap", "gallery", "features", "changelog"):
+for need in ("features", "textures", "screenshots", "release", "install", "community"):
     if f'id="{need}"' not in html:
-        print("ERROR: section missing:", need); ok = False
+        print("ERROR: current site section missing:", need); ok = False
+for asset in re.findall(r'(?:src|href)="(media/[^\"]+)"', html):
+    if asset.startswith("media/textures/"):
+        source = pathlib.Path("src/main/resources/resourcepacks/theprisons_items_standard/assets/theprisons/textures/item/prisons") / asset.removeprefix("media/textures/")
+    elif asset.startswith("media/screenshots/"):
+        shot_sources = {
+            "media/screenshots/config-session.png": pathlib.Path("docs/development/handover/visual-acceptance-2026-10-08/config/0005_config_scale1_overview.png"),
+            "media/screenshots/item-list.png": pathlib.Path("docs/development/handover/visual-acceptance-2026-10-08/0004_market_1d_inventory_search.png"),
+            "media/screenshots/ah-overlay.png": pathlib.Path("docs/development/handover/visual-acceptance-2026-10-08/0005_market_2_ah.png"),
+            "media/screenshots/ee-overlay.png": pathlib.Path("docs/development/handover/visual-acceptance-2026-10-08/0006_market_3_ee.png"),
+        }
+        source = shot_sources.get(asset)
+        if source is None:
+            print("ERROR: screenshot has no verified source mapping:", asset); ok = False; continue
+    else:
+        source = pathlib.Path("docs") / asset
+    if not source.is_file():
+        print("ERROR: missing site media source:", source); ok = False
+texture_root = pathlib.Path("src/main/resources/resourcepacks/theprisons_items_standard/assets/theprisons/textures/item/prisons")
+texture_count = len(list(texture_root.rglob("*.png")))
+if texture_count != 35:
+    print("ERROR: expected 35 standard texture showcase PNGs, found", texture_count); ok = False
+css = (site / "style.css").read_text(encoding="utf-8")
+for breakpoint in ("max-width: 960px", "max-width: 700px", "max-width: 380px", "prefers-reduced-motion: reduce"):
+    if breakpoint not in css:
+        print("ERROR: responsive/accessibility stylesheet rule missing:", breakpoint); ok = False
+for readme in (pathlib.Path("README.md"), pathlib.Path("README.de.md")):
+    text = readme.read_text(encoding="utf-8")
+    first = text[:2500]
+    if "1.2.0" in first or "1.2.1" in first:
+        print("ERROR: stale 1.2.x information in README intro:", readme); ok = False
 sys.exit(0 if ok else 1)
 PY
 [ $? -eq 0 ] || fail=1

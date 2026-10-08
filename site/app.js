@@ -1,132 +1,132 @@
-// Stars, feature cards, gallery (from media/manifest.json) and the latest release (GitHub API).
+// Cosmic Evolution landing page: language switch, release data and privacy-respecting optional analytics.
 (function () {
+  "use strict";
   var REPO = "Noxtryn/ThePrisons";
-
-  // twinkling stars
-  var canvas = document.getElementById("stars");
-  var ctx = canvas.getContext("2d");
-  var stars = [];
-  function resize() {
-    canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-    stars = [];
-    for (var i = 0; i < Math.round(canvas.width * canvas.height / 9000); i++) {
-      stars.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, r: Math.random() < .85 ? 1 : 2, s: .5 + Math.random() * 1.5, p: Math.random() * 6.28 });
-    }
-  }
-  function draw(t) {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    for (var i = 0; i < stars.length; i++) {
-      var s = stars[i], a = .25 + .6 * (.5 + .5 * Math.sin(t / 1000 * s.s + s.p));
-      ctx.fillStyle = "rgba(255,255,255," + a.toFixed(2) + ")";
-      ctx.fillRect(s.x, s.y, s.r, s.r);
-    }
-    if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) requestAnimationFrame(draw);
-  }
-  window.addEventListener("resize", resize); resize(); requestAnimationFrame(draw);
-
-  // language: stored, else the browser's
   var lang = "en";
   try { lang = localStorage.getItem("lang") || (/^de/i.test(navigator.language || "") ? "de" : "en"); } catch (e) {}
-  function setLang(l) {
-    lang = l; document.documentElement.lang = l;
-    try { localStorage.setItem("lang", l); } catch (e) {}
-    document.getElementById("lang").textContent = l === "de" ? "DE | EN" : "EN | DE";
+
+  var canvas = document.getElementById("stars");
+  var ctx = canvas && canvas.getContext ? canvas.getContext("2d") : null;
+  var stars = [];
+  var reducedMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function resize() {
+    if (!canvas || !ctx) return;
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    stars = [];
+    var count = Math.min(120, Math.round(canvas.width * canvas.height / 16000));
+    for (var i = 0; i < count; i++) stars.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, r: Math.random() < .8 ? 1 : 2, p: Math.random() * 6.28 });
+  }
+  function draw(t) {
+    if (!ctx) return;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (var i = 0; i < stars.length; i++) {
+      var s = stars[i];
+      ctx.fillStyle = "rgba(190,235,232," + (.16 + .35 * (.5 + .5 * Math.sin(t / 1100 + s.p))).toFixed(2) + ")";
+      ctx.fillRect(s.x, s.y, s.r, s.r);
+    }
+    if (!reducedMotion) requestAnimationFrame(draw);
+  }
+  window.addEventListener("resize", resize);
+  resize();
+  if (ctx) requestAnimationFrame(draw);
+
+  var release = null;
+  function updateVersion() {
+    if (!release) return;
+    var status = document.getElementById("release-status");
+    var version = document.getElementById("version");
+    var codename = release.name && release.name.indexOf("·") >= 0 ? " · " + release.name.split("·")[1].trim() : "";
+    var beta = !!release.prerelease;
+    status.textContent = beta ? (lang === "de" ? "ÖFFENTLICHE BETA" : "PUBLIC BETA") : (lang === "de" ? "STABILE VERSION" : "STABLE RELEASE");
+    status.classList.toggle("beta", beta);
+    version.textContent = release.tag_name + codename;
+  }
+
+  function setLang(value) {
+    lang = value;
+    document.documentElement.lang = value;
+    try { localStorage.setItem("lang", value); } catch (e) {}
+    document.getElementById("lang").textContent = value === "de" ? "DE / EN" : "EN / DE";
+    updateVersion();
     renderNotes();
   }
   document.getElementById("lang").addEventListener("click", function () { setLang(lang === "de" ? "en" : "de"); });
 
-  // feature cards (en, de)
-  var features = [
-    ["dashboard", "Dashboard", "Animated pages for design, controls, HUD, mining, bandits and tunnel vision.", "Animierte Seiten für Design, Steuerung, HUD, Mining, Banditen und Tunnel Vision."],
-    ["storage-overlay", "Storage Overlay", "/pv shows all private vaults as cards; open pages stay fully usable.", "/pv zeigt alle privaten Vaults als Karten; offene Seiten bleiben voll nutzbar."],
-    ["hud", "HUD Widgets", "Session stats, pets, cooldowns, satchels, armour, notifications.", "Session-Statistik, Pets, Abklingzeiten, Satchels, Rüstung, Benachrichtigungen."],
-    ["tunnel-vision", "Tunnel Vision", "F5 + V: your player in 3D on a rainbow road over a backdrop of your choice.", "F5 + V: dein Spieler in 3D auf einer Regenbogenstraße vor einem Hintergrund deiner Wahl."],
-    ["ore-macro", "Ore Macro", "Own pathfinder, guarded-zone logic, breaks, failsafes, follower protection and human view motion.", "Eigener Pathfinder, Wächter-Zonen-Logik, Pausen, Sicherungen, Verfolger-Schutz und menschliche Blickbewegung."],
-    ["item-sorter", "Item Sorter", "Trips to the vaults for shards, contrabands, energy and money.", "Fahrten zu den Lagern für Shards, Contraband, Energie und Geld."],
-    ["guard-zones", "Guard Zones", "Stay in the guarded area, look ahead, run to a guard when attacked.", "Im bewachten Bereich bleiben, vorausschauen, bei Angriff zu einem Wächter rennen."],
-    ["spear-helper", "Spear Helper", "Shooter crosshair, sight point, aim assist on L and recall timing.", "Schützen-Fadenkreuz, Zielpunkt, Zielhilfe auf L und Rückruf-Timing."],
-    ["bandit-macro", "Bandit Macro (WIP, ~2 %)", "New and unfinished: hunts bandits with the spear on key J. Expect rough edges.", "Neu und unfertig: jagt Banditen mit dem Speer auf Taste J. Rechnet mit Ecken und Kanten."]
-  ];
-  var grid = document.getElementById("feature-grid");
-  features.forEach(function (f) {
-    var el = document.createElement("article");
-    el.className = "feature";
-    el.innerHTML = '<img src="media/cards/' + f[0] + '.png" alt="' + f[1] + (f[0] === 'storage-overlay' ? ' (screenshot)' : ' (illustration)') + '"><div><h3></h3><p class="en"></p><p class="de"></p></div>';
-    el.querySelector("h3").textContent = f[1];
-    el.querySelector("p.en").textContent = f[2];
-    el.querySelector("p.de").textContent = f[3];
-    grid.appendChild(el);
-  });
-
-  // gallery: only real media the repository has (docs/media, listed by media/manifest.json at deploy time)
-  fetch("media/manifest.json").then(function (r) { return r.ok ? r.json() : []; }).then(function (files) {
-    var box = document.getElementById("gallery-grid");
-    if (!files.length) return;
-    document.getElementById("gallery-empty").remove();
-    files.forEach(function (name) {
-      var img = document.createElement("img");
-      img.loading = "lazy"; img.src = "media/" + name; img.alt = name.replace(/\.[a-z]+$/, "").replace(/[-_]/g, " ");
-      box.appendChild(img);
-    });
-  }).catch(function () {});
-
-  // newest published release, including prereleases: version, direct jar link, notes
-  function esc(s) { return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
-  function inline(s) { return esc(s).replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>").replace(/`(.+?)`/g, "<code>$1</code>"); }
-  function render(md) {
-    var out = [], inList = false;
-    md.split(/\r?\n/).forEach(function (line) {
-      var h = line.match(/^#{2,4}\s+(.*)$/), li = line.match(/^\s*[-*]\s+(.*)$/);
-      if (li) { if (!inList) { out.push("<ul>"); inList = true; } out.push("<li>" + inline(li[1]) + "</li>"); return; }
-      if (inList) { out.push("</ul>"); inList = false; }
-      if (h) out.push("<h3>" + inline(h[1]) + "</h3>"); else if (line.trim()) out.push("<p>" + inline(line) + "</p>");
-    });
-    if (inList) out.push("</ul>");
-    return out.join("\n");
+  function esc(value) {
+    return String(value).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
   }
-  var release = null;
+  function renderInline(value) {
+    return esc(value).replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>").replace(/`(.+?)`/g, "<code>$1</code>");
+  }
+  function renderMarkdown(markdown) {
+    var html = [];
+    var inList = false;
+    String(markdown || "").split(/\r?\n/).forEach(function (line) {
+      var heading = line.match(/^#{2,4}\s+(.*)$/);
+      var item = line.match(/^\s*[-*]\s+(.*)$/);
+      if (item) {
+        if (!inList) { html.push("<ul>"); inList = true; }
+        html.push("<li>" + renderInline(item[1]) + "</li>");
+      } else {
+        if (inList) { html.push("</ul>"); inList = false; }
+        if (heading) html.push("<h4>" + renderInline(heading[1]) + "</h4>");
+        else if (line.trim() && !/^>\s*/.test(line)) html.push("<p>" + renderInline(line) + "</p>");
+      }
+    });
+    if (inList) html.push("</ul>");
+    return html.join("\n");
+  }
   function renderNotes() {
     if (!release) return;
-    document.getElementById("release-notes").innerHTML = "<h3>" + esc(release.title) + "</h3>" + render(lang === "de" ? release.de : release.en);
+    var box = document.getElementById("release-notes");
+    box.innerHTML = "<h3>" + esc(release.name || release.tag_name) + "</h3>" + renderMarkdown(lang === "de" ? release.de : release.en);
   }
-  fetch("https://api.github.com/repos/" + REPO + "/releases?per_page=10").then(function (r) { return r.ok ? r.json() : null; }).then(function (rels) {
-    var rel = Array.isArray(rels) ? rels.filter(function (r) { return !r.draft; })[0] : null;
-    if (!rel) throw new Error("no release");
-    document.getElementById("version").textContent = rel.tag_name + (rel.prerelease ? (lang === "de" ? " · ÖFFENTLICHE BETA" : " · PUBLIC BETA") : "") + (rel.name && rel.name.indexOf("·") > -1 ? " · " + rel.name.split("·")[1].trim() : "");
-    var jar = (rel.assets || []).filter(function (a) { return /\.jar$/.test(a.name); })[0];
-    if (jar) { var d2 = document.getElementById("download2"); if (d2) d2.href = jar.browser_download_url;
-      var total = 0; (rel.assets || []).forEach(function (a) { total += a.download_count || 0; });
-      if (total >= 100) document.getElementById("dlcount").textContent = "· " + total + " downloads of this version";
-      var d = document.getElementById("download"); d.href = jar.browser_download_url; d.title = jar.name; }
-    var parts = (rel.body || "").split(/\r?\n---\r?\n/);
-    release = { title: rel.name || rel.tag_name, en: parts[0], de: (parts[1] || parts[0]).replace(/^\s*##.*Deutsch.*$/m, "") };
-    renderNotes();
-  }).catch(function () {
-    document.getElementById("release-notes").innerHTML = '<p class="note">The release notes are on <a href="https://github.com/' + REPO + '/releases">GitHub</a>.</p>';
-  });
-  setLang(lang);
 
-  // ---- config (Discord link, optional privacy-friendly analytics) ----
-  // Everything is off until site/config.json says otherwise. No cookies, no personal data, honours Do Not Track.
+  fetch("https://api.github.com/repos/" + REPO + "/releases?per_page=10", { headers: { Accept: "application/vnd.github+json" } })
+    .then(function (response) { return response.ok ? response.json() : Promise.reject(new Error("release API unavailable")); })
+    .then(function (releases) {
+      var item = Array.isArray(releases) ? releases.filter(function (candidate) { return !candidate.draft; })[0] : null;
+      if (!item) throw new Error("no published release");
+      var body = String(item.body || "").split(/\r?\n---\r?\n/);
+      release = { tag_name: item.tag_name, name: item.name || item.tag_name, prerelease: item.prerelease, url: item.html_url, en: body[0], de: body[1] || body[0] };
+      var jar = (item.assets || []).filter(function (asset) { return /\.jar$/i.test(asset.name); })[0];
+      var target = jar ? jar.browser_download_url : item.html_url;
+      document.getElementById("download").href = target;
+      document.getElementById("download").title = jar ? jar.name : (lang === "de" ? "Release-Seite öffnen" : "Open release page");
+      document.getElementById("download").querySelector(".en").textContent = jar ? "Download beta JAR" : "Open release page";
+      document.getElementById("download").querySelector(".de").textContent = jar ? "Beta-JAR herunterladen" : "Release-Seite öffnen";
+      updateVersion();
+      renderNotes();
+    })
+    .catch(function () {
+      document.getElementById("version").textContent = lang === "de" ? "Noch kein Release verfügbar" : "No published release yet";
+      document.getElementById("release-notes").innerHTML = '<p class="note">' + (lang === "de" ? "Release-Notizen erscheinen nach Veröffentlichung." : "Release notes will appear after publication.") + ' <a href="https://github.com/' + REPO + '/releases">' + (lang === "de" ? "GitHub-Releases ansehen ↗" : "View GitHub releases ↗") + "</a></p>";
+    });
+
+  // Public config contains no tokens. Analytics are optional, disabled by default, and honour Do Not Track.
   function track(name) {
     try { if (window.goatcounter && window.goatcounter.count) window.goatcounter.count({ path: name, title: name, event: true }); } catch (e) {}
   }
-  document.addEventListener("click", function (e) {
-    var a = e.target.closest ? e.target.closest("[data-track]") : null;
-    if (a) track(a.getAttribute("data-track"));
+  document.addEventListener("click", function (event) {
+    var link = event.target.closest ? event.target.closest("[data-track]") : null;
+    if (link) track(link.getAttribute("data-track"));
   });
-  fetch("config.json").then(function (r) { return r.ok ? r.json() : {}; }).then(function (cfg) {
-    if (cfg.discord) {
-      var d = document.getElementById("discord"); d.href = cfg.discord; d.hidden = false;
-      ["discord-soon", "discord-soon-de"].forEach(function (id) { var n = document.getElementById(id); if (n) n.remove(); });
+  fetch("config.json").then(function (response) { return response.ok ? response.json() : {}; }).then(function (config) {
+    if (config.discord) {
+      var discord = document.getElementById("discord");
+      discord.href = config.discord;
+      discord.hidden = false;
     }
-    var gc = cfg.analytics && cfg.analytics.goatcounter;
+    var counter = config.analytics && config.analytics.goatcounter;
     var dnt = navigator.doNotTrack === "1" || window.doNotTrack === "1";
-    if (gc && !dnt) {
-      var sc = document.createElement("script");
-      sc.async = true; sc.src = "https://gc.zgo.at/count.js";
-      sc.setAttribute("data-goatcounter", "https://" + gc + ".goatcounter.com/count");
-      document.head.appendChild(sc);
+    if (counter && !dnt) {
+      var script = document.createElement("script");
+      script.async = true;
+      script.src = "https://gc.zgo.at/count.js";
+      script.setAttribute("data-goatcounter", "https://" + counter + ".goatcounter.com/count");
+      document.head.appendChild(script);
     }
   }).catch(function () {});
+  setLang(lang);
 })();
