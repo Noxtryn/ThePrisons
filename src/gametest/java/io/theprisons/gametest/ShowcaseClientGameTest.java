@@ -5,6 +5,7 @@ import io.theprisons.core.ThePrisonsCore;
 import io.theprisons.core.module.Module;
 import io.theprisons.core.setting.Settings;
 import io.theprisons.gui.click.ClickGuiScreen;
+import io.theprisons.gui.click.Tab;
 import io.theprisons.gui.kit.Ui;
 import io.theprisons.gui.theme.Theme;
 import io.theprisons.modules.general.DesignModule;
@@ -187,6 +188,114 @@ public final class ShowcaseClientGameTest implements FabricClientGameTest {
         context.runOnClient(client -> client.setScreen(new ClickGuiScreen(client.currentScreen, ThePrisonsCore.getOrNull())));
         say(context, "Command center", "The live module editor: categories, controls and persistent settings.");
         hold(context, "config_command_center");
+        configVisualQa(context);
+    }
+
+    /** Productive config screen at user window scales; generated screenshots are deliberately caption-free. */
+    private static void configVisualQa(ClientGameTestContext context) {
+        say(context, "", "");
+        context.getInput().resizeWindow(1920, 1080);
+        for (int scale = 1; scale <= 3; scale++) {
+            final int currentScale = scale;
+            context.runOnClient(client -> {
+                client.options.getGuiScale().setValue(currentScale);
+                client.onResolutionChanged();
+            });
+            for (Tab tab : Tab.values()) {
+                showConfigTab(context, tab);
+                context.waitTicks(1);
+                LOGGER.info("[config-qa] scale={} tab={} screenshot={}", scale, tab,
+                        context.takeScreenshot("config_scale" + scale + "_" + tab.name().toLowerCase()));
+            }
+        }
+        context.getInput().resizeWindow(1280, 720);
+        for (int scale : new int[]{1, 2, 3}) {
+            final int currentScale = scale;
+            context.runOnClient(client -> {
+                client.options.getGuiScale().setValue(currentScale);
+                client.onResolutionChanged();
+            });
+            for (Tab tab : Tab.values()) {
+                showConfigTab(context, tab);
+                context.waitTicks(1);
+                LOGGER.info("[config-qa] 720p scale={} tab={} screenshot={}", scale, tab,
+                        context.takeScreenshot("config_720p_scale" + scale + "_" + tab.name().toLowerCase()));
+            }
+        }
+
+        context.getInput().resizeWindow(1920, 1080);
+        context.runOnClient(client -> {
+            client.options.getGuiScale().setValue(2);
+            client.onResolutionChanged();
+        });
+        Module detailed = ThePrisonsCore.getOrNull().modules().all().stream()
+                .filter(m -> m.settings().stream().anyMatch(s -> s instanceof io.theprisons.core.setting.Settings.EnumSetting<?>))
+                .filter(m -> m.settings().stream().anyMatch(s -> s instanceof io.theprisons.core.setting.Settings.IntSetting
+                        || s instanceof io.theprisons.core.setting.Settings.DoubleSetting))
+                .findFirst().orElseThrow(() -> new AssertionError("No dropdown/slider module for the UI screenshot"));
+        context.runOnClient(client -> {
+            ClickGuiScreen.focus(detailed, null);
+            ClickGuiScreen screen = new ClickGuiScreen(null, ThePrisonsCore.getOrNull());
+            client.setScreen(screen);
+        });
+        context.waitTicks(1);
+        LOGGER.info("[config-qa] settings screenshot={}", context.takeScreenshot("config_module_settings"));
+        context.runOnClient(client -> {
+            ClickGuiScreen screen = (ClickGuiScreen) client.currentScreen;
+            io.theprisons.core.setting.Setting<?> choice = detailed.settings().stream()
+                    .filter(s -> s instanceof io.theprisons.core.setting.Settings.EnumSetting<?>).findFirst().orElseThrow();
+            setGuiField(screen, "dropdown", choice);
+            setGuiField(screen, "dropdownX", client.getWindow().getScaledWidth() / 2 + 100);
+            setGuiField(screen, "dropdownY", client.getWindow().getScaledHeight() / 2);
+        });
+        context.waitTicks(1);
+        LOGGER.info("[config-qa] dropdown screenshot={}", context.takeScreenshot("config_dropdown"));
+
+        showConfigTab(context, Tab.OVERVIEW);
+        context.waitTicks(1);
+        context.runOnClient(client -> {
+            ClickGuiScreen screen = (ClickGuiScreen) client.currentScreen;
+            setGuiField(screen, "search", "market");
+            setGuiField(screen, "searchFocused", false);
+        });
+        context.waitTicks(1);
+        LOGGER.info("[config-qa] search screenshot={}", context.takeScreenshot("config_search_market"));
+        context.runOnClient(client -> {
+            ClickGuiScreen screen = (ClickGuiScreen) client.currentScreen;
+            setGuiField(screen, "search", "");
+            screen.mouseScrolled(client.getWindow().getScaledWidth() / 2 - 100, client.getWindow().getScaledHeight() / 2, 0, -5);
+        });
+        context.waitTicks(1);
+        LOGGER.info("[config-qa] scroll screenshot={}", context.takeScreenshot("config_scroll_overview"));
+        context.getInput().resizeWindow(1600, 900);
+        context.runOnClient(client -> {
+            client.options.getGuiScale().setValue(3);
+            client.onResolutionChanged();
+        });
+    }
+
+    private static void showConfigTab(ClientGameTestContext context, Tab tab) {
+        context.runOnClient(client -> {
+            var modules = ThePrisonsCore.getOrNull().modules().all();
+            Module module = modules.stream().filter(m -> Tab.home(m) == tab).findFirst()
+                    .or(() -> modules.stream().filter(m -> m.settings().stream().anyMatch(s -> s != m.keybind() && s.visible() && Tab.of(m, s.group()) == tab)).findFirst())
+                    .or(() -> modules.stream().findFirst()).orElseThrow();
+            ClickGuiScreen.focus(module, null);
+            ClickGuiScreen screen = new ClickGuiScreen(null, ThePrisonsCore.getOrNull());
+            setGuiField(screen, "tab", tab);
+            setGuiField(screen, "selected", module);
+            client.setScreen(screen);
+        });
+    }
+
+    private static void setGuiField(ClickGuiScreen screen, String fieldName, Object value) {
+        try {
+            var field = ClickGuiScreen.class.getDeclaredField(fieldName);
+            field.setAccessible(true);
+            field.set(screen, value);
+        } catch (ReflectiveOperationException e) {
+            throw new IllegalStateException("Cannot set ClickGuiScreen." + fieldName, e);
+        }
     }
 
     /** The Bandits page: the Spear Helper and, on its own sub-tabs, the Bandit Macro (work in progress). */

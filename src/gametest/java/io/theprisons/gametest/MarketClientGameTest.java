@@ -2,8 +2,9 @@ package io.theprisons.gametest;
 
 import io.theprisons.core.ThePrisonsCore;
 import io.theprisons.modules.qol.market.MarketModule;
-import io.theprisons.modules.qol.market.MarketSearch;
 import io.theprisons.modules.qol.market.PriceBook;
+import io.theprisons.items.InventoryListLayout;
+import io.theprisons.items.client.InventoryItemList;
 import net.fabricmc.fabric.api.client.gametest.v1.FabricClientGameTest;
 import net.fabricmc.fabric.api.client.gametest.v1.context.ClientGameTestContext;
 import net.fabricmc.fabric.api.client.gametest.v1.context.TestSingleplayerContext;
@@ -59,81 +60,51 @@ public final class MarketClientGameTest implements FabricClientGameTest {
                 }
                 seed(market.book());
             });
-            // 1. Inventory: only the search bar (nothing typed: the HUD stays); double click = every item.
+            // 1. Exercise the production InventoryItemList entry points, not the older AH search helper.
             context.setScreen(() -> new InventoryScreen(MinecraftClient.getInstance().player));
             context.waitTicks(10);
             LOGGER.info("[market-test] inventory idle {}", context.takeScreenshot("market_0_inventory_idle"));
             context.runOnClient(client -> {
                 int w = client.getWindow().getScaledWidth();
                 int h = client.getWindow().getScaledHeight();
-                double bx = w / 2.0D;
-                double by = h - 22 - 4 - 8 - 9;
-                MarketSearch.click(bx, by, w, h);
-                MarketSearch.click(bx, by, w, h);
-                LOGGER.info("[market-test] after double click: list open={}", MarketSearch.open());
+                InventoryListLayout layout = InventoryListLayout.of(w, h);
+                InventoryItemList.click(layout.barX() + layout.barW() / 2.0D, layout.barY() + layout.barH() / 2.0D, w, h);
+                InventoryItemList.click(layout.barX() + layout.barW() / 2.0D, layout.barY() + layout.barH() / 2.0D, w, h);
+                LOGGER.info("[market-test] after double click: list open={}", InventoryItemList.open());
             });
             context.waitTicks(10);
             LOGGER.info("[market-test] show all {}", context.takeScreenshot("market_1a_showall"));
             context.runOnClient(client -> {
-                int w = client.getWindow().getScaledWidth();
-                int h = client.getWindow().getScaledHeight();
-                MarketSearch.click(w / 2.0D, h - 22 - 4 - 8 - 9, w, h);
-                MarketSearch.click(w / 2.0D, h - 22 - 4 - 8 - 9, w, h);
-                LOGGER.info("[market-test] after second double click: list open={}", MarketSearch.open());
-            });
-            context.runOnClient(client -> {
                 for (char c : "shard".toCharArray()) {
-                    MarketSearch.charTyped(c);
+                    InventoryItemList.charTyped(c);
                 }
-                MarketSearch.debugOpen("shard");
             });
             context.waitTicks(10);
-            LOGGER.info("[market-test] dropdown {}", context.takeScreenshot("market_1b_dropdown"));
-            int[] drop = new int[4];
-            context.runOnClient(client -> System.arraycopy(MarketSearch.debugDrop(), 0, drop, 0, 4));
+            LOGGER.info("[market-test] shard query {}", context.takeScreenshot("market_1b_shard_search"));
+            InventoryListLayout itemLayout = InventoryListLayout.of(1600 / 3, 900 / 3);
             double scale = 3.0D;
-            context.getInput().setCursorPos((drop[0] + 4 + 28 * 4 + 14) * scale, (drop[1] + 14) * scale);
+            context.getInput().setCursorPos((itemLayout.gridX() + itemLayout.cardW() / 2) * scale,
+                    (itemLayout.panelY() + 170) * scale);
             context.waitTicks(12);
-            LOGGER.info("[market-test] dropdown hover {}", context.takeScreenshot("market_1c_dropdown_hover"));
-            // The base cell: only the family's name ("Shard").
-            context.runOnClient(client -> MarketSearch.debugOpen(null));
-            int[] cell = new int[2];
-            context.waitTicks(3);
+            LOGGER.info("[market-test] card hover/tooltip {}", context.takeScreenshot("market_1c_card_hover"));
             context.runOnClient(client -> {
-                int[] at = MarketSearch.debugCell("shard");
-                if (at != null) {
-                    System.arraycopy(at, 0, cell, 0, 2);
-                }
-            });
-            context.getInput().setCursorPos((cell[0] + 13) * scale, (cell[1] + 12) * scale);
-            context.waitTicks(10);
-            LOGGER.info("[market-test] base hover {}", context.takeScreenshot("market_1c2_base_hover"));
-            context.runOnClient(client -> {
-                for (int i = 0; i < 6; i++) {
-                    MarketSearch.keyPressed(org.lwjgl.glfw.GLFW.GLFW_KEY_BACKSPACE, 0, false);
-                }
-                for (char c : "gold satchel".toCharArray()) {
-                    MarketSearch.charTyped(c);
-                }
-                MarketSearch.debugOpen("gold satchel");
-            });
-            context.waitTicks(10);
-            LOGGER.info("[market-test] satchels {}", context.takeScreenshot("market_1c3_satchels"));
-            context.runOnClient(client -> {
-                for (int i = 0; i < 12; i++) {
-                    MarketSearch.keyPressed(org.lwjgl.glfw.GLFW.GLFW_KEY_BACKSPACE, 0, false);
+                for (int i = 0; i < 5; i++) {
+                    InventoryItemList.keyPressed(org.lwjgl.glfw.GLFW.GLFW_KEY_BACKSPACE, 0, false);
                 }
                 for (char c : "mask".toCharArray()) {
-                    MarketSearch.charTyped(c);
+                    InventoryItemList.charTyped(c);
                 }
             });
             context.waitTicks(10);
-            LOGGER.info("[market-test] inventory {}", context.takeScreenshot("market_1d_inventory_search"));
+            LOGGER.info("[market-test] mask search {}", context.takeScreenshot("market_1d_inventory_search"));
             context.runOnClient(client -> {
+                InventoryListLayout layout = InventoryListLayout.of(client.getWindow().getScaledWidth(), client.getWindow().getScaledHeight());
+                InventoryItemList.scrolled(layout.gridX(), layout.panelY() + 75, -4, client.getWindow().getScaledWidth(), client.getWindow().getScaledHeight());
+                LOGGER.info("[market-test] production list state open={} query={}", InventoryItemList.open(), InventoryItemList.query());
                 for (int i = 0; i < 4; i++) {
-                    MarketSearch.keyPressed(org.lwjgl.glfw.GLFW.GLFW_KEY_BACKSPACE, 0, false);
+                    InventoryItemList.keyPressed(org.lwjgl.glfw.GLFW.GLFW_KEY_BACKSPACE, 0, false);
                 }
-                LOGGER.info("[market-test] list open after deleting the text: {}", MarketSearch.open());
+                LOGGER.info("[market-test] list open after deleting the text: {}", InventoryItemList.open());
             });
             context.setScreen(() -> null);
 
