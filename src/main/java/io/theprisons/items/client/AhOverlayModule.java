@@ -170,7 +170,7 @@ public final class AhOverlayModule extends Module {
         if (!s.known()) {
             return List.of();
         }
-        return ItemPrices.detailLines(s);
+        return ItemPrices.detailLines(s, System.currentTimeMillis());
     }
 
     // ── For the renderer (read only) ─────────────────────────────────────────

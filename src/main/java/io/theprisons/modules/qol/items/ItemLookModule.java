@@ -3,6 +3,7 @@ package io.theprisons.modules.qol.items;
 import io.theprisons.core.module.Category;
 import io.theprisons.core.module.Module;
 import io.theprisons.core.setting.Settings;
+import io.theprisons.items.ItemRarity;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
@@ -68,9 +69,7 @@ public final class ItemLookModule extends Module {
     private final Settings.BoolSetting gear;
     private static final Identifier FRAME = Identifier.of("theprisons", "tier_frame/tint");
     /** The tier colours of the textures (tools/textures/generate_item_textures.py TIERS). */
-    private static final Map<PrisonsItems.Tier, Integer> TIER_RGB = new EnumMap<>(Map.of(
-            PrisonsItems.Tier.SIMPLE, 0xD8DEE8, PrisonsItems.Tier.UNCOMMON, 0x5DE86B, PrisonsItems.Tier.ELITE, 0x4FD8F0,
-            PrisonsItems.Tier.ULTIMATE, 0xFFE04A, PrisonsItems.Tier.LEGENDARY, 0xFF9A2E, PrisonsItems.Tier.GODLY, 0xFF3D6E));
+    private static final Map<PrisonsItems.Tier, Integer> TIER_RGB = tierPalette();
     /** Main colour of the material textures (armour, tools, weapons) - the frame matches what the icon looks like. */
     private static final Map<String, Integer> MATERIAL_RGB = Map.ofEntries(
             Map.entry("netherite", 0x7A5A8C), Map.entry("diamond", 0x4FE8E0), Map.entry("golden", 0xFFD23C),
@@ -86,6 +85,14 @@ public final class ItemLookModule extends Module {
             Map.entry("bandit_king", 0x8C8C9C), Map.entry("slime", 0x6CE05A), Map.entry("fox", 0xFF7A2E),
             Map.entry("rabbit", 0xF4F4FA), Map.entry("owl", 0x8A5A3A), Map.entry("dragon", 0x3CB89C), Map.entry("pig", 0xFF8FB8));
     private final Map<net.minecraft.item.Item, Integer> materialCache = new java.util.IdentityHashMap<>();
+
+    private static Map<PrisonsItems.Tier, Integer> tierPalette() {
+        Map<PrisonsItems.Tier, Integer> palette = new EnumMap<>(PrisonsItems.Tier.class);
+        for (PrisonsItems.Tier tier : PrisonsItems.Tier.values()) {
+            palette.put(tier, ItemRarity.rgb(tier.name()));
+        }
+        return palette;
+    }
 
     public ItemLookModule() {
         super("item_look", "Item Textures", Category.QOL, "Items",

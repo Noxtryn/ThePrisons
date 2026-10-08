@@ -30,3 +30,19 @@ keep future entries scoped to one reviewed change set.
   no V4 artwork is present.
 - Added V4 partial-family gating, HD selection, GUI-scale layout, and age-shifted repeated-sale
   regression coverage.
+
+## Unified UI V4 foundation
+
+- Added `ItemRarity` as the one presentation palette for every canonical registry tier. Item-list
+  borders, rarity labels and the item-look slot frame now resolve their colours through it; unknown
+  server text stays neutral rather than being presented as a made-up tier.
+- Added the pure `ItemMarketTooltip` bridge. It derives the exact existing catalog key and appends
+  a `MARKET DATA` block only when the real market cache has facts for it. The Fabric item-tooltip
+  callback leaves all Minecraft/Cosmic lines in place, then appends this block after the existing
+  ThePrisons insights.
+- The inventory item-list hover now starts with Minecraft's generated item tooltip, then adds
+  registry category/tier facts and the same market block. It does not fabricate Cosmic lore for an
+  item that the registry has not captured.
+- Item-price details now expose source/window, sample count and observation age in addition to
+  fair price, range, trend and confidence. They remain a formatting view of `MarketStats`, not a
+  second calculation.

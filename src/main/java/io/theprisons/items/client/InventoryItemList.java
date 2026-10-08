@@ -4,6 +4,8 @@ import io.theprisons.gui.kit.Ui;
 import io.theprisons.items.ItemCategory;
 import io.theprisons.items.ItemEntry;
 import io.theprisons.items.ItemListModel;
+import io.theprisons.items.ItemMarketTooltip;
+import io.theprisons.items.ItemRarity;
 import io.theprisons.items.ItemView;
 import io.theprisons.items.InventoryListLayout;
 import io.theprisons.items.ItemsService;
@@ -14,6 +16,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.text.Text;
 import org.jspecify.annotations.Nullable;
@@ -403,6 +406,8 @@ public final class InventoryItemList {
         }
         if (e.tier() != null) {
             c.fill(x + 6, y + h - 3, x + w - 6, y + h - 2, 0xFF000000 | TierColors.rgb(e.tier()));     // a thin tier line, not a neon card
+            String badge = ItemRarity.badge(e.tier());
+            Ui.draw(c, tr, badge, x + 4, y + 4, ItemRarity.rgb(e.tier()), 220);
         }
     }
 
@@ -455,13 +460,16 @@ public final class InventoryItemList {
     }
 
     private static List<Text> tooltip(ItemEntry e) {
-        List<Text> out = new ArrayList<>();
-        out.add(Text.literal(e.displayName()));
-        out.add(Text.literal(e.category().label() + " · " + e.subcategory() + (e.tier() != null ? " · " + e.tier() : "")));
+        List<Text> out = new ArrayList<>(Screen.getTooltipFromItem(MinecraftClient.getInstance(), ItemStacks.of(e)));
+        out.add(Text.literal(e.category().label() + " · " + e.subcategory()));
+        String badge = ItemRarity.badge(e.tier());
+        if (!badge.isEmpty()) {
+            out.add(Text.literal(badge));
+        }
         if (e.meta().hasTiers()) {
             out.add(Text.literal("Tiers: " + String.join(", ", e.meta().tiers())));
         }
-        for (String line : ItemsService.get().marketDetail(e.key())) {
+        for (String line : ItemMarketTooltip.lines(e.key(), ItemsService.get()::marketDetail)) {
             out.add(Text.literal(line));
         }
         if (FeatureProfile.DEV) {

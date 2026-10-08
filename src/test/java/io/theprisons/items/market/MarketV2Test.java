@@ -50,6 +50,15 @@ class MarketV2Test {
         return MarketStats.compute(all, NOW, 0L);
     }
 
+    @Test
+    void detailLinesExposeTheRealSourceConfidenceAndObservationAge() {
+        MarketStats s = stats(sales(around(100, 8), 2 * 60_000L, 60_000L));
+        List<String> lines = ItemPrices.detailLines(s, NOW);
+        assertTrue(lines.getFirst().contains("Fair") && lines.getFirst().contains(s.confidence().label()));
+        assertTrue(lines.stream().anyMatch(line -> line.contains("Source  Sales · 24h sales")));
+        assertTrue(lines.stream().anyMatch(line -> line.startsWith("Updated ")));
+    }
+
     // 1. stable
     @Test
     void aStableMarketGivesAHighConfidenceFairPriceAndAStableTrend() {

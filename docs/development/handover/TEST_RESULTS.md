@@ -39,3 +39,12 @@ Run and record:
 - Verification on `7e65092`: `./gradlew test build --no-daemon` passed (8 tasks) and
   `python3 -m unittest tools/textures/v4/test_pipeline.py` passed (5 tests). Final release guard,
   remote-SHA verification and the same build/test commands still run immediately before push.
+
+## Unified UI V4 foundation
+
+- Targeted `ItemPresentationTest`, `MarketV2Test`, `ItemIdentityTest`, and
+  `InventoryListLayoutAndInputTest`: pass. This covers canonical/fallback rarity colours, exact
+  catalog-key market lookup, no-data suppression, source/window and age rendering, plus existing
+  inventory layout/input behaviour.
+- This is source-level and fixture validation. Original Cosmic server lore still requires a live
+  server capture because registry-only list icons cannot contain unretrieved server components.

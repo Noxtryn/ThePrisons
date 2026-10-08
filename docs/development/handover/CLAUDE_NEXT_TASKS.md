@@ -11,3 +11,9 @@
 5. If goal-aware Bandit navigation is resumed, replace rather than parallel `CombatBrain` movement;
    first supply a complete vertical slice (`LocalNavigator`, module inputs, telemetry and adversarial
    simulations) in a dedicated branch.
+6. Continue Unified UI V4 from the shared `ItemRarity` / `ItemMarketTooltip` base: add screen-level
+   screenshots or live-server captures for original Cosmic tooltip fidelity, then connect the
+   Dashboard's generic module settings and market controls without duplicating their services.
+7. Decide with product ownership whether the selectable, empty `HD V4 (validated)` entry remains
+   user-visible before artwork ships. It is technically safe, but prior documentation framed V4 as
+   an external review overlay; do not change the choice without that decision.

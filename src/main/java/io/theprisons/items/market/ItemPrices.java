@@ -46,8 +46,13 @@ public final class ItemPrices {
         return cards.size();
     }
 
-    /** The lines of the item detail: fair price, range, trend, samples (only what is known). */
+    /** The lines of the item detail: fair price, range, trend, source and age (only what the real observations establish). */
     public static List<String> detailLines(MarketStats s) {
+        return detailLines(s, System.currentTimeMillis());
+    }
+
+    /** Same detail formatting with an explicit clock for UI callers and deterministic tests. */
+    public static List<String> detailLines(MarketStats s, long now) {
         List<String> out = new ArrayList<>();
         if (!s.known()) {
             return out;
@@ -59,7 +64,16 @@ public final class ItemPrices {
         if (s.trend() != MarketStats.Trend.UNKNOWN) {
             out.add(String.format(Locale.ROOT, "Trend   %s %s", PriceFormat.percent(s.trendPercent()), s.trend().name().toLowerCase(Locale.ROOT)));
         }
-        out.add("Samples " + s.samples() + " · " + s.basis());
+        String source = switch (s.basis()) {
+            case "sales" -> "Sales · " + s.window();
+            case "listings" -> "Listings · " + s.window();
+            default -> "Older observations";
+        };
+        out.add("Source  " + source);
+        out.add("Samples " + s.samples());
+        if (s.lastSeenMs() > 0L) {
+            out.add("Updated " + MarketStats.age(Math.max(0L, now - s.lastSeenMs())) + " ago");
+        }
         return out;
     }
 }
