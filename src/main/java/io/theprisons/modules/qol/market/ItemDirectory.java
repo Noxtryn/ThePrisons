@@ -44,7 +44,7 @@ public final class ItemDirectory {
     }
 
     /** "Shard" + "Godly" → "Godly Shard"; "Mystery Clue Scroll" + "Elite" → "Mystery Elite Clue Scroll". */
-    static String variantName(String family, String rarity) {
+    public static String variantName(String family, String rarity) {
         if (family.endsWith(" Satchel") && ItemIdentity.SATCHEL_FORMS.contains(rarity)) {
             return ItemIdentity.satchelName(family.substring(0, family.length() - 8), rarity);
         }

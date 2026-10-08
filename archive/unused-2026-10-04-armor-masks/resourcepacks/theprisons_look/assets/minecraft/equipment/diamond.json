@@ -1,0 +1,24 @@
+{
+  "layers": {
+    "humanoid": [
+      {
+        "texture": "theprisons:diamond"
+      }
+    ],
+    "humanoid_leggings": [
+      {
+        "texture": "theprisons:diamond"
+      }
+    ],
+    "horse_body": [
+      {
+        "texture": "minecraft:diamond"
+      }
+    ],
+    "nautilus_body": [
+      {
+        "texture": "minecraft:diamond"
+      }
+    ]
+  }
+}

@@ -18,7 +18,7 @@ import java.util.regex.Pattern;
  */
 public final class ItemIdentity {
     /** Cosmic tiers, lowest first. */
-    public static final List<String> RARITIES = List.of("Simple", "Uncommon", "Unique", "Elite", "Ultimate", "Legendary", "Godly", "Mystic", "Heroic", "Executive");
+    public static final List<String> RARITIES = io.theprisons.items.ItemTier.ALL;
 
     /** The G-Kits in the order of the /gkit menu (learned from it when it is opened, see {@link #setGkitOrder}). */
     public static final List<String> GKIT_DEFAULT = List.of("Astronaut", "Cowboy", "Enchanter", "Pluto", "Slasher", "Sludge", "Starforged");

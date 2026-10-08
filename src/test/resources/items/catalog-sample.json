@@ -1,0 +1,8910 @@
+{
+ "mystery clue scroll|ultimate": {
+  "id": "minecraft:map",
+  "count": 1,
+  "components": {
+   "minecraft:custom_name": {
+    "text": "",
+    "extra": [
+     {
+      "text": "Mystery Ultimate Clue Scroll",
+      "color": "yellow",
+      "bold": true,
+      "italic": false,
+      "underlined": false,
+      "strikethrough": false,
+      "obfuscated": false
+     }
+    ]
+   },
+   "minecraft:lore": [
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Right-Click to receive a ",
+       "color": "gray",
+       "italic": false
+      },
+      {
+       "text": "Ultimate ",
+       "color": "yellow",
+       "italic": false
+      },
+      {
+       "text": "Clue Scroll!",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    },
+    "",
+    {
+     "text": "-------------------------",
+     "color": "gray"
+    },
+    {
+     "text": "Left-Click item to buy!",
+     "color": "yellow",
+     "bold": true
+    },
+    {
+     "text": "Right-Click to choose quantity!",
+     "color": "yellow",
+     "bold": true
+    }
+   ],
+   "minecraft:custom_data": {
+    "PublicBukkitValues": {
+     "cosmicprisons:mystery_tier": "ULTIMATE",
+     "cosmicprisons:custom_item_id": "mystery_clue_scroll"
+    }
+   }
+  }
+ },
+ "outbreak i|": {
+  "id": "minecraft:enchanted_book",
+  "count": 1,
+  "components": {
+   "minecraft:custom_name": {
+    "text": "",
+    "extra": [
+     {
+      "text": "Outbreak I",
+      "color": "red",
+      "bold": true,
+      "italic": false,
+      "underlined": true,
+      "strikethrough": false,
+      "obfuscated": false
+     },
+     {
+      "text": " (",
+      "color": "red",
+      "bold": true,
+      "italic": false,
+      "underlined": false
+     },
+     {
+      "text": "38%",
+      "color": "white",
+      "bold": false,
+      "italic": false
+     },
+     {
+      "text": ")",
+      "color": "red",
+      "bold": true,
+      "italic": false
+     }
+    ]
+   },
+   "minecraft:lore": [
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "38% Enchant Chance",
+       "color": "green",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "7% Levelup Chance",
+       "color": "aqua",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Infect enemies with a",
+       "color": "yellow",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "contagious plague that spreads",
+       "color": "yellow",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "to nearby non-gang members",
+       "color": "yellow",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Max Level: ",
+       "color": "gray",
+       "italic": false
+      },
+      {
+       "text": "IV",
+       "color": "white",
+       "italic": false,
+       "underlined": true
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Works on: ",
+       "color": "gray",
+       "italic": false
+      },
+      {
+       "text": "Axes",
+       "color": "white",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Throw into wormhole to levelup!",
+       "color": "gray",
+       "italic": true
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "If it fails, the book is consumed and",
+       "color": "gray",
+       "italic": true
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "you are given an ",
+       "color": "gray",
+       "italic": true
+      },
+      {
+       "text": "enchantment page",
+       "color": "gray",
+       "italic": true,
+       "underlined": true
+      },
+      {
+       "text": ".",
+       "color": "gray",
+       "italic": true,
+       "underlined": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Cosmic Energy",
+       "color": "aqua",
+       "bold": true,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "||||||||||||||||||||||||||||||||||||||||||||||||||",
+       "color": "red",
+       "italic": false
+      },
+      {
+       "text": " 0.0%",
+       "color": "white",
+       "bold": true,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "(",
+       "color": "aqua",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "0 ",
+       "color": "white",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "/ ",
+       "color": "gray",
+       "italic": false
+      },
+      {
+       "text": "2,075,220",
+       "color": "white",
+       "italic": false
+      },
+      {
+       "text": ")",
+       "color": "aqua",
+       "bold": true,
+       "italic": false
+      }
+     ]
+    }
+   ],
+   "minecraft:enchantments": {
+    "minecraft:lure": 1
+   },
+   "minecraft:tooltip_display": {
+    "hidden_components": [
+     "minecraft:enchantments",
+     "minecraft:attribute_modifiers",
+     "minecraft:unbreakable",
+     "minecraft:can_break",
+     "minecraft:can_place_on",
+     "minecraft:jukebox_playable",
+     "minecraft:written_book_content",
+     "minecraft:instrument",
+     "minecraft:bees",
+     "minecraft:container_loot",
+     "minecraft:block_state",
+     "minecraft:tropical_fish/pattern",
+     "minecraft:pot_decorations",
+     "minecraft:potion_contents",
+     "minecraft:map_id",
+     "minecraft:firework_explosion",
+     "minecraft:bundle_contents",
+     "minecraft:banner_patterns",
+     "minecraft:charged_projectiles",
+     "minecraft:painting/variant",
+     "minecraft:block_entity_data",
+     "minecraft:fireworks",
+     "minecraft:container",
+     "minecraft:dyed_color",
+     "minecraft:trim",
+     "minecraft:stored_enchantments"
+    ]
+   },
+   "minecraft:unbreakable": {},
+   "minecraft:custom_data": {
+    "PublicBukkitValues": {
+     "cosmicprisons:movable": 1,
+     "cosmicprisons:gear_enchant_id": "outbreak",
+     "cosmicprisons:book_uuid": "6f0cd68c-2073-49b8-9d24-e67da179ffd8",
+     "cosmicprisons:gear_enchant_required": 1185840.0,
+     "cosmicprisons:gear_enchant_energy": 0.0,
+     "cosmicprisons:droppable": 1,
+     "cosmicprisons:gear_enchant_success": 0.3863,
+     "cosmicprisons:custom_item_id": "gear_enchant_book",
+     "cosmicprisons:gear_enchant_destroy": 0.9207,
+     "cosmicprisons:custom_item_uuid": "e0cfcd3b-5f46-4438-806b-011f93dad577",
+     "cosmicprisons:gear_enchant_tier": "GODLY",
+     "cosmicprisons:gear_enchant_display": "Outbreak",
+     "cosmicprisons:gear_enchant_cost_factor": 0.22,
+     "cosmicprisons:consumable": 0,
+     "cosmicprisons:gear_enchant_failures": 0,
+     "cosmicprisons:gear_enchant_level": 1,
+     "cosmicprisons:gear_enchant_master_mind_bonus": 0.01
+    }
+   }
+  }
+ },
+ "black scroll|godly": {
+  "id": "minecraft:red_dye",
+  "count": 1,
+  "components": {
+   "minecraft:custom_name": {
+    "text": "",
+    "extra": [
+     {
+      "text": "Godly Black Scroll ",
+      "color": "red",
+      "bold": true,
+      "italic": false,
+      "underlined": false,
+      "strikethrough": false,
+      "obfuscated": false
+     },
+     {
+      "text": "(",
+      "color": "gray",
+      "bold": false,
+      "italic": false
+     },
+     {
+      "text": "100%",
+      "color": "white",
+      "italic": false
+     },
+     {
+      "text": ")",
+      "color": "gray",
+      "italic": false
+     }
+    ]
+   },
+   "minecraft:lore": [
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Removes an enchantment ",
+       "color": "light_purple",
+       "italic": false
+      },
+      {
+       "text": "you pick",
+       "color": "white",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "from pickaxes or spears.",
+       "color": "light_purple",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Success stores the enchant as a ",
+       "color": "light_purple",
+       "italic": false
+      },
+      {
+       "text": "1% ",
+       "color": "aqua",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "orb.",
+       "color": "light_purple",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Failure keeps the enchant on the item.",
+       "color": "light_purple",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Extracts ",
+       "color": "gray",
+       "italic": false
+      },
+      {
+       "text": "Godly ",
+       "color": "red",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "enchantments and below.",
+       "color": "gray",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Recovers one enchant as an orb.",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Drag n' Drop onto an item to pick an enchant.",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "WARNING:",
+       "color": "red",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": " Irreversible action!",
+       "color": "red",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    }
+   ],
+   "minecraft:enchantments": {
+    "minecraft:lure": 1
+   },
+   "minecraft:tooltip_display": {
+    "hidden_components": [
+     "minecraft:enchantments",
+     "minecraft:attribute_modifiers",
+     "minecraft:unbreakable",
+     "minecraft:can_break",
+     "minecraft:can_place_on",
+     "minecraft:jukebox_playable",
+     "minecraft:written_book_content",
+     "minecraft:instrument",
+     "minecraft:bees",
+     "minecraft:container_loot",
+     "minecraft:block_state",
+     "minecraft:tropical_fish/pattern",
+     "minecraft:pot_decorations",
+     "minecraft:potion_contents",
+     "minecraft:map_id",
+     "minecraft:firework_explosion",
+     "minecraft:bundle_contents",
+     "minecraft:banner_patterns",
+     "minecraft:charged_projectiles",
+     "minecraft:painting/variant",
+     "minecraft:block_entity_data",
+     "minecraft:fireworks",
+     "minecraft:container",
+     "minecraft:dyed_color",
+     "minecraft:trim",
+     "minecraft:stored_enchantments"
+    ]
+   },
+   "minecraft:max_stack_size": 1,
+   "minecraft:custom_data": {
+    "PublicBukkitValues": {
+     "cosmicprisons:droppable": 1,
+     "cosmicprisons:consumable": 0,
+     "cosmicprisons:custom_item_id": "godly_black_scroll",
+     "cosmicprisons:black_scroll_chance": 1.0,
+     "cosmicprisons:custom_item_uuid": "c7432733-9fac-4927-9cda-7561916dfdfb",
+     "cosmicprisons:movable": 1
+    }
+   }
+  }
+ },
+ "pickaxe prestige modifier (xp mastery +2%)|": {
+  "id": "minecraft:amethyst_shard",
+  "count": 1,
+  "components": {
+   "minecraft:custom_name": {
+    "text": "",
+    "extra": [
+     {
+      "text": "Pickaxe Prestige Modifier (",
+      "color": "aqua",
+      "bold": true,
+      "italic": false,
+      "underlined": false,
+      "strikethrough": false,
+      "obfuscated": false
+     },
+     {
+      "text": "XP Mastery +2%",
+      "color": "white",
+      "bold": false,
+      "italic": false
+     },
+     {
+      "text": ")",
+      "color": "aqua",
+      "bold": true,
+      "italic": false
+     }
+    ]
+   },
+   "minecraft:lore": [
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "20% Success Rate",
+       "color": "green",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Applies +2% XP buff",
+       "color": "aqua",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Max ",
+       "color": "gray",
+       "italic": false
+      },
+      {
+       "text": "5 Prestige Modifiers ",
+       "color": "white",
+       "italic": false
+      },
+      {
+       "text": "per pickaxe.",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Recoverable with a Modifier Blackscroll.",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Drag n' drop onto item to apply.",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    }
+   ],
+   "minecraft:unbreakable": {},
+   "minecraft:max_stack_size": 1,
+   "minecraft:custom_data": {
+    "PublicBukkitValues": {
+     "cosmicprisons:auto_update_stamp": 7070221625808505378,
+     "cosmicprisons:droppable": 1,
+     "cosmicprisons:prestige_modifier_perk": "XP_MASTERY",
+     "cosmicprisons:custom_item_id": "pickaxe_prestige_modifier",
+     "cosmicprisons:prestige_modifier_success_rate": 20,
+     "cosmicprisons:custom_item_uuid": "689e8396-2b8c-4f18-8e53-d26050a29e91",
+     "cosmicprisons:prestige_modifier_roll": 2,
+     "cosmicprisons:consumable": 1,
+     "cosmicprisons:movable": 1
+    }
+   }
+  }
+ },
+ "emerald satchel|ore": {
+  "id": "minecraft:emerald_ore",
+  "count": 1,
+  "components": {
+   "minecraft:custom_name": {
+    "text": "",
+    "extra": [
+     {
+      "text": "Emerald Ore Satchel ",
+      "color": "green",
+      "bold": true,
+      "italic": false,
+      "underlined": false,
+      "strikethrough": false,
+      "obfuscated": false
+     },
+     {
+      "text": "(",
+      "color": "green",
+      "bold": true,
+      "italic": false
+     },
+     {
+      "text": "0",
+      "color": "green",
+      "bold": false,
+      "italic": false
+     },
+     {
+      "text": " / ",
+      "color": "gray",
+      "italic": false
+     },
+     {
+      "text": "2,304 Ores",
+      "color": "white",
+      "italic": false
+     },
+     {
+      "text": ")",
+      "color": "green",
+      "bold": true,
+      "italic": false
+     }
+    ]
+   },
+   "minecraft:lore": [
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Automatically collects ",
+       "color": "gray",
+       "italic": false
+      },
+      {
+       "text": "Emerald Ore",
+       "color": "white",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "while mining.",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Cosmic Energy",
+       "color": "aqua",
+       "bold": true,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "||||||||||||||||||||||||||||||||||||||||||||||||||",
+       "color": "red",
+       "italic": false
+      },
+      {
+       "text": " 0.0%",
+       "color": "white",
+       "bold": true,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "(",
+       "color": "aqua",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "0 ",
+       "color": "white",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "/ ",
+       "color": "gray",
+       "italic": false
+      },
+      {
+       "text": "14,400",
+       "color": "white",
+       "italic": false
+      },
+      {
+       "text": ")",
+       "color": "aqua",
+       "bold": true,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Capacity",
+       "color": "gold",
+       "bold": true,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "(",
+       "color": "green",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "0 ",
+       "color": "green",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "/ ",
+       "color": "gray",
+       "italic": false
+      },
+      {
+       "text": "2,304 Ores",
+       "color": "white",
+       "italic": false
+      },
+      {
+       "text": ")",
+       "color": "green",
+       "bold": true,
+       "italic": false
+      }
+     ]
+    }
+   ],
+   "minecraft:tooltip_display": {
+    "hidden_components": [
+     "minecraft:enchantments"
+    ]
+   },
+   "minecraft:unbreakable": {},
+   "minecraft:max_stack_size": 1,
+   "minecraft:custom_data": {
+    "PublicBukkitValues": {
+     "cosmicprisons:keep_on_death": 0,
+     "cosmicprisons:droppable": 1,
+     "cosmicprisons:max_cosmic_energy": 14400,
+     "cosmicprisons:custom_item_id": "emerald_ore_satchel",
+     "cosmicprisons:custom_item_uuid": "3bf8419e-6149-45e1-ab4d-058e2f268619",
+     "cosmicprisons:auto_update_stamp": -5639545499677363133,
+     "cosmicprisons:satchel_variant": "REGULAR",
+     "cosmicprisons:satchel_refined": 0,
+     "cosmicprisons:wormhole_failures": 0,
+     "cosmicprisons:satchel_count": 0,
+     "cosmicprisons:satchel_ore": "EMERALD",
+     "cosmicprisons:item_level": 1,
+     "cosmicprisons:cosmic_energy": 0.0,
+     "cosmicprisons:movable": 1
+    }
+   }
+  }
+ },
+ "diamond satchel|block": {
+  "id": "minecraft:diamond_block",
+  "count": 1,
+  "components": {
+   "minecraft:custom_name": {
+    "text": "",
+    "extra": [
+     {
+      "text": "Block of Diamond Satchel ",
+      "color": "aqua",
+      "bold": true,
+      "italic": false,
+      "underlined": false,
+      "strikethrough": false,
+      "obfuscated": false
+     },
+     {
+      "text": "(",
+      "color": "aqua",
+      "bold": true,
+      "italic": false
+     },
+     {
+      "text": "0",
+      "color": "green",
+      "bold": false,
+      "italic": false
+     },
+     {
+      "text": " / ",
+      "color": "gray",
+      "italic": false
+     },
+     {
+      "text": "2,304 Ores",
+      "color": "white",
+      "italic": false
+     },
+     {
+      "text": ")",
+      "color": "aqua",
+      "bold": true,
+      "italic": false
+     }
+    ]
+   },
+   "minecraft:lore": [
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Automatically collects ",
+       "color": "gray",
+       "italic": false
+      },
+      {
+       "text": "Block of Diamond",
+       "color": "white",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "while mining.",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Cosmic Energy",
+       "color": "aqua",
+       "bold": true,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "||||||||||||||||||||||||||||||||||||||||||||||||||",
+       "color": "red",
+       "italic": false
+      },
+      {
+       "text": " 0.0%",
+       "color": "white",
+       "bold": true,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "(",
+       "color": "aqua",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "0 ",
+       "color": "white",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "/ ",
+       "color": "gray",
+       "italic": false
+      },
+      {
+       "text": "13,200",
+       "color": "white",
+       "italic": false
+      },
+      {
+       "text": ")",
+       "color": "aqua",
+       "bold": true,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Capacity",
+       "color": "gold",
+       "bold": true,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "(",
+       "color": "green",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "0 ",
+       "color": "green",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "/ ",
+       "color": "gray",
+       "italic": false
+      },
+      {
+       "text": "2,304 Ores",
+       "color": "white",
+       "italic": false
+      },
+      {
+       "text": ")",
+       "color": "green",
+       "bold": true,
+       "italic": false
+      }
+     ]
+    }
+   ],
+   "minecraft:tooltip_display": {
+    "hidden_components": [
+     "minecraft:enchantments"
+    ]
+   },
+   "minecraft:unbreakable": {},
+   "minecraft:max_stack_size": 1,
+   "minecraft:custom_data": {
+    "PublicBukkitValues": {
+     "cosmicprisons:keep_on_death": 0,
+     "cosmicprisons:droppable": 1,
+     "cosmicprisons:max_cosmic_energy": 13200,
+     "cosmicprisons:custom_item_id": "diamond_block_satchel",
+     "cosmicprisons:custom_item_uuid": "1e1888ec-e87b-4616-968f-6140f35cc222",
+     "cosmicprisons:auto_update_stamp": -8679361706857720134,
+     "cosmicprisons:satchel_variant": "BLOCK",
+     "cosmicprisons:satchel_refined": 0,
+     "cosmicprisons:wormhole_failures": 0,
+     "cosmicprisons:satchel_count": 0,
+     "cosmicprisons:satchel_ore": "DIAMOND",
+     "cosmicprisons:item_level": 1,
+     "cosmicprisons:cosmic_energy": 0.0,
+     "cosmicprisons:movable": 1
+    }
+   }
+  }
+ },
+ "anonymous mask|": {
+  "id": "minecraft:player_head",
+  "count": 1,
+  "components": {
+   "minecraft:custom_name": {
+    "text": "",
+    "extra": [
+     {
+      "text": "Anonymous Mask",
+      "color": "gray",
+      "bold": true,
+      "italic": false,
+      "underlined": false,
+      "strikethrough": false,
+      "obfuscated": false
+     }
+    ]
+   },
+   "minecraft:lore": [
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Invisible on /near",
+       "color": "red",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "When players outside of your gang",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "run /near, you will not appear",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "while wearing this mask.",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Attach this mask to any helmet",
+       "color": "gray",
+       "bold": false,
+       "italic": true,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "to give it a visual override!",
+       "color": "gray",
+       "bold": false,
+       "italic": true,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "To equip, place this mask on a helmet.",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "To remove, right-click the helmet in your inventory.",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    }
+   ],
+   "minecraft:enchantments": {
+    "minecraft:lure": 1
+   },
+   "minecraft:tooltip_display": {
+    "hidden_components": [
+     "minecraft:enchantments",
+     "minecraft:attribute_modifiers",
+     "minecraft:unbreakable",
+     "minecraft:can_break",
+     "minecraft:can_place_on",
+     "minecraft:jukebox_playable",
+     "minecraft:written_book_content",
+     "minecraft:instrument",
+     "minecraft:bees",
+     "minecraft:container_loot",
+     "minecraft:block_state",
+     "minecraft:tropical_fish/pattern",
+     "minecraft:pot_decorations",
+     "minecraft:potion_contents",
+     "minecraft:map_id",
+     "minecraft:firework_explosion",
+     "minecraft:bundle_contents",
+     "minecraft:banner_patterns",
+     "minecraft:charged_projectiles",
+     "minecraft:painting/variant",
+     "minecraft:block_entity_data",
+     "minecraft:fireworks",
+     "minecraft:container",
+     "minecraft:dyed_color",
+     "minecraft:trim",
+     "minecraft:stored_enchantments"
+    ]
+   },
+   "minecraft:max_stack_size": 1,
+   "minecraft:custom_data": {
+    "PublicBukkitValues": {
+     "cosmicprisons:custom_item_uuid": "a45374da-cef3-425b-b11c-20aa21bbd8f1",
+     "cosmicprisons:auto_update_stamp": 1214584072381922423,
+     "cosmicprisons:custom_item_id": "mask_anonymous"
+    }
+   }
+  }
+ },
+ "detonate iii|": {
+  "id": "minecraft:red_dye",
+  "count": 1,
+  "components": {
+   "minecraft:custom_name": {
+    "text": "",
+    "extra": [
+     {
+      "text": "Detonate III",
+      "color": "red",
+      "bold": true,
+      "italic": false,
+      "underlined": false,
+      "strikethrough": false,
+      "obfuscated": false
+     },
+     {
+      "text": " (",
+      "color": "gray",
+      "bold": false,
+      "italic": false
+     },
+     {
+      "text": "28%",
+      "color": "white",
+      "italic": false
+     },
+     {
+      "text": ")",
+      "color": "gray",
+      "italic": false
+     }
+    ]
+   },
+   "minecraft:lore": [
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Spear Enchant Orb",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "  28% success rate",
+       "color": "green",
+       "bold": true,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "  72% failure rate",
+       "color": "red",
+       "bold": true,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Chance for a thrown-spear kill",
+       "color": "red",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "to explode, killing nearby",
+       "color": "red",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Bandits outright",
+       "color": "red",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Applicable to: ",
+       "color": "gray",
+       "italic": false
+      },
+      {
+       "text": "Spears",
+       "color": "white",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Requirement: ",
+       "color": "gray",
+       "italic": false
+      },
+      {
+       "text": "Detonate ",
+       "color": "red",
+       "italic": false
+      },
+      {
+       "text": "II",
+       "color": "aqua",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Drop into wormhole after your spear",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "to roll this enchant with the stored chance.",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    }
+   ],
+   "minecraft:enchantments": {
+    "minecraft:lure": 1
+   },
+   "minecraft:tooltip_display": {
+    "hidden_components": [
+     "minecraft:enchantments",
+     "minecraft:attribute_modifiers",
+     "minecraft:unbreakable",
+     "minecraft:can_break",
+     "minecraft:can_place_on",
+     "minecraft:instrument",
+     "minecraft:jukebox_playable",
+     "minecraft:block_entity_data",
+     "minecraft:banner_patterns",
+     "minecraft:charged_projectiles",
+     "minecraft:tropical_fish/pattern",
+     "minecraft:container_loot",
+     "minecraft:block_state",
+     "minecraft:potion_contents",
+     "minecraft:bundle_contents",
+     "minecraft:painting/variant",
+     "minecraft:pot_decorations",
+     "minecraft:firework_explosion",
+     "minecraft:map_id",
+     "minecraft:container",
+     "minecraft:bees",
+     "minecraft:written_book_content",
+     "minecraft:fireworks",
+     "minecraft:dyed_color",
+     "minecraft:trim",
+     "minecraft:stored_enchantments"
+    ]
+   },
+   "minecraft:unbreakable": {},
+   "minecraft:max_stack_size": 1,
+   "minecraft:custom_data": {
+    "PublicBukkitValues": {
+     "cosmicprisons:spear_orb_success": 0.28,
+     "cosmicprisons:spear_orb_enchant": "detonate",
+     "cosmicprisons:droppable": 1,
+     "cosmicprisons:consumable": 0,
+     "cosmicprisons:custom_item_id": "spear_enchant_orb",
+     "cosmicprisons:spear_orb_level": 3,
+     "cosmicprisons:custom_item_uuid": "7efa53ce-e6ee-413c-b44e-8de9bced18f9",
+     "cosmicprisons:spear_orb_admin": 0,
+     "cosmicprisons:movable": 1
+    }
+   }
+  }
+ },
+ "skill tree reset|": {
+  "id": "minecraft:oak_sapling",
+  "count": 1,
+  "components": {
+   "minecraft:custom_name": {
+    "text": "",
+    "extra": [
+     {
+      "text": "Skill Tree Reset",
+      "color": "red",
+      "bold": true,
+      "italic": false,
+      "underlined": false,
+      "strikethrough": false,
+      "obfuscated": false
+     }
+    ]
+   },
+   "minecraft:lore": [
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Resets all purchased Skill Tree perks",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "and refunds your current point total",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "back into ",
+       "color": "gray",
+       "italic": false
+      },
+      {
+       "text": "/skilltree",
+       "color": "white",
+       "italic": false
+      },
+      {
+       "text": ".",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Earned and redeemed points are kept.",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Right-Click to reset!",
+       "color": "yellow",
+       "italic": false
+      }
+     ]
+    },
+    "",
+    {
+     "text": "-------------------------",
+     "color": "gray"
+    },
+    {
+     "text": "Left-Click item to buy!",
+     "color": "yellow",
+     "bold": true
+    },
+    {
+     "text": "Right-Click to choose quantity!",
+     "color": "yellow",
+     "bold": true
+    }
+   ],
+   "minecraft:enchantment_glint_override": true,
+   "minecraft:custom_data": {
+    "PublicBukkitValues": {
+     "cosmicprisons:droppable": 1,
+     "cosmicprisons:consumable": 1,
+     "cosmicprisons:custom_item_id": "skilltree_reset",
+     "cosmicprisons:movable": 1
+    }
+   }
+  }
+ },
+ "g-kit|enchanter": {
+  "id": "minecraft:beacon",
+  "count": 1,
+  "components": {
+   "minecraft:custom_name": {
+    "text": "",
+    "extra": [
+     {
+      "text": "Enchanter ",
+      "color": "dark_purple",
+      "bold": false,
+      "italic": false
+     },
+     {
+      "text": "G-Kit",
+      "color": "dark_purple",
+      "italic": false
+     }
+    ]
+   },
+   "minecraft:lore": [
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Claiming this item will",
+       "color": "white",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "give you permanent access",
+       "color": "white",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "to the ",
+       "color": "white",
+       "italic": false
+      },
+      {
+       "text": "Enchanter G-Kit.",
+       "color": "dark_purple",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "If you already own this G-Kit:",
+       "color": "gray",
+       "italic": false,
+       "underlined": true
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "This item will level up the",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Enchanter G-Kit on your account,",
+       "color": "dark_purple",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "improving the loot and cooldown time.",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "If you are already max level:",
+       "color": "gray",
+       "italic": false,
+       "underlined": true
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "This item will advance your",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Enchanter G-Kit cooldown timer by",
+       "color": "dark_purple",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "+24 hours. (Cooldown: Daily)",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "(Right-click to claim)",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    }
+   ],
+   "minecraft:max_stack_size": 1,
+   "minecraft:custom_data": {
+    "PublicBukkitValues": {
+     "cosmicprisons:gkit_id": "enchanter",
+     "cosmicprisons:auto_update_stamp": -1598203318753490377,
+     "cosmicprisons:custom_item_id": "gkit_unlock_token",
+     "cosmicprisons:gkit_display_name": "&5Enchanter",
+     "cosmicprisons:custom_item_uuid": "9ec413f7-1628-48d8-937e-83e7e1978a69"
+    }
+   }
+  }
+ },
+ "cell door upgrade|legendary": {
+  "id": "minecraft:beacon",
+  "count": 1,
+  "components": {
+   "minecraft:custom_name": {
+    "text": "",
+    "extra": [
+     {
+      "text": "Legendary Cell Door Upgrade",
+      "color": "gold",
+      "bold": true,
+      "italic": false,
+      "underlined": false,
+      "strikethrough": false,
+      "obfuscated": false
+     }
+    ]
+   },
+   "minecraft:lore": [
+    "",
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "gold",
+       "bold": true,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      },
+      {
+       "text": "Tier: ",
+       "color": "gray",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "Legendary",
+       "color": "gold",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "gold",
+       "bold": true,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      },
+      {
+       "text": "Applies To: ",
+       "color": "gray",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "Cell Doors",
+       "color": "white",
+       "italic": false
+      }
+     ]
+    },
+    "",
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Right-Click ",
+       "color": "yellow",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      },
+      {
+       "text": "a cell door to upgrade.",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "(",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      },
+      {
+       "text": "Doors must be upgraded in order.",
+       "color": "gray",
+       "bold": false,
+       "italic": true,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      },
+      {
+       "text": ")",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    }
+   ],
+   "minecraft:tooltip_display": {
+    "hidden_components": [
+     "minecraft:enchantments",
+     "minecraft:attribute_modifiers",
+     "minecraft:unbreakable",
+     "minecraft:can_break",
+     "minecraft:can_place_on",
+     "minecraft:jukebox_playable",
+     "minecraft:written_book_content",
+     "minecraft:instrument",
+     "minecraft:bees",
+     "minecraft:container_loot",
+     "minecraft:block_state",
+     "minecraft:tropical_fish/pattern",
+     "minecraft:pot_decorations",
+     "minecraft:potion_contents",
+     "minecraft:map_id",
+     "minecraft:firework_explosion",
+     "minecraft:bundle_contents",
+     "minecraft:banner_patterns",
+     "minecraft:charged_projectiles",
+     "minecraft:painting/variant",
+     "minecraft:block_entity_data",
+     "minecraft:fireworks",
+     "minecraft:container",
+     "minecraft:dyed_color",
+     "minecraft:trim",
+     "minecraft:stored_enchantments"
+    ]
+   },
+   "minecraft:max_stack_size": 1,
+   "minecraft:custom_data": {
+    "PublicBukkitValues": {
+     "cosmicprisons:auto_update_stamp": 86001123970186727,
+     "cosmicprisons:cell_door_upgrade_tier": "LEGENDARY",
+     "cosmicprisons:custom_item_id": "cell_door_upgrade",
+     "cosmicprisons:custom_item_uuid": "c0dccf28-c482-4ab9-beee-c678188bc254"
+    }
+   }
+  }
+ },
+ "contraband|legendary": {
+  "id": "minecraft:ender_chest",
+  "count": 1,
+  "components": {
+   "minecraft:custom_name": {
+    "text": "",
+    "extra": [
+     {
+      "text": "Legendary Contraband",
+      "color": "gold",
+      "bold": true,
+      "italic": false,
+      "underlined": false,
+      "strikethrough": false,
+      "obfuscated": false
+     }
+    ]
+   },
+   "minecraft:lore": [
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "A stash of mystery contraband",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "smuggled in by Prisoners!",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Contains ",
+       "color": "gray",
+       "italic": false
+      },
+      {
+       "text": "3 Legendary Rarity",
+       "color": "gold",
+       "italic": false,
+       "underlined": true
+      },
+      {
+       "text": " items...",
+       "color": "gray",
+       "italic": false,
+       "underlined": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "gold",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "70,000 ",
+       "color": "white",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "Cosmic Energy",
+       "color": "aqua",
+       "bold": true,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "gold",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "140,000 ",
+       "color": "white",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "Cosmic Energy",
+       "color": "aqua",
+       "bold": true,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "gold",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "210,000 ",
+       "color": "white",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "Cosmic Energy",
+       "color": "aqua",
+       "bold": true,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "gold",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "Black Scroll ",
+       "color": "dark_gray",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "(",
+       "color": "gray",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "90%",
+       "color": "white",
+       "italic": false
+      },
+      {
+       "text": ")",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "gold",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "2x ",
+       "color": "white",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "Mystery Legendary Enchant",
+       "color": "gold",
+       "bold": true,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "gold",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "Rank: ",
+       "color": "gold",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "Empereon",
+       "color": "blue",
+       "bold": true,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "gold",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "Blacksmith Pet",
+       "color": "dark_gray",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": " [LVL 1]",
+       "color": "gray",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "gold",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "Lucky Pet",
+       "color": "yellow",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": " [LVL 1]",
+       "color": "gray",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "gold",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "Pet Leash",
+       "color": "gold",
+       "bold": true,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "gold",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "Charge Orb Slot",
+       "color": "aqua",
+       "bold": true,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "gold",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "Gold Ore Satchel ",
+       "color": "yellow",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "(",
+       "color": "yellow",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "0",
+       "color": "green",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": " / ",
+       "color": "gray",
+       "italic": false
+      },
+      {
+       "text": "2,304 Ores",
+       "color": "white",
+       "italic": false
+      },
+      {
+       "text": ")",
+       "color": "yellow",
+       "bold": true,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "gold",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "Gold Satchel ",
+       "color": "yellow",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "(",
+       "color": "yellow",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "0",
+       "color": "green",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": " / ",
+       "color": "gray",
+       "italic": false
+      },
+      {
+       "text": "2,304 Ores",
+       "color": "white",
+       "italic": false
+      },
+      {
+       "text": ")",
+       "color": "yellow",
+       "bold": true,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "gold",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "Diamond Ore Satchel ",
+       "color": "aqua",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "(",
+       "color": "aqua",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "0",
+       "color": "green",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": " / ",
+       "color": "gray",
+       "italic": false
+      },
+      {
+       "text": "2,304 Ores",
+       "color": "white",
+       "italic": false
+      },
+      {
+       "text": ")",
+       "color": "aqua",
+       "bold": true,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "gold",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "Diamond Satchel ",
+       "color": "aqua",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "(",
+       "color": "aqua",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "0",
+       "color": "green",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": " / ",
+       "color": "gray",
+       "italic": false
+      },
+      {
+       "text": "2,304 Ores",
+       "color": "white",
+       "italic": false
+      },
+      {
+       "text": ")",
+       "color": "aqua",
+       "bold": true,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "gold",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "Tool Prestige Token ",
+       "color": "yellow",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "V",
+       "color": "white",
+       "bold": true,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "gold",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "9% ",
+       "color": "green",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "Charge Orb",
+       "color": "aqua",
+       "bold": true,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "gold",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "10% ",
+       "color": "green",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "Charge Orb",
+       "color": "aqua",
+       "bold": true,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "gold",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "Legendary Randomization Scroll",
+       "color": "gold",
+       "bold": true,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "gold",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "Mystery G-Kit Flare",
+       "color": "dark_purple",
+       "bold": true,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "gold",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "Random ",
+       "color": "dark_purple",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "Mask",
+       "color": "gold",
+       "bold": true,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "gold",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "Random Pickaxe Prestige Modifier",
+       "color": "aqua",
+       "bold": true,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "gold",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "Random Mastery Pickaxe Prestige Token",
+       "color": "red",
+       "bold": true,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "gold",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "Random Cell Door Upgrade",
+       "color": "yellow",
+       "bold": true,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "gold",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "Deepslate Gold Ore Satchel ",
+       "color": "yellow",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "(",
+       "color": "yellow",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "0",
+       "color": "green",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": " / ",
+       "color": "gray",
+       "italic": false
+      },
+      {
+       "text": "2,304 Ores",
+       "color": "white",
+       "italic": false
+      },
+      {
+       "text": ")",
+       "color": "yellow",
+       "bold": true,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "gold",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "Deepslate Diamond Ore Satchel ",
+       "color": "aqua",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "(",
+       "color": "aqua",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "0",
+       "color": "green",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": " / ",
+       "color": "gray",
+       "italic": false
+      },
+      {
+       "text": "2,304 Ores",
+       "color": "white",
+       "italic": false
+      },
+      {
+       "text": ")",
+       "color": "aqua",
+       "bold": true,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "gold",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "Block of Gold Satchel ",
+       "color": "yellow",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "(",
+       "color": "yellow",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "0",
+       "color": "green",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": " / ",
+       "color": "gray",
+       "italic": false
+      },
+      {
+       "text": "2,304 Ores",
+       "color": "white",
+       "italic": false
+      },
+      {
+       "text": ")",
+       "color": "yellow",
+       "bold": true,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "gold",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "Block of Diamond Satchel ",
+       "color": "aqua",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "(",
+       "color": "aqua",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "0",
+       "color": "green",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": " / ",
+       "color": "gray",
+       "italic": false
+      },
+      {
+       "text": "2,304 Ores",
+       "color": "white",
+       "italic": false
+      },
+      {
+       "text": ")",
+       "color": "aqua",
+       "bold": true,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "gold",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "3x ",
+       "color": "white",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "Cosmo",
+       "color": "aqua",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "-",
+       "color": "white",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "Slot Bot ",
+       "color": "light_purple",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "Ticket Scrap",
+       "color": "white",
+       "bold": true,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "gold",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "Cosmo",
+       "color": "aqua",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "-",
+       "color": "white",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "Slot Bot ",
+       "color": "light_purple",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "Ticket Sleeve",
+       "color": "white",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": " (",
+       "color": "dark_gray",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "1x",
+       "color": "light_purple",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": ")",
+       "color": "dark_gray",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "gold",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "2x ",
+       "color": "white",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "Absorber",
+       "color": "yellow",
+       "bold": true,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "gold",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "Starforged ",
+       "color": "aqua",
+       "italic": false
+      },
+      {
+       "text": "G-Kit",
+       "color": "aqua",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "gold",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "Godly Black Scroll ",
+       "color": "red",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "(",
+       "color": "gray",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "100%",
+       "color": "white",
+       "italic": false
+      },
+      {
+       "text": ")",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "gold",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "Prestige Protection Scroll I ",
+       "color": "gold",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "(",
+       "color": "gray",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "50%",
+       "color": "white",
+       "italic": false
+      },
+      {
+       "text": ")",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    }
+   ],
+   "minecraft:enchantments": {
+    "minecraft:luck_of_the_sea": 1
+   },
+   "minecraft:tooltip_display": {
+    "hidden_components": [
+     "minecraft:attribute_modifiers",
+     "minecraft:enchantments"
+    ]
+   },
+   "minecraft:custom_data": {
+    "PublicBukkitValues": {
+     "cosmicprisons:custom_item_id": "contraband_legendary"
+    }
+   }
+  }
+ },
+ "tool prestige token vii|": {
+  "id": "minecraft:sunflower",
+  "count": 1,
+  "components": {
+   "minecraft:custom_name": {
+    "text": "",
+    "extra": [
+     {
+      "text": "Tool Prestige Token ",
+      "color": "yellow",
+      "bold": true,
+      "italic": false,
+      "underlined": false,
+      "strikethrough": false,
+      "obfuscated": false
+     },
+     {
+      "text": "VII",
+      "color": "white",
+      "bold": true,
+      "italic": false
+     }
+    ]
+   },
+   "minecraft:lore": [
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Grants ",
+       "color": "gray",
+       "italic": false
+      },
+      {
+       "text": "ONE",
+       "color": "white",
+       "italic": false
+      },
+      {
+       "text": " free Prestige for any",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "pickaxe or spear without requirements!",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Maximum prestige level: ",
+       "color": "gray",
+       "italic": false
+      },
+      {
+       "text": "VII",
+       "color": "white",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Warning: ",
+       "color": "red",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "Resets level & enchants",
+       "color": "gray",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "(Drag onto a pickaxe or spear)",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    },
+    "",
+    {
+     "text": "-------------------------",
+     "color": "gray"
+    },
+    {
+     "text": "Left-Click item to buy!",
+     "color": "yellow",
+     "bold": true
+    },
+    {
+     "text": "Right-Click to choose quantity!",
+     "color": "yellow",
+     "bold": true
+    }
+   ],
+   "minecraft:unbreakable": {},
+   "minecraft:custom_data": {
+    "PublicBukkitValues": {
+     "cosmicprisons:custom_item_id": "pickaxe_prestige_token",
+     "cosmicprisons:prestige_token_level": 7
+    }
+   }
+  }
+ },
+ "shard|executive": {
+  "id": "minecraft:prismarine_shard",
+  "count": 1,
+  "components": {
+   "minecraft:custom_name": {
+    "text": "",
+    "extra": [
+     {
+      "text": "Executive Shard",
+      "color": "light_purple",
+      "bold": true,
+      "italic": false,
+      "underlined": false,
+      "strikethrough": false,
+      "obfuscated": false
+     },
+     {
+      "text": "",
+      "bold": false,
+      "italic": false
+     }
+    ]
+   },
+   "minecraft:lore": [
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "A powerful relic that",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "may contain treasure!",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Contains ",
+       "color": "gray",
+       "italic": false
+      },
+      {
+       "text": "Executive Rarity",
+       "color": "light_purple",
+       "italic": false,
+       "underlined": true
+      },
+      {
+       "text": " items...",
+       "color": "gray",
+       "italic": false,
+       "underlined": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "light_purple",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "50-300x ",
+       "color": "white",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "PRISMARINE",
+       "color": "white",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "light_purple",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "50-300x ",
+       "color": "white",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "PRISMARINE SHARD",
+       "color": "white",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "light_purple",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "100,000 ",
+       "color": "white",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "Cosmic Energy",
+       "color": "aqua",
+       "bold": true,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "light_purple",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "200,000 ",
+       "color": "white",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "Cosmic Energy",
+       "color": "aqua",
+       "bold": true,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "light_purple",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "400,000 ",
+       "color": "white",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "Cosmic Energy",
+       "color": "aqua",
+       "bold": true,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "light_purple",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "Executive Contraband",
+       "color": "light_purple",
+       "bold": true,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "light_purple",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "Godly Black Scroll ",
+       "color": "red",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "(",
+       "color": "gray",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "100%",
+       "color": "white",
+       "italic": false
+      },
+      {
+       "text": ")",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "light_purple",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "XP Booster ",
+       "color": "green",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "(Right Click)",
+       "color": "gray",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "light_purple",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "Energy Booster ",
+       "color": "aqua",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "(Right Click)",
+       "color": "gray",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "light_purple",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "15% ",
+       "color": "green",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "Charge Orb",
+       "color": "aqua",
+       "bold": true,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "light_purple",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "16% ",
+       "color": "green",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "Charge Orb",
+       "color": "aqua",
+       "bold": true,
+       "italic": false
+      }
+     ]
+    },
+    "",
+    {
+     "text": "-------------------------",
+     "color": "gray"
+    },
+    {
+     "text": "Left-Click item to buy!",
+     "color": "yellow",
+     "bold": true
+    },
+    {
+     "text": "Right-Click to choose quantity!",
+     "color": "yellow",
+     "bold": true
+    }
+   ],
+   "minecraft:tooltip_display": {
+    "hidden_components": [
+     "minecraft:enchantments",
+     "minecraft:attribute_modifiers",
+     "minecraft:unbreakable",
+     "minecraft:can_break",
+     "minecraft:can_place_on",
+     "minecraft:jukebox_playable",
+     "minecraft:written_book_content",
+     "minecraft:instrument",
+     "minecraft:bees",
+     "minecraft:container_loot",
+     "minecraft:block_state",
+     "minecraft:tropical_fish/pattern",
+     "minecraft:pot_decorations",
+     "minecraft:potion_contents",
+     "minecraft:map_id",
+     "minecraft:firework_explosion",
+     "minecraft:bundle_contents",
+     "minecraft:banner_patterns",
+     "minecraft:charged_projectiles",
+     "minecraft:painting/variant",
+     "minecraft:block_entity_data",
+     "minecraft:fireworks",
+     "minecraft:container",
+     "minecraft:dyed_color",
+     "minecraft:trim",
+     "minecraft:stored_enchantments"
+    ]
+   },
+   "minecraft:custom_data": {
+    "PublicBukkitValues": {
+     "cosmicprisons:custom_item_id": "shard",
+     "cosmicprisons:shard_tier": "executive"
+    }
+   }
+  }
+ },
+ "+1 showcase row|": {
+  "id": "minecraft:item_frame",
+  "count": 1,
+  "components": {
+   "minecraft:custom_name": {
+    "text": "",
+    "extra": [
+     {
+      "text": "+1 Showcase Row",
+      "color": "light_purple",
+      "bold": true,
+      "italic": false,
+      "underlined": false,
+      "strikethrough": false,
+      "obfuscated": false
+     }
+    ]
+   },
+   "minecraft:lore": [
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Adds ",
+       "color": "gray",
+       "italic": false
+      },
+      {
+       "text": "+1",
+       "color": "light_purple",
+       "italic": false,
+       "underlined": true
+      },
+      {
+       "text": " Showcase row on this map.",
+       "color": "gray",
+       "italic": false,
+       "underlined": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Cap: ",
+       "color": "gray",
+       "italic": false
+      },
+      {
+       "text": "8",
+       "color": "light_purple",
+       "italic": false,
+       "underlined": true
+      },
+      {
+       "text": " bonus rows per map via expanders.",
+       "color": "gray",
+       "italic": false,
+       "underlined": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Resets on map reset.",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Right-Click to claim!",
+       "color": "yellow",
+       "italic": false
+      }
+     ]
+    }
+   ],
+   "minecraft:max_stack_size": 1,
+   "minecraft:custom_data": {
+    "PublicBukkitValues": {
+     "cosmicprisons:auto_update_stamp": 787976220311361802,
+     "cosmicprisons:showcase_rows": 1,
+     "cosmicprisons:droppable": 1,
+     "cosmicprisons:consumable": 1,
+     "cosmicprisons:custom_item_id": "showcase_expander",
+     "cosmicprisons:custom_item_uuid": "126853be-3c56-4f76-beca-9ab448448ff1",
+     "cosmicprisons:movable": 1
+    }
+   }
+  }
+ },
+ "sentinel mask|": {
+  "id": "minecraft:player_head",
+  "count": 1,
+  "components": {
+   "minecraft:custom_name": {
+    "text": "",
+    "extra": [
+     {
+      "text": "Sentinel Mask",
+      "color": "aqua",
+      "bold": true,
+      "italic": false,
+      "underlined": false,
+      "strikethrough": false,
+      "obfuscated": false
+     }
+    ]
+   },
+   "minecraft:lore": [
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Chance to respawn a Bandit on kill",
+       "color": "red",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Chance to spawn an Escapee or Bandit Rush",
+       "color": "red",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Turn the Badlands against itself",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "with every Bandit you take down.",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Attach this mask to any helmet",
+       "color": "gray",
+       "bold": false,
+       "italic": true,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "to give it a visual override!",
+       "color": "gray",
+       "bold": false,
+       "italic": true,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "To equip, place this mask on a helmet.",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "To remove, right-click the helmet in your inventory.",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    "",
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "-----------------------",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": true,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Seller: ",
+       "color": "gold",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      },
+      {
+       "text": "???",
+       "color": "yellow",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Buyer: ",
+       "color": "gold",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      },
+      {
+       "text": "OffSuper_Sanka",
+       "color": "yellow",
+       "italic": false
+      }
+     ]
+    }
+   ],
+   "minecraft:enchantments": {
+    "minecraft:lure": 1
+   },
+   "minecraft:tooltip_display": {
+    "hidden_components": [
+     "minecraft:enchantments",
+     "minecraft:attribute_modifiers",
+     "minecraft:unbreakable",
+     "minecraft:can_break",
+     "minecraft:can_place_on",
+     "minecraft:firework_explosion",
+     "minecraft:fireworks",
+     "minecraft:container_loot",
+     "minecraft:written_book_content",
+     "minecraft:pot_decorations",
+     "minecraft:map_id",
+     "minecraft:jukebox_playable",
+     "minecraft:instrument",
+     "minecraft:charged_projectiles",
+     "minecraft:bundle_contents",
+     "minecraft:block_state",
+     "minecraft:banner_patterns",
+     "minecraft:bees",
+     "minecraft:block_entity_data",
+     "minecraft:container",
+     "minecraft:painting/variant",
+     "minecraft:potion_contents",
+     "minecraft:tropical_fish/pattern",
+     "minecraft:dyed_color",
+     "minecraft:trim",
+     "minecraft:stored_enchantments"
+    ]
+   },
+   "minecraft:max_stack_size": 1,
+   "minecraft:custom_data": {
+    "PublicBukkitValues": {
+     "cosmicprisons:custom_item_uuid": "db878996-d7b9-4039-a79e-99bcac35de4c",
+     "cosmicprisons:auto_update_stamp": -2372775298507940270,
+     "cosmicprisons:custom_item_id": "mask_sentinel"
+    }
+   }
+  }
+ },
+ "bandit box key: simple|": {
+  "id": "minecraft:tripwire_hook",
+  "count": 1,
+  "components": {
+   "minecraft:custom_name": {
+    "text": "",
+    "extra": [
+     {
+      "text": "Bandit Box Key: ",
+      "color": "red",
+      "bold": true,
+      "italic": false,
+      "underlined": false,
+      "strikethrough": false,
+      "obfuscated": false
+     },
+     {
+      "text": "Simple",
+      "color": "gray",
+      "bold": true,
+      "italic": false
+     }
+    ]
+   },
+   "minecraft:lore": [
+    "",
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Drag n' Drop onto a",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Bandit Box: ",
+       "color": "red",
+       "bold": true,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      },
+      {
+       "text": "Simple",
+       "color": "gray",
+       "bold": true,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "to unlock its contents.",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    "",
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "-----------------------",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": true,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Seller: ",
+       "color": "gold",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      },
+      {
+       "text": "???",
+       "color": "yellow",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Buyer: ",
+       "color": "gold",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      },
+      {
+       "text": "MisterT1",
+       "color": "yellow",
+       "italic": false
+      }
+     ]
+    }
+   ],
+   "minecraft:unbreakable": {},
+   "minecraft:custom_data": {
+    "PublicBukkitValues": {
+     "cosmicprisons:custom_item_uuid": "b6b00f00-acd8-495a-822e-8d41b8a3970f",
+     "cosmicprisons:bandit_box_key_tier": "SIMPLE",
+     "cosmicprisons:custom_item_id": "bandit_box_key"
+    }
+   }
+  }
+ },
+ "cleanse pet|": {
+  "id": "minecraft:player_head",
+  "count": 1,
+  "components": {
+   "minecraft:custom_name": {
+    "text": "",
+    "extra": [
+     {
+      "text": "Cleanse Pet",
+      "color": "green",
+      "bold": true,
+      "italic": false,
+      "underlined": false,
+      "strikethrough": false,
+      "obfuscated": false
+     },
+     {
+      "text": " [LVL 1]",
+      "color": "gray",
+      "bold": false,
+      "italic": false
+     }
+    ]
+   },
+   "minecraft:lore": [
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Removes all debuffs (including",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Trinket Block, Traps, and",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Silences) on your player. (One",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "time effect)",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Cooldown",
+       "color": "white",
+       "bold": true,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": " 20m",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Level",
+       "color": "white",
+       "bold": true,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": " ",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      },
+      {
+       "text": "1",
+       "color": "white",
+       "italic": false,
+       "underlined": true
+      },
+      {
+       "text": " / ",
+       "color": "gray",
+       "italic": false,
+       "underlined": false
+      },
+      {
+       "text": "3 Levels",
+       "color": "white",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "(Right-Click to activate)",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    }
+   ],
+   "minecraft:enchantments": {
+    "minecraft:unbreaking": 1
+   },
+   "minecraft:tooltip_display": {
+    "hidden_components": [
+     "minecraft:enchantments",
+     "minecraft:attribute_modifiers",
+     "minecraft:unbreakable",
+     "minecraft:can_break",
+     "minecraft:can_place_on",
+     "minecraft:jukebox_playable",
+     "minecraft:written_book_content",
+     "minecraft:instrument",
+     "minecraft:bees",
+     "minecraft:container_loot",
+     "minecraft:block_state",
+     "minecraft:tropical_fish/pattern",
+     "minecraft:pot_decorations",
+     "minecraft:potion_contents",
+     "minecraft:map_id",
+     "minecraft:firework_explosion",
+     "minecraft:bundle_contents",
+     "minecraft:banner_patterns",
+     "minecraft:charged_projectiles",
+     "minecraft:painting/variant",
+     "minecraft:block_entity_data",
+     "minecraft:fireworks",
+     "minecraft:container",
+     "minecraft:dyed_color",
+     "minecraft:trim",
+     "minecraft:stored_enchantments"
+    ]
+   },
+   "minecraft:max_stack_size": 1,
+   "minecraft:use_cooldown": {
+    "seconds": 1200.0,
+    "cooldown_group": "cosmicprisons:pet_f9588512-6741-434f-809d-73b8730971e1"
+   },
+   "minecraft:custom_data": {
+    "PublicBukkitValues": {
+     "cosmicprisons:pet_leashes": 0,
+     "cosmicprisons:pet_last_rare_candy_ms": 0,
+     "cosmicprisons:droppable": 1,
+     "cosmicprisons:keep_on_death": 0,
+     "cosmicprisons:custom_item_id": "pet_sanctify_cleanse_purify",
+     "cosmicprisons:pet_leashed": 0,
+     "cosmicprisons:custom_item_uuid": "c62ffda2-4ca5-4717-bae8-bbe8f24fe336",
+     "cosmicprisons:auto_update_stamp": -2964016563672413555,
+     "cosmicprisons:pet_cooldown_group_id": "f9588512-6741-434f-809d-73b8730971e1",
+     "cosmicprisons:consumable": 0,
+     "cosmicprisons:pet_last_use_ms": 0,
+     "cosmicprisons:pet_level": 1,
+     "cosmicprisons:movable": 1
+    }
+   }
+  }
+ },
+ "g-kit|sludge": {
+  "id": "minecraft:beacon",
+  "count": 1,
+  "components": {
+   "minecraft:custom_name": {
+    "text": "",
+    "extra": [
+     {
+      "text": "Sludge ",
+      "color": "green",
+      "bold": false,
+      "italic": false
+     },
+     {
+      "text": "G-Kit",
+      "color": "green",
+      "italic": false
+     }
+    ]
+   },
+   "minecraft:lore": [
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Claiming this item will",
+       "color": "white",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "give you permanent access",
+       "color": "white",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "to the ",
+       "color": "white",
+       "italic": false
+      },
+      {
+       "text": "Sludge G-Kit.",
+       "color": "green",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "If you already own this G-Kit:",
+       "color": "gray",
+       "italic": false,
+       "underlined": true
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "This item will level up the",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Sludge G-Kit on your account,",
+       "color": "green",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "improving the loot and cooldown time.",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "If you are already max level:",
+       "color": "gray",
+       "italic": false,
+       "underlined": true
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "This item will advance your",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Sludge G-Kit cooldown timer by",
+       "color": "green",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "+24 hours. (Cooldown: Daily)",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "(Right-click to claim)",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    }
+   ],
+   "minecraft:max_stack_size": 1,
+   "minecraft:custom_data": {
+    "PublicBukkitValues": {
+     "cosmicprisons:gkit_id": "sludge",
+     "cosmicprisons:auto_update_stamp": -6632705620498516451,
+     "cosmicprisons:custom_item_id": "gkit_unlock_token",
+     "cosmicprisons:gkit_display_name": "&aSludge",
+     "cosmicprisons:custom_item_uuid": "251900f1-a4e0-4d98-8fae-e74b468a7221"
+    }
+   }
+  }
+ },
+ "dust|ultimate": {
+  "id": "minecraft:glowstone_dust",
+  "count": 1,
+  "components": {
+   "minecraft:custom_name": {
+    "text": "",
+    "extra": [
+     {
+      "text": "Ultimate Dust",
+      "color": "yellow",
+      "bold": true,
+      "italic": false,
+      "underlined": false,
+      "strikethrough": false,
+      "obfuscated": false
+     },
+     {
+      "text": " (",
+      "color": "gray",
+      "bold": false,
+      "italic": false
+     },
+     {
+      "text": "8%",
+      "color": "green",
+      "italic": false
+     },
+     {
+      "text": ")",
+      "color": "gray",
+      "italic": false
+     }
+    ]
+   },
+   "minecraft:lore": [
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "+8% success rate",
+       "color": "green",
+       "bold": true,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "for pickaxe and spear enchant orbs",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "and wormhole enchant options.",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Enchant Orbs: Drag-n-Drop",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Wormhole: Drop into the portal",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    "",
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "-----------------------",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": true,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Seller: ",
+       "color": "gold",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      },
+      {
+       "text": "???",
+       "color": "yellow",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Buyer: ",
+       "color": "gold",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      },
+      {
+       "text": "Joobthedude",
+       "color": "yellow",
+       "italic": false
+      }
+     ]
+    }
+   ],
+   "minecraft:custom_data": {
+    "PublicBukkitValues": {
+     "cosmicprisons:pickaxe_dust_percent": 0.08,
+     "cosmicprisons:droppable": 1,
+     "cosmicprisons:custom_item_id": "pickaxe_enchant_dust",
+     "cosmicprisons:pickaxe_dust_tier": "ULTIMATE",
+     "cosmicprisons:consumable": 1,
+     "cosmicprisons:movable": 1
+    }
+   }
+  }
+ },
+ "prisoner mask|": {
+  "id": "minecraft:player_head",
+  "count": 1,
+  "components": {
+   "minecraft:custom_name": {
+    "text": "",
+    "extra": [
+     {
+      "text": "Prisoner Mask",
+      "color": "red",
+      "bold": true,
+      "italic": false,
+      "underlined": false,
+      "strikethrough": false,
+      "obfuscated": false
+     }
+    ]
+   },
+   "minecraft:lore": [
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "+5% Outgoing Damage",
+       "color": "red",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Serving time for a crime he",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "claims he never committed. Now",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "fueled with anger, he promises he",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "will one day get his vengeance!",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Attach this mask to any helmet",
+       "color": "gray",
+       "bold": false,
+       "italic": true,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "to give it a visual override!",
+       "color": "gray",
+       "bold": false,
+       "italic": true,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "To equip, place this mask on a helmet.",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "To remove, right-click the helmet in your inventory.",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    }
+   ],
+   "minecraft:enchantments": {
+    "minecraft:lure": 1
+   },
+   "minecraft:tooltip_display": {
+    "hidden_components": [
+     "minecraft:enchantments",
+     "minecraft:attribute_modifiers",
+     "minecraft:unbreakable",
+     "minecraft:can_break",
+     "minecraft:can_place_on",
+     "minecraft:jukebox_playable",
+     "minecraft:written_book_content",
+     "minecraft:instrument",
+     "minecraft:bees",
+     "minecraft:container_loot",
+     "minecraft:block_state",
+     "minecraft:tropical_fish/pattern",
+     "minecraft:pot_decorations",
+     "minecraft:potion_contents",
+     "minecraft:map_id",
+     "minecraft:firework_explosion",
+     "minecraft:bundle_contents",
+     "minecraft:banner_patterns",
+     "minecraft:charged_projectiles",
+     "minecraft:painting/variant",
+     "minecraft:block_entity_data",
+     "minecraft:fireworks",
+     "minecraft:container",
+     "minecraft:dyed_color",
+     "minecraft:trim",
+     "minecraft:stored_enchantments"
+    ]
+   },
+   "minecraft:max_stack_size": 1,
+   "minecraft:custom_data": {
+    "PublicBukkitValues": {
+     "cosmicprisons:custom_item_uuid": "993f5705-34ca-428e-b939-c9b35b6221da",
+     "cosmicprisons:auto_update_stamp": 2050049366667125536,
+     "cosmicprisons:custom_item_id": "mask_prisoner"
+    }
+   }
+  }
+ },
+ "outlaw golden chestplate|": {
+  "id": "minecraft:golden_chestplate",
+  "count": 1,
+  "components": {
+   "minecraft:custom_name": {
+    "text": "",
+    "extra": [
+     {
+      "text": "Outlaw ",
+      "color": "gold",
+      "bold": true,
+      "italic": false,
+      "underlined": false,
+      "strikethrough": false,
+      "obfuscated": false
+     },
+     {
+      "text": "Golden Chestplate ",
+      "color": "white",
+      "bold": false,
+      "italic": false
+     },
+     {
+      "text": "0",
+      "color": "green",
+      "bold": true,
+      "italic": false
+     }
+    ]
+   },
+   "minecraft:lore": [
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Set Bonus: ",
+       "color": "yellow",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "Outlaw",
+       "color": "gold",
+       "bold": true,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "yellow",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "2% chance to count a Bandit kill twice",
+       "color": "gold",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "yellow",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "+2% Bandit Box Drop Chance",
+       "color": "gold",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "yellow",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "1% chance to upgrade a dropped Bandit Box",
+       "color": "gold",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "(Requires all 4 Outlaw armor pieces)",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Maximum Level ",
+       "color": "red",
+       "italic": false
+      },
+      {
+       "text": "20",
+       "color": "white",
+       "italic": false
+      }
+     ]
+    },
+    "",
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Required Mining Level ",
+       "color": "yellow",
+       "bold": true,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      },
+      {
+       "text": "30",
+       "color": "white",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    }
+   ],
+   "minecraft:attribute_modifiers": [
+    {
+     "type": "minecraft:armor",
+     "id": "cosmicprisons:golden_chestplate_armor",
+     "amount": 5.5,
+     "operation": "add_value",
+     "slot": "chest"
+    }
+   ],
+   "minecraft:tooltip_display": {
+    "hidden_components": [
+     "minecraft:attribute_modifiers",
+     "minecraft:trim",
+     "minecraft:fireworks",
+     "minecraft:charged_projectiles",
+     "minecraft:banner_patterns",
+     "minecraft:container",
+     "minecraft:potion_contents",
+     "minecraft:tropical_fish/pattern",
+     "minecraft:map_id",
+     "minecraft:bees",
+     "minecraft:block_entity_data",
+     "minecraft:block_state",
+     "minecraft:bundle_contents",
+     "minecraft:instrument",
+     "minecraft:jukebox_playable",
+     "minecraft:firework_explosion",
+     "minecraft:painting/variant",
+     "minecraft:container_loot",
+     "minecraft:pot_decorations",
+     "minecraft:written_book_content"
+    ]
+   },
+   "minecraft:custom_data": {
+    "PublicBukkitValues": {
+     "cosmicprisons:custom_set_max_secondary": 3.0,
+     "cosmicprisons:enchant_lore_cache": "\u00a76\u00a7lTitan Blood \u00a7b\u00a7lIV\n\u00a7e\u00a7lTreasure Hunter \u00a7b\u00a7lV",
+     "cosmicprisons:durability_remainder": 426042,
+     "cosmicprisons:cosmic_tier": "golden",
+     "cosmicprisons:enchant_limit": 20,
+     "cosmicprisons:max_cosmic_energy": 2147483647,
+     "cosmicprisons:custom_item_id": "cosmic_golden_chestplate",
+     "cosmicprisons:custom_set_pickaxe_tier": "stone",
+     "cosmicprisons:custom_set_gear_tier": "golden",
+     "cosmicprisons:custom_set_preview_range": 0,
+     "cosmicprisons:cosmic_energy": 0.0,
+     "cosmicprisons:gear_category": "armor",
+     "cosmicprisons:custom_set_max_tertiary": 3.0,
+     "cosmicprisons:custom_set_tertiary_roll": 1.0,
+     "cosmicprisons:custom_set_min_secondary": 1.0,
+     "cosmicprisons:enchants": "",
+     "cosmicprisons:enchant_lore_hash": 1705922923,
+     "cosmicprisons:keep_on_death": 0,
+     "cosmicprisons:custom_set_type": "outlaw",
+     "cosmicprisons:custom_set_secondary_roll": 2.0,
+     "cosmicprisons:custom_set_mystery": 0,
+     "cosmicprisons:droppable": 1,
+     "cosmicprisons:custom_set_min_primary": 1.0,
+     "cosmicprisons:custom_item_uuid": "b56a8e51-bf84-44ee-bb72-ee76aa62030c",
+     "cosmicprisons:custom_set_primary_roll": 2.0,
+     "cosmicprisons:custom_set_role": "chestplate",
+     "cosmicprisons:auto_update_stamp": -7015459285232584498,
+     "cosmicprisons:custom_set_max_primary": 5.0,
+     "cosmicprisons:custom_set_min_tertiary": 1.0,
+     "cosmicprisons:wormhole_failures": 0,
+     "cosmicprisons:item_level": 10,
+     "cosmicprisons:custom_set_weapon_type": "",
+     "cosmicprisons:armor_piece": "chestplate",
+     "cosmicprisons:movable": 1
+    }
+   },
+   "minecraft:trim": {
+    "material": "minecraft:copper",
+    "pattern": "minecraft:silence"
+   }
+  }
+ },
+ "blink trinket|": {
+  "id": "minecraft:fishing_rod",
+  "count": 1,
+  "components": {
+   "minecraft:custom_name": {
+    "text": "",
+    "extra": [
+     {
+      "text": "Blink Trinket",
+      "color": "aqua",
+      "bold": true,
+      "italic": false,
+      "underlined": false,
+      "strikethrough": false,
+      "obfuscated": false
+     },
+     {
+      "text": " (0)",
+      "color": "gray",
+      "bold": false,
+      "italic": false
+     }
+    ]
+   },
+   "minecraft:lore": [
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Effect: ",
+       "color": "white",
+       "italic": false
+      },
+      {
+       "text": "Teleports you in the direction",
+       "color": "aqua",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "you are looking",
+       "color": "aqua",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Charges: ",
+       "color": "white",
+       "italic": false
+      },
+      {
+       "text": "0",
+       "color": "aqua",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Energy: ",
+       "color": "white",
+       "italic": false
+      },
+      {
+       "text": "0",
+       "color": "aqua",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Energy per use: ",
+       "color": "white",
+       "italic": false
+      },
+      {
+       "text": "600,000",
+       "color": "aqua",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Cooldown: ",
+       "color": "white",
+       "italic": false
+      },
+      {
+       "text": "40s",
+       "color": "aqua",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Blink range: ",
+       "color": "white",
+       "italic": false
+      },
+      {
+       "text": "22 blocks",
+       "color": "aqua",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Pull timeout: ",
+       "color": "white",
+       "italic": false
+      },
+      {
+       "text": "8s",
+       "color": "aqua",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "(Right-click to activate)",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    }
+   ],
+   "minecraft:enchantments": {
+    "minecraft:luck_of_the_sea": 1
+   },
+   "minecraft:tooltip_display": {
+    "hidden_components": [
+     "minecraft:enchantments",
+     "minecraft:attribute_modifiers",
+     "minecraft:unbreakable",
+     "minecraft:can_break",
+     "minecraft:can_place_on",
+     "minecraft:jukebox_playable",
+     "minecraft:written_book_content",
+     "minecraft:instrument",
+     "minecraft:bees",
+     "minecraft:container_loot",
+     "minecraft:block_state",
+     "minecraft:tropical_fish/pattern",
+     "minecraft:pot_decorations",
+     "minecraft:potion_contents",
+     "minecraft:map_id",
+     "minecraft:firework_explosion",
+     "minecraft:bundle_contents",
+     "minecraft:banner_patterns",
+     "minecraft:charged_projectiles",
+     "minecraft:painting/variant",
+     "minecraft:block_entity_data",
+     "minecraft:fireworks",
+     "minecraft:container",
+     "minecraft:dyed_color",
+     "minecraft:trim",
+     "minecraft:stored_enchantments"
+    ]
+   },
+   "minecraft:use_cooldown": {
+    "seconds": 40.0,
+    "cooldown_group": "cosmicprisons:trinket_eb0f4592-4d57-47f9-8de7-33fd0c846675"
+   },
+   "minecraft:custom_data": {
+    "PublicBukkitValues": {
+     "cosmicprisons:movable": 1,
+     "cosmicprisons:trinket_blink_range_blocks": 22,
+     "cosmicprisons:trinket_cooldown_seconds": 40,
+     "cosmicprisons:keep_on_death": 0,
+     "cosmicprisons:droppable": 1,
+     "cosmicprisons:custom_item_id": "trinket_hook",
+     "cosmicprisons:trinket_last_use_ms": 0,
+     "cosmicprisons:custom_item_uuid": "1633dc8e-948b-45a6-a315-136d4289cba5",
+     "cosmicprisons:trinket_blink_pull_timeout_seconds": 8,
+     "cosmicprisons:trinket_cooldown_group_id": "eb0f4592-4d57-47f9-8de7-33fd0c846675",
+     "cosmicprisons:auto_update_stamp": -1224926207414150834,
+     "cosmicprisons:consumable": 0,
+     "cosmicprisons:trinket_energy": 0.0
+    }
+   },
+   "!minecraft:damage": {}
+  }
+ },
+ "absolute efficiency xi|": {
+  "id": "minecraft:orange_dye",
+  "count": 1,
+  "components": {
+   "minecraft:custom_name": {
+    "text": "",
+    "extra": [
+     {
+      "text": "Absolute Efficiency ",
+      "color": "gold",
+      "bold": true,
+      "italic": false,
+      "underlined": false,
+      "strikethrough": false,
+      "obfuscated": false
+     },
+     {
+      "text": "XI",
+      "color": "gold",
+      "bold": true,
+      "italic": false,
+      "underlined": true,
+      "strikethrough": false,
+      "obfuscated": false
+     },
+     {
+      "text": " (",
+      "color": "gray",
+      "bold": false,
+      "italic": false,
+      "underlined": false
+     },
+     {
+      "text": "75%",
+      "color": "white",
+      "italic": false
+     },
+     {
+      "text": ")",
+      "color": "gray",
+      "italic": false
+     }
+    ]
+   },
+   "minecraft:lore": [
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Pickaxe Enchant Orb",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "  75% success rate",
+       "color": "green",
+       "bold": true,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "  25% failure rate",
+       "color": "red",
+       "bold": true,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Mine far faster",
+       "color": "gold",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Applicable to: ",
+       "color": "gray",
+       "italic": false
+      },
+      {
+       "text": "Pickaxes",
+       "color": "white",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Requirement: ",
+       "color": "gray",
+       "italic": false
+      },
+      {
+       "text": "Absolute Efficiency ",
+       "color": "gold",
+       "italic": false
+      },
+      {
+       "text": "X",
+       "color": "aqua",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Drop into wormhole after your pickaxe",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "to roll this enchant with the stored chance.",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    }
+   ],
+   "minecraft:enchantments": {
+    "minecraft:lure": 1
+   },
+   "minecraft:tooltip_display": {
+    "hidden_components": [
+     "minecraft:enchantments",
+     "minecraft:attribute_modifiers",
+     "minecraft:unbreakable",
+     "minecraft:can_break",
+     "minecraft:can_place_on",
+     "minecraft:jukebox_playable",
+     "minecraft:written_book_content",
+     "minecraft:instrument",
+     "minecraft:bees",
+     "minecraft:container_loot",
+     "minecraft:block_state",
+     "minecraft:tropical_fish/pattern",
+     "minecraft:pot_decorations",
+     "minecraft:potion_contents",
+     "minecraft:map_id",
+     "minecraft:firework_explosion",
+     "minecraft:bundle_contents",
+     "minecraft:banner_patterns",
+     "minecraft:charged_projectiles",
+     "minecraft:painting/variant",
+     "minecraft:block_entity_data",
+     "minecraft:fireworks",
+     "minecraft:container",
+     "minecraft:dyed_color",
+     "minecraft:trim",
+     "minecraft:stored_enchantments"
+    ]
+   },
+   "minecraft:unbreakable": {},
+   "minecraft:max_stack_size": 1,
+   "minecraft:custom_data": {
+    "PublicBukkitValues": {
+     "cosmicprisons:auto_update_stamp": -4179695040987537850,
+     "cosmicprisons:pickaxe_orb_success": 0.75,
+     "cosmicprisons:pickaxe_orb_enchant": "absolute_efficiency",
+     "cosmicprisons:pickaxe_orb_admin": 1,
+     "cosmicprisons:droppable": 1,
+     "cosmicprisons:consumable": 0,
+     "cosmicprisons:custom_item_id": "pickaxe_enchant_orb",
+     "cosmicprisons:pickaxe_orb_level": 11,
+     "cosmicprisons:movable": 1
+    }
+   }
+  }
+ },
+ "charge orb slot|": {
+  "id": "minecraft:clay_ball",
+  "count": 1,
+  "components": {
+   "minecraft:custom_name": {
+    "text": "",
+    "extra": [
+     {
+      "text": "Charge Orb Slot",
+      "color": "aqua",
+      "bold": true,
+      "italic": false,
+      "underlined": false,
+      "strikethrough": false,
+      "obfuscated": false
+     }
+    ]
+   },
+   "minecraft:lore": [
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Applying this item to a pickaxe or spear",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "allows you to add ",
+       "color": "gray",
+       "italic": false
+      },
+      {
+       "text": "1 ",
+       "color": "gold",
+       "italic": false
+      },
+      {
+       "text": "additional ",
+       "color": "gray",
+       "italic": false
+      },
+      {
+       "text": "Charge Orb.",
+       "color": "aqua",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": " ",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Drag n' drop onto a pickaxe or spear to apply.",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    }
+   ],
+   "minecraft:enchantments": {
+    "minecraft:lure": 1
+   },
+   "minecraft:tooltip_display": {
+    "hidden_components": [
+     "minecraft:enchantments"
+    ]
+   },
+   "minecraft:unbreakable": {},
+   "minecraft:max_stack_size": 1,
+   "minecraft:custom_data": {
+    "PublicBukkitValues": {
+     "cosmicprisons:auto_update_stamp": -3718559688972297602,
+     "cosmicprisons:charge_orb_slot_uuid": "cdd0243b-f0fd-4068-bfcf-05c99d623595",
+     "cosmicprisons:keep_on_death": 0,
+     "cosmicprisons:droppable": 1,
+     "cosmicprisons:custom_item_id": "charge_orb_slot",
+     "cosmicprisons:custom_item_uuid": "304a5408-f17c-4e93-bf2d-0702bc13a865",
+     "cosmicprisons:movable": 1
+    }
+   }
+  }
+ },
+ "xp booster|": {
+  "id": "minecraft:emerald",
+  "count": 1,
+  "components": {
+   "minecraft:custom_name": {
+    "text": "",
+    "extra": [
+     {
+      "text": "XP Booster ",
+      "color": "green",
+      "bold": true,
+      "italic": false,
+      "underlined": false,
+      "strikethrough": false,
+      "obfuscated": false
+     },
+     {
+      "text": "(Right Click)",
+      "color": "gray",
+      "bold": false,
+      "italic": false
+     }
+    ]
+   },
+   "minecraft:lore": [
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Increases YOUR Mining XP gain",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "for a fixed amount of time.",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": " ",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "MULTIPLIER",
+       "color": "green",
+       "bold": true,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "2.50x",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": " ",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "DURATION",
+       "color": "green",
+       "bold": true,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "60 minutes",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    }
+   ],
+   "minecraft:unbreakable": {},
+   "minecraft:max_stack_size": 1,
+   "minecraft:custom_data": {
+    "PublicBukkitValues": {
+     "cosmicprisons:auto_update_stamp": 7579775389644810511,
+     "cosmicprisons:consumable": 1,
+     "cosmicprisons:custom_item_id": "booster",
+     "cosmicprisons:booster_multiplier": 2.5,
+     "cosmicprisons:custom_item_uuid": "42de3cf2-3ab1-409b-a81d-b3b9de36d373",
+     "cosmicprisons:booster_duration_minutes": 60,
+     "cosmicprisons:booster_type": "xp"
+    }
+   }
+  }
+ },
+ "wormhole powerup (double tap)|": {
+  "id": "minecraft:amethyst_shard",
+  "count": 1,
+  "components": {
+   "minecraft:custom_name": {
+    "text": "",
+    "extra": [
+     {
+      "text": "Wormhole Powerup (",
+      "color": "light_purple",
+      "bold": true,
+      "italic": false,
+      "underlined": false,
+      "strikethrough": false,
+      "obfuscated": false
+     },
+     {
+      "text": "Double Tap",
+      "color": "dark_purple",
+      "bold": false,
+      "italic": false
+     },
+     {
+      "text": ")",
+      "color": "light_purple",
+      "bold": true,
+      "italic": false
+     }
+    ]
+   },
+   "minecraft:lore": [
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Applies two levels to the selected enchant.",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Wormhole Powerups are rare consumable",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "items with ",
+       "color": "gray",
+       "italic": false
+      },
+      {
+       "text": "unique wormhole effects",
+       "color": "gray",
+       "italic": false,
+       "underlined": true
+      },
+      {
+       "text": ".",
+       "color": "gray",
+       "italic": false,
+       "underlined": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Only ",
+       "color": "gray",
+       "italic": false
+      },
+      {
+       "text": "Wormhole enchants",
+       "color": "gray",
+       "italic": false,
+       "underlined": true
+      },
+      {
+       "text": " are included.",
+       "color": "gray",
+       "italic": false,
+       "underlined": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "This does not include ",
+       "color": "gray",
+       "italic": false
+      },
+      {
+       "text": "+1 enchants",
+       "color": "white",
+       "italic": false
+      },
+      {
+       "text": ".",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Drop this into your ",
+       "color": "gray",
+       "italic": false
+      },
+      {
+       "text": "active Wormhole",
+       "color": "gray",
+       "italic": false,
+       "underlined": true
+      },
+      {
+       "text": " to activate it.",
+       "color": "gray",
+       "italic": false,
+       "underlined": false
+      }
+     ]
+    }
+   ],
+   "minecraft:enchantments": {
+    "minecraft:luck_of_the_sea": 1
+   },
+   "minecraft:tooltip_display": {
+    "hidden_components": [
+     "minecraft:enchantments"
+    ]
+   },
+   "minecraft:custom_data": {
+    "PublicBukkitValues": {
+     "cosmicprisons:wormhole_powerup_type": "double_tap",
+     "cosmicprisons:droppable": 1,
+     "cosmicprisons:custom_item_id": "wormhole_powerup_double_tap",
+     "cosmicprisons:consumable": 1,
+     "cosmicprisons:movable": 1
+    }
+   }
+  }
+ },
+ "gold satchel|refined": {
+  "id": "minecraft:gold_ingot",
+  "count": 1,
+  "components": {
+   "minecraft:custom_name": {
+    "text": "",
+    "extra": [
+     {
+      "text": "Gold Satchel ",
+      "color": "yellow",
+      "bold": true,
+      "italic": false,
+      "underlined": false,
+      "strikethrough": false,
+      "obfuscated": false
+     },
+     {
+      "text": "(",
+      "color": "yellow",
+      "bold": true,
+      "italic": false
+     },
+     {
+      "text": "0",
+      "color": "green",
+      "bold": false,
+      "italic": false
+     },
+     {
+      "text": " / ",
+      "color": "gray",
+      "italic": false
+     },
+     {
+      "text": "2,304 Ores",
+      "color": "white",
+      "italic": false
+     },
+     {
+      "text": ")",
+      "color": "yellow",
+      "bold": true,
+      "italic": false
+     }
+    ]
+   },
+   "minecraft:lore": [
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Automatically collects ",
+       "color": "gray",
+       "italic": false
+      },
+      {
+       "text": "Gold",
+       "color": "white",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "while mining.",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Cosmic Energy",
+       "color": "aqua",
+       "bold": true,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "||||||||||||||||||||||||||||||||||||||||||||||||||",
+       "color": "red",
+       "italic": false
+      },
+      {
+       "text": " 0.0%",
+       "color": "white",
+       "bold": true,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "(",
+       "color": "aqua",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "0 ",
+       "color": "white",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "/ ",
+       "color": "gray",
+       "italic": false
+      },
+      {
+       "text": "18,000",
+       "color": "white",
+       "italic": false
+      },
+      {
+       "text": ")",
+       "color": "aqua",
+       "bold": true,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Capacity",
+       "color": "gold",
+       "bold": true,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "(",
+       "color": "green",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "0 ",
+       "color": "green",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "/ ",
+       "color": "gray",
+       "italic": false
+      },
+      {
+       "text": "2,304 Ores",
+       "color": "white",
+       "italic": false
+      },
+      {
+       "text": ")",
+       "color": "green",
+       "bold": true,
+       "italic": false
+      }
+     ]
+    }
+   ],
+   "minecraft:tooltip_display": {
+    "hidden_components": [
+     "minecraft:enchantments"
+    ]
+   },
+   "minecraft:unbreakable": {},
+   "minecraft:max_stack_size": 1,
+   "minecraft:custom_data": {
+    "PublicBukkitValues": {
+     "cosmicprisons:keep_on_death": 0,
+     "cosmicprisons:droppable": 1,
+     "cosmicprisons:max_cosmic_energy": 18000,
+     "cosmicprisons:custom_item_id": "gold_satchel",
+     "cosmicprisons:custom_item_uuid": "9b037d7f-38c5-4494-81de-a3269458a42e",
+     "cosmicprisons:auto_update_stamp": -1372271437589219813,
+     "cosmicprisons:satchel_variant": "REGULAR",
+     "cosmicprisons:satchel_refined": 1,
+     "cosmicprisons:wormhole_failures": 0,
+     "cosmicprisons:satchel_count": 0,
+     "cosmicprisons:satchel_ore": "GOLD",
+     "cosmicprisons:item_level": 1,
+     "cosmicprisons:cosmic_energy": 0.0,
+     "cosmicprisons:movable": 1
+    }
+   }
+  }
+ },
+ "page|legendary": {
+  "id": "minecraft:paper",
+  "count": 1,
+  "components": {
+   "minecraft:custom_name": {
+    "text": "",
+    "extra": [
+     {
+      "text": "Legendary Page ",
+      "color": "gold",
+      "bold": true,
+      "italic": false,
+      "underlined": false,
+      "strikethrough": false,
+      "obfuscated": false
+     },
+     {
+      "text": "(",
+      "color": "gray",
+      "bold": false,
+      "italic": false
+     },
+     {
+      "text": "1%",
+      "color": "green",
+      "italic": false
+     },
+     {
+      "text": ")",
+      "color": "gray",
+      "italic": false
+     }
+    ]
+   },
+   "minecraft:lore": [
+    "",
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "+1% Enchant Rate",
+       "color": "green",
+       "bold": true,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "+1% Levelup Rate",
+       "color": "aqua",
+       "bold": true,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    "",
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Hint: Drag-and-drop onto",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Enchantment books!",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    }
+   ],
+   "minecraft:enchantments": {
+    "minecraft:lure": 1
+   },
+   "minecraft:tooltip_display": {
+    "hidden_components": [
+     "minecraft:enchantments",
+     "minecraft:attribute_modifiers",
+     "minecraft:unbreakable",
+     "minecraft:can_break",
+     "minecraft:can_place_on",
+     "minecraft:jukebox_playable",
+     "minecraft:written_book_content",
+     "minecraft:instrument",
+     "minecraft:bees",
+     "minecraft:container_loot",
+     "minecraft:block_state",
+     "minecraft:tropical_fish/pattern",
+     "minecraft:pot_decorations",
+     "minecraft:potion_contents",
+     "minecraft:map_id",
+     "minecraft:firework_explosion",
+     "minecraft:bundle_contents",
+     "minecraft:banner_patterns",
+     "minecraft:charged_projectiles",
+     "minecraft:painting/variant",
+     "minecraft:block_entity_data",
+     "minecraft:fireworks",
+     "minecraft:container",
+     "minecraft:dyed_color",
+     "minecraft:trim",
+     "minecraft:stored_enchantments"
+    ]
+   },
+   "minecraft:custom_data": {
+    "PublicBukkitValues": {
+     "cosmicprisons:page_percent": 1,
+     "cosmicprisons:droppable": 1,
+     "cosmicprisons:custom_item_id": "gear_enchant_page",
+     "cosmicprisons:page_tier": "LEGENDARY",
+     "cosmicprisons:consumable": 1,
+     "cosmicprisons:movable": 1
+    }
+   }
+  }
+ },
+ "randomization scroll|mystic": {
+  "id": "minecraft:paper",
+  "count": 1,
+  "components": {
+   "minecraft:custom_name": {
+    "text": "",
+    "extra": [
+     {
+      "text": "Mystic Randomization Scroll",
+      "color": "red",
+      "bold": true,
+      "italic": false,
+      "underlined": false,
+      "strikethrough": false,
+      "obfuscated": false
+     }
+    ]
+   },
+   "minecraft:lore": [
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "When placed on an enchant",
+       "color": "gold",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "it will completely randomize",
+       "color": "gold",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "the Enchant and Levelup rates",
+       "color": "gold",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "of that enchant.",
+       "color": "gold",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Works on all enchantment tiers except Godly!",
+       "color": "yellow",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "(Drag and Drop on Enchant)",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    }
+   ],
+   "minecraft:enchantments": {
+    "minecraft:lure": 1
+   },
+   "minecraft:tooltip_display": {
+    "hidden_components": [
+     "minecraft:enchantments",
+     "minecraft:attribute_modifiers",
+     "minecraft:unbreakable",
+     "minecraft:can_break",
+     "minecraft:can_place_on",
+     "minecraft:jukebox_playable",
+     "minecraft:written_book_content",
+     "minecraft:instrument",
+     "minecraft:bees",
+     "minecraft:container_loot",
+     "minecraft:block_state",
+     "minecraft:tropical_fish/pattern",
+     "minecraft:pot_decorations",
+     "minecraft:potion_contents",
+     "minecraft:map_id",
+     "minecraft:firework_explosion",
+     "minecraft:bundle_contents",
+     "minecraft:banner_patterns",
+     "minecraft:charged_projectiles",
+     "minecraft:painting/variant",
+     "minecraft:block_entity_data",
+     "minecraft:fireworks",
+     "minecraft:container",
+     "minecraft:dyed_color",
+     "minecraft:trim",
+     "minecraft:stored_enchantments"
+    ]
+   },
+   "minecraft:unbreakable": {},
+   "minecraft:custom_data": {
+    "PublicBukkitValues": {
+     "cosmicprisons:randomization_scroll_tier": 5,
+     "cosmicprisons:droppable": 1,
+     "cosmicprisons:custom_item_id": "randomization_scroll",
+     "cosmicprisons:consumable": 0,
+     "cosmicprisons:movable": 1
+    }
+   }
+  }
+ },
+ "g-kit level up|slasher": {
+  "id": "minecraft:beacon",
+  "count": 1,
+  "components": {
+   "minecraft:custom_name": {
+    "text": "",
+    "extra": [
+     {
+      "text": "Slasher ",
+      "color": "red",
+      "bold": false,
+      "italic": false
+     },
+     {
+      "text": "G-Kit Level Up",
+      "color": "red",
+      "italic": false
+     }
+    ]
+   },
+   "minecraft:lore": [
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "This item will level up the",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Slasher G-Kit on your account,",
+       "color": "red",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "improving the loot and cooldown time.",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "You must first own this G-Kit.",
+       "color": "gray",
+       "italic": false,
+       "underlined": true
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "If you are already max level,",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "this item will reduce the",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "active cooldown by ",
+       "color": "gray",
+       "italic": false
+      },
+      {
+       "text": "24 hours",
+       "color": "white",
+       "italic": false
+      },
+      {
+       "text": ".",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "(Right-click to claim)",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    }
+   ],
+   "minecraft:max_stack_size": 1,
+   "minecraft:custom_data": {
+    "PublicBukkitValues": {
+     "cosmicprisons:gkit_id": "slasher",
+     "cosmicprisons:auto_update_stamp": -9216377633539795573,
+     "cosmicprisons:custom_item_id": "gkit_upgrade_token",
+     "cosmicprisons:gkit_display_name": "&cSlasher",
+     "cosmicprisons:custom_item_uuid": "f096b8f8-2353-4f0d-8c8a-b6244950d8f2"
+    }
+   }
+  }
+ },
+ "item nametag|": {
+  "id": "minecraft:name_tag",
+  "count": 1,
+  "components": {
+   "minecraft:custom_name": {
+    "text": "",
+    "extra": [
+     {
+      "text": "Item Nametag",
+      "color": "light_purple",
+      "bold": true,
+      "italic": false,
+      "underlined": false,
+      "strikethrough": false,
+      "obfuscated": false
+     }
+    ]
+   },
+   "minecraft:lore": [
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Rename a pickaxe or piece of gear.",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Supports full color codes.",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Drag onto the item you wish to rename.",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Type the new name in chat and confirm.",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    },
+    "",
+    {
+     "text": "-------------------------",
+     "color": "gray"
+    },
+    {
+     "text": "Left-Click item to buy!",
+     "color": "yellow",
+     "bold": true
+    },
+    {
+     "text": "Right-Click to choose quantity!",
+     "color": "yellow",
+     "bold": true
+    }
+   ],
+   "minecraft:enchantments": {
+    "minecraft:unbreaking": 1
+   },
+   "minecraft:tooltip_display": {
+    "hidden_components": [
+     "minecraft:enchantments",
+     "minecraft:attribute_modifiers",
+     "minecraft:unbreakable",
+     "minecraft:can_break",
+     "minecraft:can_place_on",
+     "minecraft:jukebox_playable",
+     "minecraft:written_book_content",
+     "minecraft:instrument",
+     "minecraft:bees",
+     "minecraft:container_loot",
+     "minecraft:block_state",
+     "minecraft:tropical_fish/pattern",
+     "minecraft:pot_decorations",
+     "minecraft:potion_contents",
+     "minecraft:map_id",
+     "minecraft:firework_explosion",
+     "minecraft:bundle_contents",
+     "minecraft:banner_patterns",
+     "minecraft:charged_projectiles",
+     "minecraft:painting/variant",
+     "minecraft:block_entity_data",
+     "minecraft:fireworks",
+     "minecraft:container",
+     "minecraft:dyed_color",
+     "minecraft:trim",
+     "minecraft:stored_enchantments"
+    ]
+   },
+   "minecraft:custom_data": {
+    "PublicBukkitValues": {
+     "cosmicprisons:custom_item_id": "item_nametag"
+    }
+   }
+  }
+ },
+ "cosmic energy|": {
+  "id": "minecraft:light_blue_dye",
+  "count": 1,
+  "components": {
+   "minecraft:custom_name": {
+    "text": "",
+    "extra": [
+     {
+      "text": "Cosmic Energy",
+      "color": "aqua",
+      "bold": true,
+      "italic": false,
+      "underlined": false,
+      "strikethrough": false,
+      "obfuscated": false
+     }
+    ]
+   },
+   "minecraft:lore": [
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Right-click to redeem!",
+       "color": "yellow",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    "",
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "-----------------------",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": true,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Seller: ",
+       "color": "gold",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      },
+      {
+       "text": "DerrickCarns",
+       "color": "yellow",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Buyer: ",
+       "color": "gold",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      },
+      {
+       "text": "QwackyFishin",
+       "color": "yellow",
+       "italic": false
+      }
+     ]
+    }
+   ],
+   "minecraft:unbreakable": {},
+   "minecraft:max_stack_size": 1,
+   "minecraft:custom_data": {
+    "PublicBukkitValues": {
+     "cosmicprisons:keep_on_death": 0,
+     "cosmicprisons:droppable": 1,
+     "cosmicprisons:custom_item_id": "cosmic_energy",
+     "cosmicprisons:custom_item_uuid": "4175145f-23c2-4851-ba06-e405c77c58bc",
+     "cosmicprisons:movable": 1
+    }
+   }
+  }
+ },
+ "energy booster|": {
+  "id": "minecraft:emerald",
+  "count": 1,
+  "components": {
+   "minecraft:custom_name": {
+    "text": "",
+    "extra": [
+     {
+      "text": "Energy Booster ",
+      "color": "aqua",
+      "bold": true,
+      "italic": false,
+      "underlined": false,
+      "strikethrough": false,
+      "obfuscated": false
+     },
+     {
+      "text": "(Right Click)",
+      "color": "gray",
+      "bold": false,
+      "italic": false
+     }
+    ]
+   },
+   "minecraft:lore": [
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Increases YOUR Cosmic Energy gain",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "for a fixed amount of time.",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": " ",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "MULTIPLIER",
+       "color": "aqua",
+       "bold": true,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "2.50x",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": " ",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "DURATION",
+       "color": "aqua",
+       "bold": true,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "30 minutes",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    }
+   ],
+   "minecraft:unbreakable": {},
+   "minecraft:max_stack_size": 1,
+   "minecraft:custom_data": {
+    "PublicBukkitValues": {
+     "cosmicprisons:auto_update_stamp": 8048443337140605498,
+     "cosmicprisons:consumable": 1,
+     "cosmicprisons:custom_item_id": "booster",
+     "cosmicprisons:booster_multiplier": 2.5,
+     "cosmicprisons:custom_item_uuid": "d3c04b45-1d8f-4e74-bdaa-de25d2b377e0",
+     "cosmicprisons:booster_duration_minutes": 30,
+     "cosmicprisons:booster_type": "energy"
+    }
+   }
+  }
+ },
+ "10% charge orb|": {
+  "id": "minecraft:magma_cream",
+  "count": 1,
+  "components": {
+   "minecraft:custom_name": {
+    "text": "",
+    "extra": [
+     {
+      "text": "10% ",
+      "color": "green",
+      "bold": true,
+      "italic": false,
+      "underlined": false,
+      "strikethrough": false,
+      "obfuscated": false
+     },
+     {
+      "text": "Charge Orb",
+      "color": "aqua",
+      "bold": true,
+      "italic": false
+     }
+    ]
+   },
+   "minecraft:lore": [
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "50% Success Rate",
+       "color": "yellow",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Charge Orbs increase Cosmic Energy gained",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "from mining or spear Bandit kills.",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "By applying, ",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      },
+      {
+       "text": "one ",
+       "color": "aqua",
+       "italic": false
+      },
+      {
+       "text": "Charge Orb Slot on your",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "item will be consumed. If you have",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "already used all Charge Orb Slots, the",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "lowest % Charge Orb will be replaced",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "by this one.",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Drag n' drop onto a pickaxe or spear to apply!",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    "",
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "-----------------------",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": true,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Seller: ",
+       "color": "gold",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      },
+      {
+       "text": "JingJang14",
+       "color": "yellow",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Buyer: ",
+       "color": "gold",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      },
+      {
+       "text": "Nulthic",
+       "color": "yellow",
+       "italic": false
+      }
+     ]
+    }
+   ],
+   "minecraft:enchantments": {
+    "minecraft:lure": 1
+   },
+   "minecraft:tooltip_display": {
+    "hidden_components": [
+     "minecraft:enchantments"
+    ]
+   },
+   "minecraft:unbreakable": {},
+   "minecraft:max_stack_size": 1,
+   "minecraft:custom_data": {
+    "PublicBukkitValues": {
+     "cosmicprisons:auto_update_stamp": -1402649298914260703,
+     "cosmicprisons:charge_orb_percent": 10,
+     "cosmicprisons:keep_on_death": 0,
+     "cosmicprisons:droppable": 1,
+     "cosmicprisons:charge_orb_item_uuid": "dfd884a1-4b84-4822-83b0-cd98ae206cd3",
+     "cosmicprisons:custom_item_id": "charge_orb",
+     "cosmicprisons:custom_item_uuid": "41a8f5dd-e30c-4831-9d5d-2113e6c4f486",
+     "cosmicprisons:charge_orb_success_rate": 50,
+     "cosmicprisons:movable": 1
+    }
+   }
+  }
+ },
+ "eraser|": {
+  "id": "minecraft:pink_dye",
+  "count": 1,
+  "components": {
+   "minecraft:custom_name": {
+    "text": "",
+    "extra": [
+     {
+      "text": "Eraser ",
+      "color": "light_purple",
+      "bold": true,
+      "italic": false,
+      "underlined": false,
+      "strikethrough": false,
+      "obfuscated": false
+     },
+     {
+      "text": "(",
+      "color": "light_purple",
+      "bold": true,
+      "italic": false
+     },
+     {
+      "text": "3",
+      "color": "white",
+      "bold": false,
+      "italic": false
+     },
+     {
+      "text": ")",
+      "color": "light_purple",
+      "bold": true,
+      "italic": false
+     }
+    ]
+   },
+   "minecraft:lore": [
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Erases ",
+       "color": "gray",
+       "italic": false
+      },
+      {
+       "text": "3",
+       "color": "gray",
+       "italic": false,
+       "underlined": true
+      },
+      {
+       "text": " enchant failure(s)",
+       "color": "gray",
+       "italic": false,
+       "underlined": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "on a pickaxe or spear!",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Use ",
+       "color": "gray",
+       "italic": false
+      },
+      {
+       "text": "/extract <amount> ",
+       "color": "yellow",
+       "italic": false
+      },
+      {
+       "text": "to split.",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Drag n' Drop onto a pickaxe or spear to apply!",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Drag n' Drop onto another Eraser to combine.",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    }
+   ],
+   "minecraft:enchantments": {
+    "minecraft:lure": 1
+   },
+   "minecraft:tooltip_display": {
+    "hidden_components": [
+     "minecraft:enchantments",
+     "minecraft:attribute_modifiers",
+     "minecraft:unbreakable",
+     "minecraft:can_break",
+     "minecraft:can_place_on",
+     "minecraft:jukebox_playable",
+     "minecraft:written_book_content",
+     "minecraft:instrument",
+     "minecraft:bees",
+     "minecraft:container_loot",
+     "minecraft:block_state",
+     "minecraft:tropical_fish/pattern",
+     "minecraft:pot_decorations",
+     "minecraft:potion_contents",
+     "minecraft:map_id",
+     "minecraft:firework_explosion",
+     "minecraft:bundle_contents",
+     "minecraft:banner_patterns",
+     "minecraft:charged_projectiles",
+     "minecraft:painting/variant",
+     "minecraft:block_entity_data",
+     "minecraft:fireworks",
+     "minecraft:container",
+     "minecraft:dyed_color",
+     "minecraft:trim",
+     "minecraft:stored_enchantments"
+    ]
+   },
+   "minecraft:custom_data": {
+    "PublicBukkitValues": {
+     "cosmicprisons:custom_item_uuid": "528466f8-2460-4470-ac66-2401a7d805f3",
+     "cosmicprisons:custom_item_id": "eraser",
+     "cosmicprisons:count": 3
+    }
+   }
+  }
+ },
+ "white scroll|": {
+  "id": "minecraft:map",
+  "count": 1,
+  "components": {
+   "minecraft:custom_name": {
+    "text": "",
+    "extra": [
+     {
+      "text": "White Scroll",
+      "color": "white",
+      "bold": true,
+      "italic": false,
+      "underlined": false,
+      "strikethrough": false,
+      "obfuscated": false
+     }
+    ]
+   },
+   "minecraft:lore": [
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "A protection scroll",
+       "color": "gold",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "When applied to Pickaxes or Satchels:",
+       "color": "white",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "You keep the item upon death",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "but lose the energy on it.",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Hint: Drag-and-drop in your inventory",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "onto the item you wish to apply it to.",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    },
+    "",
+    {
+     "text": "-------------------------",
+     "color": "gray"
+    },
+    {
+     "text": "Left-Click item to buy!",
+     "color": "yellow",
+     "bold": true
+    },
+    {
+     "text": "Right-Click to choose quantity!",
+     "color": "yellow",
+     "bold": true
+    }
+   ],
+   "minecraft:enchantments": {
+    "minecraft:unbreaking": 1
+   },
+   "minecraft:tooltip_display": {
+    "hidden_components": [
+     "minecraft:enchantments",
+     "minecraft:attribute_modifiers",
+     "minecraft:unbreakable",
+     "minecraft:can_break",
+     "minecraft:can_place_on",
+     "minecraft:jukebox_playable",
+     "minecraft:written_book_content",
+     "minecraft:instrument",
+     "minecraft:bees",
+     "minecraft:container_loot",
+     "minecraft:block_state",
+     "minecraft:tropical_fish/pattern",
+     "minecraft:pot_decorations",
+     "minecraft:potion_contents",
+     "minecraft:map_id",
+     "minecraft:firework_explosion",
+     "minecraft:bundle_contents",
+     "minecraft:banner_patterns",
+     "minecraft:charged_projectiles",
+     "minecraft:painting/variant",
+     "minecraft:block_entity_data",
+     "minecraft:fireworks",
+     "minecraft:container",
+     "minecraft:dyed_color",
+     "minecraft:trim",
+     "minecraft:stored_enchantments"
+    ]
+   },
+   "minecraft:custom_data": {
+    "PublicBukkitValues": {
+     "cosmicprisons:custom_item_id": "white_scroll"
+    }
+   }
+  }
+ },
+ "inmate rations|": {
+  "id": "minecraft:ominous_bottle",
+  "count": 1,
+  "components": {
+   "minecraft:custom_name": {
+    "text": "",
+    "extra": [
+     {
+      "text": "Inmate Rations ",
+      "color": "gold",
+      "bold": true,
+      "italic": false,
+      "underlined": false,
+      "strikethrough": false,
+      "obfuscated": false
+     },
+     {
+      "text": "(Right Click) (360m)",
+      "color": "gray",
+      "bold": false,
+      "italic": false
+     }
+    ]
+   },
+   "minecraft:lore": [
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Consume this ration to activate every perk.",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "gold",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "0.2% extra Meta Spin Chance per /slot ticket inserted",
+       "color": "white",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "gold",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "2% chance to not consume a Slot Bot Ticket on use",
+       "color": "white",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "gold",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "10% chance to skip cooldown on /kit",
+       "color": "white",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "gold",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "15% chance to keep enchants when Prestiging a Tool",
+       "color": "white",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "gold",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "10% chance to keep a Tool Prestige Token on apply",
+       "color": "white",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "gold",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "7.5% chance to keep a White Scroll on apply",
+       "color": "white",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "gold",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "5% chance to gain double energy when mining",
+       "color": "white",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "gold",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "10% chance to gain double Slot Bot Credits",
+       "color": "white",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "gold",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "10% faster spear windup",
+       "color": "white",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "gold",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "5% chance for a Bandit Box to drop unlocked",
+       "color": "white",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "gold",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "10% bonus damage to Merchants",
+       "color": "white",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "gold",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "+32 blocks /trade range",
+       "color": "white",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "gold",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "Access /tinkerer in guarded areas outside combat",
+       "color": "white",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "gold",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "Access /cf anywhere outside combat",
+       "color": "white",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "gold",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "Access the /shop GUI anywhere",
+       "color": "white",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "gold",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "+15% Wormhole success rate",
+       "color": "white",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "gold",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "+5% Executive Wormhole success rate",
+       "color": "white",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "gold",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "+30m /Momentum pause duration",
+       "color": "white",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "gold",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "-50% /momentum cooldown",
+       "color": "white",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "gold",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "50% chance for double Pickaxe Prestige progression",
+       "color": "white",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "gold",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "-25% teleport time",
+       "color": "white",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "gold",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "No /extract fee in safezones",
+       "color": "white",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "gold",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "Daily Ration Dealer reward or fire trail",
+       "color": "white",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "gold",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "5m additional AFK timer",
+       "color": "white",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "* ",
+       "color": "gold",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "No /sell tax",
+       "color": "white",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "DURATION",
+       "color": "gold",
+       "bold": true,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "6 hours",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Right-Click to consume!",
+       "color": "yellow",
+       "italic": false
+      }
+     ]
+    }
+   ],
+   "minecraft:enchantments": {
+    "minecraft:luck_of_the_sea": 1
+   },
+   "minecraft:tooltip_display": {
+    "hidden_components": [
+     "minecraft:enchantments",
+     "minecraft:attribute_modifiers",
+     "minecraft:unbreakable",
+     "minecraft:can_break",
+     "minecraft:can_place_on",
+     "minecraft:jukebox_playable",
+     "minecraft:written_book_content",
+     "minecraft:instrument",
+     "minecraft:bees",
+     "minecraft:container_loot",
+     "minecraft:block_state",
+     "minecraft:tropical_fish/pattern",
+     "minecraft:pot_decorations",
+     "minecraft:potion_contents",
+     "minecraft:map_id",
+     "minecraft:firework_explosion",
+     "minecraft:bundle_contents",
+     "minecraft:banner_patterns",
+     "minecraft:charged_projectiles",
+     "minecraft:painting/variant",
+     "minecraft:block_entity_data",
+     "minecraft:fireworks",
+     "minecraft:container",
+     "minecraft:dyed_color",
+     "minecraft:trim",
+     "minecraft:stored_enchantments"
+    ]
+   },
+   "minecraft:unbreakable": {},
+   "minecraft:max_stack_size": 1,
+   "minecraft:custom_data": {
+    "PublicBukkitValues": {
+     "cosmicprisons:auto_update_stamp": -3198890346122498747,
+     "cosmicprisons:consumable": 1,
+     "cosmicprisons:custom_item_id": "inmate_rations",
+     "cosmicprisons:ration_duration_minutes": 360,
+     "cosmicprisons:custom_item_uuid": "64a51ee5-e8f1-46de-8ae2-3038dcff0809",
+     "cosmicprisons:ration_duration_millis": 21600000
+    }
+   }
+  }
+ },
+ "tool prestige token iv|": {
+  "id": "minecraft:sunflower",
+  "count": 1,
+  "components": {
+   "minecraft:custom_name": {
+    "text": "",
+    "extra": [
+     {
+      "text": "Tool Prestige Token ",
+      "color": "yellow",
+      "bold": true,
+      "italic": false,
+      "underlined": false,
+      "strikethrough": false,
+      "obfuscated": false
+     },
+     {
+      "text": "IV",
+      "color": "white",
+      "bold": true,
+      "italic": false
+     }
+    ]
+   },
+   "minecraft:lore": [
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Grants ",
+       "color": "gray",
+       "italic": false
+      },
+      {
+       "text": "ONE",
+       "color": "white",
+       "italic": false
+      },
+      {
+       "text": " free Prestige for any",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "pickaxe or spear without requirements!",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Maximum prestige level: ",
+       "color": "gray",
+       "italic": false
+      },
+      {
+       "text": "IV",
+       "color": "white",
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "Warning: ",
+       "color": "red",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "Resets level & enchants",
+       "color": "gray",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "",
+       "color": "gray",
+       "bold": false,
+       "italic": false,
+       "underlined": false,
+       "strikethrough": false,
+       "obfuscated": false
+      }
+     ]
+    },
+    {
+     "text": "",
+     "extra": [
+      {
+       "text": "(Drag onto a pickaxe or spear)",
+       "color": "gray",
+       "italic": false
+      }
+     ]
+    },
+    "",
+    {
+     "text": "-------------------------",
+     "color": "gray"
+    },
+    {
+     "text": "Left-Click item to buy!",
+     "color": "yellow",
+     "bold": true
+    },
+    {
+     "text": "Right-Click to choose quantity!",
+     "color": "yellow",
+     "bold": true
+    }
+   ],
+   "minecraft:unbreakable": {},
+   "minecraft:custom_data": {
+    "PublicBukkitValues": {
+     "cosmicprisons:custom_item_id": "pickaxe_prestige_token",
+     "cosmicprisons:prestige_token_level": 4
+    }
+   }
+  }
+ }
+}

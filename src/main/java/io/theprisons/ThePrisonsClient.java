@@ -84,7 +84,7 @@ public final class ThePrisonsClient implements ClientModInitializer {
             io.theprisons.core.setup.ModCommands.register(core);
         }
         registerLegacyHandlers(core);
-        HudRenderCallback.EVENT.register(io.theprisons.modules.qol.market.MarketSearch.hudGuard(profiled(core, "legacy:hud-render", ThePrisonsHudRenderer::render)));
+        HudRenderCallback.EVENT.register(io.theprisons.items.client.InventoryItemList.hudGuard(profiled(core, "legacy:hud-render", ThePrisonsHudRenderer::render)));
 
         ClientLifecycleEvents.CLIENT_STOPPING.register(client -> {
             CACHE.save();
@@ -102,8 +102,9 @@ public final class ThePrisonsClient implements ClientModInitializer {
         Runnable[] self = new Runnable[1];
         io.theprisons.gui.dashboard.DashboardScreen[] screen = new io.theprisons.gui.dashboard.DashboardScreen[1];
         Runnable hud = () -> client.setScreen(hudEditor(screen[0], core));
-        Runnable classic = io.theprisons.modules.FeatureProfile.DEV
-                ? () -> client.setScreen(new ClickGuiScreen(screen[0], core)) : null;
+        // The dashboard is the curated fast path; the complete module editor stays available for market,
+        // multi-choice and advanced settings rather than hiding functional configuration behind DEV mode.
+        Runnable classic = () -> client.setScreen(new ClickGuiScreen(screen[0], core));
         screen[0] = new io.theprisons.gui.dashboard.DashboardScreen(parent, core, hud, classic);
         return screen[0];
     }

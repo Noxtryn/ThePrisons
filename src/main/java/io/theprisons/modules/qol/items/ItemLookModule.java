@@ -3,6 +3,7 @@ package io.theprisons.modules.qol.items;
 import io.theprisons.core.module.Category;
 import io.theprisons.core.module.Module;
 import io.theprisons.core.setting.Settings;
+import io.theprisons.items.ItemRarity;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
@@ -35,6 +36,17 @@ public final class ItemLookModule extends Module {
         }
     }
 
+    /** Which ThePrisons art the item models show. Both HD overlays replace only their approved PNG paths; all other items stay Classic. */
+    public enum TexturePack {
+        CLASSIC("Classic"), HD_V2("HD V2"), HD_V4("HD V4 (validated)");
+
+        private final String label;
+
+        TexturePack(String label) {
+            this.label = label;
+        }
+    }
+
     public enum FrameScope {
         EVERYWHERE("Inventories and hotbar"), SCREENS("Inventories only"), OFF("Off");
 
@@ -49,6 +61,7 @@ public final class ItemLookModule extends Module {
     private static @Nullable ItemLookModule instance;
 
     private final Settings.EnumSetting<Source> source;
+    private final Settings.EnumSetting<TexturePack> texturePack;
     private final Settings.EnumSetting<FrameScope> frames;
     private final Settings.BoolSetting badges;
     private final Settings.BoolSetting pickaxes;
@@ -56,9 +69,7 @@ public final class ItemLookModule extends Module {
     private final Settings.BoolSetting gear;
     private static final Identifier FRAME = Identifier.of("theprisons", "tier_frame/tint");
     /** The tier colours of the textures (tools/textures/generate_item_textures.py TIERS). */
-    private static final Map<PrisonsItems.Tier, Integer> TIER_RGB = new EnumMap<>(Map.of(
-            PrisonsItems.Tier.SIMPLE, 0xD8DEE8, PrisonsItems.Tier.UNCOMMON, 0x5DE86B, PrisonsItems.Tier.ELITE, 0x4FD8F0,
-            PrisonsItems.Tier.ULTIMATE, 0xFFE04A, PrisonsItems.Tier.LEGENDARY, 0xFF9A2E, PrisonsItems.Tier.GODLY, 0xFF3D6E));
+    private static final Map<PrisonsItems.Tier, Integer> TIER_RGB = tierPalette();
     /** Main colour of the material textures (armour, tools, weapons) - the frame matches what the icon looks like. */
     private static final Map<String, Integer> MATERIAL_RGB = Map.ofEntries(
             Map.entry("netherite", 0x7A5A8C), Map.entry("diamond", 0x4FE8E0), Map.entry("golden", 0xFFD23C),
@@ -75,12 +86,32 @@ public final class ItemLookModule extends Module {
             Map.entry("rabbit", 0xF4F4FA), Map.entry("owl", 0x8A5A3A), Map.entry("dragon", 0x3CB89C), Map.entry("pig", 0xFF8FB8));
     private final Map<net.minecraft.item.Item, Integer> materialCache = new java.util.IdentityHashMap<>();
 
+    private static Map<PrisonsItems.Tier, Integer> tierPalette() {
+        Map<PrisonsItems.Tier, Integer> palette = new EnumMap<>(PrisonsItems.Tier.class);
+        for (PrisonsItems.Tier tier : PrisonsItems.Tier.values()) {
+            palette.put(tier, ItemRarity.rgb(tier.name()));
+        }
+        return palette;
+    }
+
     public ItemLookModule() {
         super("item_look", "Item Textures", Category.QOL, "Items",
                 "Own textures for Cosmic Prisons items, pickaxes and their plain base items, tier frames and badges. Always active.",
                 Settings.KeybindSetting.NONE);
         source = choice("source", "Texture source", Source.COSMIC_FIRST, s -> s.label)
                 .description("Which textures win when the Cosmic Textures mod is installed too.").group("Textures");
+        texturePack = choice("texture_pack", "Texture pack", TexturePack.CLASSIC, p -> p.label)
+                .description("Classic art, the existing HD V2 overlay, or HD V4 when validated artwork is bundled. Missing HD textures always keep the classic one. "
+                        + "Changing it reloads the resources once.").group("Textures");
+        HdPackSync.setReloader(() -> MinecraftClient.getInstance().reloadResources());
+        HdPackSync.choose(packChoice(texturePack.get()));
+        texturePack.onChange(p -> {
+            HdPackSync.choose(packChoice(p));
+            MinecraftClient client = MinecraftClient.getInstance();
+            if (client != null) {
+                client.execute(HdPackSync.shared()::reconcile);       // at most one reload, on the client thread; loading the config at start only sets the choice
+            }
+        });
         frames = choice("frames", "Tier frames", FrameScope.EVERYWHERE, s -> s.label)
                 .description("A frame in the tier colour (Simple ... Godly) behind tiered items.").group("Display");
         badges = bool("badges", "Badges", true)
@@ -98,6 +129,30 @@ public final class ItemLookModule extends Module {
 
     public static @Nullable ItemLookModule get() {
         return instance;
+    }
+
+    /** Whether the optional HD V2 overlay pack belongs in the next resource-pack list; false (classic) until the module exists. */
+    public static boolean hdV2Enabled() {
+        return HdPackSync.hdV2Chosen();
+    }
+
+    private static HdPackSync.Choice packChoice(TexturePack pack) {
+        return switch (pack) {
+            case CLASSIC -> HdPackSync.Choice.CLASSIC;
+            case HD_V2 -> HdPackSync.Choice.V2;
+            case HD_V4 -> HdPackSync.Choice.V4;
+        };
+    }
+
+    /** The reload bookkeeping of the HD pack (the resource-pack mixin reports what it built; the tick below reloads once when it differs). */
+    public static HdPackSync hdSync() {
+        return HdPackSync.shared();
+    }
+
+    @Override
+    protected void onEnable() {
+        // The config may be read after the resource packs were first built: one check per tick closes that gap with at most one reload.
+        on(io.theprisons.core.event.CoreEvents.TickEnd.class, event -> HdPackSync.shared().reconcile());
     }
 
     @Override

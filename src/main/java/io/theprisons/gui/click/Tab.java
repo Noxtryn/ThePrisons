@@ -9,12 +9,14 @@ import io.theprisons.core.module.Module;
  * &amp; Pathfinding); a module's name, description, status, keybind and on/off switch sit in its home tab.
  */
 public enum Tab {
-    MINING("Mining & Pathfinding", "⛏", "Tunnel centring, the stone-block rule, planned routes and route memory"),
-    INVENTORY("Inventory & Loot", "▤", "Item sorter, private vaults, inventory limit and auto use"),
-    SAFETY("Safety & Recovery", "⛨", "Anti-stuck, combat failsafe, guard look-ahead and the guarded area"),
-    HUD("HUD & Metrics", "▣", "Session HUD, its rows and the other widgets"),
-    BANDITS("Bandits", "⚑", "Spear helper: shooter crosshair, sight point, throw and lightning effects, aim assist"),
-    OTHER("More modules", "⚙", "The remaining modules (v1 features, core tools)");
+    OVERVIEW("Overview", "◆", "All available ThePrisons systems and their current state"),
+    MINING("Mining", "⛏", "Ore routes, tunnel centring and mining utilities"),
+    BANDITS("Bandit", "⚑", "Bandit and spear-assistant controls"),
+    MARKET("Market", "◈", "Auction House, Energy Exchange and price observations"),
+    ITEMS("Item Tools", "▤", "Item list, tooltips, inventory and loot utilities"),
+    HUD("HUD", "▣", "Session HUD, widgets and display controls"),
+    SAFETY("PvP & Safety", "⛨", "Combat safety, recovery and guarded movement"),
+    SETTINGS("Settings", "⚙", "Core tools and client preferences");
 
     private final String label;
     private final String icon;
@@ -45,7 +47,9 @@ public enum Tab {
             case "session_hud" -> HUD;
             case "safety" -> SAFETY;
             case "spear_helper" -> BANDITS;
-            default -> module.category() == Category.BANDIT ? BANDITS : module.category() == Category.HUD ? HUD : module.category() == Category.MINING ? MINING : OTHER;
+            case "market", "ah_overlay", "ee_overlay", "energy_overlay" -> MARKET;
+            case "item_list", "item_look", "storage_overlay" -> ITEMS;
+            default -> module.category() == Category.BANDIT ? BANDITS : module.category() == Category.HUD ? HUD : module.category() == Category.MINING ? MINING : SETTINGS;
         };
     }
 
@@ -53,7 +57,7 @@ public enum Tab {
     public static Tab of(Module module, String group) {
         if ("ore_macro".equals(module.id())) {
             return switch (group) {
-                case "Item sorter", "Auto use" -> INVENTORY;
+                case "Item sorter", "Auto use" -> ITEMS;
                 case "Defence", "Breaks", "Recovery" -> SAFETY;
                 default -> MINING;
             };

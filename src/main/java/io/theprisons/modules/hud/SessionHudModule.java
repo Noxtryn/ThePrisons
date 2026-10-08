@@ -49,6 +49,8 @@ public final class SessionHudModule extends Module implements io.theprisons.gui.
     private final Settings.BoolSetting showState;
     private final Settings.BoolSetting showEta;
     private final Settings.BoolSetting showYield;
+    private final Settings.EnumSetting<io.theprisons.hud.DashboardStyle> style;
+    private final Settings.IntSetting width;
 
     /** Chat effects, boosters, tax, pickaxe lore: everything that is not tied to one activity (wall clock). */
     private CosmicStats stats = newStats();
@@ -80,6 +82,11 @@ public final class SessionHudModule extends Module implements io.theprisons.gui.
         x = integer("x", "X", 6, 0, 4000, 1).group("Position");
         y = integer("y", "Y", 6, 0, 4000, 1).group("Position");
         scale = decimal("scale", "Scale", 1.0D, 0.5D, 2.5D, 0.05D).group("Position");
+        style = choice("dashboard_style", "Dashboard style", io.theprisons.hud.DashboardStyle.STANDARD, io.theprisons.hud.DashboardStyle::label)
+                .description("Minimal: a few lines. Standard: the main numbers, the activity and the basic status. Detailed: everything useful (analytics, "
+                        + "boosters).").group("Dashboard");
+        width = integer("width", "Width", 320, 200, 420, 5).suffix(" px")
+                .description("The dashboard's width (it shrinks on its own when the screen is too small for it).").group("Dashboard");
         showState = bool("show_state", "Show activity", true)
                 .description("What you are doing right now (mining which ore, fighting bandits, idle; the ore macro's "
                         + "current step) and the inventory fill.")
@@ -371,6 +378,7 @@ public final class SessionHudModule extends Module implements io.theprisons.gui.
             bandit = a != null && a.name.equals(SessionMode.BANDIT);
             kills = a == null ? 0L : a.kills;
             playerKills = a == null ? 0L : a.playerKills;
+            view = buildView(snapshot);
         }
     }
 
@@ -495,22 +503,51 @@ public final class SessionHudModule extends Module implements io.theprisons.gui.
         return snapshot;
     }
 
-    /** HUD callback: draws the last snapshot (nothing while off, without a world or with the F1 HUD hidden). */
+    private volatile io.theprisons.hud.@Nullable SessionView view;
+    private io.theprisons.hud.DashboardLayout.@Nullable Result layout;
+    private io.theprisons.hud.@Nullable SessionView layoutView;
+    private io.theprisons.hud.@Nullable DashboardStyle layoutStyle;
+    private int layoutWidth;
+
+    /** The prepared view of the dashboard (built with the snapshot, a few times a second - never per frame). */
+    private io.theprisons.hud.SessionView buildView(CosmicStats.Snapshot s) {
+        long now = System.currentTimeMillis();
+        java.util.List<io.theprisons.hud.SessionView.Row> debug = new java.util.ArrayList<>();
+        if (io.theprisons.modules.FeatureProfile.DEV) {
+            debug.add(new io.theprisons.hud.SessionView.Row("Learned routes", String.valueOf(s.learnedRoutes()), io.theprisons.hud.SessionView.Tone.MUTED));
+        }
+        if (bandit) {
+            return io.theprisons.hud.SessionViewFactory.bandit(s, io.theprisons.hud.BanditHudInfo.current(), kills, playerKills, showEta.on(), now, debug);
+        }
+        return io.theprisons.hud.SessionViewFactory.ore(s, showState.on() ? activity : "", showEta.on(), showYield.on(), now, macroRunning(), debug);
+    }
+
+    /** The layout for this view, style and width; recomputed only when one of them changed. */
+    private io.theprisons.hud.DashboardLayout.Result layoutFor(io.theprisons.hud.SessionView v, int screenWidth) {
+        double sc = Math.max(0.1D, scale.value());
+        int w = (int) Math.max(120, Math.min(width.value(), (screenWidth - 8) / sc));
+        if (layout == null || layoutView != v || layoutStyle != style.get() || layoutWidth != w) {
+            layout = io.theprisons.hud.DashboardLayout.layout(v, style.get(), w, io.theprisons.hud.DashboardRenderer.measure());
+            layoutView = v;
+            layoutStyle = style.get();
+            layoutWidth = w;
+        }
+        return layout;
+    }
+
+    /** HUD callback: draws the last prepared view (nothing while off, without a world or with the F1 HUD hidden). */
     public void render(DrawContext context, RenderTickCounter counter) {
-        CosmicStats.Snapshot s = snapshot;
+        io.theprisons.hud.SessionView v = view;
         MinecraftClient client = MinecraftClient.getInstance();
-        if (!enabled() || !inWorld || s == null || client.options.hudHidden) {
+        if (!enabled() || !inWorld || v == null || client.options.hudHidden) {
             return;
         }
-        lastSize = NebulaHudRenderer.draw(context, s, x.value(), y.value(), (float) scale.value(), io.theprisons.modules.general.DesignModule.sleekFont(), options());
+        io.theprisons.hud.DashboardLayout.Result r = layoutFor(v, client.getWindow().getScaledWidth());
+        lastSize = new int[]{r.width(), r.height()};
+        io.theprisons.hud.DashboardRenderer.draw(context, r, x.value(), y.value(), (float) scale.value());
     }
 
-    private NebulaHudRenderer.Options options() {
-        return new NebulaHudRenderer.Options(io.theprisons.modules.FeatureProfile.DEV && showState.on(), showEta.on(),
-                showYield.on(), title, showState.on() ? activity : "", bandit, kills, playerKills);
-    }
-
-    private int[] lastSize = {150, 120};
+    private int[] lastSize = {320, 150};
 
     // ── HUD editor ───────────────────────────────────────────────────────────
 
@@ -539,14 +576,18 @@ public final class SessionHudModule extends Module implements io.theprisons.gui.
     @Override
     public void drawPreview(DrawContext context, int screenWidth, int screenHeight) {
         CosmicStats.Snapshot s = snapshot;
+        long now = System.currentTimeMillis();
         if (s == null) {
-            long now = System.currentTimeMillis();
             s = new CosmicStats.Snapshot(5_400_000L, 4.2D, 3.9D, 18_240L, 1_250_000D, 860_000D, 6.5D, "",
                     java.util.List.of(new CosmicStats.Booster("2x Rested XP", 2.0D, now + 4_800_000L)),
                     java.util.List.of(new CosmicStats.Booster("Charge Orbs +12% Energy", 1.12D, 0L)), 0, "",
-                    2_700_000L, -1.0D, "", 0.82D, -1.0D, -1.0D, "", -1);
+                    2_700_000L, -1.0D, "", 0.82D, -1.0D, -1.0D, "MINING", 78, 1_100_000D, 800_000D);
         }
-        lastSize = NebulaHudRenderer.draw(context, s, x.value(), y.value(), (float) scale.value(), io.theprisons.modules.general.DesignModule.sleekFont(), options());
+        io.theprisons.hud.SessionView v = view != null ? view
+                : io.theprisons.hud.SessionViewFactory.ore(s, "Mining Gold", showEta.on(), showYield.on(), now, true, java.util.List.of());
+        io.theprisons.hud.DashboardLayout.Result r = layoutFor(v, screenWidth);
+        lastSize = new int[]{r.width(), r.height()};
+        io.theprisons.hud.DashboardRenderer.draw(context, r, x.value(), y.value(), (float) scale.value());
     }
 
     @Override

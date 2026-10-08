@@ -1,0 +1,24 @@
+{
+  "layers": {
+    "humanoid": [
+      {
+        "texture": "theprisons:copper"
+      }
+    ],
+    "humanoid_leggings": [
+      {
+        "texture": "theprisons:copper"
+      }
+    ],
+    "horse_body": [
+      {
+        "texture": "minecraft:copper"
+      }
+    ],
+    "nautilus_body": [
+      {
+        "texture": "minecraft:copper"
+      }
+    ]
+  }
+}

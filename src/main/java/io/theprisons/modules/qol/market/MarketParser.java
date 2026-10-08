@@ -88,6 +88,22 @@ public final class MarketParser {
         return -1.0D;
     }
 
+    /** The total price shown on a market slot ("Price: $2.40M" is the whole stack, a sale's price too); -1 = no price on it. */
+    public static double totalPrice(Item it) {
+        for (String raw : it.lore()) {
+            String line = raw.strip();
+            Matcher m = SOLD_PRICE.matcher(line);
+            if (m.find()) {
+                return number(m.group(1));
+            }
+            m = PRICE.matcher(line);
+            if (m.find()) {
+                return number(m.group(1));
+            }
+        }
+        return -1.0D;
+    }
+
     /** The listings of a "Market" page (slots 0-44 with a price). */
     public static List<Listing> listings(List<Item> items) {
         List<Listing> out = new ArrayList<>();
@@ -283,7 +299,7 @@ public final class MarketParser {
     }
 
     /** "2m", "1d 3h 58m 29s", "22 hrs 13 mins 54 secs", "42 mins 15 secs" → ms. */
-    static long durationMs(String text) {
+    public static long durationMs(String text) {
         Matcher m = DURATION.matcher(text.toLowerCase(Locale.ROOT));
         long ms = 0L;
         boolean any = false;

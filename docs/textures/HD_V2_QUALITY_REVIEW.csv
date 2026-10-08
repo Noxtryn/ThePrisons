@@ -1,0 +1,22 @@
+status,family,coverage,reason
+INCLUDED,XP Bottles,6/6,clear family; retained
+INCLUDED,Books,6 normal + 1 canonical Random,all random_* model IDs in HD overlay map to book/random.png
+INCLUDED,Revealed Books,6/6,normal revealed family retained; random revealed variants use Classic fallback until verified
+INCLUDED,Clue Scrolls,6/6,normal family retained; random variants use Classic fallback
+INCLUDED,Randomization Scrolls,6/6,normal rarity family retained; random variants use Classic fallback
+INCLUDED,Dust,6/6,normal family retained; random variants use Classic fallback
+INCLUDED,Secret Dust,6/6,normal family retained; random variants use Classic fallback
+INCLUDED,Enchant Orbs,6/6,normal family retained; random variants use Classic fallback
+INCLUDED,Pages,6/6,normal family retained; random variants use Classic fallback
+INCLUDED,Upgrade,6/6,normal family retained; random variants use Classic fallback
+REMOVED,Charge Orb,0/4 in V2.1,old progression rejected; Classic fallback until a clean same-object Stage 1→4 sheet is approved
+INCLUDED,Boosters,3/3,retained
+INCLUDED,Powerups,4 families × 7,retained from current export
+PARTIAL,Prestige Token,levels 1-5,levels 6-10 not present in export
+REMOVED,Masks,0/15 in V2.1,fantasy interpretations rejected; real Cosmic identity required
+SKIPPED,Pets,0/14,real Cosmic identity required; current animal/token generations rejected
+SKIPPED,Satchels,0,wrong counts/order in current export
+SKIPPED,Reroll,0,requested 6; generated 8
+SKIPPED,Spear Orb,0,requested 6; generated 7
+SKIPPED,Random Shard,0,wrong object identity
+INCLUDED,Contraband Random mapping,1 canonical Random,all six technical random_* IDs point to contraband/random.png; normal approved contraband remains Classic because final reference assets were not regenerated here

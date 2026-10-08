@@ -3,6 +3,9 @@ package io.theprisons.feature;
 import io.theprisons.ThePrisonsClient;
 import io.theprisons.config.ThePrisonsConfig;
 import io.theprisons.core.ThePrisonsCore;
+import io.theprisons.items.ItemMarketTooltip;
+import io.theprisons.items.ItemsService;
+import io.theprisons.items.client.ItemFactsReader;
 import io.theprisons.ui.ThePrisonsColors;
 import io.theprisons.ui.ThePrisonsHudRenderer;
 import com.mojang.authlib.GameProfile;
@@ -596,6 +599,13 @@ public final class ThePrisonsFeatureManager {
         String expiry = detectExpiry(plain);
         if (expiry != null) {
             lines.add(Text.literal("[TP] Expires around " + expiry).formatted(Formatting.YELLOW));
+        }
+
+        ItemsService items = ItemsService.get();
+        if (items != null) {
+            for (String line : ItemMarketTooltip.lines(ItemFactsReader.read(stack), items::marketDetail)) {
+                lines.add(Text.literal("[TP] " + line).formatted(line.equals("MARKET DATA") ? Formatting.AQUA : Formatting.GRAY));
+            }
         }
     }
 

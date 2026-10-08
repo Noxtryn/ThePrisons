@@ -21,7 +21,7 @@ public abstract class ThePrisonsMarketOverlayMixin {
     @Inject(method = "mouseScrolled", at = @At("HEAD"), cancellable = true)
     private void theprisons$listScroll(double mouseX, double mouseY, double horizontal, double vertical, CallbackInfoReturnable<Boolean> cir) {
         if ((Object) this instanceof net.minecraft.client.gui.screen.ingame.InventoryScreen screen
-                && io.theprisons.modules.qol.market.MarketSearch.scrolled(mouseX, mouseY, vertical, screen.width)) {
+                && io.theprisons.items.client.InventoryItemList.scrolled(mouseX, mouseY, vertical, screen.width, screen.height)) {
             cir.setReturnValue(true);
         }
     }

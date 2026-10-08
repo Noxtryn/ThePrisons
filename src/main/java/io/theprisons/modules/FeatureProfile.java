@@ -23,7 +23,7 @@ public final class FeatureProfile {
      */
     public static final Set<String> ON = Set.of(
             // Storage & items
-            "storage_overlay", "item_look",
+            "storage_overlay", "item_look", "item_list", "ah_overlay", "ee_overlay", "energy_overlay",
             // HUD
             "scoreboard", "better_tab", "session_hud", "pet_hud", "command_cooldowns", "satchel_hud", "armor_hud", "item_insights",
             // Quality of life
