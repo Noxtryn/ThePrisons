@@ -4,7 +4,7 @@ import io.theprisons.modules.qol.bandit.combat.Terrain;
 
 /**
  * A flat test arena from characters, one per block, x to the right, z downwards, origin at the top-left corner.
- * {@code .} floor, {@code #} wall, {@code ' '} a hole (a drop), {@code ~} hazard (lava), {@code ?} unknown, anything outside is unknown.
+ * {@code .} floor, {@code ^} floor one block higher (a step that needs a jump), {@code #} wall, {@code ' '} a hole (a drop), {@code ~} hazard (lava), {@code ?} unknown, anything outside is unknown.
  */
 public final class GridTerrain implements Terrain {
     private final String[] rows;
@@ -55,6 +55,9 @@ public final class GridTerrain implements Terrain {
         double uz = dirZ / len;
         double walked = 0.0D;
         double step = 0.1D; // fine enough that "free" is the real distance to the edge
+        double jumpAt = -1.0D;
+        int level = at((int) Math.floor(x), (int) Math.floor(z)) == '^' ? 1 : 0;
+        int startLevel = level;
         while (walked < maxDist - 1e-9) {
             double next = Math.min(maxDist, walked + step);
             char c = at((int) Math.floor(x + ux * next), (int) Math.floor(z + uz * next));
@@ -66,11 +69,19 @@ public final class GridTerrain implements Terrain {
                 default -> null;
             };
             if (stop != null) {
-                return new Ray(walked, stop, 0.0D);
+                return new Ray(walked, stop, level - startLevel, jumpAt);
+            }
+            if (c == '^' && level == 0) {
+                level = 1;
+                if (jumpAt < 0.0D) {
+                    jumpAt = walked;
+                }
+            } else if (c == '.' && level == 1) {
+                level = 0;
             }
             walked = next;
         }
-        return new Ray(maxDist, Stop.CLEAR, 0.0D);
+        return new Ray(maxDist, Stop.CLEAR, level - startLevel, jumpAt);
     }
 
     /** True when the straight line between two points crosses no wall (a line of sight on this arena). */

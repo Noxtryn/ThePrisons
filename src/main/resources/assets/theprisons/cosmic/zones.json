@@ -53,6 +53,11 @@
           "confidence": "UNKNOWN",
           "source": "owner: needed",
           "note": "owner's term; no log yet that links it to Badlands or to a chat line"
+        },
+        "spearUsable": {
+          "confidence": "UNKNOWN",
+          "source": "owner: needed",
+          "note": "where the spear works is not verified; the dodge test reports spear area UNKNOWN until this is set"
         }
       }
     },

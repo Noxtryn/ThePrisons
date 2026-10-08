@@ -10,16 +10,18 @@ import io.theprisons.modules.qol.bandit.combat.Terrain;
  * step height, drops). Bounded by construction: a probe is at most a few blocks long and the callers make a handful per tick. Client
  * thread only (the view reads the live client world).
  */
-final class WorldTerrain implements Terrain {
+public final class WorldTerrain implements Terrain {
     /** A step of 0.25 blocks: columns change at most every 4th sample. */
     private static final double STEP = 0.25D;
     private static final double MAX_UP = 1.1D;
+    /** Up to a slab (0.5) a player walks on; above it the jump is needed (a jump reaches about 1.25). */
+    private static final double STEP_WITHOUT_JUMP = 0.6D;
     private static final double MAX_DROP = 2.0D;
 
     private final Walkability walk;
     private final VoxelView view;
 
-    WorldTerrain(VoxelView live) {
+    public WorldTerrain(VoxelView live) {
         this.view = new OpenView(live);
         this.walk = new Walkability(view, 3);
     }
@@ -35,6 +37,7 @@ final class WorldTerrain implements Terrain {
         int startX = (int) Math.floor(x);
         int startZ = (int) Math.floor(z);
         double feet = y;
+        double jumpAt = -1.0D;
         int lastX = startX;
         int lastZ = startZ;
         double walked = 0.0D;
@@ -45,14 +48,17 @@ final class WorldTerrain implements Terrain {
             if (bx != lastX || bz != lastZ) {
                 double ground = groundAt(bx, bz, feet);
                 if (Double.isNaN(ground)) {
-                    return new Ray(walked, whyBlocked(bx, bz, feet), feet - y);
+                    return new Ray(walked, whyBlocked(bx, bz, feet), feet - y, jumpAt);
                 }
                 double change = ground - feet;
                 if (change > MAX_UP) {
-                    return new Ray(walked, Stop.STEP, feet - y);
+                    return new Ray(walked, Stop.STEP, feet - y, jumpAt);
                 }
                 if (change < -MAX_DROP) {
-                    return new Ray(walked, Stop.DROP, feet - y);
+                    return new Ray(walked, Stop.DROP, feet - y, jumpAt);
+                }
+                if (change > STEP_WITHOUT_JUMP && jumpAt < 0.0D) {
+                    jumpAt = walked; // a real step up: the player has to jump here (the landing floor was found)
                 }
                 feet = ground;
                 lastX = bx;
@@ -60,7 +66,7 @@ final class WorldTerrain implements Terrain {
             }
             walked = next;
         }
-        return new Ray(maxDist, Stop.CLEAR, feet - y);
+        return new Ray(maxDist, Stop.CLEAR, feet - y, jumpAt);
     }
 
     /** The feet height at which a player can stand in column (bx, bz) near {@code feet}: NaN when there is none. */

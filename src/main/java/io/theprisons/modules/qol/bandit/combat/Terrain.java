@@ -23,8 +23,20 @@ public interface Terrain {
         UNKNOWN
     }
 
-    /** @param free blocks that can be walked before {@code stop}; @param heightChange net change of the feet height at the end */
-    record Ray(double free, Stop stop, double heightChange) {
+    /**
+     * @param free         blocks that can be walked before {@code stop}
+     * @param heightChange net change of the feet height at the end
+     * @param jumpAt       blocks until the first step up that needs a jump (the landing is a valid floor); -1 = no jump needed on this probe
+     */
+    record Ray(double free, Stop stop, double heightChange, double jumpAt) {
+        public Ray(double free, Stop stop, double heightChange) {
+            this(free, stop, heightChange, -1.0D);
+        }
+
+        public boolean needsJump() {
+            return jumpAt >= 0.0D;
+        }
+
         public boolean clear(double needed) {
             return free >= needed || stop == Stop.CLEAR && free >= needed - 0.01D;
         }
