@@ -4,7 +4,9 @@ import io.theprisons.core.client.ClientReadouts;
 import io.theprisons.core.client.TextStrip;
 import io.theprisons.gui.kit.HidesHud;
 import io.theprisons.gui.kit.Ui;
+import io.theprisons.items.ItemRarity;
 import io.theprisons.mixin.ThePrisonsSlotAccessor;
+import io.theprisons.modules.qol.items.PrisonsItems;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.Click;
@@ -439,7 +441,9 @@ public final class MarketScreen extends HandledScreen<GenericContainerScreenHand
             drawSearch(c, tr);
             drawTabs(c);
             drawChips(c, tr);
-            hoverCell = global() ? cellAt(mouseX, mouseY) : null;
+            // A single hovered listing model feeds both server-page and global-search tooltips.  The original item
+            // lore is retained in drawMarketTooltip; only observed market context is appended.
+            hoverCell = cellAt(mouseX, mouseY);
             drawCells(c, tr, book);
         }
         drawFooter(c, tr, book);
@@ -530,6 +534,12 @@ public final class MarketScreen extends HandledScreen<GenericContainerScreenHand
             int cy = gy + (at / COLS) * CH;
             boolean over = global() ? cell == hoverCell : handler.slots.get(cell.slot()) == focusedSlot;
             Ui.sprite(c, "market/cell", cx + 1, cy, CW - 2, CH - 2, over ? Ui.argb(120, accent) : Ui.argb(52, 0xFFFFFF));
+            String tier = tier(cell.stack());
+            if (tier != null) {
+                int rarity = ItemRarity.rgb(tier);
+                Ui.outline(c, cx + 1, cy, CW - 2, CH - 2, 0xFF000000 | rarity);
+                c.fill(cx + 3, cy + 2, cx + 6, cy + 5, 0xFF000000 | rarity);
+            }
             if (global()) {
                 c.drawItem(cell.stack(), cx + (CW - 16) / 2, cy + 2);
                 c.drawStackOverlay(tr, cell.stack(), cx + (CW - 16) / 2, cy + 2);
@@ -626,6 +636,16 @@ public final class MarketScreen extends HandledScreen<GenericContainerScreenHand
         Ui.sprite(c, "market/tab", x, y, GRID_W, 16, Ui.argb(34, 0xFFFFFF));
         Slot slot = focusedSlot;
         Cell hovered = hoverCell;
+        if (energy() && slot == null) {
+            double rate = book.moneyPerEnergy();
+            if (rate > 0.0D) {
+                Ui.draw(c, tr, "100k  $" + Money.compact(rate * 100_000.0D), x + 6, y + 4, Ui.theme().accent(), 255);
+                Ui.drawRight(c, tr, "1m  $" + Money.compact(rate * 1_000_000.0D), x + GRID_W - 6, y + 4, Ui.GOOD, 255);
+            } else {
+                Ui.draw(c, tr, "Waiting for a verified energy offer…", x + 6, y + 4, SUB, 255);
+            }
+            return;
+        }
         if (hovered != null) {
             String price = "$" + Money.compact(hovered.unit());
             if (hovered.unit() > 0.0D) {
@@ -678,6 +698,49 @@ public final class MarketScreen extends HandledScreen<GenericContainerScreenHand
         Ui.drawRight(c, tr, paging, x + GRID_W - 6, y + 4, SUB, 255);
     }
 
+    /** Original Cosmic lore followed by directly observed values from the current listing and price book. */
+    private void drawMarketTooltip(DrawContext c, Cell cell, int mouseX, int mouseY) {
+        List<Text> lines = new ArrayList<>(net.minecraft.client.gui.screen.Screen.getTooltipFromItem(MinecraftClient.getInstance(), cell.stack()));
+        String tier = tier(cell.stack());
+        if (tier != null) {
+            lines.add(Text.literal(ItemRarity.badge(tier)).styled(s -> s.withColor(ItemRarity.rgb(tier)).withBold(true)));
+        }
+        lines.add(Text.empty());
+        lines.add(Text.literal("[TP] MARKET OBSERVATION").formatted(net.minecraft.util.Formatting.AQUA));
+        if (cell.unit() > 0.0D) {
+            lines.add(Text.literal("Listing: $" + Money.compact(cell.unit())).formatted(net.minecraft.util.Formatting.GREEN));
+        }
+        PriceBook.Entry known = module.book().get(PriceBook.key(cell.customId(), cell.name()));
+        if (known != null && known.price() > 0.0D) {
+            lines.add(Text.literal("Observed low: $" + Money.compact(known.price()) + " · " + known.source()).formatted(net.minecraft.util.Formatting.GRAY));
+            lines.add(Text.literal("Data age: " + age(System.currentTimeMillis() - known.seenMs())).formatted(net.minecraft.util.Formatting.DARK_GRAY));
+            if (cell.unit() > 0.0D) {
+                double delta = (cell.unit() / known.price() - 1.0D) * 100.0D;
+                lines.add(Text.literal(String.format(Locale.ROOT, "Comparison: %+.1f%% vs observed low", delta))
+                        .formatted(delta <= 0.0D ? net.minecraft.util.Formatting.GREEN : net.minecraft.util.Formatting.RED));
+            }
+        } else {
+            lines.add(Text.literal("No comparable observation recorded").formatted(net.minecraft.util.Formatting.DARK_GRAY));
+        }
+        double energy = module.book().inEnergy(cell.unit());
+        if (energy > 0.0D) {
+            lines.add(Text.literal("At current EE rate: " + Money.compact(energy) + " energy").formatted(net.minecraft.util.Formatting.AQUA));
+        }
+        c.drawTooltip(textRenderer, lines, java.util.Optional.empty(), mouseX, mouseY);
+    }
+
+    private static @Nullable String tier(ItemStack stack) {
+        PrisonsItems.Tier tier = PrisonsItems.info(stack).tier();
+        return tier == null ? null : tier.name();
+    }
+
+    private static String age(long millis) {
+        if (millis < 60_000L) return "just now";
+        if (millis < 3_600_000L) return Math.max(1L, millis / 60_000L) + "m ago";
+        if (millis < 86_400_000L) return Math.max(1L, millis / 3_600_000L) + "h ago";
+        return Math.max(1L, millis / 86_400_000L) + "d ago";
+    }
+
     private static String fit(TextRenderer tr, String s, int maxWidth) {
         if (Ui.width(tr, s) <= maxWidth) {
             return s;
@@ -725,9 +788,10 @@ public final class MarketScreen extends HandledScreen<GenericContainerScreenHand
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float deltaTicks) {
         super.render(context, mouseX, mouseY, deltaTicks);
-        drawMouseoverTooltip(context, mouseX, mouseY);
         if (hoverCell != null) {
-            context.drawItemTooltip(textRenderer, hoverCell.stack(), mouseX, mouseY);
+            drawMarketTooltip(context, hoverCell, mouseX, mouseY);
+        } else {
+            drawMouseoverTooltip(context, mouseX, mouseY);
         }
     }
 

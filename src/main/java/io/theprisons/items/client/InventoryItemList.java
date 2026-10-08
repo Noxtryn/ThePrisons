@@ -459,10 +459,10 @@ public final class InventoryItemList {
 
     private static List<Text> tooltip(ItemEntry e) {
         List<Text> out = new ArrayList<>(Screen.getTooltipFromItem(MinecraftClient.getInstance(), ItemStacks.of(e)));
-        out.add(Text.literal(e.category().label() + " · " + e.subcategory()));
+        out.add(Text.literal(e.category().label() + " · " + e.subcategory()).styled(style -> style.withColor(0x9AA3B5)));
         String badge = ItemRarity.badge(e.tier());
         if (!badge.isEmpty()) {
-            out.add(Text.literal(badge));
+            out.add(Text.literal(badge).styled(style -> style.withColor(ItemRarity.rgb(e.tier())).withBold(true)));
         }
         if (e.meta().hasTiers()) {
             out.add(Text.literal("Tiers: " + String.join(", ", e.meta().tiers())));
