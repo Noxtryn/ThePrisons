@@ -11,6 +11,8 @@ on:
     paths:
       - 'site/**'
       - 'docs/media/**'
+      - 'docs/development/handover/visual-acceptance-2026-10-08/**'
+      - 'src/main/resources/resourcepacks/theprisons_items_standard/**'
       - 'CHANGELOG*.md'
       - '.github/workflows/pages.yml'
   release:
@@ -43,20 +45,16 @@ jobs:
         with:
           ref: ${{ github.event_name == 'push' && github.sha || (github.event.inputs.ref || 'Release') }}
 
-      - name: Assemble the site (media from docs/media)
+      - name: Assemble the site (verified textures and client captures)
         run: |
-          mkdir -p site/media/cards
-          # dashboard.webp (shows the disabled "Market Prices" tile) and scoreboard.webp (shows an /ah error) stay out until re-recorded
-          # only what the page uses: no trailer (outdated), no market pictures (module is off), no raw sources
+          mkdir -p site/media/textures site/media/screenshots
           cp docs/media/banner.png site/media/
-          cp docs/media/cards/*.png site/media/cards/
-          rm -f site/media/cards/market.png site/media/cards/shops.png site/media/cards/item-list.png
-          find docs/media -maxdepth 1 -type f \( -name '*.webp' \) \
-            ! -name 'market-*' ! -name 'dashboard.webp' ! -name 'scoreboard.webp' -exec cp {} site/media/ \;
-          # real pictures only: everything that is not a generated graphic (banner, cards, changelog cards)
-          (cd site/media && find . -maxdepth 1 -type f \( -name '*.webp' -o -name '*.gif' \) \
-            ! -name 'changelog-*' -printf '%f\n' | sort | jq -R . | jq -s .) > site/media/manifest.json
-          cat site/media/manifest.json
+          cp -R src/main/resources/resourcepacks/theprisons_items_standard/assets/theprisons/textures/item/prisons/. site/media/textures/
+          qa=docs/development/handover/visual-acceptance-2026-10-08
+          cp "$qa/config/0005_config_scale1_overview.png" site/media/screenshots/config-session.png
+          cp "$qa/0004_market_1d_inventory_search.png" site/media/screenshots/item-list.png
+          cp "$qa/0005_market_2_ah.png" site/media/screenshots/ah-overlay.png
+          cp "$qa/0006_market_3_ee.png" site/media/screenshots/ee-overlay.png
 
       - uses: actions/configure-pages@v5
 

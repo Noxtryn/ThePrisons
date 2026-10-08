@@ -21,6 +21,7 @@ Keine unveröffentlichten Änderungen.
 - **Config-GUI und Session-Dashboard:** Die bestehenden Client-Oberflächen wurden mit klarerer Navigation, Panels und Statusdarstellung überarbeitet.
 - **Item List und Seltenheiten:** Item-Karten, Icons und Seltenheitsakzente sind in die bestehende Inventaransicht integriert; Item-Identität und originale Lore bleiben maßgeblich.
 - **Marktanalyse:** Beobachtete Angebotspreise, Vergleichskontext und Datenvertrauen werden, sofern verfügbar, verständlicher dargestellt.
+- **Öffentliche Projektpräsentation:** Zweisprachige READMEs und responsive Website sind aktualisiert; Client-Test-Screenshots kennzeichnen synthetische Markt-Fixtures statt eines Live-Server-Nachweises.
 
 ### Behoben
 

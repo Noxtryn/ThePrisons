@@ -23,6 +23,7 @@ No unreleased changes.
 - **Config GUI and session dashboard:** the existing client screens have been updated with clearer navigation, panels and status presentation.
 - **Item List and rarity presentation:** item cards, icons and rarity accents are integrated into the existing inventory view; original item identity and lore remain the source of truth.
 - **Market analysis:** observed offer prices, comparison context and data confidence are surfaced more clearly where data is available.
+- **Public project presentation:** the bilingual README and responsive website are refreshed; client-test screenshots distinguish synthetic market fixtures from live-server verification.
 
 ### Fixed
 
