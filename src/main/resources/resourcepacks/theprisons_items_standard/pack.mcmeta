@@ -1,0 +1,7 @@
+{
+  "pack": {
+    "description": "ThePrisons official Sci-Fi item design — 35 approved family/tier textures; all other items fall back to Classic.",
+    "min_format": 1,
+    "max_format": 999
+  }
+}

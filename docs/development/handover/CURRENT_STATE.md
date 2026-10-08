@@ -15,14 +15,12 @@ not a second live Bandit Macro path. Its collision, corner, jump, crowd, unstabl
 camera-follow simulations pass. The production macro continues to use `CombatBrain` and its
 existing lane driver, so no parallel movement architecture is introduced.
 
-Texture selection now has `Classic`, `HD V2`, and `HD V4 (validated)`. The bundled V4 directory
-currently contains only pack metadata; selecting it safely renders Classic fallbacks until a
-separately reviewed registry build supplies approved textures.
-
-The third texture-pack option is technically compatible with the current product behaviour: it is
-mutually exclusive with V2 and cannot alter Classic paths. It is nevertheless a product-selection
-question because the earlier V4 handover described it as an external review overlay. No selection,
-copy, or texture behaviour was changed during Unified UI V4 work.
+The old `Classic` / `HD V2` / `HD V4 (validated)` choice is retired. The built-in
+`theprisons_items_standard` resource-pack overlay is always present and contains exactly 35 approved
+Sci-Fi assets: 7 Shards, 6 Contraband, 6 Revealed Books, 6 Books, 6 Keys and 4 Charge Orbs. It is
+inserted after player packs but before the existing ThePrisons Look pack, and its exact approved
+models win over Cosmic Textures; every other item continues through the existing source/fallback
+logic. Old V2/V4 files are safely retained in `archive/legacy-texturepacks/`.
 
 Unified UI V4 has one shared rarity palette (`ItemRarity`) and one shared market-tooltip adapter
 (`ItemMarketTooltip`). Generic in-game tooltips preserve their original Minecraft/Cosmic content;

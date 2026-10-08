@@ -23,6 +23,42 @@ tasks.named('remapJar') {
     archiveFileName = jarName
 }
 
+// Explicit deployment only: a build never guesses a launcher directory. Supply the exact, existing `mods`
+// directory after selecting the Prism instance, e.g.:
+// ./gradlew installPrismMod -PtheprisonsInstallDir=/absolute/path/to/instance/minecraft/mods
+tasks.register('installPrismMod', Copy) {
+    group = 'distribution'
+    description = 'Installs the remapped JAR into an explicitly supplied Prism/Minecraft mods directory.'
+    dependsOn tasks.named('remapJar')
+
+    def installDir = providers.gradleProperty('theprisonsInstallDir')
+    from(tasks.named('remapJar').flatMap { it.archiveFile })
+    into(installDir.map { file(it) })
+
+    doFirst {
+        if (!installDir.present) {
+            throw new GradleException('Refusing to install without -PtheprisonsInstallDir=/absolute/path/to/mods')
+        }
+        File destination = file(installDir.get()).canonicalFile
+        if (!destination.isDirectory() || destination.name != 'mods') {
+            throw new GradleException("Refusing to install: ${destination} is not an existing mods directory")
+        }
+        List<File> existing = destination.listFiles()?.findAll { file ->
+            file.isFile() && file.name.toLowerCase(Locale.ROOT).contains('theprison') && file.name != jarName
+        } ?: []
+        if (!existing.isEmpty()) {
+            throw new GradleException("Refusing to install beside other ThePrisons JAR(s): ${existing*.name.join(', ')}")
+        }
+    }
+    doLast {
+        File installed = file(installDir.get()).canonicalFile.toPath().resolve(jarName).toFile()
+        if (!installed.isFile()) {
+            throw new GradleException("Installation did not produce ${installed}")
+        }
+        logger.lifecycle("Installed verified artifact at ${installed}")
+    }
+}
+
 processResources {
     inputs.property "version", project.version
     filesMatching("fabric.mod.json") {

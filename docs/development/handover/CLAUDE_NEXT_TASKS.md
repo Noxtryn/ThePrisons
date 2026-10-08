@@ -1,9 +1,9 @@
 # Claude next tasks
 
-1. When V4 artwork arrives, validate its hashes and complete-family gate, then populate only
-   `resourcepacks/theprisons_items_hd_v4` from the reviewed artifact; test resource reload and
-   Classic / V2 / V4 switching in-game.
-2. Perform in-game GUI-scale smoke tests for the three Session Dashboard styles and Bandit view.
+1. Perform an in-game resource-reload and visual smoke test for all 35 standard textures, then
+   capture real Cosmic examples for each of the six families.
+2. For future artwork, extend only `theprisons_items_standard/manifest.json`, its exact model
+   allow-list and corresponding tests after a registry/model match; never restore V2/V4 selection.
 3. Keep `stash@{0}` intact; do not apply it wholesale. Its pre-V4 HD assets are superseded and its
    navigation records are not wired into `LocalNavigator`.
 4. Verify the V4 registry against live Cosmic item captures when artwork arrives, especially pets,

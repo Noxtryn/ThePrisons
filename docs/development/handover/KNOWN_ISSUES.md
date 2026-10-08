@@ -1,14 +1,12 @@
 # Known issues and constraints
 
-- The V4 builder requires Python 3 and Pillow. It performs no network access and no image scaling.
-- An entire item family is emitted only when every registered identity in that family is approved;
-  otherwise Minecraft resolves the Classic texture.
-- The current pipeline enforces one canonical visual ID for `random_*` variants. Do not invent
-  per-tier random artwork or remap pets/masks by filename.
+- The supplied ZIP manifest claimed all images were 256×256. Fifteen were 1254×1254 and were
+  normalized to 256×256 during the documented import; source and output SHA-256 values are retained.
+- `random_*`, pets, masks and every family outside the supplied 35 paths deliberately retain their
+  Classic/Cosmic texture. Do not extend the standard allow-list by filename similarity.
 - HUD, market, and Bandit Phase-3 changes are intentionally committed separately from V4 and
   require in-game GUI smoke tests in addition to unit tests.
 - Do not apply `stash@{0}` blindly: it includes superseded HD V2 assets and a partial navigation
   API change whose `LocalNavigator` orchestrator was not changed.
-- HD V4 selection is intentionally empty until artwork arrives. It is a safe Classic fallback, not
-  evidence of in-game artwork validation. A release integrator must populate its directory only from
-  a reviewed `pipeline.py build` artifact and then perform an in-game resource-reload smoke test.
+- Unit tests validate pack composition, hashes, dimensions, alpha, model paths, config cleanup and
+  fallback behaviour. An in-game reload/client visual smoke test remains required before release.
