@@ -35,6 +35,17 @@ public final class ItemLookModule extends Module {
         }
     }
 
+    /** Which ThePrisons art the item models show: the classic textures or the optional integrated HD V2 overlay (the PNGs it has; the rest stays classic). */
+    public enum TexturePack {
+        CLASSIC("Classic"), HD_V2("HD V2");
+
+        private final String label;
+
+        TexturePack(String label) {
+            this.label = label;
+        }
+    }
+
     public enum FrameScope {
         EVERYWHERE("Inventories and hotbar"), SCREENS("Inventories only"), OFF("Off");
 
@@ -49,6 +60,7 @@ public final class ItemLookModule extends Module {
     private static @Nullable ItemLookModule instance;
 
     private final Settings.EnumSetting<Source> source;
+    private final Settings.EnumSetting<TexturePack> texturePack;
     private final Settings.EnumSetting<FrameScope> frames;
     private final Settings.BoolSetting badges;
     private final Settings.BoolSetting pickaxes;
@@ -81,6 +93,18 @@ public final class ItemLookModule extends Module {
                 Settings.KeybindSetting.NONE);
         source = choice("source", "Texture source", Source.COSMIC_FIRST, s -> s.label)
                 .description("Which textures win when the Cosmic Textures mod is installed too.").group("Textures");
+        texturePack = choice("texture_pack", "Texture pack", TexturePack.CLASSIC, p -> p.label)
+                .description("Classic ThePrisons art or the optional HD V2 item textures (high resolution; items without an HD V2 texture keep the classic one). "
+                        + "Changing it reloads the resources once.").group("Textures");
+        HdPackSync.setReloader(() -> MinecraftClient.getInstance().reloadResources());
+        HdPackSync.choose(texturePack.get() == TexturePack.HD_V2);
+        texturePack.onChange(p -> {
+            HdPackSync.choose(p == TexturePack.HD_V2);
+            MinecraftClient client = MinecraftClient.getInstance();
+            if (client != null) {
+                client.execute(HdPackSync.shared()::reconcile);       // at most one reload, on the client thread; loading the config at start only sets the choice
+            }
+        });
         frames = choice("frames", "Tier frames", FrameScope.EVERYWHERE, s -> s.label)
                 .description("A frame in the tier colour (Simple ... Godly) behind tiered items.").group("Display");
         badges = bool("badges", "Badges", true)
@@ -98,6 +122,22 @@ public final class ItemLookModule extends Module {
 
     public static @Nullable ItemLookModule get() {
         return instance;
+    }
+
+    /** Whether the optional HD V2 overlay pack belongs in the next resource-pack list; false (classic) until the module exists. */
+    public static boolean hdV2Enabled() {
+        return HdPackSync.hdV2Chosen();
+    }
+
+    /** The reload bookkeeping of the HD pack (the resource-pack mixin reports what it built; the tick below reloads once when it differs). */
+    public static HdPackSync hdSync() {
+        return HdPackSync.shared();
+    }
+
+    @Override
+    protected void onEnable() {
+        // The config may be read after the resource packs were first built: one check per tick closes that gap with at most one reload.
+        on(io.theprisons.core.event.CoreEvents.TickEnd.class, event -> HdPackSync.shared().reconcile());
     }
 
     @Override
