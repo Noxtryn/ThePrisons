@@ -858,6 +858,31 @@ public final class OreMacroModule extends AutomationModule {
         status = "Idle";
     }
 
+    /**
+     * The control layer's spin guard fired (turning a lot, going nowhere, no block changing): keys and view are stopped for a
+     * moment already. Drop what could be the cause - the current plan, route job and travel - and steer afresh; the visit memory
+     * ({@code walked}) is kept. A second spin shortly after stops the macro (done by the core).
+     */
+    @Override
+    public void onSpinLoop() {
+        count("spin_loops");
+        breaker.cancel(MinecraftClient.getInstance());
+        control.input().clear();
+        driver.stop();
+        travel = null;
+        travelJob = null;
+        routeJob = null;
+        steer.reset();
+        classic.reset();
+        stuckTicks = 0;
+        recoverTicks = 0;
+        stuckTimes.clear();
+        resetPlan();
+        lastIssue = "spin loop: planning afresh";
+        phase = activeRoute != null ? Phase.ROUTE : Phase.STEER;
+        ThePrisonsClient.LOGGER.warn("[ore_macro] SPIN_GUARD: plan, target and steering dropped, steering afresh");
+    }
+
     @Override
     public boolean onRelocated(String reason) {
         breaker.cancel(MinecraftClient.getInstance());
@@ -1181,10 +1206,11 @@ public final class OreMacroModule extends AutomationModule {
         }
         if (ticks % 40 == 0) {
             // Trace every 2 s: what the steering does, so a game log shows the whole picture.
-            ThePrisonsClient.LOGGER.info("[ore_macro] trace {} {} | {} | free {} ore ahead {} | stone blocks {} | {}",
+            ThePrisonsClient.LOGGER.info("[ore_macro] trace {} {} | {} | free {} ore ahead {} | stone blocks {} | {} | stuck {}/{} recover {} walked {} | {}",
                     player.getBlockPos().toShortString(), botState(), useClassic ? classic.debugState() : steer.debugState(),
                     String.format(Locale.ROOT, "%.1f", d.free()), d.oreAhead() ? "yes" : "no", barrenBlocks,
-                    plan != null ? "route " + planInfo : "no route");
+                    plan != null ? "route " + planInfo : "no route", stuckTicks, stuckTimes.size(), recoverTicks, walked.size(),
+                    control.telemetry().summary());
         }
         if (!d.forward() && guardArea.clearOutsideNear(player.getBlockX(), player.getBlockY(), player.getBlockZ())) {
             count("unwalled");

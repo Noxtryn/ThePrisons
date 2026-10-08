@@ -57,6 +57,8 @@ tasks.named('test', Test) {
     systemProperty 'tuning', System.getProperty('tuning', 'false')
     systemProperty 'seed', System.getProperty('seed', '42')
     systemProperty 'legs', System.getProperty('legs', '4')
+    // Writes the synthetic Cosmic fixtures (src/test/.../FixtureGenerator): ./gradlew test --tests '*FixtureGenerator' -Dcosmic.fixtures.write=true
+    systemProperty 'cosmic.fixtures.write', System.getProperty('cosmic.fixtures.write', 'false')
 }
 
 // In-game integration tests (Fabric client gametest API): ./gradlew runClientGameTest

@@ -1,0 +1,65 @@
+{
+  "schema": 1,
+  "entries": [
+    {
+      "id": "spawn",
+      "name": "Spawn",
+      "attributes": {
+        "chatLine": {
+          "value": "welcome to spawn",
+          "confidence": "OBSERVED",
+          "source": "chat"
+        }
+      }
+    },
+    {
+      "id": "mine",
+      "name": "Mine",
+      "attributes": {
+        "chatLine": {
+          "value": "welcome to the <name> mine",
+          "confidence": "OBSERVED",
+          "source": "chat"
+        }
+      }
+    },
+    {
+      "id": "diamond",
+      "name": "Diamond zone",
+      "attributes": {
+        "chatLine": {
+          "value": "You entered a Diamond Zone",
+          "confidence": "OBSERVED",
+          "source": "game log 2026-10-03"
+        }
+      }
+    },
+    {
+      "id": "badlands",
+      "name": "Badlands",
+      "attributes": {
+        "marketEnabled": {
+          "value": false,
+          "confidence": "OBSERVED",
+          "source": "CHANGELOG 1.0.0: market scan backs off where the market is disabled (Badlands)"
+        }
+      }
+    },
+    {
+      "id": "bandit_lands",
+      "name": "Bandit lands",
+      "attributes": {
+        "sameAsBadlands": {
+          "confidence": "UNKNOWN",
+          "source": "owner: needed",
+          "note": "owner's term; no log yet that links it to Badlands or to a chat line"
+        }
+      }
+    },
+    {
+      "id": "unknown",
+      "name": "Unknown zone",
+      "attributes": {}
+    }
+  ]
+}

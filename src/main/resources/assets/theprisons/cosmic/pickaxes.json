@@ -1,0 +1,101 @@
+{
+  "schema": 1,
+  "entries": [
+    {
+      "id": "wooden",
+      "name": "Wooden pickaxe",
+      "attributes": {
+        "itemId": {
+          "value": "minecraft:wooden_pickaxe",
+          "confidence": "VERIFIED_OFFICIAL",
+          "source": "Minecraft item registry"
+        },
+        "cosmicStats": {
+          "confidence": "UNKNOWN",
+          "source": "owner: needed",
+          "note": "mining speed / energy / enchant slots of a Cosmic pickaxe of this base item"
+        }
+      }
+    },
+    {
+      "id": "stone",
+      "name": "Stone pickaxe",
+      "attributes": {
+        "itemId": {
+          "value": "minecraft:stone_pickaxe",
+          "confidence": "VERIFIED_OFFICIAL",
+          "source": "Minecraft item registry"
+        },
+        "cosmicStats": {
+          "confidence": "UNKNOWN",
+          "source": "owner: needed",
+          "note": "mining speed / energy / enchant slots of a Cosmic pickaxe of this base item"
+        }
+      }
+    },
+    {
+      "id": "iron",
+      "name": "Iron pickaxe",
+      "attributes": {
+        "itemId": {
+          "value": "minecraft:iron_pickaxe",
+          "confidence": "VERIFIED_OFFICIAL",
+          "source": "Minecraft item registry"
+        },
+        "cosmicStats": {
+          "confidence": "UNKNOWN",
+          "source": "owner: needed",
+          "note": "mining speed / energy / enchant slots of a Cosmic pickaxe of this base item"
+        }
+      }
+    },
+    {
+      "id": "golden",
+      "name": "Golden pickaxe",
+      "attributes": {
+        "itemId": {
+          "value": "minecraft:golden_pickaxe",
+          "confidence": "VERIFIED_OFFICIAL",
+          "source": "Minecraft item registry"
+        },
+        "cosmicStats": {
+          "confidence": "UNKNOWN",
+          "source": "owner: needed",
+          "note": "mining speed / energy / enchant slots of a Cosmic pickaxe of this base item"
+        }
+      }
+    },
+    {
+      "id": "diamond",
+      "name": "Diamond pickaxe",
+      "attributes": {
+        "itemId": {
+          "value": "minecraft:diamond_pickaxe",
+          "confidence": "VERIFIED_OFFICIAL",
+          "source": "Minecraft item registry"
+        },
+        "cosmicStats": {
+          "confidence": "UNKNOWN",
+          "source": "owner: needed",
+          "note": "mining speed / energy / enchant slots of a Cosmic pickaxe of this base item"
+        }
+      }
+    },
+    {
+      "id": "netherite",
+      "name": "Netherite pickaxe",
+      "attributes": {
+        "itemId": {
+          "value": "minecraft:netherite_pickaxe",
+          "confidence": "VERIFIED_OFFICIAL",
+          "source": "Minecraft item registry"
+        },
+        "cosmicStats": {
+          "confidence": "UNKNOWN",
+          "source": "owner: needed",
+          "note": "mining speed / energy / enchant slots of a Cosmic pickaxe of this base item"
+        }
+      }
+    }
+  ]
+}

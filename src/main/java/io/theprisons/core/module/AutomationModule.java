@@ -82,6 +82,14 @@ public abstract class AutomationModule extends Module {
     }
 
     /**
+     * The control layer saw the player turn and turn without getting anywhere (spin guard). Movement and view are already
+     * stopped for a moment; drop the current path / target so the next plan starts fresh. A second spin shortly after stops the
+     * module. Default: nothing to drop.
+     */
+    public void onSpinLoop() {
+    }
+
+    /**
      * The module is teleporting the player on purpose right now (e.g. /spawn and back home): a world change then counts
      * as a teleport ({@link #onRelocated}) instead of stopping it.
      */

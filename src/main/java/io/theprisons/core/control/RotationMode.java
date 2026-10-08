@@ -21,4 +21,17 @@ public enum RotationMode {
     public int priority() {
         return priority;
     }
+
+    /**
+     * The system-wide category of this request, for arbitration with other systems and for the telemetry. The order of the
+     * modes among themselves ({@link #priority()}) is unchanged: aiming at a block still wins over the path follower looking
+     * ahead, as it always did inside a macro.
+     */
+    public IntentPriority intent() {
+        return switch (this) {
+            case NAVIGATION, TURNING, OBSTACLE_CHECK, JUMPING -> IntentPriority.PATHFINDING;
+            case RECOVERY -> IntentPriority.UNSTUCK;
+            case MINING -> IntentPriority.TARGET_LOOK;
+        };
+    }
 }

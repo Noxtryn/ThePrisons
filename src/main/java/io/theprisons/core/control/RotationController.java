@@ -157,6 +157,15 @@ public final class RotationController {
         return hasTarget;
     }
 
+    /** The yaw currently asked for (NaN when nobody wants a direction), for the telemetry. */
+    public float requestedYaw() {
+        return activeFollow != null ? activeFollow.yaw() : hasTarget ? (float) motion.targetYaw() : Float.NaN;
+    }
+
+    public float requestedPitch() {
+        return activeFollow != null ? activeFollow.pitch() : hasTarget ? (float) motion.targetPitch() : Float.NaN;
+    }
+
     /** Current angular speed of the view in °/s. */
     public double speed() {
         return motion.speed(now());

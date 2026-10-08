@@ -1,0 +1,161 @@
+{
+  "schema": 1,
+  "kind": "theprisons-capture",
+  "meta": {
+    "createdAt": "synthetic",
+    "modVersion": "synthetic",
+    "minecraftVersion": "1.21.11",
+    "note": "A meteor announcement in the system lines",
+    "synthetic": true,
+    "category": "events"
+  },
+  "frame": {
+    "tick": 100,
+    "nowMs": 1000000,
+    "where": {
+      "server": "play.cosmicprisons.com",
+      "dimension": "minecraft:overworld",
+      "singleplayer": false
+    },
+    "player": {
+      "name": "Self",
+      "x": 100.5,
+      "y": 64.0,
+      "z": -20.5,
+      "vx": 0.0,
+      "vy": 0.0,
+      "vz": 0.1,
+      "yaw": 90.0,
+      "pitch": 10.0,
+      "health": 20.0,
+      "maxHealth": 20.0,
+      "food": 20,
+      "held": {
+        "itemId": "minecraft:air",
+        "name": "",
+        "count": 0,
+        "lore": [],
+        "damage": 0,
+        "maxDamage": 0,
+        "itemClass": "",
+        "itemTier": ""
+      },
+      "offHand": {
+        "itemId": "minecraft:air",
+        "name": "",
+        "count": 0,
+        "lore": [],
+        "damage": 0,
+        "maxDamage": 0,
+        "itemClass": "",
+        "itemTier": ""
+      },
+      "armor": [
+        {
+          "itemId": "minecraft:air",
+          "name": "",
+          "count": 0,
+          "lore": [],
+          "damage": 0,
+          "maxDamage": 0,
+          "itemClass": "",
+          "itemTier": ""
+        },
+        {
+          "itemId": "minecraft:air",
+          "name": "",
+          "count": 0,
+          "lore": [],
+          "damage": 0,
+          "maxDamage": 0,
+          "itemClass": "",
+          "itemTier": ""
+        },
+        {
+          "itemId": "minecraft:air",
+          "name": "",
+          "count": 0,
+          "lore": [],
+          "damage": 0,
+          "maxDamage": 0,
+          "itemClass": "",
+          "itemTier": ""
+        },
+        {
+          "itemId": "minecraft:air",
+          "name": "",
+          "count": 0,
+          "lore": [],
+          "damage": 0,
+          "maxDamage": 0,
+          "itemClass": "",
+          "itemTier": ""
+        }
+      ],
+      "effects": [],
+      "input": {
+        "forward": false,
+        "back": false,
+        "left": false,
+        "right": false,
+        "jump": false,
+        "sneak": false,
+        "sprint": false,
+        "attack": false,
+        "use": false
+      },
+      "onGround": true,
+      "spearCooldown": -1.0
+    },
+    "entities": [],
+    "blocks": {
+      "radius": 4,
+      "scanned": 729,
+      "counts": {
+        "#air": 400,
+        "#solid": 320,
+        "minecraft:diamond_ore": 9
+      },
+      "solidBelow": true,
+      "headroom": true
+    },
+    "sidebar": [],
+    "bossBars": [],
+    "actionBar": [],
+    "screen": {
+      "screenClass": "",
+      "container": false,
+      "slots": []
+    },
+    "inventory": []
+  },
+  "memory": {
+    "zone": "spawn",
+    "event": "meteor",
+    "systemLines": [
+      "(!) A meteor has crashed at spawn!"
+    ]
+  },
+  "expected": {
+    "combat.bandits": "0",
+    "combat.hostiles": "0",
+    "combat.players": "0",
+    "combat.spear": "false [VERIFIED_LIVE, held item id]",
+    "combat.spearCooldown": "UNKNOWN",
+    "cosmic.energyCapacity": "UNKNOWN",
+    "cosmic.energyLevel": "UNKNOWN",
+    "cosmic.energyNow": "UNKNOWN",
+    "cosmic.event": "meteor [OBSERVED, chat event message]",
+    "cosmic.mine": "UNKNOWN",
+    "cosmic.sidebarPresent": "true",
+    "cosmic.taxPercent": "UNKNOWN",
+    "cosmic.totalXp": "UNKNOWN",
+    "cosmic.zone": "spawn [OBSERVED, chat zone message]",
+    "pickaxe.capacity": "UNKNOWN",
+    "pickaxe.durability": "UNKNOWN",
+    "pickaxe.energy": "UNKNOWN",
+    "player.heldClass": "/",
+    "player.manualInput": "false",
+    "ui.title": "null"
+  }
+}

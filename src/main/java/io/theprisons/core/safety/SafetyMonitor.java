@@ -165,15 +165,7 @@ public final class SafetyMonitor {
 
     /** True when the player is holding a movement key on the real keyboard. */
     private static boolean physicallyPressed(MinecraftClient client) {
-        KeyBinding[] keys = {client.options.forwardKey, client.options.backKey, client.options.leftKey, client.options.rightKey};
-        for (KeyBinding key : keys) {
-            InputUtil.Key bound = InputUtil.fromTranslationKey(key.getBoundKeyTranslationKey());
-            if (bound.getCategory() == InputUtil.Type.KEYSYM && bound.getCode() > 0
-                    && InputUtil.isKeyPressed(client.getWindow(), bound.getCode())) {
-                return true;
-            }
-        }
-        return false;
+        return io.theprisons.core.cosmic.sense.InputSensor.anyMovementPhysical(client);
     }
 
     private void violate(Object owner, String reason) {

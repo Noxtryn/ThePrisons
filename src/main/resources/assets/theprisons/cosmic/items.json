@@ -1,0 +1,362 @@
+{
+  "schema": 1,
+  "entries": [
+    {
+      "id": "book",
+      "name": "Book",
+      "attributes": {
+        "known": {
+          "value": true,
+          "confidence": "OBSERVED",
+          "source": "PrisonsItems texture family (items/prisons/book)"
+        }
+      }
+    },
+    {
+      "id": "book_revealed",
+      "name": "Book revealed",
+      "attributes": {
+        "known": {
+          "value": true,
+          "confidence": "OBSERVED",
+          "source": "PrisonsItems texture family (items/prisons/book_revealed)"
+        }
+      }
+    },
+    {
+      "id": "booster",
+      "name": "Booster",
+      "attributes": {
+        "known": {
+          "value": true,
+          "confidence": "OBSERVED",
+          "source": "PrisonsItems texture family (items/prisons/booster)"
+        }
+      }
+    },
+    {
+      "id": "candy",
+      "name": "Candy",
+      "attributes": {
+        "known": {
+          "value": true,
+          "confidence": "OBSERVED",
+          "source": "PrisonsItems texture family (items/prisons/candy)"
+        }
+      }
+    },
+    {
+      "id": "charge_orb",
+      "name": "Charge orb",
+      "attributes": {
+        "known": {
+          "value": true,
+          "confidence": "OBSERVED",
+          "source": "PrisonsItems texture family (items/prisons/charge_orb)"
+        }
+      }
+    },
+    {
+      "id": "clue_scroll",
+      "name": "Clue scroll",
+      "attributes": {
+        "known": {
+          "value": true,
+          "confidence": "OBSERVED",
+          "source": "PrisonsItems texture family (items/prisons/clue_scroll)"
+        }
+      }
+    },
+    {
+      "id": "contraband",
+      "name": "Contraband",
+      "attributes": {
+        "known": {
+          "value": true,
+          "confidence": "OBSERVED",
+          "source": "PrisonsItems texture family (items/prisons/contraband)"
+        }
+      }
+    },
+    {
+      "id": "dust",
+      "name": "Dust",
+      "attributes": {
+        "known": {
+          "value": true,
+          "confidence": "OBSERVED",
+          "source": "PrisonsItems texture family (items/prisons/dust)"
+        }
+      }
+    },
+    {
+      "id": "enchant",
+      "name": "Enchant",
+      "attributes": {
+        "known": {
+          "value": true,
+          "confidence": "OBSERVED",
+          "source": "PrisonsItems texture family (items/prisons/enchant)"
+        }
+      }
+    },
+    {
+      "id": "enchant_orb",
+      "name": "Enchant orb",
+      "attributes": {
+        "known": {
+          "value": true,
+          "confidence": "OBSERVED",
+          "source": "PrisonsItems texture family (items/prisons/enchant_orb)"
+        }
+      }
+    },
+    {
+      "id": "flare",
+      "name": "Flare",
+      "attributes": {
+        "known": {
+          "value": true,
+          "confidence": "OBSERVED",
+          "source": "PrisonsItems texture family (items/prisons/flare)"
+        }
+      }
+    },
+    {
+      "id": "gkit",
+      "name": "Gkit",
+      "attributes": {
+        "known": {
+          "value": true,
+          "confidence": "OBSERVED",
+          "source": "PrisonsItems texture family (items/prisons/gkit)"
+        }
+      }
+    },
+    {
+      "id": "key",
+      "name": "Key",
+      "attributes": {
+        "known": {
+          "value": true,
+          "confidence": "OBSERVED",
+          "source": "PrisonsItems texture family (items/prisons/key)"
+        }
+      }
+    },
+    {
+      "id": "mask",
+      "name": "Mask",
+      "attributes": {
+        "known": {
+          "value": true,
+          "confidence": "OBSERVED",
+          "source": "PrisonsItems texture family (items/prisons/mask)"
+        }
+      }
+    },
+    {
+      "id": "menu",
+      "name": "Menu",
+      "attributes": {
+        "known": {
+          "value": true,
+          "confidence": "OBSERVED",
+          "source": "PrisonsItems texture family (items/prisons/menu)"
+        }
+      }
+    },
+    {
+      "id": "misc",
+      "name": "Misc",
+      "attributes": {
+        "known": {
+          "value": true,
+          "confidence": "OBSERVED",
+          "source": "PrisonsItems texture family (items/prisons/misc)"
+        }
+      }
+    },
+    {
+      "id": "page",
+      "name": "Page",
+      "attributes": {
+        "known": {
+          "value": true,
+          "confidence": "OBSERVED",
+          "source": "PrisonsItems texture family (items/prisons/page)"
+        }
+      }
+    },
+    {
+      "id": "pet",
+      "name": "Pet",
+      "attributes": {
+        "known": {
+          "value": true,
+          "confidence": "OBSERVED",
+          "source": "PrisonsItems texture family (items/prisons/pet)"
+        }
+      }
+    },
+    {
+      "id": "pickaxe",
+      "name": "Pickaxe",
+      "attributes": {
+        "known": {
+          "value": true,
+          "confidence": "OBSERVED",
+          "source": "PrisonsItems texture family (items/prisons/pickaxe)"
+        }
+      }
+    },
+    {
+      "id": "powerup",
+      "name": "Powerup",
+      "attributes": {
+        "known": {
+          "value": true,
+          "confidence": "OBSERVED",
+          "source": "PrisonsItems texture family (items/prisons/powerup)"
+        }
+      }
+    },
+    {
+      "id": "prestige_token",
+      "name": "Prestige token",
+      "attributes": {
+        "known": {
+          "value": true,
+          "confidence": "OBSERVED",
+          "source": "PrisonsItems texture family (items/prisons/prestige_token)"
+        }
+      }
+    },
+    {
+      "id": "randomization_scroll",
+      "name": "Randomization scroll",
+      "attributes": {
+        "known": {
+          "value": true,
+          "confidence": "OBSERVED",
+          "source": "PrisonsItems texture family (items/prisons/randomization_scroll)"
+        }
+      }
+    },
+    {
+      "id": "reroll",
+      "name": "Reroll",
+      "attributes": {
+        "known": {
+          "value": true,
+          "confidence": "OBSERVED",
+          "source": "PrisonsItems texture family (items/prisons/reroll)"
+        }
+      }
+    },
+    {
+      "id": "satchel",
+      "name": "Satchel",
+      "attributes": {
+        "known": {
+          "value": true,
+          "confidence": "OBSERVED",
+          "source": "PrisonsItems texture family (items/prisons/satchel)"
+        }
+      }
+    },
+    {
+      "id": "secret_dust",
+      "name": "Secret dust",
+      "attributes": {
+        "known": {
+          "value": true,
+          "confidence": "OBSERVED",
+          "source": "PrisonsItems texture family (items/prisons/secret_dust)"
+        }
+      }
+    },
+    {
+      "id": "shard",
+      "name": "Shard",
+      "attributes": {
+        "known": {
+          "value": true,
+          "confidence": "OBSERVED",
+          "source": "PrisonsItems texture family (items/prisons/shard)"
+        }
+      }
+    },
+    {
+      "id": "spear",
+      "name": "Spear",
+      "attributes": {
+        "known": {
+          "value": true,
+          "confidence": "OBSERVED",
+          "source": "PrisonsItems texture family (items/prisons/spear)"
+        }
+      }
+    },
+    {
+      "id": "spear_orb",
+      "name": "Spear orb",
+      "attributes": {
+        "known": {
+          "value": true,
+          "confidence": "OBSERVED",
+          "source": "PrisonsItems texture family (items/prisons/spear_orb)"
+        }
+      }
+    },
+    {
+      "id": "sword",
+      "name": "Sword",
+      "attributes": {
+        "known": {
+          "value": true,
+          "confidence": "OBSERVED",
+          "source": "PrisonsItems texture family (items/prisons/sword)"
+        }
+      }
+    },
+    {
+      "id": "trinket",
+      "name": "Trinket",
+      "attributes": {
+        "known": {
+          "value": true,
+          "confidence": "OBSERVED",
+          "source": "PrisonsItems texture family (items/prisons/trinket)"
+        }
+      }
+    },
+    {
+      "id": "upgrade",
+      "name": "Upgrade",
+      "attributes": {
+        "known": {
+          "value": true,
+          "confidence": "OBSERVED",
+          "source": "PrisonsItems texture family (items/prisons/upgrade)"
+        }
+      }
+    },
+    {
+      "id": "xp_bottle",
+      "name": "Xp bottle",
+      "attributes": {
+        "known": {
+          "value": true,
+          "confidence": "OBSERVED",
+          "source": "PrisonsItems texture family (items/prisons/xp_bottle)"
+        }
+      }
+    },
+    {
+      "id": "unknown_cosmic",
+      "name": "Unknown Cosmic item",
+      "attributes": {}
+    }
+  ]
+}

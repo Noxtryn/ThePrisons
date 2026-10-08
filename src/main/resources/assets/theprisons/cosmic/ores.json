@@ -1,0 +1,166 @@
+{
+  "schema": 1,
+  "entries": [
+    {
+      "id": "coal",
+      "name": "Coal",
+      "attributes": {
+        "blockIds": {
+          "value": [
+            "minecraft:coal_ore",
+            "minecraft:deepslate_coal_ore"
+          ],
+          "confidence": "VERIFIED_OFFICIAL",
+          "source": "Minecraft block registry"
+        },
+        "energyPerOre": {
+          "confidence": "UNKNOWN",
+          "source": "owner: needed",
+          "note": "energy a mined block of this ore gives"
+        },
+        "miningSpeedRequirement": {
+          "confidence": "UNKNOWN",
+          "source": "owner: needed"
+        }
+      }
+    },
+    {
+      "id": "iron",
+      "name": "Iron",
+      "attributes": {
+        "blockIds": {
+          "value": [
+            "minecraft:iron_ore",
+            "minecraft:deepslate_iron_ore"
+          ],
+          "confidence": "VERIFIED_OFFICIAL",
+          "source": "Minecraft block registry"
+        },
+        "energyPerOre": {
+          "confidence": "UNKNOWN",
+          "source": "owner: needed",
+          "note": "energy a mined block of this ore gives"
+        },
+        "miningSpeedRequirement": {
+          "confidence": "UNKNOWN",
+          "source": "owner: needed"
+        }
+      }
+    },
+    {
+      "id": "lapis",
+      "name": "Lapis",
+      "attributes": {
+        "blockIds": {
+          "value": [
+            "minecraft:lapis_ore",
+            "minecraft:deepslate_lapis_ore"
+          ],
+          "confidence": "VERIFIED_OFFICIAL",
+          "source": "Minecraft block registry"
+        },
+        "energyPerOre": {
+          "confidence": "UNKNOWN",
+          "source": "owner: needed",
+          "note": "energy a mined block of this ore gives"
+        },
+        "miningSpeedRequirement": {
+          "confidence": "UNKNOWN",
+          "source": "owner: needed"
+        }
+      }
+    },
+    {
+      "id": "redstone",
+      "name": "Redstone",
+      "attributes": {
+        "blockIds": {
+          "value": [
+            "minecraft:redstone_ore",
+            "minecraft:deepslate_redstone_ore"
+          ],
+          "confidence": "VERIFIED_OFFICIAL",
+          "source": "Minecraft block registry"
+        },
+        "energyPerOre": {
+          "confidence": "UNKNOWN",
+          "source": "owner: needed",
+          "note": "energy a mined block of this ore gives"
+        },
+        "miningSpeedRequirement": {
+          "confidence": "UNKNOWN",
+          "source": "owner: needed"
+        }
+      }
+    },
+    {
+      "id": "gold",
+      "name": "Gold",
+      "attributes": {
+        "blockIds": {
+          "value": [
+            "minecraft:gold_ore",
+            "minecraft:deepslate_gold_ore"
+          ],
+          "confidence": "VERIFIED_OFFICIAL",
+          "source": "Minecraft block registry"
+        },
+        "energyPerOre": {
+          "confidence": "UNKNOWN",
+          "source": "owner: needed",
+          "note": "energy a mined block of this ore gives"
+        },
+        "miningSpeedRequirement": {
+          "confidence": "UNKNOWN",
+          "source": "owner: needed"
+        }
+      }
+    },
+    {
+      "id": "diamond",
+      "name": "Diamond",
+      "attributes": {
+        "blockIds": {
+          "value": [
+            "minecraft:diamond_ore",
+            "minecraft:deepslate_diamond_ore"
+          ],
+          "confidence": "VERIFIED_OFFICIAL",
+          "source": "Minecraft block registry"
+        },
+        "energyPerOre": {
+          "confidence": "UNKNOWN",
+          "source": "owner: needed",
+          "note": "energy a mined block of this ore gives"
+        },
+        "miningSpeedRequirement": {
+          "confidence": "UNKNOWN",
+          "source": "owner: needed"
+        }
+      }
+    },
+    {
+      "id": "emerald",
+      "name": "Emerald",
+      "attributes": {
+        "blockIds": {
+          "value": [
+            "minecraft:emerald_ore",
+            "minecraft:deepslate_emerald_ore"
+          ],
+          "confidence": "VERIFIED_OFFICIAL",
+          "source": "Minecraft block registry"
+        },
+        "energyPerOre": {
+          "confidence": "UNKNOWN",
+          "source": "owner: needed",
+          "note": "energy a mined block of this ore gives"
+        },
+        "miningSpeedRequirement": {
+          "confidence": "UNKNOWN",
+          "source": "owner: needed"
+        }
+      }
+    }
+  ]
+}

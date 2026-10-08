@@ -1,0 +1,163 @@
+{
+  "schema": 1,
+  "kind": "theprisons-capture",
+  "meta": {
+    "createdAt": "synthetic",
+    "modVersion": "synthetic",
+    "minecraftVersion": "1.21.11",
+    "note": "The chat line 'You entered a Diamond Zone' sets the zone",
+    "synthetic": true,
+    "category": "zones"
+  },
+  "frame": {
+    "tick": 100,
+    "nowMs": 1000000,
+    "where": {
+      "server": "play.cosmicprisons.com",
+      "dimension": "minecraft:overworld",
+      "singleplayer": false
+    },
+    "player": {
+      "name": "Self",
+      "x": 100.5,
+      "y": 64.0,
+      "z": -20.5,
+      "vx": 0.0,
+      "vy": 0.0,
+      "vz": 0.1,
+      "yaw": 90.0,
+      "pitch": 10.0,
+      "health": 20.0,
+      "maxHealth": 20.0,
+      "food": 20,
+      "held": {
+        "itemId": "minecraft:air",
+        "name": "",
+        "count": 0,
+        "lore": [],
+        "damage": 0,
+        "maxDamage": 0,
+        "itemClass": "",
+        "itemTier": ""
+      },
+      "offHand": {
+        "itemId": "minecraft:air",
+        "name": "",
+        "count": 0,
+        "lore": [],
+        "damage": 0,
+        "maxDamage": 0,
+        "itemClass": "",
+        "itemTier": ""
+      },
+      "armor": [
+        {
+          "itemId": "minecraft:air",
+          "name": "",
+          "count": 0,
+          "lore": [],
+          "damage": 0,
+          "maxDamage": 0,
+          "itemClass": "",
+          "itemTier": ""
+        },
+        {
+          "itemId": "minecraft:air",
+          "name": "",
+          "count": 0,
+          "lore": [],
+          "damage": 0,
+          "maxDamage": 0,
+          "itemClass": "",
+          "itemTier": ""
+        },
+        {
+          "itemId": "minecraft:air",
+          "name": "",
+          "count": 0,
+          "lore": [],
+          "damage": 0,
+          "maxDamage": 0,
+          "itemClass": "",
+          "itemTier": ""
+        },
+        {
+          "itemId": "minecraft:air",
+          "name": "",
+          "count": 0,
+          "lore": [],
+          "damage": 0,
+          "maxDamage": 0,
+          "itemClass": "",
+          "itemTier": ""
+        }
+      ],
+      "effects": [],
+      "input": {
+        "forward": false,
+        "back": false,
+        "left": false,
+        "right": false,
+        "jump": false,
+        "sneak": false,
+        "sprint": false,
+        "attack": false,
+        "use": false
+      },
+      "onGround": true,
+      "spearCooldown": -1.0
+    },
+    "entities": [],
+    "blocks": {
+      "radius": 4,
+      "scanned": 729,
+      "counts": {
+        "#air": 400,
+        "#solid": 320,
+        "minecraft:diamond_ore": 9
+      },
+      "solidBelow": true,
+      "headroom": true
+    },
+    "sidebar": [
+      "Account Self",
+      "Guard XP Tax 9%"
+    ],
+    "bossBars": [],
+    "actionBar": [],
+    "screen": {
+      "screenClass": "",
+      "container": false,
+      "slots": []
+    },
+    "inventory": []
+  },
+  "memory": {
+    "zone": "diamond",
+    "systemLines": [
+      "(!) You entered a Diamond Zone"
+    ]
+  },
+  "expected": {
+    "combat.bandits": "0",
+    "combat.hostiles": "0",
+    "combat.players": "0",
+    "combat.spear": "false [VERIFIED_LIVE, held item id]",
+    "combat.spearCooldown": "UNKNOWN",
+    "cosmic.energyCapacity": "UNKNOWN",
+    "cosmic.energyLevel": "UNKNOWN",
+    "cosmic.energyNow": "UNKNOWN",
+    "cosmic.event": "UNKNOWN",
+    "cosmic.mine": "UNKNOWN",
+    "cosmic.sidebarPresent": "true",
+    "cosmic.taxPercent": "9.0 [VERIFIED_LIVE, sidebar tax line]",
+    "cosmic.totalXp": "UNKNOWN",
+    "cosmic.zone": "diamond [OBSERVED, chat zone message]",
+    "pickaxe.capacity": "UNKNOWN",
+    "pickaxe.durability": "UNKNOWN",
+    "pickaxe.energy": "UNKNOWN",
+    "player.heldClass": "/",
+    "player.manualInput": "false",
+    "ui.title": "null"
+  }
+}

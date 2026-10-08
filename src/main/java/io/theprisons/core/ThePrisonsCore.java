@@ -57,16 +57,18 @@ public final class ThePrisonsCore {
 
     private static @Nullable ThePrisonsCore instance;
 
-    /** The last "You (have) entered a/the ... zone" message (lower case), seen whether a module runs or not. */
-    private static volatile String lastZone = "";
-    private static final java.util.regex.Pattern ZONE = java.util.regex.Pattern.compile("you (?:have )?entered (?:a|an|the) (.+?) zone");
-
-    /** The zone named in the last "You entered ... zone" message ("diamond", "gold", ...; "" = none yet). */
+    /**
+     * The zone named in the last "You entered ... zone" message ("diamond", "gold", "spawn", "mine"; "" = none yet). The state
+     * lives in the Cosmic model's memory ({@link io.theprisons.core.cosmic.state.CosmicMemory}), which uses the shared
+     * {@link io.theprisons.core.cosmic.parse.ZoneParser}; this accessor keeps the old call sites working.
+     */
     public static String lastZone() {
-        return lastZone;
+        ThePrisonsCore current = instance;
+        return current == null ? "" : current.cosmic.zone();
     }
 
     private final Profiler profiler = new Profiler();
+    private final io.theprisons.core.cosmic.state.CosmicStateService cosmic = new io.theprisons.core.cosmic.state.CosmicStateService(profiler);
     private final ModuleManager modules = new ModuleManager(profiler);
     private final TargetRegistry targets = new TargetRegistry();
     private final WorldCache world = new WorldCache(targets, profiler);
@@ -89,6 +91,21 @@ public final class ThePrisonsCore {
         this.safety = new SafetyMonitor(control, (owner, reason) -> {
             if (owner instanceof Module module) {
                 modules.disable(module, reason);
+            }
+        });
+        control.telemetry().sink(line -> LOGGER.info(line));
+        control.setSpinHandler((owner, verdict, metrics) -> {
+            LOGGER.warn("[control] SPIN_LOOP_DETECTED ({}) owner={} yaw turned {}deg in {} ticks, moved at most {} blocks, no block changed",
+                    verdict, owner instanceof Module m ? m.id() : String.valueOf(owner), Math.round(metrics.yawTurnedDegrees()),
+                    metrics.ticks(), String.format(java.util.Locale.ROOT, "%.1f", metrics.maxDisplacement()));
+            // 1. stop moving and turning for a moment
+            control.stabilise();
+            if (verdict == io.theprisons.core.control.SpinGuard.Verdict.SPIN_REPEATED && owner instanceof Module module) {
+                // 5. it happened again shortly after: safe stop, no endless recovery spinning
+                modules.disable(module, "spin loop detected twice - stopped for safety");
+            } else if (owner instanceof io.theprisons.core.module.AutomationModule automation) {
+                // 3./5. drop the current path / target, plan once more
+                automation.onSpinLoop();
             }
         });
         modules.setDirtyHook(config::markDirty);
@@ -163,6 +180,16 @@ public final class ThePrisonsCore {
                 modules.enable(module);
             }
         });
+    }
+
+    /** {@code config/theprisons}: settings, routes, captures. */
+    public Path dataDir() {
+        return dataDir;
+    }
+
+    /** The Cosmic game state: the model, the latest snapshot, the memory (zone, event) and the capture frame. */
+    public io.theprisons.core.cosmic.state.CosmicStateService cosmic() {
+        return cosmic;
     }
 
     public static ThePrisonsCore get() {
@@ -240,19 +267,8 @@ public final class ThePrisonsCore {
         });
         ClientReceiveMessageEvents.GAME.register((message, overlay) -> {
             if (!overlay) {
-                String said = io.theprisons.core.client.TextStrip.strip(message.getString()).toLowerCase(java.util.Locale.ROOT);
-                java.util.regex.Matcher zone = ZONE.matcher(said);
-                if (zone.find()) {
-                    lastZone = zone.group(1).strip();
-                } else if (said.contains("welcome to spawn")) {
-                    lastZone = "spawn";
-                } else if (said.contains("to cosmicprisons")) {
-                    // Joined the server ("Welcome, <name> to CosmicPrisons!"): where the player is is not known yet.
-                    lastZone = "";
-                } else if (said.matches(".*welcome to the .+ mine.*")) {
-                    // Warped into a mine: an older "Diamond Zone" no longer says where the player is.
-                    lastZone = "mine";
-                }
+                // Zone, event and the short system-line memory (player chat is not stored; see CosmicMemory).
+                cosmic.onMessage(message, false, false);
             }
             bus.post(new CoreEvents.ChatReceived(message, overlay, false));
         });
@@ -269,6 +285,9 @@ public final class ThePrisonsCore {
 
     /** Called from the {@code ClientWorld} mixin for every server block update ({@code previous}: the block before). */
     public void onBlockUpdate(ClientWorld clientWorld, BlockPos pos, BlockState state, BlockState previous) {
+        if (previous != state) {
+            control.noteWorldProgress();
+        }
         world.onBlockChanged(clientWorld, pos.asLong());
         archive.onBlockChanged(clientWorld, pos.asLong());
         EventBus bus = modules.bus();
@@ -279,6 +298,7 @@ public final class ThePrisonsCore {
 
     /** Called from the {@code InGameHud} mixin whenever the action bar text is set. */
     public void onActionBar(net.minecraft.text.Text message) {
+        cosmic.onMessage(message, true, false);
         modules.bus().post(new CoreEvents.ChatReceived(message, true, false));
     }
 
@@ -292,6 +312,7 @@ public final class ThePrisonsCore {
 
     private void registerCoreListeners() {
         EventBus bus = modules.bus();
+        cosmic.attach(bus);
         bus.subscribe(CoreEvents.WorldChanged.class, this, event -> world.onWorldChanged(event.current()));
         bus.subscribe(CoreEvents.TickEnd.class, this, Phases.WORLD, event -> {
             world.tick(event.client());
