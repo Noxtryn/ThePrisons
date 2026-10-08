@@ -30,6 +30,11 @@ public final class DodgeSim {
     public final List<DodgeDecision> decisions = new ArrayList<>();
     public double minDistanceSeen = Double.MAX_VALUE;
     public int ticks;
+    /** Realistic mode: keys from the view yaw (8 directions), the view follows the heading, walking 4.3 / sprinting 5.6 blocks per second. */
+    public boolean realistic;
+    public float yaw;
+    public int sprintTicks;
+    public double maxPlanVsActual;
 
     public DodgeSim(DodgeConfig cfg, GridTerrain terrain, double x, double z, double vx, double vz) {
         this.cfg = cfg;
@@ -61,11 +66,29 @@ public final class DodgeSim {
         ticks++;
         now += 50L;
         double speed = 5.6D;
+        double mx = d.dirX();
+        double mz = d.dirZ();
+        if (realistic) {
+            var keys = io.theprisons.modules.qol.bandit.dodge.DodgeDrive.keys(d.dirX(), d.dirZ(), yaw, d.jump());
+            double[] f = io.theprisons.modules.qol.bandit.combat.Geo.forward(yaw);
+            double[] r = io.theprisons.modules.qol.bandit.combat.Geo.right(yaw);
+            double kf = (keys.forward() ? 1 : 0) - (keys.back() ? 1 : 0);
+            double kr = (keys.right() ? 1 : 0) - (keys.left() ? 1 : 0);
+            double[] u = io.theprisons.modules.qol.bandit.combat.Geo.unit(f[0] * kf + r[0] * kr, f[1] * kf + r[1] * kr);
+            mx = u[0];
+            mz = u[1];
+            speed = keys.sprint() ? 5.6D : 4.3D;
+            if (keys.sprint()) {
+                sprintTicks++;
+            }
+            maxPlanVsActual = Math.max(maxPlanVsActual, io.theprisons.modules.qol.bandit.combat.Geo.angleBetween(mx, mz, d.dirX(), d.dirZ()));
+            yaw = io.theprisons.modules.qol.bandit.dodge.DodgeDrive.nextYaw(yaw, d.dirX(), d.dirZ());
+        }
         double stepLen = speed * 0.05D;
-        var ray = terrain.cast(x, 64.0D, z, d.dirX(), d.dirZ(), stepLen + 0.3D);
+        var ray = terrain.cast(x, 64.0D, z, mx, mz, stepLen + 0.3D);
         double walk = ray.free() >= stepLen + 0.3D - 1e-9 ? stepLen : Math.max(0.0D, ray.free() - 0.3D);
-        double nx = d.dirX() * walk;
-        double nz = d.dirZ() * walk;
+        double nx = mx * walk;
+        double nz = mz * walk;
         vx = nx / 0.05D;
         vz = nz / 0.05D;
         x += nx;

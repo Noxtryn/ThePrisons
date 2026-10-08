@@ -20,12 +20,12 @@ import io.theprisons.core.render.Overlay;
 import io.theprisons.core.world.LiveWorldView;
 import io.theprisons.core.world.WorldCache;
 import io.theprisons.modules.qol.bandit.WorldTerrain;
-import io.theprisons.modules.qol.bandit.combat.Geo;
 import io.theprisons.modules.qol.bandit.dodge.BanditDodgePlanner;
 import io.theprisons.modules.qol.bandit.dodge.DodgeAction;
 import io.theprisons.modules.qol.bandit.dodge.DodgeBandit;
 import io.theprisons.modules.qol.bandit.dodge.DodgeCandidate;
 import io.theprisons.modules.qol.bandit.dodge.DodgeConfig;
+import io.theprisons.modules.qol.bandit.dodge.DodgeDrive;
 import io.theprisons.modules.qol.bandit.dodge.DodgeDecision;
 import io.theprisons.modules.qol.bandit.dodge.DodgeInputs;
 import io.theprisons.modules.qol.bandit.dodge.SpearAreaEvaluator;
@@ -200,12 +200,15 @@ public final class BanditDodgeTestModule extends AutomationModule {
         last = d;
         logChanges(d);
 
-        var keys = Geo.keysFor(d.dirX(), d.dirZ(), player.getYaw(), d.sprint(), d.jump() && player.isOnGround());
+        var keys = DodgeDrive.keys(d.dirX(), d.dirZ(), player.getYaw(), d.jump() && player.isOnGround());
         IntentPriority priority = d.breach() || d.stuck() ? IntentPriority.EMERGENCY : IntentPriority.PATHFINDING;
-        control.submit(new MovementIntent(priority, "dodge:" + d.action(), keys));
-        // The view only follows the movement heading (never a bandit); the control layer limits how fast it turns.
-        float yaw = (float) Geo.yawOf(d.dirX(), d.dirZ());
-        control.submit(RotationIntent.following(IntentPriority.PATHFINDING, "dodge:heading", MathHelper.wrapDegrees(yaw), 8.0F, 3.0F, 3.0F));
+        // One stable source name: a changing name looked like a new owner every tick in the control log.
+        control.submit(new MovementIntent(priority, "dodge", keys));
+        // The view follows the movement heading (never a bandit) with a dead zone; it is not rotated while the heading is steady.
+        float yaw = DodgeDrive.nextYaw(player.getYaw(), d.dirX(), d.dirZ());
+        if (yaw != player.getYaw()) {
+            control.submit(RotationIntent.following(IntentPriority.PATHFINDING, "dodge", MathHelper.wrapDegrees(yaw), 8.0F, 12.0F, 12.0F));
+        }
     }
 
     private void logChanges(DodgeDecision d) {
@@ -214,9 +217,14 @@ public final class BanditDodgeTestModule extends AutomationModule {
         boolean changed = headingChanged || d.action() != lastAction || d.breach() != lastBreach || d.aimWindowOpen() != lastWindow
                 || d.jump() && !lastJump || d.area() != lastArea || d.oscillations() != lastOscillations || d.stuck() && !lastStuck;
         if (changed) {
-            ThePrisonsClient.LOGGER.info("[BanditDodge] {} heading {}° nearest {} projected {} threat {} free {} near {} window {} ({}) area {} | {}",
-                    d.action(), Math.round(d.headingDegrees()), fmt(d.nearestBandit()), fmt(d.projectedNearestBandit()), fmt(d.threatScore()),
-                    fmt(d.freeDistance()), d.nearbyCount(), d.aimWindowOpen() ? "OPEN" : "CLOSED", d.aimWindowTicks(), d.area(), d.reason());
+            long now = System.currentTimeMillis();
+            ThePrisonsClient.LOGGER.info("[BanditDodge] t={}ms {} heading {}° (was {}°, held {}ms) score kept {} best {} nearest {} projected {} threat {} free {} "
+                            + "near {} jump {} sprint {} window {} ({}) area {} owners keys {} view {} | {}",
+                    now - startedMs, d.action(), Math.round(d.headingDegrees()), fmt(planner.previousHeadingDegrees()), planner.headingAgeMs(now),
+                    fmt(planner.lastCurrentScore()), fmt(planner.lastBestScore()), fmt(d.nearestBandit()), fmt(d.projectedNearestBandit()),
+                    fmt(d.threatScore()), fmt(d.freeDistance()), d.nearbyCount(), d.jump(), d.sprint(), d.aimWindowOpen() ? "OPEN" : "CLOSED",
+                    d.aimWindowTicks(), d.area(), control.input().winnerSource().isEmpty() ? "-" : control.input().winnerSource(),
+                    control.rotationWinner(), d.reason());
         }
         lastHeadingBucket = bucket;
         lastAction = d.action();

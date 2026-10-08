@@ -7,6 +7,8 @@ package io.theprisons.modules.qol.bandit.dodge;
 public final class DodgeConfig {
     /** No bandit may be closer than this when an aim is allowed (and an aim in progress is cancelled the moment one is). */
     public double minDistance = 8.0D;
+    /** An evade (breach) ends only once every bandit is this much beyond the minimum distance - no flipping in and out at the border. */
+    public double evadeExitBuffer = 1.0D;
     /** Beyond the minimum distance the danger fades out over this band. */
     public double warningBand = 6.0D;
     /** How far ahead each direction is probed and scored. */

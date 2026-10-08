@@ -48,6 +48,11 @@ public final class BanditDodgePlanner {
     private double anchorZ = Double.NaN;
     private DodgeAction lastAction = DodgeAction.CONTINUE;
     private double lastHeadingChangeDegrees;
+    private boolean evading;
+    private long headingSinceMs;
+    private double previousHeadingDegrees = Double.NaN;
+    private double lastCurrentScore;
+    private double lastBestScore;
 
     public BanditDodgePlanner(DodgeConfig cfg) {
         this.cfg = cfg;
@@ -78,6 +83,9 @@ public final class BanditDodgePlanner {
         anchorX = Double.NaN;
         anchorZ = Double.NaN;
         lastJumpMs = Long.MIN_VALUE / 2L;
+        evading = false;
+        headingSinceMs = 0L;
+        previousHeadingDegrees = Double.NaN;
         aimWindow.reset();
     }
 
@@ -139,7 +147,13 @@ public final class BanditDodgePlanner {
         }
         failed.values().removeIf(until -> until <= now);
 
-        boolean emergency = breach || stuck;
+        // Evade has an enter and an exit threshold: in under the minimum distance, out only beyond minimum + buffer.
+        if (breach) {
+            evading = true;
+        } else if (Double.isNaN(nearest) || nearest > cfg.minDistance + cfg.evadeExitBuffer) {
+            evading = false;
+        }
+        boolean emergency = evading || stuck;
         List<DodgeCandidate> candidates = new ArrayList<>();
         for (int i = 0; i < cfg.directions; i++) {
             double a = Math.toRadians(i * 360.0D / cfg.directions);
@@ -200,6 +214,12 @@ public final class BanditDodgePlanner {
                 reason += " | left-right flutter: committing to this lane";
             }
         }
+        if (angle > 5.0D || headingSinceMs == 0L) {
+            previousHeadingDegrees = Math.toDegrees(Math.atan2(hz, hx));
+            headingSinceMs = now;
+        }
+        lastCurrentScore = current.score();
+        lastBestScore = best == null ? Double.NaN : best.score();
         hx = chosen.dirX();
         hz = chosen.dirZ();
         headings.addLast(new double[]{now, Math.toDegrees(Math.atan2(hz, hx))});
@@ -402,6 +422,23 @@ public final class BanditDodgePlanner {
 
     private static String fmt(double v) {
         return String.format(Locale.ROOT, "%.1f", v);
+    }
+
+    /** For the log: previous heading, ms the current heading has been held, score of the kept heading, best other score. */
+    public double previousHeadingDegrees() {
+        return previousHeadingDegrees;
+    }
+
+    public long headingAgeMs(long now) {
+        return headingSinceMs == 0L ? 0L : now - headingSinceMs;
+    }
+
+    public double lastCurrentScore() {
+        return lastCurrentScore;
+    }
+
+    public double lastBestScore() {
+        return lastBestScore;
     }
 
     /** The turn of the last decision in degrees, for the log. */
