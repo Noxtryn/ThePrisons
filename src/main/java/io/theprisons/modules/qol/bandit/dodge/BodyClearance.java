@@ -29,12 +29,13 @@ public record BodyClearance(double free, double center, double left, double righ
         boolean doneL = false;
         boolean doneR = false;
         boolean ended = false;
+        double feet = y;      // the floor level the body stands on: carried from leg to leg (stairs after a bend are not a wall)
         for (ExecutedPath.Leg leg : path.legs()) {
             double rx = -leg.dirZ();
             double rz = leg.dirX();
-            Terrain.Ray c = terrain.cast(leg.x(), y, leg.z(), leg.dirX(), leg.dirZ(), leg.length());
-            Terrain.Ray l = terrain.cast(leg.x() - rx * hw, y, leg.z() - rz * hw, leg.dirX(), leg.dirZ(), leg.length());
-            Terrain.Ray r = terrain.cast(leg.x() + rx * hw, y, leg.z() + rz * hw, leg.dirX(), leg.dirZ(), leg.length());
+            Terrain.Ray c = terrain.cast(leg.x(), feet, leg.z(), leg.dirX(), leg.dirZ(), leg.length());
+            Terrain.Ray l = terrain.cast(leg.x() - rx * hw, feet, leg.z() - rz * hw, leg.dirX(), leg.dirZ(), leg.length());
+            Terrain.Ray r = terrain.cast(leg.x() + rx * hw, feet, leg.z() + rz * hw, leg.dirX(), leg.dirZ(), leg.length());
             if (!doneC) {
                 cumC += c.free();
                 doneC = c.free() < leg.length() - 1e-9 && c.stop() != Terrain.Stop.CLEAR;
@@ -65,6 +66,7 @@ public record BodyClearance(double free, double center, double left, double righ
                 break;
             }
             walked += leg.length();
+            feet += c.heightChange();
         }
         if (!ended) {
             stop = Terrain.Stop.CLEAR;

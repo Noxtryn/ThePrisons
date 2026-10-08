@@ -29,6 +29,11 @@ public final class BanditDodgePlanner {
     private final AimWindow aimWindow;
     private final MotionMemory memory;
     private long lastJumpMs = Long.MIN_VALUE / 2L;
+    private JumpPhase jumpPhase = JumpPhase.NONE;
+    private int jumpHoldLeft;
+    private int jumpTicksHeld;
+    private boolean jumpFailed;
+    private long jumpAirSinceMs;
     private double anchorX = Double.NaN;
     private double anchorZ = Double.NaN;
     private DodgeAction lastAction = DodgeAction.CONTINUE;
@@ -60,6 +65,10 @@ public final class BanditDodgePlanner {
         anchorX = Double.NaN;
         anchorZ = Double.NaN;
         lastJumpMs = Long.MIN_VALUE / 2L;
+        jumpPhase = JumpPhase.NONE;
+        jumpHoldLeft = 0;
+        jumpTicksHeld = 0;
+        jumpFailed = false;
         aimWindow.reset();
     }
 
@@ -111,6 +120,18 @@ public final class BanditDodgePlanner {
         memory.expire(now);
         boolean emergency = memory.updateEvading(breach, nearest) || stuck;
 
+        // 1b. The life of a committed jump: HOLD (key down on the ground) -> AIR (lifted off) -> landed
+        if (jumpPhase == JumpPhase.HOLD && !in.onGround()) {
+            jumpPhase = JumpPhase.AIR;
+            jumpAirSinceMs = now;
+        } else if (jumpPhase == JumpPhase.HOLD && jumpHoldLeft <= 0) {
+            jumpPhase = JumpPhase.NONE;       // the key was down long enough and the player never lifted off: may be tried again
+            jumpFailed = true;
+        } else if (jumpPhase == JumpPhase.AIR && (in.onGround() && now - jumpAirSinceMs > 100L || now - jumpAirSinceMs > 1500L)) {
+            jumpPhase = JumpPhase.NONE;
+        }
+        boolean jumpLock = jumpPhase != JumpPhase.NONE && !breach && !stuck;
+
         // 2. Candidates: every heading (and the current one) as the route the keys will really walk
         List<DodgeCandidate> candidates = new ArrayList<>();
         for (int i = 0; i < cfg.directions; i++) {
@@ -130,7 +151,10 @@ public final class BanditDodgePlanner {
         String reason;
         DodgeCandidate chosen;
         double margin = Math.max(cfg.switchMargin, Math.abs(current.score()) * cfg.switchShare) * (memory.committed(now) ? 2.0D : 1.0D);
-        if (best == null) {
+        if (jumpLock && current.blocked().isEmpty()) {
+            chosen = current;
+            reason = "jump committed (" + jumpPhase + "): course locked";
+        } else if (best == null) {
             DodgeCandidate freest = current;
             for (DodgeCandidate c : candidates) {
                 if (c.free() > freest.free()) {
@@ -164,11 +188,25 @@ public final class BanditDodgePlanner {
             reason += " | left-right flutter: committing to this lane";
         }
 
-        // 5. Jump
-        boolean jump = chosen.jumpAt() >= 0.0D && chosen.jumpAt() <= cfg.jumpWithin && in.onGround() && now - lastJumpMs >= cfg.jumpCooldownMs;
+        // 5. Jump: a deliberate commit - the key stays down for several ticks while the player is on the ground, the course is locked until the landing
+        boolean jump = false;
+        if (jumpPhase == JumpPhase.HOLD) {
+            jump = true;
+            jumpHoldLeft--;
+            jumpTicksHeld++;
+        } else if (jumpPhase == JumpPhase.NONE && chosen.jumpAt() >= 0.0D && chosen.jumpAt() <= cfg.jumpWithin && in.onGround()) {
+            long since = now - lastJumpMs;
+            if (since >= cfg.jumpCooldownMs || jumpFailed && since >= cfg.jumpRetryMs) {
+                jumpPhase = JumpPhase.HOLD;
+                jumpHoldLeft = cfg.jumpHoldTicks - 1;
+                jumpTicksHeld = 1;
+                jumpFailed = false;
+                lastJumpMs = now;
+                jump = true;
+            }
+        }
         if (jump) {
-            lastJumpMs = now;
-            reason += " | jump over a step in " + fmt(chosen.jumpAt()) + " blocks";
+            reason += " | jump over a step in " + fmt(chosen.jumpAt()) + " blocks (held " + jumpTicksHeld + ")";
         }
 
         // 6. Aim window
@@ -185,7 +223,8 @@ public final class BanditDodgePlanner {
         lastAction = action;
         return new DodgeDecision(chosen.dirX(), chosen.dirZ(), true, jump, chosen.score(), nearest, chosen.nearest(), threatHere, chosen.free(), safeNow,
                 aimWindow.open(), aimWindow.ticks(), breach, nearby, action, Math.toDegrees(Math.atan2(chosen.dirZ(), chosen.dirX())), in.area(), reason,
-                candidates, memory.oscillations(), stuck, chosen, terrainChange);
+                candidates, memory.oscillations(), stuck, chosen, terrainChange, jumpPhase, jumpTicksHeld,
+                Math.max(0L, cfg.jumpCooldownMs - (now - lastJumpMs)));
     }
 
     private boolean closingFast(DodgeInputs in) {
@@ -245,7 +284,8 @@ public final class BanditDodgePlanner {
         } else if (stop != Terrain.Stop.CLEAR && free < cfg.minFree) {
             blocked = stop + " " + fmt(free);
         }
-        boolean jumpTooSoon = jumpAt >= 0.0D && jumpAt <= 1.5D && (!in.onGround() || in.nowMs() - lastJumpMs < cfg.jumpCooldownMs);
+        boolean jumpTooSoon = jumpPhase == JumpPhase.NONE && jumpAt >= 0.0D && jumpAt <= 1.5D
+                && (!in.onGround() || in.nowMs() - lastJumpMs < cfg.jumpCooldownMs && !jumpFailed);
         double pressure = 0.0D;     // wall pressure: the closer the end of the way, the worse - long before it is "blocked"
         if (stop != Terrain.Stop.CLEAR && free < cfg.wallComfort) {
             double t = (cfg.wallComfort - free) / cfg.wallComfort;

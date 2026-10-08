@@ -67,7 +67,11 @@ public final class DodgeConfig {
     // jumping
     public long jumpCooldownMs = 600L;
     /** A jump is taken when the step is this close (blocks). */
-    public double jumpWithin = 2.2D;
+    public double jumpWithin = 2.0D;
+    /** The jump key stays down this many ticks while the player is still on the ground (one tick can be lost); released one tick after lift-off. */
+    public int jumpHoldTicks = 4;
+    /** A jump that never lifted off may be tried again after this long. */
+    public long jumpRetryMs = 250L;
 
     // aim window
     public int requiredStableTicks = 12;

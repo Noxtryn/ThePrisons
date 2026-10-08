@@ -30,6 +30,14 @@ public final class DodgeSim {
     public final List<DodgeDecision> decisions = new ArrayList<>();
     public double minDistanceSeen = Double.MAX_VALUE;
     public int ticks;
+    /** Jump physics (vanilla numbers): feet height above the base floor, vertical speed, on ground. A '^' cell is a 1 block step: solid below 0.45. */
+    public double feetY;
+    public double vy;
+    public boolean onGround = true;
+    public int liftOffs;
+    public int jumpKeyTicks;
+    /** Ticks in which the jump key is swallowed (a lost key press), to test the hold / retry. */
+    public int swallowJumpTicks;
     public int contactTicks;
     public int dropTicks;
     public static final double HALF = 0.3D;
@@ -61,7 +69,7 @@ public final class DodgeSim {
             double[] b = e.getValue();
             list.add(new DodgeBandit(e.getKey(), b[0], b[1], b[2], b[3]));
         }
-        return new DodgeInputs(now, x, 64.0D, z, vx, vz, yaw, true, list, terrain, area);
+        return new DodgeInputs(now, x, 64.0D + feetY, z, vx, vz, yaw, onGround, list, terrain, area);
     }
 
     public DodgeDecision tick() {
@@ -74,6 +82,19 @@ public final class DodgeSim {
         double mz = d.dirZ();
         if (realistic) {
             var keys = io.theprisons.modules.qol.bandit.dodge.DodgeDrive.keys(d.dirX(), d.dirZ(), yaw, d.jump());
+            boolean jumpKey = keys.jump();
+            if (jumpKey) {
+                jumpKeyTicks++;
+            }
+            if (jumpKey && swallowJumpTicks > 0) {
+                swallowJumpTicks--;
+                jumpKey = false;
+            }
+            if (jumpKey && onGround) {
+                vy = 0.42D;
+                onGround = false;
+                liftOffs++;
+            }
             double[] f = io.theprisons.modules.qol.bandit.combat.Geo.forward(yaw);
             double[] r = io.theprisons.modules.qol.bandit.combat.Geo.right(yaw);
             double kf = (keys.forward() ? 1 : 0) - (keys.back() ? 1 : 0);
@@ -106,6 +127,22 @@ public final class DodgeSim {
         if (contact) {
             contactTicks++;
         }
+        // vertical: the floor under the body is 1.0 over a step cell once the body is high enough, else 0
+        double ground = floorUnder(x, z);
+        if (!onGround) {
+            feetY += vy;
+            vy = (vy - 0.08D) * 0.98D;
+            if (vy < 0.0D && feetY <= ground) {
+                feetY = ground;
+                vy = 0.0D;
+                onGround = true;
+            }
+        } else if (feetY > ground + 1e-9) {
+            onGround = false;       // walked off the step edge
+            vy = 0.0D;
+        } else {
+            feetY = ground;
+        }
         if (terrain.at((int) Math.floor(x), (int) Math.floor(z)) == ' ') {
             dropTicks++;
         }
@@ -125,12 +162,25 @@ public final class DodgeSim {
     public boolean solid(double cx, double cz) {
         for (int ix = (int) Math.floor(cx - HALF); ix <= (int) Math.floor(cx + HALF); ix++) {
             for (int iz = (int) Math.floor(cz - HALF); iz <= (int) Math.floor(cz + HALF); iz++) {
-                if (terrain.at(ix, iz) == '#') {
+                char c = terrain.at(ix, iz);
+                if (c == '#' || c == '^' && feetY < 0.45D) {
                     return true;
                 }
             }
         }
         return false;
+    }
+
+    /** 1.0 when the body overlaps a step cell and is high enough to stand on it, else 0. */
+    public double floorUnder(double cx, double cz) {
+        for (int ix = (int) Math.floor(cx - HALF); ix <= (int) Math.floor(cx + HALF); ix++) {
+            for (int iz = (int) Math.floor(cz - HALF); iz <= (int) Math.floor(cz + HALF); iz++) {
+                if (terrain.at(ix, iz) == '^' && feetY >= 0.45D) {
+                    return 1.0D;
+                }
+            }
+        }
+        return 0.0D;
     }
 
     public void run(int n) {

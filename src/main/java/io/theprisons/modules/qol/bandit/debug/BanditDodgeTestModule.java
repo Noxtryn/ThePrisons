@@ -28,6 +28,7 @@ import io.theprisons.modules.qol.bandit.dodge.DodgeConfig;
 import io.theprisons.modules.qol.bandit.dodge.DodgeDrive;
 import io.theprisons.modules.qol.bandit.dodge.ExecutedPath;
 import io.theprisons.modules.qol.bandit.dodge.ExecutionModel;
+import io.theprisons.modules.qol.bandit.dodge.JumpPhase;
 import io.theprisons.modules.qol.bandit.dodge.DodgeDecision;
 import io.theprisons.modules.qol.bandit.dodge.DodgeInputs;
 import io.theprisons.modules.qol.bandit.dodge.SpearAreaEvaluator;
@@ -68,6 +69,7 @@ public final class BanditDodgeTestModule extends AutomationModule {
     private double py;
     private double halfWidth = 0.3D;
     private float viewYaw;
+    private boolean onGroundNow;
     /** The yaw the model expected for this tick (DodgeDrive.nextYaw); compared with the real yaw one tick later: how well the camera model matches the client. */
     private float predictedYaw = Float.NaN;
     private double cameraModelError;
@@ -78,6 +80,7 @@ public final class BanditDodgeTestModule extends AutomationModule {
     private boolean lastBreach;
     private boolean lastWindow;
     private boolean lastJump;
+    private JumpPhase lastJumpPhase = JumpPhase.NONE;
     private SpearAreaState lastArea;
     private int lastHeadingBucket = Integer.MIN_VALUE;
     private int lastOscillations;
@@ -107,6 +110,7 @@ public final class BanditDodgeTestModule extends AutomationModule {
         lastBreach = false;
         lastWindow = false;
         lastJump = false;
+        lastJumpPhase = JumpPhase.NONE;
         lastArea = null;
         lastHeadingBucket = Integer.MIN_VALUE;
         predictedYaw = Float.NaN;
@@ -157,6 +161,7 @@ public final class BanditDodgeTestModule extends AutomationModule {
         }
         long now = System.currentTimeMillis();
         halfWidth = player.getWidth() / 2.0D;
+        onGroundNow = player.isOnGround();
         viewYaw = player.getYaw();
         if (!Float.isNaN(predictedYaw)) {
             cameraModelError = Math.abs(MathHelper.wrapDegrees(player.getYaw() - predictedYaw));
@@ -216,7 +221,7 @@ public final class BanditDodgeTestModule extends AutomationModule {
         last = d;
         logChanges(d);
 
-        var keys = DodgeDrive.keys(d.dirX(), d.dirZ(), player.getYaw(), d.jump() && player.isOnGround());
+        var keys = DodgeDrive.keys(d.dirX(), d.dirZ(), player.getYaw(), d.jump());     // the planner holds the key for several ticks and releases it after lift-off
         IntentPriority priority = d.breach() || d.stuck() ? IntentPriority.EMERGENCY : IntentPriority.PATHFINDING;
         // One stable source name: a changing name looked like a new owner every tick in the control log.
         control.submit(new MovementIntent(priority, "dodge", keys));
@@ -251,6 +256,14 @@ public final class BanditDodgeTestModule extends AutomationModule {
             ThePrisonsClient.LOGGER.info("[BanditDodge] SCORE selected {} | camera model error now {}° (max {}°) legs {} side {}/{}", c.terms(),
                     fmt(cameraModelError), fmt(cameraModelErrorMax), c.legs(), fmt(c.sideLeft()), fmt(c.sideRight()));
         }
+        if (d.jump() && d.jumpTicksHeld() == 1 || d.jumpPhase() != lastJumpPhase) {
+            var c = d.chosen();
+            ThePrisonsClient.LOGGER.info("[BanditDodge] JUMP_PLAN {} desired={}° executed={}° jumpAt={} score={} onGround={} cooldownLeft={}ms committed={} ticksHeld={} reason={}",
+                    d.jump() && d.jumpTicksHeld() == 1 ? "COMMIT" : lastJumpPhase + "->" + d.jumpPhase(), Math.round(c.headingDegrees()),
+                    Math.round(c.executedDegrees()), fmt(c.jumpAt()), fmt(c.score()), onGroundNow, d.jumpCooldownLeftMs(),
+                    d.jumpPhase() != JumpPhase.NONE ? "yes" : "no", d.jumpTicksHeld(), d.reason());
+        }
+        lastJumpPhase = d.jumpPhase();
         lastHeadingBucket = bucket;
         lastAction = d.action();
         lastBreach = d.breach();
