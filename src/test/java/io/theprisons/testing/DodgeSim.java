@@ -19,7 +19,7 @@ import java.util.Map;
 public final class DodgeSim {
     public final DodgeConfig cfg;
     public final BanditDodgePlanner planner;
-    public final GridTerrain terrain;
+    public GridTerrain terrain;
     public double x;
     public double z;
     public double vx;

@@ -58,6 +58,11 @@ public final class DodgeConfig {
     public double wJump = 3.0D;
     public double wFailed = 40.0D;
     public double wArea = 5.0D;
+    /** Scraping a wall (less room than this beside the body) costs points: the player keeps a hand's width from walls when it can. */
+    public double sideComfort = 0.4D;
+    public double wScrape = 6.0D;
+    /** The route that is simulated and swept (ticks, 20 per second): the view catches up, then the run is straight. */
+    public int pathTicks = 38;
 
     // jumping
     public long jumpCooldownMs = 600L;

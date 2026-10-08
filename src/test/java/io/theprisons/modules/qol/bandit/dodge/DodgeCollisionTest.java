@@ -80,8 +80,9 @@ class DodgeCollisionTest {
     void aDiagonalLineThatPassesACornerWithTheCentreButNotWithTheBodyIsRejected() {
         GridTerrain t = GridTerrain.open(100).with(52, 47, '#');
         double yawNorth = Geo.yawOf(0.0D, -1.0D);
-        DodgeDecision body = new BanditDodgePlanner(new DodgeConfig()).plan(at(t, 50.7D, 50.5D, yawNorth, 0.3D));
-        DodgeDecision point = new BanditDodgePlanner(new DodgeConfig()).plan(at(t, 50.7D, 50.5D, yawNorth, 0.0D));
+        double yawNe = Geo.yawOf(1.0D, -1.0D);   // the view already looks north-east: plain W walks the diagonal
+        DodgeDecision body = new BanditDodgePlanner(new DodgeConfig()).plan(at(t, 50.7D, 50.5D, yawNe, 0.3D));
+        DodgeDecision point = new BanditDodgePlanner(new DodgeConfig()).plan(at(t, 50.7D, 50.5D, yawNe, 0.0D));
         DodgeCandidate ne = candidate(body, 315.0D);       // north-east in world terms: W + D keys
         DodgeCandidate nePoint = candidate(point, 315.0D);
         assertTrue(ne.execX() > 0.6D && ne.execZ() < -0.6D, "executed north-east: " + ne.execX() + "," + ne.execZ());
@@ -120,22 +121,36 @@ class DodgeCollisionTest {
     // C: camera misalignment
 
     @Test
-    void theWallCheckUsesTheDirectionThatTheKeysReallyWalkNotTheDesiredOne() {
-        // The camera looks north. The heading 22.5 degrees east of north is executed by the keys as W + D = north-east (45 degrees). A wall piece
-        // stands on the north-east line only; the ideal 22.5 degree line would miss it.
-        GridTerrain t = GridTerrain.open(100);
-        for (int x = 54; x <= 56; x++) {
-            t = t.with(x, 45, '#');
-        }
-        double yawNorth = Geo.yawOf(0.0D, -1.0D);
-        DodgeDecision d = new BanditDodgePlanner(new DodgeConfig()).plan(at(t, 50.5D, 50.5D, yawNorth, 0.3D));
-        DodgeCandidate nne = candidate(d, 292.5D);
-        assertEquals(Math.sqrt(0.5D), nne.execX(), 1e-6, "executed north-east");
-        assertEquals(-Math.sqrt(0.5D), nne.execZ(), 1e-6);
-        assertEquals(22.5D, nne.errorDegrees(), 0.1D);
-        assertTrue(t.cast(50.5D, 64.0D, 50.5D, nne.dirX(), nne.dirZ(), 10.0D).free() >= 9.9D, "the ideal line is clear");
-        assertTrue(nne.free() < 7.0D, "but the executed line is not, and the planner sees it: " + nne.free());
-        assertEquals("WALL", nne.stop());
+    void theRouteIsWhatTheKeysWalkWhileTheViewCatchesUpNotTheIdealLine() {
+        // The view looks 20 degrees east of north, the desired heading is north. Plain W walks the VIEW direction first (20 degrees off), then the
+        // view catches up and the route turns into the desired line.
+        double yaw = Geo.yawOf(Math.sin(Math.toRadians(20.0D)), -Math.cos(Math.toRadians(20.0D)));
+        ExecutedPath path = ExecutionModel.simulate(50.5D, 50.5D, yaw, 0.0D, -1.0D, 38);
+        ExecutedPath.Leg first = path.first();
+        ExecutedPath.Leg last = path.legs().get(path.legs().size() - 1);
+        assertTrue(Geo.angleBetween(first.dirX(), first.dirZ(), 0.0D, -1.0D) >= 15.0D, "starts 20 degrees off: " + first);
+        assertTrue(Geo.angleBetween(last.dirX(), last.dirZ(), 0.0D, -1.0D) <= 8.0D, "ends on the desired line: " + last);
+        assertTrue(path.legs().size() >= 2);
+        assertEquals(38 * 5.6D * 0.05D, path.length(), 1e-6, "all sprint");
+        // a view far off still ends up on the line, only later
+        ExecutedPath far = ExecutionModel.simulate(50.5D, 50.5D, Geo.yawOf(1.0D, 0.0D), 0.0D, -1.0D, 38);
+        ExecutedPath.Leg farLast = far.legs().get(far.legs().size() - 1);
+        assertTrue(Geo.angleBetween(farLast.dirX(), farLast.dirZ(), 0.0D, -1.0D) <= 8.0D, "ends on the desired line: " + farLast);
+    }
+
+    @Test
+    void aMisalignedViewIsVisibleInTheCandidateAndAWallInTheFirstMetreIsSeen() {
+        // View 22 degrees east of north, desired north: plain W walks the view direction, so the candidate's first leg is 22 degrees off.
+        double lean = Geo.yawOf(Math.sin(Math.toRadians(22.0D)), -Math.cos(Math.toRadians(22.0D)));
+        DodgeCandidate open = candidate(new BanditDodgePlanner(new DodgeConfig()).plan(at(GridTerrain.open(100), 50.5D, 50.5D, lean, 0.3D)), 270.0D);
+        assertEquals(22.0D, open.errorDegrees(), 1.0D);
+        assertTrue(open.legs() >= 2, "the route bends while the view catches up");
+        assertTrue(open.free() >= 9.9D);
+        // a wall touching the body's east edge right at the start: the view-leaning first leg presses into it, the aligned one runs along it
+        GridTerrain t = GridTerrain.open(100).with(51, 49, '#').with(51, 50, '#').with(51, 48, '#');
+        DodgeCandidate pressed = candidate(new BanditDodgePlanner(new DodgeConfig()).plan(at(t, 50.68D, 50.5D, lean, 0.3D)), 270.0D);
+        DodgeCandidate along = candidate(new BanditDodgePlanner(new DodgeConfig()).plan(at(t, 50.68D, 50.5D, Geo.yawOf(0.0D, -1.0D), 0.3D)), 270.0D);
+        assertTrue(pressed.free() < along.free(), "judged on the executed route: " + pressed.free() + " vs " + along.free());
     }
 
     // F, G: a wall beside the player

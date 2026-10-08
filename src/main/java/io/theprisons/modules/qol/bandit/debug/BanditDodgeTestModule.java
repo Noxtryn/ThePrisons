@@ -26,6 +26,8 @@ import io.theprisons.modules.qol.bandit.dodge.DodgeBandit;
 import io.theprisons.modules.qol.bandit.dodge.DodgeCandidate;
 import io.theprisons.modules.qol.bandit.dodge.DodgeConfig;
 import io.theprisons.modules.qol.bandit.dodge.DodgeDrive;
+import io.theprisons.modules.qol.bandit.dodge.ExecutedPath;
+import io.theprisons.modules.qol.bandit.dodge.ExecutionModel;
 import io.theprisons.modules.qol.bandit.dodge.DodgeDecision;
 import io.theprisons.modules.qol.bandit.dodge.DodgeInputs;
 import io.theprisons.modules.qol.bandit.dodge.SpearAreaEvaluator;
@@ -65,6 +67,11 @@ public final class BanditDodgeTestModule extends AutomationModule {
     private double px;
     private double py;
     private double halfWidth = 0.3D;
+    private float viewYaw;
+    /** The yaw the model expected for this tick (DodgeDrive.nextYaw); compared with the real yaw one tick later: how well the camera model matches the client. */
+    private float predictedYaw = Float.NaN;
+    private double cameraModelError;
+    private double cameraModelErrorMax;
     private double pz;
     // log-on-change memory
     private DodgeAction lastAction;
@@ -102,6 +109,8 @@ public final class BanditDodgeTestModule extends AutomationModule {
         lastJump = false;
         lastArea = null;
         lastHeadingBucket = Integer.MIN_VALUE;
+        predictedYaw = Float.NaN;
+        cameraModelErrorMax = 0.0D;
         lastOscillations = 0;
         lastStuck = false;
         startedMs = System.currentTimeMillis();
@@ -148,6 +157,11 @@ public final class BanditDodgeTestModule extends AutomationModule {
         }
         long now = System.currentTimeMillis();
         halfWidth = player.getWidth() / 2.0D;
+        viewYaw = player.getYaw();
+        if (!Float.isNaN(predictedYaw)) {
+            cameraModelError = Math.abs(MathHelper.wrapDegrees(player.getYaw() - predictedYaw));
+            cameraModelErrorMax = Math.max(cameraModelErrorMax, cameraModelError);
+        }
         px = player.getX();
         py = player.getY();
         pz = player.getZ();
@@ -208,6 +222,7 @@ public final class BanditDodgeTestModule extends AutomationModule {
         control.submit(new MovementIntent(priority, "dodge", keys));
         // The view follows the movement heading (never a bandit) with a dead zone; it is not rotated while the heading is steady.
         float yaw = DodgeDrive.nextYaw(player.getYaw(), d.dirX(), d.dirZ());
+        predictedYaw = yaw;
         if (yaw != player.getYaw()) {
             control.submit(RotationIntent.following(IntentPriority.PATHFINDING, "dodge", MathHelper.wrapDegrees(yaw), 8.0F, 12.0F, 12.0F));
         }
@@ -233,6 +248,8 @@ public final class BanditDodgeTestModule extends AutomationModule {
             ThePrisonsClient.LOGGER.info("[BanditDodge] COLLISION_PLAN desired={}° executed={}° error={}° center={} left={} right={} stop={} wallPressure={} jumpAt={} "
                             + "selected={}°", Math.round(c.headingDegrees()), Math.round(c.executedDegrees()), Math.round(c.errorDegrees()), fmt(c.centerFree()),
                     fmt(c.leftFree()), fmt(c.rightFree()), c.stop(), fmt(c.pressure()), fmt(c.jumpAt()), Math.round(d.headingDegrees()));
+            ThePrisonsClient.LOGGER.info("[BanditDodge] SCORE selected {} | camera model error now {}° (max {}°) legs {} side {}/{}", c.terms(),
+                    fmt(cameraModelError), fmt(cameraModelErrorMax), c.legs(), fmt(c.sideLeft()), fmt(c.sideRight()));
         }
         lastHeadingBucket = bucket;
         lastAction = d.action();
@@ -322,6 +339,10 @@ public final class BanditDodgeTestModule extends AutomationModule {
         }
         o.line(px, y + 0.3D, pz, px + d.dirX() * 6.0D, y + 0.3D, pz + d.dirZ() * 6.0D, 0xFFFFFFFF, 2.0F);      // desired (white)
         DodgeCandidate c = d.chosen();
+        ExecutedPath route = ExecutionModel.simulate(px, pz, viewYaw, d.dirX(), d.dirZ(), cfg.pathTicks);
+        for (ExecutedPath.Leg leg : route.legs()) {
+            o.line(leg.x(), y + 0.7D, leg.z(), leg.endX(), y + 0.7D, leg.endZ(), 0xFF2D7DFF, 4.0F);       // the whole executed route (blue)
+        }
         double ex = c.execX();
         double ez = c.execZ();
         double hw = Math.max(0.0D, halfWidth - 0.02D);
