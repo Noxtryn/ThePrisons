@@ -4,6 +4,7 @@ import io.theprisons.ThePrisonsClient;
 import io.theprisons.core.ThePrisonsCore;
 import io.theprisons.core.module.Module;
 import io.theprisons.core.setting.Settings;
+import io.theprisons.gui.click.ClickGuiScreen;
 import io.theprisons.gui.kit.Ui;
 import io.theprisons.gui.theme.Theme;
 import io.theprisons.modules.general.DesignModule;
@@ -181,6 +182,11 @@ public final class ShowcaseClientGameTest implements FabricClientGameTest {
         context.getInput().pressKey(GLFW.GLFW_KEY_TAB);
         say(context, "HUD page", "Opens the HUD editor: drag and scale every widget.");
         hold(context, "dashboard_hud");
+        // This is the same settings screen reached by selecting a module from DashboardScreen.  Keep a visual
+        // regression capture here: changing an unused dashboard page must never hide a regression in the editor.
+        context.runOnClient(client -> client.setScreen(new ClickGuiScreen(client.currentScreen, ThePrisonsCore.getOrNull())));
+        say(context, "Command center", "The live module editor: categories, controls and persistent settings.");
+        hold(context, "config_command_center");
     }
 
     /** The Bandits page: the Spear Helper and, on its own sub-tabs, the Bandit Macro (work in progress). */

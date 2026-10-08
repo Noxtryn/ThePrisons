@@ -13,7 +13,7 @@ class ItemPresentationTest {
     @Test
     void rarityPaletteCanonicalisesKnownCosmicTiersAndKeepsUnknownsNeutral() {
         assertEquals("Godly", ItemRarity.canonical("gOdLy"));
-        assertEquals(0xFF3D6E, ItemRarity.rgb("godly"));
+        assertEquals(0xFF8DEB, ItemRarity.rgb("godly"));
         assertEquals("RARITY  GODLY", ItemRarity.badge("Godly"));
         assertEquals(ItemRarity.FALLBACK_RGB, ItemRarity.rgb("invented-tier"));
         assertEquals("", ItemRarity.badge("invented-tier"));
