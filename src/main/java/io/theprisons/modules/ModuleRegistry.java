@@ -93,6 +93,7 @@ public final class ModuleRegistry {
         modules.register(new io.theprisons.items.client.ItemListModule());
         modules.register(new io.theprisons.items.client.AhOverlayModule(core.dataDir()));
         modules.register(new io.theprisons.items.client.EnergyOverlayModule());
+        modules.register(new io.theprisons.items.client.EeOverlayModule());
         // General
         modules.register(new ClickGuiModule(openGui));
         modules.register(new io.theprisons.modules.general.DesignModule());

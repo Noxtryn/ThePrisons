@@ -1,6 +1,7 @@
 package io.theprisons.mixin;
 
 import io.theprisons.items.client.AhOverlayRender;
+import io.theprisons.items.client.EeOverlayRender;
 import io.theprisons.items.client.EnergyOverlayRender;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
@@ -27,6 +28,7 @@ public abstract class ThePrisonsItemsOverlayMixin {
     @Inject(method = "drawSlot", at = @At("TAIL"), require = 0)
     private void theprisons$ahSlot(DrawContext context, Slot slot, int mouseX, int mouseY, CallbackInfo ci) {
         AhOverlayRender.drawSlot(context, (HandledScreen<?>) (Object) this, slot);
+        EeOverlayRender.drawSlot(context, (HandledScreen<?>) (Object) this, slot);
     }
 
     @Inject(method = "getTooltipFromItem", at = @At("RETURN"), cancellable = true, require = 0)
@@ -36,6 +38,7 @@ public abstract class ThePrisonsItemsOverlayMixin {
             List<Text> out = new ArrayList<>(cir.getReturnValue());
             int before = out.size();
             AhOverlayRender.extendTooltip((HandledScreen<?>) (Object) this, slot, stack, cir.getReturnValue(), out);
+            EeOverlayRender.extendTooltip((HandledScreen<?>) (Object) this, slot, out);
             if (out.size() != before) {
                 cir.setReturnValue(out);
             }
@@ -46,5 +49,6 @@ public abstract class ThePrisonsItemsOverlayMixin {
     private void theprisons$itemsOverlays(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
         AhOverlayRender.drawDev(context, (HandledScreen<?>) (Object) this);
         EnergyOverlayRender.draw(context, (HandledScreen<?>) (Object) this);
+        EeOverlayRender.drawCard(context, (HandledScreen<?>) (Object) this);
     }
 }
