@@ -1,7 +1,7 @@
-package io.theprisons.modules.qol.bandit.dodge;
+package io.theprisons.modules.qol.bandit.nav;
 
 import io.theprisons.modules.qol.bandit.combat.Geo;
-import io.theprisons.testing.DodgeSim;
+import io.theprisons.testing.NavSim;
 import io.theprisons.testing.GridTerrain;
 import org.junit.jupiter.api.Test;
 
@@ -12,10 +12,10 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * Walls, body width and the executed movement. x east, z south; the player runs north (-z). The simulator uses the very same DodgeDrive key logic as
+ * Walls, body width and the executed movement. x east, z south; the player runs north (-z). The simulator uses the very same NavDrive key logic as
  * the live module, a 0.6 wide body that slides along walls, and counts every tick that touches a wall.
  */
-class DodgeCollisionTest {
+class NavCollisionTest {
     private static GridTerrain wallRow(GridTerrain t, int z, int fromX, int toX) {
         for (int x = fromX; x <= toX; x++) {
             t = t.with(x, z, '#');
@@ -23,15 +23,15 @@ class DodgeCollisionTest {
         return t;
     }
 
-    private static DodgeSim run(GridTerrain t, double x, double z) {
-        return new DodgeSim(new DodgeConfig(), t, x, z, 0.0D, -5.6D);
+    private static NavSim run(GridTerrain t, double x, double z) {
+        return new NavSim(new NavConfig(), t, x, z, 0.0D, -5.6D);
     }
 
-    private static DodgeInputs at(GridTerrain t, double x, double z, double yaw, double halfWidth) {
-        return new DodgeInputs(1_000_000L, x, 64.0D, z, 0, -5.6, yaw, true, List.of(), t, SpearAreaState.UNKNOWN, halfWidth);
+    private static NavInputs at(GridTerrain t, double x, double z, double yaw, double halfWidth) {
+        return new NavInputs(1_000_000L, x, 64.0D, z, 0, -5.6, yaw, true, List.of(), t, SpearAreaState.UNKNOWN, halfWidth);
     }
 
-    private static DodgeCandidate candidate(DodgeDecision d, double desiredDegrees) {
+    private static NavCandidate candidate(NavDecision d, double desiredDegrees) {
         return d.candidates().stream().filter(c -> c.index() >= 0 && Math.abs(Math.floorMod(Math.round(c.headingDegrees()), 360) - desiredDegrees) < 1.0D)
                 .findFirst().orElseThrow();
     }
@@ -41,16 +41,16 @@ class DodgeCollisionTest {
     @Test
     void aStraightWallIsLeftBeforeTheBodyTouchesItAndTheStuckDetectorNeverFires() {
         GridTerrain t = wallRow(GridTerrain.open(100), 30, 0, 99);
-        DodgeSim s = run(t, 50.5D, 50.5D);
+        NavSim s = run(t, 50.5D, 50.5D);
         s.run(300);
         assertEquals(0, s.contactTicks, "the body never touched the wall");
-        assertTrue(s.decisions.stream().noneMatch(DodgeDecision::stuck), "stuck recovery is not the navigation");
-        assertTrue(s.decisions.stream().noneMatch(DodgeDecision::jump), "a full wall is not a step");
+        assertTrue(s.decisions.stream().noneMatch(NavDecision::stuck), "stuck recovery is not the navigation");
+        assertTrue(s.decisions.stream().noneMatch(NavDecision::jump), "a full wall is not a step");
         // it bent away before the wall: the first clear turn happened with the wall still several blocks ahead
         double zAtTurn = Double.NaN;
-        DodgeSim probe = run(t, 50.5D, 50.5D);
+        NavSim probe = run(t, 50.5D, 50.5D);
         for (int i = 0; i < 300; i++) {
-            DodgeDecision d = probe.tick();
+            NavDecision d = probe.tick();
             if (Math.abs(d.dirX()) > 0.5D) {
                 zAtTurn = probe.z;
                 break;
@@ -63,10 +63,10 @@ class DodgeCollisionTest {
     @Test
     void wallPressureChangesTheRouteWhileTheWallIsStillFarAndBeforeAnyStuckTime() {
         GridTerrain t = wallRow(GridTerrain.open(100), 30, 0, 79);   // a wall with the end at x=80
-        DodgeSim s = run(t, 50.5D, 60.5D);
+        NavSim s = run(t, 50.5D, 60.5D);
         boolean pressureSeen = false;
         for (int i = 0; i < 250; i++) {
-            DodgeDecision d = s.tick();
+            NavDecision d = s.tick();
             pressureSeen |= d.chosen().pressure() > 0.0D || d.chosen().free() < 8.0D;
             assertFalse(d.stuck(), "no stuck decision at tick " + i);
         }
@@ -81,10 +81,10 @@ class DodgeCollisionTest {
         GridTerrain t = GridTerrain.open(100).with(52, 47, '#');
         double yawNorth = Geo.yawOf(0.0D, -1.0D);
         double yawNe = Geo.yawOf(1.0D, -1.0D);   // the view already looks north-east: plain W walks the diagonal
-        DodgeDecision body = new BanditDodgePlanner(new DodgeConfig()).plan(at(t, 50.7D, 50.5D, yawNe, 0.3D));
-        DodgeDecision point = new BanditDodgePlanner(new DodgeConfig()).plan(at(t, 50.7D, 50.5D, yawNe, 0.0D));
-        DodgeCandidate ne = candidate(body, 315.0D);       // north-east in world terms: W + D keys
-        DodgeCandidate nePoint = candidate(point, 315.0D);
+        NavDecision body = new LocalNavigator(new NavConfig()).plan(at(t, 50.7D, 50.5D, yawNe, 0.3D));
+        NavDecision point = new LocalNavigator(new NavConfig()).plan(at(t, 50.7D, 50.5D, yawNe, 0.0D));
+        NavCandidate ne = candidate(body, 315.0D);       // north-east in world terms: W + D keys
+        NavCandidate nePoint = candidate(point, 315.0D);
         assertTrue(ne.execX() > 0.6D && ne.execZ() < -0.6D, "executed north-east: " + ne.execX() + "," + ne.execZ());
         assertTrue(nePoint.free() >= 9.9D, "a zero-width point sneaks past the corner: " + nePoint.free());
         assertTrue(ne.centerFree() >= 9.9D, "the centre line is clear: " + ne.centerFree());
@@ -102,17 +102,17 @@ class DodgeCollisionTest {
     @Test
     void aOneBlockDoorwayIsRejectedWhenTheBodyDoesNotFitAndAcceptedWhenItDoes() {
         double yawNorth = Geo.yawOf(0.0D, -1.0D);
-        DodgeCandidate offCentre = candidate(new BanditDodgePlanner(new DodgeConfig()).plan(at(doorway(), 50.9D, 50.5D, yawNorth, 0.3D)), 270.0D);
+        NavCandidate offCentre = candidate(new LocalNavigator(new NavConfig()).plan(at(doorway(), 50.9D, 50.5D, yawNorth, 0.3D)), 270.0D);
         assertTrue(offCentre.centerFree() >= 9.9D, "the centre line fits through: " + offCentre.centerFree());
         assertTrue(offCentre.free() < 7.0D, "the body does not: " + offCentre.free());
-        DodgeCandidate centred = candidate(new BanditDodgePlanner(new DodgeConfig()).plan(at(doorway(), 50.5D, 50.5D, yawNorth, 0.3D)), 270.0D);
+        NavCandidate centred = candidate(new LocalNavigator(new NavConfig()).plan(at(doorway(), 50.5D, 50.5D, yawNorth, 0.3D)), 270.0D);
         assertTrue(centred.free() >= 9.9D, "centred, the body fits: " + centred.free());
         assertTrue(centred.safe());
     }
 
     @Test
     void aPlayerCentredInFrontOfTheDoorwayRunsThroughItWithoutTouchingAnything() {
-        DodgeSim s = run(doorway(), 50.5D, 58.5D);
+        NavSim s = run(doorway(), 50.5D, 58.5D);
         s.run(60);
         assertEquals(0, s.contactTicks);
         assertTrue(s.z < 43.0D, "through the doorway, z=" + s.z);
@@ -142,14 +142,14 @@ class DodgeCollisionTest {
     void aMisalignedViewIsVisibleInTheCandidateAndAWallInTheFirstMetreIsSeen() {
         // View 22 degrees east of north, desired north: plain W walks the view direction, so the candidate's first leg is 22 degrees off.
         double lean = Geo.yawOf(Math.sin(Math.toRadians(22.0D)), -Math.cos(Math.toRadians(22.0D)));
-        DodgeCandidate open = candidate(new BanditDodgePlanner(new DodgeConfig()).plan(at(GridTerrain.open(100), 50.5D, 50.5D, lean, 0.3D)), 270.0D);
+        NavCandidate open = candidate(new LocalNavigator(new NavConfig()).plan(at(GridTerrain.open(100), 50.5D, 50.5D, lean, 0.3D)), 270.0D);
         assertEquals(22.0D, open.errorDegrees(), 1.0D);
         assertTrue(open.legs() >= 2, "the route bends while the view catches up");
         assertTrue(open.free() >= 9.9D);
         // a wall touching the body's east edge right at the start: the view-leaning first leg presses into it, the aligned one runs along it
         GridTerrain t = GridTerrain.open(100).with(51, 49, '#').with(51, 50, '#').with(51, 48, '#');
-        DodgeCandidate pressed = candidate(new BanditDodgePlanner(new DodgeConfig()).plan(at(t, 50.68D, 50.5D, lean, 0.3D)), 270.0D);
-        DodgeCandidate along = candidate(new BanditDodgePlanner(new DodgeConfig()).plan(at(t, 50.68D, 50.5D, Geo.yawOf(0.0D, -1.0D), 0.3D)), 270.0D);
+        NavCandidate pressed = candidate(new LocalNavigator(new NavConfig()).plan(at(t, 50.68D, 50.5D, lean, 0.3D)), 270.0D);
+        NavCandidate along = candidate(new LocalNavigator(new NavConfig()).plan(at(t, 50.68D, 50.5D, Geo.yawOf(0.0D, -1.0D), 0.3D)), 270.0D);
         assertTrue(pressed.free() < along.free(), "judged on the executed route: " + pressed.free() + " vs " + along.free());
     }
 
@@ -163,7 +163,7 @@ class DodgeCollisionTest {
                 t = t.with(x, z, '#');
             }
         }
-        DodgeSim s = run(t, 49.7D, 80.5D);
+        NavSim s = run(t, 49.7D, 80.5D);
         s.run(250);
         assertEquals(0, s.contactTicks, "never touched");
         assertTrue(s.z < 40.0D, "kept running, z=" + s.z);
@@ -178,14 +178,14 @@ class DodgeCollisionTest {
                 t = t.with(x, z, '#');
             }
         }
-        DodgeSim s = run(t, 51.3D, 80.5D);
+        NavSim s = run(t, 51.3D, 80.5D);
         s.run(250);
         assertEquals(0, s.contactTicks, "never touched");
         assertTrue(s.z < 40.0D, "kept running, z=" + s.z);
         assertTrue(smooth(s), "no sharp turns while following the wall");
     }
 
-    private static boolean smooth(DodgeSim s) {
+    private static boolean smooth(NavSim s) {
         int sharp = 0;
         for (int i = 1; i < s.decisions.size(); i++) {
             double a = Math.abs(((s.decisions.get(i).headingDegrees() - s.decisions.get(i - 1).headingDegrees()) % 360.0D + 540.0D) % 360.0D - 180.0D);
@@ -206,9 +206,9 @@ class DodgeCollisionTest {
                 t = t.with(x, z, '^');
             }
         }
-        DodgeSim s = run(t, 50.5D, 55.5D);
+        NavSim s = run(t, 50.5D, 55.5D);
         s.run(120);
-        assertTrue(s.decisions.stream().anyMatch(DodgeDecision::jump), "it jumped");
+        assertTrue(s.decisions.stream().anyMatch(NavDecision::jump), "it jumped");
         assertTrue(s.z < 40.0D, "and carried on, z=" + s.z);
         assertEquals(0, s.contactTicks);
     }
@@ -220,12 +220,12 @@ class DodgeCollisionTest {
         for (int x = 0; x < 100; x++) {
             t = t.with(x, 45, '^').with(x, 44, '#');
         }
-        DodgeSim s = run(t, 50.5D, 52.5D);
-        DodgeDecision d = s.planner.plan(s.inputs());
-        DodgeCandidate ahead = d.candidates().stream().filter(c -> c.index() == -1).findFirst().orElseThrow();
+        NavSim s = run(t, 50.5D, 52.5D);
+        NavDecision d = s.planner.plan(s.inputs());
+        NavCandidate ahead = d.candidates().stream().filter(c -> c.index() == -1).findFirst().orElseThrow();
         assertFalse(ahead.blocked().isEmpty(), "the step leads into a wall: not a way (" + ahead.stop() + " free " + ahead.free() + ")");
         s.run(200);
-        assertTrue(s.decisions.stream().noneMatch(DodgeDecision::jump), "no jump into a dead end");
+        assertTrue(s.decisions.stream().noneMatch(NavDecision::jump), "no jump into a dead end");
         assertEquals(0, s.contactTicks);
     }
 
@@ -240,10 +240,10 @@ class DodgeCollisionTest {
                 t = t.with(x, z, '#').with(x, z + 1, '#');
             }
         }
-        DodgeSim s = run(t, 50.5D, 100.5D);   // south-east of the wall (x + z = 150.9), the wall runs north-west to south-east
+        NavSim s = run(t, 50.5D, 100.5D);   // south-east of the wall (x + z = 150.9), the wall runs north-west to south-east
         s.run(300);
         assertTrue(s.contactTicks <= 2, "contacts with the diagonal wall: " + s.contactTicks);
-        assertTrue(s.decisions.stream().noneMatch(DodgeDecision::stuck));
+        assertTrue(s.decisions.stream().noneMatch(NavDecision::stuck));
         assertTrue(Math.hypot(s.x - 50.5D, s.z - 100.5D) > 20.0D, "it kept moving");
     }
 }

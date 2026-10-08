@@ -1,4 +1,4 @@
-package io.theprisons.modules.qol.bandit.dodge;
+package io.theprisons.modules.qol.bandit.nav;
 
 import java.util.List;
 
@@ -17,12 +17,12 @@ import java.util.List;
  * @param jumpPhase                NONE, HOLD (key held, still on the ground) or AIR (lifted off, course locked until the landing)
  * @param candidates               every scored direction (bounded: directions + the current heading)
  */
-public record DodgeDecision(double dirX, double dirZ, boolean sprint, boolean jump, double score, double nearestBandit, double projectedNearestBandit,
+public record NavDecision(double dirX, double dirZ, boolean sprint, boolean jump, double score, double nearestBandit, double projectedNearestBandit,
                             double threatScore, double freeDistance, boolean aimWindowSafe, boolean aimWindowOpen, int aimWindowTicks, boolean breach,
-                            int nearbyCount, DodgeAction action, double headingDegrees, SpearAreaState area, String reason, List<DodgeCandidate> candidates,
-                            int oscillations, boolean stuck, DodgeCandidate chosen, boolean terrainChange, JumpPhase jumpPhase, int jumpTicksHeld,
+                            int nearbyCount, NavAction action, double headingDegrees, SpearAreaState area, String reason, List<NavCandidate> candidates,
+                            int oscillations, boolean stuck, NavCandidate chosen, boolean terrainChange, JumpPhase jumpPhase, int jumpTicksHeld,
                             long jumpCooldownLeftMs) {
-    public DodgeDecision {
+    public NavDecision {
         candidates = List.copyOf(candidates);
     }
 }

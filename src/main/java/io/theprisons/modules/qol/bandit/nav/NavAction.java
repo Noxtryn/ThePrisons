@@ -1,7 +1,7 @@
-package io.theprisons.modules.qol.bandit.dodge;
+package io.theprisons.modules.qol.bandit.nav;
 
 /** What the movement is doing, for the HUD, the log and the tests. */
-public enum DodgeAction {
+public enum NavAction {
     /** Keep going the same way. */
     CONTINUE,
     /** Straight on through open ground. */

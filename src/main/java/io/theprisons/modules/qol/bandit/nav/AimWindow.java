@@ -1,4 +1,4 @@
-package io.theprisons.modules.qol.bandit.dodge;
+package io.theprisons.modules.qol.bandit.nav;
 
 /**
  * Counts how many ticks in a row the movement has been safe enough to aim. Any breach of the minimum distance closes it on the spot and

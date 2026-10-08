@@ -1,4 +1,4 @@
-package io.theprisons.modules.qol.bandit.dodge;
+package io.theprisons.modules.qol.bandit.nav;
 
 import java.util.List;
 

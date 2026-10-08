@@ -1,4 +1,4 @@
-package io.theprisons.modules.qol.bandit.dodge;
+package io.theprisons.modules.qol.bandit.nav;
 
 /**
  * One scored direction. {@code dirX/dirZ} is the DESIRED heading; everything that judges safety ({@code free}, {@code nearest}, {@code threat}, {@code gap})
@@ -17,7 +17,7 @@ package io.theprisons.modules.qol.bandit.dodge;
  * @param blocked       why the direction is not usable ("" = usable)
  * @param safe          usable and nobody gets closer than the minimum distance on the way
  */
-public record DodgeCandidate(int index, double dirX, double dirZ, double execX, double execZ, double errorDegrees, double free, double centerFree,
+public record NavCandidate(int index, double dirX, double dirZ, double execX, double execZ, double errorDegrees, double free, double centerFree,
                              double leftFree, double rightFree, String stop, double jumpAt, double pressure, double nearest, double threat, double peak,
                              double gap, double score, String blocked, boolean safe, CandidateScorer.Terms terms, double sideLeft, double sideRight, int legs) {
     public double headingDegrees() {

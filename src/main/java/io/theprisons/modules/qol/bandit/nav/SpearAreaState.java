@@ -1,4 +1,4 @@
-package io.theprisons.modules.qol.bandit.dodge;
+package io.theprisons.modules.qol.bandit.nav;
 
 /**
  * Whether the spear can be used where the player is. Nothing about this is known yet: the state is VALID / INVALID only when a verified

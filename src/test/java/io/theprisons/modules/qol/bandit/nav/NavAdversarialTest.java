@@ -1,6 +1,6 @@
-package io.theprisons.modules.qol.bandit.dodge;
+package io.theprisons.modules.qol.bandit.nav;
 
-import io.theprisons.testing.DodgeSim;
+import io.theprisons.testing.NavSim;
 import io.theprisons.testing.GridTerrain;
 import org.junit.jupiter.api.Test;
 
@@ -8,12 +8,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /** Situations that hurt in the live game: tight spaces, walls with a crowd, a lane that collapses, pressure that keeps coming, dead ends. */
-class DodgeAdversarialTest {
-    private static DodgeSim sim(GridTerrain t, double x, double z) {
-        return new DodgeSim(new DodgeConfig(), t, x, z, 0.0D, -5.6D);
+class NavAdversarialTest {
+    private static NavSim sim(GridTerrain t, double x, double z) {
+        return new NavSim(new NavConfig(), t, x, z, 0.0D, -5.6D);
     }
 
-    private static int sharpTurns(DodgeSim s, double degrees) {
+    private static int sharpTurns(NavSim s, double degrees) {
         int n = 0;
         for (int i = 1; i < s.decisions.size(); i++) {
             double d = Math.abs(((s.decisions.get(i).headingDegrees() - s.decisions.get(i - 1).headingDegrees()) % 360.0D + 540.0D) % 360.0D - 180.0D);
@@ -25,7 +25,7 @@ class DodgeAdversarialTest {
     }
 
     /** Ticks in which the player did not move (the run must not stop and start). */
-    private static int standstill(DodgeSim s, double[] xs, double[] zs) {
+    private static int standstill(NavSim s, double[] xs, double[] zs) {
         int n = 0;
         for (int i = 1; i < xs.length; i++) {
             if (Math.hypot(xs[i] - xs[i - 1], zs[i] - zs[i - 1]) < 0.1D) {
@@ -35,7 +35,7 @@ class DodgeAdversarialTest {
         return n;
     }
 
-    private DodgeSim runRecording(DodgeSim s, int ticks, double[][] out) {
+    private NavSim runRecording(NavSim s, int ticks, double[][] out) {
         out[0] = new double[ticks + 1];
         out[1] = new double[ticks + 1];
         out[0][0] = s.x;
@@ -59,7 +59,7 @@ class DodgeAdversarialTest {
             }
         }
         double[][] rec = new double[2][];
-        DodgeSim s = runRecording(sim(t, 50.5D, 95.5D), 250, rec);
+        NavSim s = runRecording(sim(t, 50.5D, 95.5D), 250, rec);
         assertEquals(0, s.contactTicks, "never touched a wall");
         assertTrue(s.z < 40.0D, "ran through, z=" + s.z);
         assertTrue(sharpTurns(s, 40.0D) <= 1, "turns over 40 degrees: " + sharpTurns(s, 40.0D));
@@ -72,7 +72,7 @@ class DodgeAdversarialTest {
         for (int x = 20; x <= 70; x++) {
             t = t.with(x, 40, '#').with(x, 41, '#');       // a wall from x=20 to 70; free around both ends
         }
-        DodgeSim s = sim(t, 45.5D, 60.5D).bandit("a", 22.5D, 46.5D, 0, 0).bandit("b", 25.5D, 48.5D, 0, 0).bandit("c", 28.5D, 46.5D, 0, 0);
+        NavSim s = sim(t, 45.5D, 60.5D).bandit("a", 22.5D, 46.5D, 0, 0).bandit("b", 25.5D, 48.5D, 0, 0).bandit("c", 28.5D, 46.5D, 0, 0);
         double[][] rec = new double[2][];
         runRecording(s, 300, rec);
         assertEquals(0, s.contactTicks);
@@ -84,7 +84,7 @@ class DodgeAdversarialTest {
 
     @Test
     void aLaneThatCollapsesSuddenlyIsReroutedWithoutStopping() {
-        DodgeSim s = sim(GridTerrain.open(150), 70.5D, 120.5D);
+        NavSim s = sim(GridTerrain.open(150), 70.5D, 120.5D);
         double[][] rec = new double[2][];
         rec[0] = new double[161];
         rec[1] = new double[161];
@@ -104,14 +104,14 @@ class DodgeAdversarialTest {
         }
         assertEquals(0, s.contactTicks, "never ran into the new wall");
         assertEquals(0, standstill(s, rec[0], rec[1]), "no stop-start");
-        assertTrue(s.decisions.stream().allMatch(DodgeDecision::sprint));
-        assertTrue(s.decisions.stream().noneMatch(DodgeDecision::stuck));
+        assertTrue(s.decisions.stream().allMatch(NavDecision::sprint));
+        assertTrue(s.decisions.stream().noneMatch(NavDecision::stuck));
     }
 
     @Test
     void pressureThatKeepsComingFromAlternatingSidesDoesNotMakeItFlutter() {
         // Two bandits patrol across the lane, one each side, out of phase: the old planner flipped every time one of them turned round.
-        DodgeSim s = sim(GridTerrain.open(300), 150.5D, 280.5D)
+        NavSim s = sim(GridTerrain.open(300), 150.5D, 280.5D)
                 .bandit("l", 140.5D, 230.5D, 2.5D, 0).bandit("r", 162.5D, 210.5D, -2.5D, 0).bandit("l2", 138.5D, 180.5D, 2.0D, 0)
                 .bandit("r2", 165.5D, 160.5D, -2.0D, 0);
         for (int i = 0; i < 400; i++) {
@@ -124,7 +124,7 @@ class DodgeAdversarialTest {
         }
         assertTrue(s.minDistanceSeen >= 5.0D, "closest " + s.minDistanceSeen);
         assertTrue(sharpTurns(s, 40.0D) <= 6, "sharp turns in 20 s: " + sharpTurns(s, 40.0D));
-        assertTrue(s.decisions.stream().filter(d -> d.action() == DodgeAction.RECOVER).count() == 0, "no recover");
+        assertTrue(s.decisions.stream().filter(d -> d.action() == NavAction.RECOVER).count() == 0, "no recover");
     }
 
     @Test
@@ -138,16 +138,16 @@ class DodgeAdversarialTest {
             t = t.with(x, 30, '#');
         }
         double[][] rec = new double[2][];
-        DodgeSim s = runRecording(sim(t, 50.5D, 68.5D), 300, rec);
+        NavSim s = runRecording(sim(t, 50.5D, 68.5D), 300, rec);
         assertEquals(0, s.contactTicks, "never touched a wall");
-        assertTrue(s.decisions.stream().noneMatch(DodgeDecision::stuck), "the pocket is left by planning, not by the stuck detector");
+        assertTrue(s.decisions.stream().noneMatch(NavDecision::stuck), "the pocket is left by planning, not by the stuck detector");
         assertEquals(0, standstill(s, rec[0], rec[1]), "it never stood still");
         assertTrue(s.z > 71.0D || s.x < 40.0D || s.x > 60.0D, "out of the pocket: " + s.x + "," + s.z);
     }
 
     @Test
     void bothSidesWithBanditsAndAGapAheadIsTakenCleanlyAtFullSpeed() {
-        DodgeSim s = sim(GridTerrain.open(200), 100.5D, 180.5D)
+        NavSim s = sim(GridTerrain.open(200), 100.5D, 180.5D)
                 .bandit("l1", 88.5D, 150.5D, 0, 0).bandit("l2", 90.5D, 130.5D, 0, 0)
                 .bandit("r1", 112.5D, 150.5D, 0, 0).bandit("r2", 110.5D, 130.5D, 0, 0);
         double[][] rec = new double[2][];

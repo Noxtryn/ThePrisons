@@ -20,19 +20,19 @@ import io.theprisons.core.render.Overlay;
 import io.theprisons.core.world.LiveWorldView;
 import io.theprisons.core.world.WorldCache;
 import io.theprisons.modules.qol.bandit.WorldTerrain;
-import io.theprisons.modules.qol.bandit.dodge.BanditDodgePlanner;
-import io.theprisons.modules.qol.bandit.dodge.DodgeAction;
-import io.theprisons.modules.qol.bandit.dodge.DodgeBandit;
-import io.theprisons.modules.qol.bandit.dodge.DodgeCandidate;
-import io.theprisons.modules.qol.bandit.dodge.DodgeConfig;
-import io.theprisons.modules.qol.bandit.dodge.DodgeDrive;
-import io.theprisons.modules.qol.bandit.dodge.ExecutedPath;
-import io.theprisons.modules.qol.bandit.dodge.ExecutionModel;
-import io.theprisons.modules.qol.bandit.dodge.JumpPhase;
-import io.theprisons.modules.qol.bandit.dodge.DodgeDecision;
-import io.theprisons.modules.qol.bandit.dodge.DodgeInputs;
-import io.theprisons.modules.qol.bandit.dodge.SpearAreaEvaluator;
-import io.theprisons.modules.qol.bandit.dodge.SpearAreaState;
+import io.theprisons.modules.qol.bandit.nav.LocalNavigator;
+import io.theprisons.modules.qol.bandit.nav.NavAction;
+import io.theprisons.modules.qol.bandit.nav.NavBandit;
+import io.theprisons.modules.qol.bandit.nav.NavCandidate;
+import io.theprisons.modules.qol.bandit.nav.NavConfig;
+import io.theprisons.modules.qol.bandit.nav.NavDrive;
+import io.theprisons.modules.qol.bandit.nav.ExecutedPath;
+import io.theprisons.modules.qol.bandit.nav.ExecutionModel;
+import io.theprisons.modules.qol.bandit.nav.JumpPhase;
+import io.theprisons.modules.qol.bandit.nav.NavDecision;
+import io.theprisons.modules.qol.bandit.nav.NavInputs;
+import io.theprisons.modules.qol.bandit.nav.SpearAreaEvaluator;
+import io.theprisons.modules.qol.bandit.nav.SpearAreaState;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -51,7 +51,7 @@ import java.util.Map;
 
 /**
  * TEMPORARY developer-only test: only MOVES through a bandit area and keeps away from bandits. No spear, no aiming, no attack, no target. It senses
- * (state store + live entities), builds a {@link DodgeInputs}, asks the pure {@link BanditDodgePlanner}, and submits a {@link MovementIntent}.
+ * (state store + live entities), builds a {@link NavInputs}, asks the pure {@link LocalNavigator}, and submits a {@link MovementIntent}.
  * The planner never touches keys; the keys come from the world direction through {@link Geo#keysFor} with the CURRENT view yaw. The view follows
  * the movement heading slowly, or stays forward - it never aims at a bandit. Manual input stops it at once.
  *
@@ -60,23 +60,23 @@ import java.util.Map;
 public final class BanditDodgeTestModule extends AutomationModule {
     private static final int MAX_LIVE = 24;
 
-    private final DodgeConfig cfg = new DodgeConfig();
-    private final BanditDodgePlanner planner = new BanditDodgePlanner(cfg);
+    private final NavConfig cfg = new NavConfig();
+    private final LocalNavigator planner = new LocalNavigator(cfg);
     private final Map<String, Vec3d> smooth = new HashMap<>();
-    private volatile DodgeDecision last;
+    private volatile NavDecision last;
     private volatile List<double[]> bandits = List.of();   // x, z for the overlay
     private double px;
     private double py;
     private double halfWidth = 0.3D;
     private float viewYaw;
     private boolean onGroundNow;
-    /** The yaw the model expected for this tick (DodgeDrive.nextYaw); compared with the real yaw one tick later: how well the camera model matches the client. */
+    /** The yaw the model expected for this tick (NavDrive.nextYaw); compared with the real yaw one tick later: how well the camera model matches the client. */
     private float predictedYaw = Float.NaN;
     private double cameraModelError;
     private double cameraModelErrorMax;
     private double pz;
     // log-on-change memory
-    private DodgeAction lastAction;
+    private NavAction lastAction;
     private boolean lastBreach;
     private boolean lastWindow;
     private boolean lastJump;
@@ -171,7 +171,7 @@ public final class BanditDodgeTestModule extends AutomationModule {
         py = player.getY();
         pz = player.getZ();
 
-        List<DodgeBandit> list = new ArrayList<>();
+        List<NavBandit> list = new ArrayList<>();
         List<double[]> marks = new ArrayList<>();
         Map<String, Vec3d> next = new HashMap<>();
         int liveCount = 0;
@@ -207,7 +207,7 @@ public final class BanditDodgeTestModule extends AutomationModule {
             } else if (entity != null) {
                 continue; // dead / removed
             }
-            list.add(new DodgeBandit(id, x, z, vx, vz));
+            list.add(new NavBandit(id, x, z, vx, vz));
             marks.add(new double[]{x, z});
         }
         smooth.clear();
@@ -215,25 +215,25 @@ public final class BanditDodgeTestModule extends AutomationModule {
         bandits = marks;
 
         SpearAreaState area = SpearAreaEvaluator.evaluate(ThePrisonsCore.get().cosmic().model(), cosmic.zone());
-        DodgeInputs in = new DodgeInputs(now, px, py, pz, (px - player.lastX) * 20.0D, (pz - player.lastZ) * 20.0D, player.getYaw(),
+        NavInputs in = new NavInputs(now, px, py, pz, (px - player.lastX) * 20.0D, (pz - player.lastZ) * 20.0D, player.getYaw(),
                 player.isOnGround(), list, new WorldTerrain(new LiveWorldView(client.world, world.classifier())), area, player.getWidth() / 2.0D);
-        DodgeDecision d = planner.plan(in);
+        NavDecision d = planner.plan(in);
         last = d;
         logChanges(d);
 
-        var keys = DodgeDrive.keys(d.dirX(), d.dirZ(), player.getYaw(), d.jump());     // the planner holds the key for several ticks and releases it after lift-off
+        var keys = NavDrive.keys(d.dirX(), d.dirZ(), player.getYaw(), d.jump());     // the planner holds the key for several ticks and releases it after lift-off
         IntentPriority priority = d.breach() || d.stuck() ? IntentPriority.EMERGENCY : IntentPriority.PATHFINDING;
         // One stable source name: a changing name looked like a new owner every tick in the control log.
         control.submit(new MovementIntent(priority, "dodge", keys));
         // The view follows the movement heading (never a bandit) with a dead zone; it is not rotated while the heading is steady.
-        float yaw = DodgeDrive.nextYaw(player.getYaw(), d.dirX(), d.dirZ());
+        float yaw = NavDrive.nextYaw(player.getYaw(), d.dirX(), d.dirZ());
         predictedYaw = yaw;
         if (yaw != player.getYaw()) {
             control.submit(RotationIntent.following(IntentPriority.PATHFINDING, "dodge", MathHelper.wrapDegrees(yaw), 8.0F, 12.0F, 12.0F));
         }
     }
 
-    private void logChanges(DodgeDecision d) {
+    private void logChanges(NavDecision d) {
         int bucket = (int) Math.round(d.headingDegrees() / 22.5D);
         boolean headingChanged = lastHeadingBucket != Integer.MIN_VALUE && bucket != lastHeadingBucket;
         boolean changed = headingChanged || d.action() != lastAction || d.breach() != lastBreach || d.aimWindowOpen() != lastWindow
@@ -278,7 +278,7 @@ public final class BanditDodgeTestModule extends AutomationModule {
 
     @Override
     public void collectHud(List<HudLine> out) {
-        DodgeDecision d = last;
+        NavDecision d = last;
         if (!enabled() || d == null) {
             return;
         }
@@ -291,7 +291,7 @@ public final class BanditDodgeTestModule extends AutomationModule {
         out.add(new HudLine("Why", d.reason(), 0xFF9AA3B8));
     }
 
-    private static String hudAction(DodgeDecision d) {
+    private static String hudAction(NavDecision d) {
         return switch (d.action()) {
             case CONTINUE, RUN -> "RUN";
             case DIAGONAL, STRAFE_LEFT, STRAFE_RIGHT -> "GAP";
@@ -303,7 +303,7 @@ public final class BanditDodgeTestModule extends AutomationModule {
 
     private Map<String, String> captureExtras() {
         Map<String, String> m = new HashMap<>();
-        DodgeDecision d = last;
+        NavDecision d = last;
         m.put("banditDodge.enabled", Boolean.toString(enabled()));
         if (d == null) {
             return m;
@@ -321,7 +321,7 @@ public final class BanditDodgeTestModule extends AutomationModule {
         m.put("banditDodge.jump", Boolean.toString(d.jump()));
         m.put("banditDodge.reason", d.reason());
         m.put("banditDodge.spearArea", d.area().name());
-        for (DodgeCandidate c : d.candidates()) {
+        for (NavCandidate c : d.candidates()) {
             m.put("banditDodge.candidate." + c.index(), String.format(Locale.ROOT, "heading=%.0f free=%.1f nearestProjected=%.1f threat=%.1f score=%.1f blocked=%s",
                     c.headingDegrees(), c.free(), c.nearest(), c.threat(), c.score(), c.blocked().isEmpty() ? "-" : c.blocked()));
         }
@@ -330,7 +330,7 @@ public final class BanditDodgeTestModule extends AutomationModule {
 
     /** Developer-only: minimum-distance circles, the chosen vector, every candidate (red = unsafe / blocked, green = safe). */
     private void render(CoreEvents.WorldRender event) {
-        DodgeDecision d = last;
+        NavDecision d = last;
         if (!enabled() || d == null) {
             return;
         }
@@ -343,7 +343,7 @@ public final class BanditDodgeTestModule extends AutomationModule {
             circle(o, b[0], y, b[1], cfg.minDistance, 0xFFFF4040);
             circle(o, b[0], y, b[1], cfg.minDistance + cfg.warningBand, 0x66FFC14D);
         }
-        for (DodgeCandidate c : d.candidates()) {
+        for (NavCandidate c : d.candidates()) {
             if (c.index() < 0) {
                 continue;
             }
@@ -351,7 +351,7 @@ public final class BanditDodgeTestModule extends AutomationModule {
             o.line(px, y, pz, px + c.dirX() * len, y, pz + c.dirZ() * len, c.safe() ? 0x8865F59B : 0x88FF4040, 1.0F);
         }
         o.line(px, y + 0.3D, pz, px + d.dirX() * 6.0D, y + 0.3D, pz + d.dirZ() * 6.0D, 0xFFFFFFFF, 2.0F);      // desired (white)
-        DodgeCandidate c = d.chosen();
+        NavCandidate c = d.chosen();
         ExecutedPath route = ExecutionModel.simulate(px, pz, viewYaw, d.dirX(), d.dirZ(), cfg.pathTicks);
         for (ExecutedPath.Leg leg : route.legs()) {
             o.line(leg.x(), y + 0.7D, leg.z(), leg.endX(), y + 0.7D, leg.endZ(), 0xFF2D7DFF, 4.0F);       // the whole executed route (blue)

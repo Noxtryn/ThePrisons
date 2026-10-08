@@ -1,13 +1,13 @@
-package io.theprisons.modules.qol.bandit.dodge;
+package io.theprisons.modules.qol.bandit.nav;
 
-import io.theprisons.modules.qol.bandit.dodge.DodgeDrive.ExecutedMove;
+import io.theprisons.modules.qol.bandit.nav.NavDrive.ExecutedMove;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * What Minecraft will really do for a desired heading: every tick the keys are chosen relative to the current view, the player moves along the key
- * vector, then the view turns towards the heading ({@link DodgeDrive#nextYaw}). Simulating that for a second or two gives the route that
+ * vector, then the view turns towards the heading ({@link NavDrive#nextYaw}). Simulating that for a second or two gives the route that
  * collision, wall pressure and bandit distance must be judged on - not the ideal ray, which the keys do not walk.
  */
 public final class ExecutionModel {
@@ -35,7 +35,7 @@ public final class ExecutionModel {
         boolean legSprint = true;
         boolean open = false;
         for (int t = 0; t < ticks; t++) {
-            ExecutedMove move = DodgeDrive.resolve(wantX, wantZ, yaw);
+            ExecutedMove move = NavDrive.resolve(wantX, wantZ, yaw);
             boolean sprint = move.keys().forward();
             double speed = sprint ? SPRINT_SPEED : WALK_SPEED;
             if (t == 0) {
@@ -60,7 +60,7 @@ public final class ExecutionModel {
             cx += move.dirX() * step;
             cz += move.dirZ() * step;
             total += step;
-            yaw = DodgeDrive.nextYaw(yaw, wantX, wantZ);
+            yaw = NavDrive.nextYaw(yaw, wantX, wantZ);
         }
         if (open) {
             legs.add(new ExecutedPath.Leg(legX, legZ, legDx, legDz, legLen, legStart, legSprint));

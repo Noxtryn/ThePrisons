@@ -1,4 +1,4 @@
-package io.theprisons.modules.qol.bandit.dodge;
+package io.theprisons.modules.qol.bandit.nav;
 
 import io.theprisons.core.control.InputController;
 import io.theprisons.modules.qol.bandit.combat.Geo;
@@ -11,13 +11,13 @@ import io.theprisons.modules.qol.bandit.combat.Geo;
  * diagonal / strafe for a long time. Here a forward-leaning key set keeps the sprint, and the view catches up quickly (but with a dead zone, so a
  * steady heading never moves the camera).
  */
-public final class DodgeDrive {
+public final class NavDrive {
     /** The view only turns when the heading is further off than this (degrees). */
     public static final double DEAD_ZONE = 6.0D;
     /** Degrees per tick the view may turn towards the heading. */
     public static final double MAX_TURN = 9.0D;
 
-    private DodgeDrive() {
+    private NavDrive() {
     }
 
     /** Keys for the world direction given the current view yaw; sprint stays on whenever W is pressed (also with A / D). */

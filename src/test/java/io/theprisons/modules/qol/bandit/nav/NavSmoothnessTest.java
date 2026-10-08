@@ -1,13 +1,13 @@
-package io.theprisons.modules.qol.bandit.dodge;
+package io.theprisons.modules.qol.bandit.nav;
 
-import io.theprisons.testing.DodgeSim;
+import io.theprisons.testing.NavSim;
 import io.theprisons.testing.GridTerrain;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /** Smoothness of the executed movement over time (the sim runs 20 ticks per second). */
-class DodgeSmoothnessTest {
+class NavSmoothnessTest {
     private static double wrap(double d) {
         double v = d % 360.0D;
         return v > 180.0D ? v - 360.0D : v <= -180.0D ? v + 360.0D : v;
@@ -16,7 +16,7 @@ class DodgeSmoothnessTest {
     private record Stats(int turnsOver20, int evadeFlips, int signFlips, double maxStep, double minDist) {
     }
 
-    private static Stats measure(DodgeSim s, int ticks) {
+    private static Stats measure(NavSim s, int ticks) {
         s.run(ticks);
         int turns = 0;
         int flips = 0;
@@ -24,8 +24,8 @@ class DodgeSmoothnessTest {
         double max = 0.0D;
         double lastSign = 0.0D;
         for (int i = 1; i < s.decisions.size(); i++) {
-            DodgeDecision a = s.decisions.get(i - 1);
-            DodgeDecision b = s.decisions.get(i);
+            NavDecision a = s.decisions.get(i - 1);
+            NavDecision b = s.decisions.get(i);
             double step = wrap(b.headingDegrees() - a.headingDegrees());
             max = Math.max(max, Math.abs(step));
             if (Math.abs(step) > 20.0D) {
@@ -48,7 +48,7 @@ class DodgeSmoothnessTest {
     /** A bandit walking alongside right at the minimum distance: the old planner flipped in and out of EVADE. */
     @Test
     void aBanditAtTheMinimumDistanceDoesNotMakeEvadeFlutter() {
-        DodgeSim s = new DodgeSim(new DodgeConfig(), GridTerrain.open(200), 100.5D, 150.5D, 0.0D, -5.6D)
+        NavSim s = new NavSim(new NavConfig(), GridTerrain.open(200), 100.5D, 150.5D, 0.0D, -5.6D)
                 .bandit("b", 108.4D, 150.5D, 0.0D, -5.0D);
         Stats st = measure(s, 200);
         System.out.println("edge: " + st);
@@ -58,7 +58,7 @@ class DodgeSmoothnessTest {
 
     @Test
     void headingChangesAreGradualInAWanderingCrowd() {
-        DodgeSim s = new DodgeSim(new DodgeConfig(), GridTerrain.open(300), 150.5D, 250.5D, 0.0D, -5.6D)
+        NavSim s = new NavSim(new NavConfig(), GridTerrain.open(300), 150.5D, 250.5D, 0.0D, -5.6D)
                 .bandit("a", 130.5, 200.5, 1.0, 2.0).bandit("b", 170.5, 200.5, -1.0, 2.0).bandit("c", 150.5, 170.5, 0, 3.0)
                 .bandit("d", 140.5, 120.5, 2.0, 1.0).bandit("e", 160.5, 140.5, -2.0, 1.0);
         Stats st = measure(s, 400);
@@ -70,7 +70,7 @@ class DodgeSmoothnessTest {
 
     @Test
     void sprintStaysOnAndTheViewCatchesUpInARealisticRun() {
-        DodgeSim s = new DodgeSim(new DodgeConfig(), GridTerrain.open(300), 150.5D, 250.5D, 0.0D, -5.6D)
+        NavSim s = new NavSim(new NavConfig(), GridTerrain.open(300), 150.5D, 250.5D, 0.0D, -5.6D)
                 .bandit("a", 130.5, 200.5, 1.0, 2.0).bandit("b", 170.5, 200.5, -1.0, 2.0).bandit("c", 150.5, 170.5, 0, 3.0)
                 .bandit("d", 140.5, 120.5, 2.0, 1.0).bandit("e", 160.5, 140.5, -2.0, 1.0);
         s.realistic = true;
@@ -84,16 +84,16 @@ class DodgeSmoothnessTest {
 
     @Test
     void evadeHasAnExitBufferSoTheBorderDoesNotFlipIt() {
-        DodgeConfig cfg = new DodgeConfig();
-        var planner = new BanditDodgePlanner(cfg);
+        NavConfig cfg = new NavConfig();
+        var planner = new LocalNavigator(cfg);
         var terrain = GridTerrain.open(100);
         long t = 1_000_000L;
         boolean[] breach = new boolean[3];
         // the bandit is at 7.9, then 8.3 (inside the exit buffer), then 9.5 (beyond it) blocks east
         double[] dist = {7.9D, 8.3D, 9.5D};
         for (int i = 0; i < 3; i++) {
-            var in = new DodgeInputs(t += 50L, 50.5D, 64.0D, 50.5D, 0, -5.6, 0, true,
-                    java.util.List.of(new DodgeBandit("b", 50.5D + dist[i], 50.5D, 0, 0)), terrain, SpearAreaState.UNKNOWN);
+            var in = new NavInputs(t += 50L, 50.5D, 64.0D, 50.5D, 0, -5.6, 0, true,
+                    java.util.List.of(new NavBandit("b", 50.5D + dist[i], 50.5D, 0, 0)), terrain, SpearAreaState.UNKNOWN);
             var d = planner.plan(in);
             breach[i] = d.reason().contains("evade");
         }

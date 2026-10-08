@@ -1,4 +1,4 @@
-package io.theprisons.modules.qol.bandit.dodge;
+package io.theprisons.modules.qol.bandit.nav;
 
 import java.util.ArrayDeque;
 import java.util.HashMap;
@@ -10,7 +10,7 @@ import java.util.Map;
  * enter / exit thresholds.
  */
 final class MotionMemory {
-    private final DodgeConfig cfg;
+    private final NavConfig cfg;
     private double hx;
     private double hz = 1.0D;
     private boolean hasHeading;
@@ -24,7 +24,7 @@ final class MotionMemory {
     private final ArrayDeque<double[]> turns = new ArrayDeque<>();
     private final ArrayDeque<double[]> headings = new ArrayDeque<>();
 
-    MotionMemory(DodgeConfig cfg) {
+    MotionMemory(NavConfig cfg) {
         this.cfg = cfg;
     }
 

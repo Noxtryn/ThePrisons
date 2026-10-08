@@ -1,4 +1,4 @@
-package io.theprisons.modules.qol.bandit.dodge;
+package io.theprisons.modules.qol.bandit.nav;
 
 import java.util.Locale;
 
@@ -32,7 +32,7 @@ public final class CandidateScorer {
         }
     }
 
-    public static Terms score(DodgeConfig cfg, Facts f) {
+    public static Terms score(NavConfig cfg, Facts f) {
         // More distance than half the warning band past the minimum is not worth leaving the run for.
         double sepCap = cfg.minDistance + cfg.warningBand * 0.5D;
         double wSep = cfg.wSeparation * (f.breach() ? 2.0D : 1.0D);

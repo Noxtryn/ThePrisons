@@ -1,4 +1,4 @@
-package io.theprisons.modules.qol.bandit.dodge;
+package io.theprisons.modules.qol.bandit.nav;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ public record ThreatField(double nearest, double average, double peak, double ga
     public static final double NO_BANDIT_DISTANCE = 60.0D;
     public static final double GAP_CAP = 12.0D;
 
-    public static ThreatField along(List<DodgeBandit> bandits, ExecutedPath path, double reach, DodgeConfig cfg, double playerX, double playerZ) {
+    public static ThreatField along(List<NavBandit> bandits, ExecutedPath path, double reach, NavConfig cfg, double playerX, double playerZ) {
         if (bandits.isEmpty()) {
             return new ThreatField(NO_BANDIT_DISTANCE, 0.0D, 0.0D, GAP_CAP);
         }
@@ -30,11 +30,11 @@ public record ThreatField(double nearest, double average, double peak, double ga
             double[] p = path.at(at);
             double t = Math.min(p[2], cfg.predictionSeconds);   // p[2] is the time in seconds the player needs to get there
             double danger = 0.0D;
-            for (DodgeBandit b : bandits) {
+            for (NavBandit b : bandits) {
                 double k = Math.hypot(b.vx(), b.vz()) <= cfg.maxBanditSpeed ? 1.0D : 0.0D;
                 double dist = Math.hypot(p[0] - (b.x() + k * b.vx() * t), p[1] - (b.z() + k * b.vz() * t));
                 nearest = Math.min(nearest, dist);
-                danger += BanditDodgePlanner.danger(dist, cfg.minDistance, cfg.warningBand);
+                danger += LocalNavigator.danger(dist, cfg.minDistance, cfg.warningBand);
             }
             sum += danger;
             peak = Math.max(peak, danger);
@@ -45,7 +45,7 @@ public record ThreatField(double nearest, double average, double peak, double ga
         }
         double gap = GAP_CAP;
         ExecutedPath.Leg f = path.first();
-        for (DodgeBandit b : bandits) {
+        for (NavBandit b : bandits) {
             double rx = b.x() - playerX;
             double rz = b.z() - playerZ;
             double along = rx * f.dirX() + rz * f.dirZ();

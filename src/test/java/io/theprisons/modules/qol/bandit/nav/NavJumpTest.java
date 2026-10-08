@@ -1,11 +1,11 @@
-package io.theprisons.modules.qol.bandit.dodge;
+package io.theprisons.modules.qol.bandit.nav;
 
 import io.theprisons.core.nav.Cell;
 import io.theprisons.core.nav.VoxelView;
 import io.theprisons.modules.qol.bandit.WorldTerrain;
 import io.theprisons.modules.qol.bandit.combat.Geo;
 import io.theprisons.modules.qol.bandit.combat.Terrain;
-import io.theprisons.testing.DodgeSim;
+import io.theprisons.testing.NavSim;
 import io.theprisons.testing.GridTerrain;
 import org.junit.jupiter.api.Test;
 
@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /** From "step seen" to "player is on top of it and runs on": detection, validation, commit, key hold, lift-off, locked course, landing. */
-class DodgeJumpTest {
+class NavJumpTest {
     // ── the real WorldTerrain on a small synthetic world ─────────────────────
 
     private static class World implements VoxelView {
@@ -44,11 +44,11 @@ class DodgeJumpTest {
         }
     }
 
-    private static DodgeInputs worldInputs(World w, double z, long now, boolean onGround) {
-        return new DodgeInputs(now, 0.5D, 64.0D, z, 0, -5.6, Geo.yawOf(0.0D, -1.0D), onGround, List.of(), new WorldTerrain(w), SpearAreaState.UNKNOWN);
+    private static NavInputs worldInputs(World w, double z, long now, boolean onGround) {
+        return new NavInputs(now, 0.5D, 64.0D, z, 0, -5.6, Geo.yawOf(0.0D, -1.0D), onGround, List.of(), new WorldTerrain(w), SpearAreaState.UNKNOWN);
     }
 
-    private static DodgeCandidate north(DodgeDecision d) {
+    private static NavCandidate north(NavDecision d) {
         return d.candidates().stream().filter(c -> c.index() >= 0 && Math.abs(c.headingDegrees() + 90.0D) < 1.0D || c.index() >= 0 && Math.abs(c.headingDegrees() - 270.0D) < 1.0D)
                 .findFirst().orElseThrow();
     }
@@ -69,11 +69,11 @@ class DodgeJumpTest {
     void aStepWithHeadroomIsValidatedAndJumpedInsideTheWindow() {
         World w = new World();
         w.band(-4, 64, Cell.SOLID);
-        BanditDodgePlanner planner = new BanditDodgePlanner(new DodgeConfig());
-        DodgeDecision far = planner.plan(worldInputs(w, 0.5D, 1_000_000L, true));
+        LocalNavigator planner = new LocalNavigator(new NavConfig());
+        NavDecision far = planner.plan(worldInputs(w, 0.5D, 1_000_000L, true));
         assertFalse(far.jump(), "3.5 blocks away is too early (the window is 2.0)");
         assertTrue(north(far).jumpAt() > 0.0D, "but the step is known: " + north(far).jumpAt());
-        DodgeDecision near = planner.plan(worldInputs(w, -1.3D, 1_000_050L, true));
+        NavDecision near = planner.plan(worldInputs(w, -1.3D, 1_000_050L, true));
         assertTrue(near.jump(), "1.8 blocks from the face: jump. " + near.reason());
         assertEquals(JumpPhase.HOLD, near.jumpPhase());
         assertEquals(1, near.jumpTicksHeld());
@@ -87,9 +87,9 @@ class DodgeJumpTest {
         World w = new World();
         w.band(-4, 64, Cell.SOLID);
         w.band(-4, 66, Cell.SOLID);            // a ceiling 2 blocks above the floor of the step: no room for the player on top
-        BanditDodgePlanner planner = new BanditDodgePlanner(new DodgeConfig());
-        DodgeDecision d = planner.plan(worldInputs(w, -1.3D, 1_000_000L, true));
-        DodgeCandidate n = north(d);
+        LocalNavigator planner = new LocalNavigator(new NavConfig());
+        NavDecision d = planner.plan(worldInputs(w, -1.3D, 1_000_000L, true));
+        NavCandidate n = north(d);
         assertTrue(n.jumpAt() < 0.0D, "no jump into a space the body does not fit: " + n.jumpAt());
         assertTrue(n.free() < 3.0D, "the way ends at the step: " + n.free() + " " + n.stop());
         assertFalse(d.jump());
@@ -102,9 +102,9 @@ class DodgeJumpTest {
         World w = new World();
         w.band(-4, 64, Cell.SOLID);
         w.band(-4, 65, Cell.SOLID);
-        BanditDodgePlanner planner = new BanditDodgePlanner(new DodgeConfig());
+        LocalNavigator planner = new LocalNavigator(new NavConfig());
         for (double z : new double[]{0.5D, -0.3D, -1.3D, -2.0D}) {
-            DodgeDecision d = planner.plan(worldInputs(w, z, 1_000_000L + (long) (z * 100), true));
+            NavDecision d = planner.plan(worldInputs(w, z, 1_000_000L + (long) (z * 100), true));
             assertFalse(d.jump(), "a wall is not a step (z=" + z + "): " + d.reason());
             assertTrue(north(d).jumpAt() < 0.0D);
             assertTrue(north(d).stop().equals("WALL") || north(d).stop().equals("STEP"), north(d).stop());
@@ -113,8 +113,8 @@ class DodgeJumpTest {
 
     // F: the key is held for several ticks, released after lift-off, retried when it never lifted
 
-    private static DodgeInputs gridInputs(GridTerrain t, double z, long now, boolean onGround) {
-        return new DodgeInputs(now, 50.5D, 64.0D, z, 0, -5.6, Geo.yawOf(0.0D, -1.0D), onGround, List.of(), t, SpearAreaState.UNKNOWN);
+    private static NavInputs gridInputs(GridTerrain t, double z, long now, boolean onGround) {
+        return new NavInputs(now, 50.5D, 64.0D, z, 0, -5.6, Geo.yawOf(0.0D, -1.0D), onGround, List.of(), t, SpearAreaState.UNKNOWN);
     }
 
     private static GridTerrain stepFrom(int z) {
@@ -130,7 +130,7 @@ class DodgeJumpTest {
     @Test
     void theJumpKeyIsHeldForSeveralTicksWhileTheGroundIsUnderTheFeetAndRetriedWhenItNeverLifts() {
         GridTerrain t = stepFrom(45);
-        BanditDodgePlanner planner = new BanditDodgePlanner(new DodgeConfig());
+        LocalNavigator planner = new LocalNavigator(new NavConfig());
         boolean[] jump = new boolean[8];
         for (int i = 0; i < 8; i++) {
             jump[i] = planner.plan(gridInputs(t, 47.6D, 1_000_000L + i * 50L, true)).jump();     // the player stands 1.6 from the face and never lifts
@@ -143,10 +143,10 @@ class DodgeJumpTest {
     @Test
     void theKeyIsReleasedOneTickAfterLiftOffAndTheCourseStaysLocked() {
         GridTerrain t = stepFrom(45);
-        BanditDodgePlanner planner = new BanditDodgePlanner(new DodgeConfig());
-        DodgeDecision a = planner.plan(gridInputs(t, 47.6D, 1_000_000L, true));
-        DodgeDecision b = planner.plan(gridInputs(t, 47.3D, 1_000_050L, false));       // lifted off
-        DodgeDecision c = planner.plan(gridInputs(t, 47.0D, 1_000_100L, false));
+        LocalNavigator planner = new LocalNavigator(new NavConfig());
+        NavDecision a = planner.plan(gridInputs(t, 47.6D, 1_000_000L, true));
+        NavDecision b = planner.plan(gridInputs(t, 47.3D, 1_000_050L, false));       // lifted off
+        NavDecision c = planner.plan(gridInputs(t, 47.0D, 1_000_100L, false));
         assertTrue(a.jump());
         assertFalse(b.jump(), "no key while in the air");
         assertEquals(JumpPhase.AIR, b.jumpPhase());
@@ -158,19 +158,19 @@ class DodgeJumpTest {
 
     @Test
     void aOneBlockStepRightAheadIsJumpedOnceAndTheRunCarriesOn() {
-        DodgeSim s = new DodgeSim(new DodgeConfig(), stepFrom(45), 50.5D, 58.5D, 0.0D, -5.6D);
+        NavSim s = new NavSim(new NavConfig(), stepFrom(45), 50.5D, 58.5D, 0.0D, -5.6D);
         s.run(160);
         assertEquals(1, s.liftOffs, "one jump");
         assertEquals(0, s.contactTicks, "never ran into the block");
         assertTrue(s.jumpKeyTicks >= 1 && s.jumpKeyTicks <= 4, "key ticks " + s.jumpKeyTicks);
         assertTrue(s.z < 42.0D, "on the step and running on: z=" + s.z);
         assertTrue(s.onGround && s.feetY == 1.0D, "landed on top: " + s.feetY);
-        assertTrue(s.decisions.stream().noneMatch(DodgeDecision::stuck));
+        assertTrue(s.decisions.stream().noneMatch(NavDecision::stuck));
     }
 
     @Test
     void aLostKeyPressDoesNotMeanRunningIntoTheBlock() {
-        DodgeSim s = new DodgeSim(new DodgeConfig(), stepFrom(45), 50.5D, 58.5D, 0.0D, -5.6D);
+        NavSim s = new NavSim(new NavConfig(), stepFrom(45), 50.5D, 58.5D, 0.0D, -5.6D);
         s.swallowJumpTicks = 2;      // the first two key ticks never reach the game
         s.run(160);
         assertEquals(1, s.liftOffs);
@@ -182,7 +182,7 @@ class DodgeJumpTest {
 
     @Test
     void aStepApproachedDiagonallyIsJumpedToo() {
-        DodgeSim s = new DodgeSim(new DodgeConfig(), stepFrom(45), 58.5D, 58.5D, 4.0D, -4.0D);
+        NavSim s = new NavSim(new NavConfig(), stepFrom(45), 58.5D, 58.5D, 4.0D, -4.0D);
         s.run(120);
         assertTrue(s.liftOffs >= 1, "it jumped");
         assertTrue(s.contactTicks <= 2, "at most a graze with the corner: " + s.contactTicks);
@@ -195,14 +195,14 @@ class DodgeJumpTest {
     void aJumpIsOnlyPlannedWhereTheBodyRouteReallyMeetsTheStep() {
         GridTerrain t = GridTerrain.open(100).with(50, 46, '^').with(50, 45, '^').with(50, 44, '^');     // one narrow step column at x = 50
         double yaw = Geo.yawOf(0.0D, -1.0D);
-        DodgeDecision onIt = new BanditDodgePlanner(new DodgeConfig()).plan(new DodgeInputs(1_000_000L, 50.5D, 64.0D, 52.5D, 0, -5.6, yaw, true, List.of(), t, SpearAreaState.UNKNOWN));
-        DodgeDecision beside = new BanditDodgePlanner(new DodgeConfig()).plan(new DodgeInputs(1_000_000L, 53.2D, 64.0D, 52.5D, 0, -5.6, yaw, true, List.of(), t, SpearAreaState.UNKNOWN));
+        NavDecision onIt = new LocalNavigator(new NavConfig()).plan(new NavInputs(1_000_000L, 50.5D, 64.0D, 52.5D, 0, -5.6, yaw, true, List.of(), t, SpearAreaState.UNKNOWN));
+        NavDecision beside = new LocalNavigator(new NavConfig()).plan(new NavInputs(1_000_000L, 53.2D, 64.0D, 52.5D, 0, -5.6, yaw, true, List.of(), t, SpearAreaState.UNKNOWN));
         assertTrue(north(onIt).jumpAt() > 0.0D, "the route meets the step: " + north(onIt).jumpAt());
         assertTrue(north(beside).jumpAt() < 0.0D, "three blocks beside it there is nothing to jump: " + north(beside).jumpAt());
         // every candidate's jumpAt is the one of its own executed route, not of the ideal ray
-        for (DodgeCandidate c : onIt.candidates()) {
-            ExecutedPath path = ExecutionModel.simulate(50.5D, 52.5D, yaw, c.dirX(), c.dirZ(), new DodgeConfig().pathTicks);
-            BodyClearance sweep = BodyClearance.sweep(t, 64.0D, path, 0.3D, new DodgeConfig().bodyInset);
+        for (NavCandidate c : onIt.candidates()) {
+            ExecutedPath path = ExecutionModel.simulate(50.5D, 52.5D, yaw, c.dirX(), c.dirZ(), new NavConfig().pathTicks);
+            BodyClearance sweep = BodyClearance.sweep(t, 64.0D, path, 0.3D, new NavConfig().bodyInset);
             if (c.jumpAt() >= 0.0D) {
                 assertEquals(sweep.jumpAt(), c.jumpAt(), 1e-9, "candidate " + c.index());
             }

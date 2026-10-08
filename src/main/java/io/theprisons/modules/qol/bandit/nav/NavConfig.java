@@ -1,10 +1,10 @@
-package io.theprisons.modules.qol.bandit.dodge;
+package io.theprisons.modules.qol.bandit.nav;
 
 /**
  * The tuning of the dodge planner. All of these are our choices (macro settings), none is a Cosmic fact: the real aggro range and the best
  * distance are UNKNOWN. {@link #minDistance} is checked against EVERY nearby bandit.
  */
-public final class DodgeConfig {
+public final class NavConfig {
     /** No bandit may be closer than this when an aim is allowed (and an aim in progress is cancelled the moment one is). */
     public double minDistance = 8.0D;
     /** An evade (breach) ends only once every bandit is this much beyond the minimum distance - no flipping in and out at the border. */
@@ -91,9 +91,9 @@ public final class DodgeConfig {
     public long oscillationWindowMs = 4_000L;
     public long commitMs = 1_500L;
 
-    public DodgeConfig copy() {
-        DodgeConfig c = new DodgeConfig();
-        for (var f : DodgeConfig.class.getFields()) {
+    public NavConfig copy() {
+        NavConfig c = new NavConfig();
+        for (var f : NavConfig.class.getFields()) {
             try {
                 f.set(c, f.get(this));
             } catch (IllegalAccessException error) {

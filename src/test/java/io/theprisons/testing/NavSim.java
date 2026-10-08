@@ -1,11 +1,11 @@
 package io.theprisons.testing;
 
-import io.theprisons.modules.qol.bandit.dodge.BanditDodgePlanner;
-import io.theprisons.modules.qol.bandit.dodge.DodgeBandit;
-import io.theprisons.modules.qol.bandit.dodge.DodgeConfig;
-import io.theprisons.modules.qol.bandit.dodge.DodgeDecision;
-import io.theprisons.modules.qol.bandit.dodge.DodgeInputs;
-import io.theprisons.modules.qol.bandit.dodge.SpearAreaState;
+import io.theprisons.modules.qol.bandit.nav.LocalNavigator;
+import io.theprisons.modules.qol.bandit.nav.NavBandit;
+import io.theprisons.modules.qol.bandit.nav.NavConfig;
+import io.theprisons.modules.qol.bandit.nav.NavDecision;
+import io.theprisons.modules.qol.bandit.nav.NavInputs;
+import io.theprisons.modules.qol.bandit.nav.SpearAreaState;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -16,9 +16,9 @@ import java.util.Map;
  * Runs the dodge planner over time in a flat arena: the player moves 5.6 blocks per second along the decision (stopping at walls), bandits
  * stand still or walk with a given velocity. 20 ticks per second. Not Minecraft physics - it only shows what the decisions add up to.
  */
-public final class DodgeSim {
-    public final DodgeConfig cfg;
-    public final BanditDodgePlanner planner;
+public final class NavSim {
+    public final NavConfig cfg;
+    public final LocalNavigator planner;
     public GridTerrain terrain;
     public double x;
     public double z;
@@ -27,7 +27,7 @@ public final class DodgeSim {
     public long now = 1_000_000L;
     public SpearAreaState area = SpearAreaState.UNKNOWN;
     public final Map<String, double[]> bandits = new LinkedHashMap<>(); // x, z, vx, vz
-    public final List<DodgeDecision> decisions = new ArrayList<>();
+    public final List<NavDecision> decisions = new ArrayList<>();
     public double minDistanceSeen = Double.MAX_VALUE;
     public int ticks;
     /** Jump physics (vanilla numbers): feet height above the base floor, vertical speed, on ground. A '^' cell is a 1 block step: solid below 0.45. */
@@ -47,9 +47,9 @@ public final class DodgeSim {
     public int sprintTicks;
     public double maxPlanVsActual;
 
-    public DodgeSim(DodgeConfig cfg, GridTerrain terrain, double x, double z, double vx, double vz) {
+    public NavSim(NavConfig cfg, GridTerrain terrain, double x, double z, double vx, double vz) {
         this.cfg = cfg;
-        this.planner = new BanditDodgePlanner(cfg);
+        this.planner = new LocalNavigator(cfg);
         this.terrain = terrain;
         this.x = x;
         this.z = z;
@@ -58,22 +58,22 @@ public final class DodgeSim {
         this.yaw = (float) io.theprisons.modules.qol.bandit.combat.Geo.yawOf(vx, vz);
     }
 
-    public DodgeSim bandit(String id, double bx, double bz, double bvx, double bvz) {
+    public NavSim bandit(String id, double bx, double bz, double bvx, double bvz) {
         bandits.put(id, new double[]{bx, bz, bvx, bvz});
         return this;
     }
 
-    public DodgeInputs inputs() {
-        List<DodgeBandit> list = new ArrayList<>();
+    public NavInputs inputs() {
+        List<NavBandit> list = new ArrayList<>();
         for (Map.Entry<String, double[]> e : bandits.entrySet()) {
             double[] b = e.getValue();
-            list.add(new DodgeBandit(e.getKey(), b[0], b[1], b[2], b[3]));
+            list.add(new NavBandit(e.getKey(), b[0], b[1], b[2], b[3]));
         }
-        return new DodgeInputs(now, x, 64.0D + feetY, z, vx, vz, yaw, onGround, list, terrain, area);
+        return new NavInputs(now, x, 64.0D + feetY, z, vx, vz, yaw, onGround, list, terrain, area);
     }
 
-    public DodgeDecision tick() {
-        DodgeDecision d = planner.plan(inputs());
+    public NavDecision tick() {
+        NavDecision d = planner.plan(inputs());
         decisions.add(d);
         ticks++;
         now += 50L;
@@ -81,7 +81,7 @@ public final class DodgeSim {
         double mx = d.dirX();
         double mz = d.dirZ();
         if (realistic) {
-            var keys = io.theprisons.modules.qol.bandit.dodge.DodgeDrive.keys(d.dirX(), d.dirZ(), yaw, d.jump());
+            var keys = io.theprisons.modules.qol.bandit.nav.NavDrive.keys(d.dirX(), d.dirZ(), yaw, d.jump());
             boolean jumpKey = keys.jump();
             if (jumpKey) {
                 jumpKeyTicks++;
@@ -107,7 +107,7 @@ public final class DodgeSim {
                 sprintTicks++;
             }
             maxPlanVsActual = Math.max(maxPlanVsActual, io.theprisons.modules.qol.bandit.combat.Geo.angleBetween(mx, mz, d.dirX(), d.dirZ()));
-            yaw = io.theprisons.modules.qol.bandit.dodge.DodgeDrive.nextYaw(yaw, d.dirX(), d.dirZ());
+            yaw = io.theprisons.modules.qol.bandit.nav.NavDrive.nextYaw(yaw, d.dirX(), d.dirZ());
         }
         double stepLen = speed * 0.05D;
         // Minecraft-like collision: the 0.6 wide body slides along solid cells, axis by axis; every blocked axis counts as a contact tick.
@@ -189,7 +189,7 @@ public final class DodgeSim {
         }
     }
 
-    public DodgeDecision last() {
+    public NavDecision last() {
         return decisions.get(decisions.size() - 1);
     }
 }

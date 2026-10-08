@@ -1,4 +1,4 @@
-package io.theprisons.modules.qol.bandit.dodge;
+package io.theprisons.modules.qol.bandit.nav;
 
 import io.theprisons.core.cosmic.model.CosmicGameModel;
 import io.theprisons.core.cosmic.model.Entry;

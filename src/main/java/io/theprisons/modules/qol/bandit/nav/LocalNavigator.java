@@ -1,4 +1,4 @@
-package io.theprisons.modules.qol.bandit.dodge;
+package io.theprisons.modules.qol.bandit.nav;
 
 import io.theprisons.modules.qol.bandit.combat.Geo;
 import io.theprisons.modules.qol.bandit.combat.Terrain;
@@ -10,11 +10,11 @@ import java.util.Locale;
 /**
  * Moves the player through a bandit area: keep going, keep EVERY bandit at least {@code minDistance} away, stay out of crowds, bend around walls
  * before touching them, run through gaps the body fits, jump real steps, never stand still. Pure logic (no Minecraft): world coordinates in, a world
- * direction out; the module turns that into keys with the same {@link DodgeDrive}.
+ * direction out; the module turns that into keys with the same {@link NavDrive}.
  *
  * <p>The layers, each testable on its own:
  * <ol>
- *   <li>{@link DodgeInputs}: perception (player, bandits with velocity, ground, view yaw, body width).</li>
+ *   <li>{@link NavInputs}: perception (player, bandits with velocity, ground, view yaw, body width).</li>
  *   <li>{@link ExecutionModel}: for a desired heading, the route the keys will REALLY walk while the view catches up ({@link ExecutedPath}).</li>
  *   <li>{@link BodyClearance}: the body (centre + both edges) swept along that route: walls, corners, gaps, steps, drops.</li>
  *   <li>{@link ThreatField}: every bandit, predicted, summed along the route: closest approach, crowd density, gap width.</li>
@@ -24,8 +24,8 @@ import java.util.Locale;
  * </ol>
  * This class only orchestrates them.
  */
-public final class BanditDodgePlanner {
-    private final DodgeConfig cfg;
+public final class LocalNavigator {
+    private final NavConfig cfg;
     private final AimWindow aimWindow;
     private final MotionMemory memory;
     private long lastJumpMs = Long.MIN_VALUE / 2L;
@@ -36,12 +36,12 @@ public final class BanditDodgePlanner {
     private long jumpAirSinceMs;
     private double anchorX = Double.NaN;
     private double anchorZ = Double.NaN;
-    private DodgeAction lastAction = DodgeAction.CONTINUE;
+    private NavAction lastAction = NavAction.CONTINUE;
     private double lastHeadingChangeDegrees;
     private double lastCurrentScore;
     private double lastBestScore;
 
-    public BanditDodgePlanner(DodgeConfig cfg) {
+    public LocalNavigator(NavConfig cfg) {
         this.cfg = cfg;
         this.aimWindow = new AimWindow(cfg.requiredStableTicks);
         this.memory = new MotionMemory(cfg);
@@ -86,7 +86,7 @@ public final class BanditDodgePlanner {
 
     // ── Planning ─────────────────────────────────────────────────────────────
 
-    public DodgeDecision plan(DodgeInputs in) {
+    public NavDecision plan(NavInputs in) {
         long now = in.nowMs();
         double px = in.x();
         double pz = in.z();
@@ -106,7 +106,7 @@ public final class BanditDodgePlanner {
         double nearest = Double.NaN;
         int nearby = 0;
         double reach = cfg.minDistance + cfg.warningBand + cfg.lookahead;
-        for (DodgeBandit b : in.bandits()) {
+        for (NavBandit b : in.bandits()) {
             double d = b.distanceTo(px, pz);
             if (Double.isNaN(nearest) || d < nearest) {
                 nearest = d;
@@ -133,30 +133,30 @@ public final class BanditDodgePlanner {
         boolean jumpLock = jumpPhase != JumpPhase.NONE && !breach && !stuck;
 
         // 2. Candidates: every heading (and the current one) as the route the keys will really walk
-        List<DodgeCandidate> candidates = new ArrayList<>();
+        List<NavCandidate> candidates = new ArrayList<>();
         for (int i = 0; i < cfg.directions; i++) {
             double a = Math.toRadians(i * 360.0D / cfg.directions);
             candidates.add(evaluate(in, i, Math.cos(a), Math.sin(a), breach));
         }
-        DodgeCandidate current = evaluate(in, -1, hx, hz, breach);
+        NavCandidate current = evaluate(in, -1, hx, hz, breach);
         candidates.add(current);
 
         // 3. Choice with momentum
-        DodgeCandidate best = null;
-        for (DodgeCandidate c : candidates) {
+        NavCandidate best = null;
+        for (NavCandidate c : candidates) {
             if (c.index() >= 0 && c.blocked().isEmpty() && (best == null || c.score() > best.score() + 1e-9)) {
                 best = c;
             }
         }
         String reason;
-        DodgeCandidate chosen;
+        NavCandidate chosen;
         double margin = Math.max(cfg.switchMargin, Math.abs(current.score()) * cfg.switchShare) * (memory.committed(now) ? 2.0D : 1.0D);
         if (jumpLock && current.blocked().isEmpty()) {
             chosen = current;
             reason = "jump committed (" + jumpPhase + "): course locked";
         } else if (best == null) {
-            DodgeCandidate freest = current;
-            for (DodgeCandidate c : candidates) {
+            NavCandidate freest = current;
+            for (NavCandidate c : candidates) {
                 if (c.free() > freest.free()) {
                     freest = c;
                 }
@@ -219,16 +219,16 @@ public final class BanditDodgePlanner {
 
         boolean terrainChange = chosen != current && (!current.blocked().isEmpty() || current.pressure() > 0.0D
                 || !current.stop().equals("CLEAR") && current.free() < cfg.wallUrgent);
-        DodgeAction action = classify(chosen, angle, sign, breach, stuck, jump);
+        NavAction action = classify(chosen, angle, sign, breach, stuck, jump);
         lastAction = action;
-        return new DodgeDecision(chosen.dirX(), chosen.dirZ(), true, jump, chosen.score(), nearest, chosen.nearest(), threatHere, chosen.free(), safeNow,
+        return new NavDecision(chosen.dirX(), chosen.dirZ(), true, jump, chosen.score(), nearest, chosen.nearest(), threatHere, chosen.free(), safeNow,
                 aimWindow.open(), aimWindow.ticks(), breach, nearby, action, Math.toDegrees(Math.atan2(chosen.dirZ(), chosen.dirX())), in.area(), reason,
                 candidates, memory.oscillations(), stuck, chosen, terrainChange, jumpPhase, jumpTicksHeld,
                 Math.max(0L, cfg.jumpCooldownMs - (now - lastJumpMs)));
     }
 
-    private boolean closingFast(DodgeInputs in) {
-        for (DodgeBandit b : in.bandits()) {
+    private boolean closingFast(NavInputs in) {
+        for (NavBandit b : in.bandits()) {
             double d = b.distanceTo(in.x(), in.z());
             if (d < cfg.minDistance + cfg.warningBand && d > 0.01D) {
                 double closing = -((b.x() - in.x()) * (b.vx() - in.vx()) + (b.z() - in.z()) * (b.vz() - in.vz())) / d;
@@ -241,29 +241,29 @@ public final class BanditDodgePlanner {
     }
 
     /** @param sign the side of the turn: +1 = to the player's right, -1 = left, 0 = straight on (cross product of the old and the new heading) */
-    private DodgeAction classify(DodgeCandidate chosen, double angle, double sign, boolean breach, boolean stuck, boolean jump) {
+    private NavAction classify(NavCandidate chosen, double angle, double sign, boolean breach, boolean stuck, boolean jump) {
         if (stuck) {
-            return DodgeAction.RECOVER;
+            return NavAction.RECOVER;
         }
         boolean right = sign > 0.0D;
         if (jump) {
-            return angle < 50.0D ? DodgeAction.JUMP_FORWARD : right ? DodgeAction.JUMP_RIGHT : DodgeAction.JUMP_LEFT;
+            return angle < 50.0D ? NavAction.JUMP_FORWARD : right ? NavAction.JUMP_RIGHT : NavAction.JUMP_LEFT;
         }
         if (angle > 120.0D || breach && angle > 60.0D) {
-            return DodgeAction.HARD_EVADE;
+            return NavAction.HARD_EVADE;
         }
         if (angle >= 50.0D) {
-            return right ? DodgeAction.STRAFE_RIGHT : DodgeAction.STRAFE_LEFT;
+            return right ? NavAction.STRAFE_RIGHT : NavAction.STRAFE_LEFT;
         }
         if (angle >= 12.0D) {
-            return DodgeAction.DIAGONAL;
+            return NavAction.DIAGONAL;
         }
-        return chosen.nearest() < cfg.minDistance + cfg.warningBand || lastAction == DodgeAction.RUN ? DodgeAction.CONTINUE : DodgeAction.RUN;
+        return chosen.nearest() < cfg.minDistance + cfg.warningBand || lastAction == NavAction.RUN ? NavAction.CONTINUE : NavAction.RUN;
     }
 
     // ── One candidate: execution → body → threat → score ─────────────────────
 
-    private DodgeCandidate evaluate(DodgeInputs in, int index, double wantX, double wantZ, boolean breach) {
+    private NavCandidate evaluate(NavInputs in, int index, double wantX, double wantZ, boolean breach) {
         double px = in.x();
         double pz = in.z();
         ExecutedPath path = ExecutionModel.simulate(px, pz, in.viewYaw(), wantX, wantZ, cfg.pathTicks);
@@ -309,15 +309,15 @@ public final class BanditDodgePlanner {
                 index >= 0 && memory.failedRecently(index), memory.committed(in.nowMs()), areaPull, body.sideLeft(), body.sideRight(), breach));
         boolean wallClose = stop != Terrain.Stop.CLEAR && free < cfg.wallUrgent;
         boolean safe = blocked.isEmpty() && !wallClose && threat.nearest() >= cfg.minDistance * cfg.projectedMarginFraction;
-        return new DodgeCandidate(index, wantX, wantZ, first.dirX(), first.dirZ(), Geo.angleBetween(first.dirX(), first.dirZ(), wantX, wantZ), free,
+        return new NavCandidate(index, wantX, wantZ, first.dirX(), first.dirZ(), Geo.angleBetween(first.dirX(), first.dirZ(), wantX, wantZ), free,
                 body.center(), body.left(), body.right(), stop.name(), jumpAt, pressure, threat.nearest(), threat.average(), threat.peak(), threat.gap(),
                 terms.total(), blocked, safe, terms, body.sideLeft(), body.sideRight(), path.legs().size());
     }
 
     /** The danger at the player's own place a short time ahead (the bandits predicted that far). */
-    private double threatAt(DodgeInputs in, double x, double z, double seconds) {
+    private double threatAt(NavInputs in, double x, double z, double seconds) {
         double sum = 0.0D;
-        for (DodgeBandit b : in.bandits()) {
+        for (NavBandit b : in.bandits()) {
             double k = Math.hypot(b.vx(), b.vz()) <= cfg.maxBanditSpeed ? 1.0D : 0.0D;
             sum += danger(Math.hypot(x - (b.x() + k * b.vx() * seconds), z - (b.z() + k * b.vz() * seconds)), cfg.minDistance, cfg.warningBand);
         }
