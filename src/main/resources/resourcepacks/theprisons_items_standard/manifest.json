@@ -1,0 +1,149 @@
+{
+  "format": 1,
+  "source_archive": "ThePrisonsTextures(1).zip",
+  "source_archive_sha256": "145efe23df6b95ecea99962783d1251f586738382fa36e855baef7c3d1663bb7",
+  "import": "2026-10-08",
+  "normalization": "Source assets that were 1254x1254 were Lanczos-resized to the source manifest's declared 256x256; all output paths are RGBA 256x256 PNG.",
+  "assets": [
+    {
+      "path": "assets/theprisons/textures/item/prisons/book/elite.png",
+      "sha256": "0326e2342e92de62469212cad7f95cb1fde904859614a8aaf3f0c59e03b1e1ef"
+    },
+    {
+      "path": "assets/theprisons/textures/item/prisons/book/godly.png",
+      "sha256": "bf8e8581d0b66ebc3d30db1d10d41794302a09c9a8820c99a57ac96318ba60cd"
+    },
+    {
+      "path": "assets/theprisons/textures/item/prisons/book/legendary.png",
+      "sha256": "04677ce6e44ca2cbe94a18a88df43ffa981154984217d495fe20755ee9eeb096"
+    },
+    {
+      "path": "assets/theprisons/textures/item/prisons/book/simple.png",
+      "sha256": "1f2e3e15d4c9c743b2c5ce1efbec29b98baa70f97ba734d0f74b64de2852cf55"
+    },
+    {
+      "path": "assets/theprisons/textures/item/prisons/book/ultimate.png",
+      "sha256": "f8381be583df511963d8ec02d4132584fefd57a8a4a810e45e49732ddcbb8fd0"
+    },
+    {
+      "path": "assets/theprisons/textures/item/prisons/book/uncommon.png",
+      "sha256": "fc6f75c504fecc693939139089faf1d92bc655d4220c580d4f3d93292d1ceeba"
+    },
+    {
+      "path": "assets/theprisons/textures/item/prisons/book_revealed/elite.png",
+      "sha256": "8a52aaaf92e57c61368432f2ea22fab2b1e5ee7c8d6f71429d1f2f80e6ea4373"
+    },
+    {
+      "path": "assets/theprisons/textures/item/prisons/book_revealed/godly.png",
+      "sha256": "2df7c9457c86ec50208dc8a7ac4638095a17fcc5e868b1c06bd83277100af9b7"
+    },
+    {
+      "path": "assets/theprisons/textures/item/prisons/book_revealed/legendary.png",
+      "sha256": "b69c5a73b4c24aa7a7682bc8f4709a59f97903a22ed348f26ba2c97931a7078f"
+    },
+    {
+      "path": "assets/theprisons/textures/item/prisons/book_revealed/simple.png",
+      "sha256": "b570ea569433be2a2fecd0903d90c6cdc583eadc292497f4c745b1250110933f"
+    },
+    {
+      "path": "assets/theprisons/textures/item/prisons/book_revealed/ultimate.png",
+      "sha256": "2ed6fb4e9b804054641af0afcd6731a02365930eef578ea01de54badbe4d82ee"
+    },
+    {
+      "path": "assets/theprisons/textures/item/prisons/book_revealed/uncommon.png",
+      "sha256": "83db25fa7c9d0e4f99c0df1a0e398e3ddda071ceb6f9ccb71d089b60fa9bd773"
+    },
+    {
+      "path": "assets/theprisons/textures/item/prisons/charge_orb/stage_1.png",
+      "sha256": "4850ef4fc45fce14f77ba8a659b53288bab90a1c7ab20b0d9791cc0279660c20"
+    },
+    {
+      "path": "assets/theprisons/textures/item/prisons/charge_orb/stage_2.png",
+      "sha256": "3e103c817185258d832f283fe7f853bb99f62cb18751f10c712834bf039e9b65"
+    },
+    {
+      "path": "assets/theprisons/textures/item/prisons/charge_orb/stage_3.png",
+      "sha256": "921b64ea89d93bdff6ca4d93bcc801217b3ef198631da68fa7814aa1a57e5cca"
+    },
+    {
+      "path": "assets/theprisons/textures/item/prisons/charge_orb/stage_4.png",
+      "sha256": "5617689ef31a08f70d1acce41b988c45c5f4973e1eddaf50d3243822fc69806b"
+    },
+    {
+      "path": "assets/theprisons/textures/item/prisons/contraband/elite.png",
+      "sha256": "a134bc3c8f3e7e2f924a23d6892740df0a84ff53ee6ab9909c2d3cf7cb49d6d8"
+    },
+    {
+      "path": "assets/theprisons/textures/item/prisons/contraband/godly.png",
+      "sha256": "291a9d3dba58557024bc6d836128bf5c0465b3bbc7e2f6f43b5a92a8e1d08bc8"
+    },
+    {
+      "path": "assets/theprisons/textures/item/prisons/contraband/legendary.png",
+      "sha256": "131ee37f8b1a29a32b97f45cec791d90c885b11706fbae97fd5e183518a40b5a"
+    },
+    {
+      "path": "assets/theprisons/textures/item/prisons/contraband/simple.png",
+      "sha256": "ac89472fa1b3801824e7c59f5c30666164c22a9220425564a2b148ccbecfebb3"
+    },
+    {
+      "path": "assets/theprisons/textures/item/prisons/contraband/ultimate.png",
+      "sha256": "3eed61cc0582fd5250c0d9c24d638ad52e54922d77de86a2d3cd890008ec8798"
+    },
+    {
+      "path": "assets/theprisons/textures/item/prisons/contraband/uncommon.png",
+      "sha256": "2c69dc53c90852d2b748f4c7f117a2ab93e2c606c13afb2fa4d15a360ea486a9"
+    },
+    {
+      "path": "assets/theprisons/textures/item/prisons/key/elite.png",
+      "sha256": "70e2a364786064a177b012d9dfe9c51f89de2202dcb74f72b02ea7e1c5bb8827"
+    },
+    {
+      "path": "assets/theprisons/textures/item/prisons/key/godly.png",
+      "sha256": "fcf75885af438efa3d83aeb48972eabe9e15857c96737487406a84eb025924e6"
+    },
+    {
+      "path": "assets/theprisons/textures/item/prisons/key/legendary.png",
+      "sha256": "5084b1aa7e28824571e312ca5eca7996a3ac0379f70200cc27e4dddf6fdbdfc6"
+    },
+    {
+      "path": "assets/theprisons/textures/item/prisons/key/simple.png",
+      "sha256": "631ffbbec0f9da5d51980fda291e3969cb6a25ba08782c91cfc14f9fd03b956e"
+    },
+    {
+      "path": "assets/theprisons/textures/item/prisons/key/ultimate.png",
+      "sha256": "bc5f9a3b19e13c2b94efd0bc59ecfb28a48348b658391cc656aada8cfb723986"
+    },
+    {
+      "path": "assets/theprisons/textures/item/prisons/key/uncommon.png",
+      "sha256": "156912903c1cf0025c1cbc3feedd5441dc6498cbdcc32c0b2ed69a9b252b34a6"
+    },
+    {
+      "path": "assets/theprisons/textures/item/prisons/shard/elite.png",
+      "sha256": "e48a32eaaa8e5bbb58da9b930ba712232dc766a5c563d68c2b6e5aa66f5fa107"
+    },
+    {
+      "path": "assets/theprisons/textures/item/prisons/shard/executive.png",
+      "sha256": "201bfd1742fbc084482ad50ead4141221dfaa77af70922c01b8e534cc5176d6b"
+    },
+    {
+      "path": "assets/theprisons/textures/item/prisons/shard/godly.png",
+      "sha256": "862781312f342cf0009e5f326ba76e32e8736035c3071db992a7560fe5134e71"
+    },
+    {
+      "path": "assets/theprisons/textures/item/prisons/shard/legendary.png",
+      "sha256": "d4a50549ef848228680d55f588dd838317e9e6c2296acad0b95b0b092472d07a"
+    },
+    {
+      "path": "assets/theprisons/textures/item/prisons/shard/simple.png",
+      "sha256": "d46d468ec524cdb4c428a7729f9a6c11b4cb18dc90429935e53dcaf126697c79"
+    },
+    {
+      "path": "assets/theprisons/textures/item/prisons/shard/ultimate.png",
+      "sha256": "417c4d7d8103c453ab4c99d24b86e1057b91cd20f60d2fa9c01ba83c8f82bf82"
+    },
+    {
+      "path": "assets/theprisons/textures/item/prisons/shard/uncommon.png",
+      "sha256": "5a34e0b6757958fe2a2a940ef53ec598fdf4ec23110f072886e4d137940a4931"
+    }
+  ]
+}

@@ -1,39 +1,26 @@
-# Current state
+# Current state — 2026-10-08
 
-Baseline before Unified UI V4: `origin/dev` at `afeb370` (Phase 4). Phase 4 keeps Bandit movement on the existing production `CombatBrain` path.
+## Repository and deployment
 
-The project is a Java 21 Fabric mod. The normal verification command is
-`./gradlew test build --no-daemon`, followed by `./scripts/check-release.sh`.
+- Branch `dev`; latest verified commit and `origin/dev`: `fbb1457feb47f839d09b43295258ece57b7a3e18`.
+- The preceding implementation and visual-QA code are committed and pushed. This handover update and archived screenshot batch are the only new local changes until committed.
+- `stash@{0}` is still `WIP on dev: fa30f51 ...`; it has not been applied, altered, or dropped. `Release` is untouched.
+- Built and installed artifact: `ThePrisons-Nebula-v1.2.1-mc1.21.11.jar`; build and Prism copy SHA-256 `697e9aaa5f69fd73d1ddea26f2ec056fc48a9f30d6d3daea01fb42268f72b48a`.
+- Identified Prism mod directory: `/home/freelocs/.local/share/PrismLauncher/instances/Cosmic/minecraft/mods/`; only one `ThePrisons*.jar` was present.
 
-The pre-existing HUD, market, and Bandit edits are reviewed independently of the V4 pipeline.
-`stash@{0}` remains preserved and unapplied: it mixes an obsolete pre-V4 HD asset set with an
-incomplete navigation experiment (the planner orchestrator is unchanged), so it must not be
-applied wholesale.
+## Verified and not yet accepted
 
-`LocalNavigator` is presently the pure simulation/debug Dodge component (`BanditDodgeTestModule`),
-not a second live Bandit Macro path. Its collision, corner, jump, crowd, unstable-heading and
-camera-follow simulations pass. The production macro continues to use `CombatBrain` and its
-existing lane driver, so no parallel movement architecture is introduced.
+- `./gradlew clean test build --no-daemon` passed. Both local client GameTest runs passed: Showcase and Market.
+- The client test renders production `ClickGuiScreen` at GUI scales 1/2/3 and 1920×1080 plus 1280×720, and produces category/settings/search/dropdown/scroll screenshots. The tabs are selected reflectively, so this verifies render states, not physical navigation/input in Prism.
+- Confirmed visual defect: `ClickGuiScreen` at 1280×720, GUI Scale 3 clips the horizontal category tabs and squeezes the setting label/control columns. Fix this first; no broad redesign or new renderer.
+- The Inventory Item List test now calls its production entry points. It renders 211 registered items; `shard` and `mask` queries narrow results; icons, category/tier chips and card hover work. The synthetic fixture has no matching market quote for its hovered card, and UI correctly says “No market data yet.” Real Cosmic tooltip/lore remains unverified.
+- AH and EE screens render with synthetic seeded observations only. Cosmic `/ah`, `/ee`, server prices, original tooltip lore, and the installed Prism instance have not been manually exercised: **MANUAL TEST REQUIRED**.
+- The JAR contains 35 approved PNGs under `theprisons_items_standard`; its relevant models are present, the resource reload lists `theprisons_items_standard` and `theprisons_look`, and prior HD art remains archived in `archive/legacy-texturepacks/`.
 
-Texture selection now has `Classic`, `HD V2`, and `HD V4 (validated)`. The bundled V4 directory
-currently contains only pack metadata; selecting it safely renders Classic fallbacks until a
-separately reviewed registry build supplies approved textures.
+## Durable QA evidence
 
-The third texture-pack option is technically compatible with the current product behaviour: it is
-mutually exclusive with V2 and cannot alter Classic paths. It is nevertheless a product-selection
-question because the earlier V4 handover described it as an external review overlay. No selection,
-copy, or texture behaviour was changed during Unified UI V4 work.
+The 79 screenshots are now in `docs/development/handover/visual-acceptance-2026-10-08/` (about 11 MB). The directory includes all generated config variants and representative Item List/AH/EE captures. Their generation and limitations are detailed in [VISUAL_ACCEPTANCE_2026-10-08.md](VISUAL_ACCEPTANCE_2026-10-08.md).
 
-Unified UI V4 has one shared rarity palette (`ItemRarity`) and one shared market-tooltip adapter
-(`ItemMarketTooltip`). Generic in-game tooltips preserve their original Minecraft/Cosmic content;
-the adapter appends only cache-backed fair price, confidence, source/window, sample count and age.
-The inventory list now starts from Minecraft's tooltip for its actual rendered stack, so its
-generated registry icons do not claim unretrieved server lore.
+## Immediate continuation
 
-The Sci-Fi Dashboard remains the curated control surface. Every feature tile, plus the HUD-page
-"All module & market settings" link, opens the complete existing Click-GUI editor for the same
-core instance. This makes QoL market controls and advanced settings reachable in production while
-avoiding a second, divergent setting mutation path.
-
-Remote: `origin` is `https://github.com/Noxtryn/ThePrisons.git`; development is on `dev`.
-`Release` is not a target for this work.
+Start with P0: fix and re-render the actual `ClickGuiScreen` at 1280×720 / Scale 3. Then launch the installed JAR in Prism and conduct the real Cosmic-server checks. Follow the ordered list in [CLAUDE_NEXT_TASKS.md](CLAUDE_NEXT_TASKS.md) and checkpoint file [NEXT_SESSION_1834.md](NEXT_SESSION_1834.md). No Bandit Macro work before UI acceptance.

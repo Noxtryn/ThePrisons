@@ -1,19 +1,14 @@
-# Claude next tasks
+# Claude next tasks — handover at 18:34
 
-1. When V4 artwork arrives, validate its hashes and complete-family gate, then populate only
-   `resourcepacks/theprisons_items_hd_v4` from the reviewed artifact; test resource reload and
-   Classic / V2 / V4 switching in-game.
-2. Perform in-game GUI-scale smoke tests for the three Session Dashboard styles and Bandit view.
-3. Keep `stash@{0}` intact; do not apply it wholesale. Its pre-V4 HD assets are superseded and its
-   navigation records are not wired into `LocalNavigator`.
-4. Verify the V4 registry against live Cosmic item captures when artwork arrives, especially pets,
-   masks, charge-orb progression, and random items.
-5. If goal-aware Bandit navigation is resumed, replace rather than parallel `CombatBrain` movement;
-   first supply a complete vertical slice (`LocalNavigator`, module inputs, telemetry and adversarial
-   simulations) in a dedicated branch.
-6. Continue Unified UI V4 from the shared `ItemRarity` / `ItemMarketTooltip` base: add screen-level
-   screenshots or live-server captures for original Cosmic tooltip fidelity, then connect the
-   Dashboard's generic module settings and market controls without duplicating their services.
-7. Decide with product ownership whether the selectable, empty `HD V4 (validated)` entry remains
-   user-visible before artwork ships. It is technically safe, but prior documentation framed V4 as
-   an external review overlay; do not change the choice without that decision.
+Work only on `dev`; preserve `Release` and `stash@{0}`. Continue from the exact tree/commit recorded in `NEXT_SESSION_1834.md`. The current product acceptance is incomplete; do not call the UI finished based on builds or synthetic GameTests.
+
+1. **P0 — Repair Config GUI at 1280×720 / GUI Scale 3.** Edit the real `io.theprisons.gui.click.ClickGuiScreen`, not a parallel screen. Fix horizontal category-tab overflow and overly narrow labels/controls. Re-render after each focused change; test the actual navigation, dropdown, slider, search and scroll, with no clipped controls. Keep the existing `mouseScrolled` geometry correction.
+2. **P1 — Prism and Cosmic Prisons live acceptance.** Start the installed `ThePrisons-Nebula-v1.2.1-mc1.21.11.jar` in the `Cosmic` Prism instance (MC 1.21.11, Fabric 0.19.5, Java 21). Capture screenshots from the actual client. On Cosmic Prisons, verify `/ah`, `/ee`, server item icons, original Cosmic lore, tooltips, market observations, and actual prices. If server access is unavailable, document each specific step as `MANUAL TEST REQUIRED`; never substitute synthetic prices.
+3. **P2 — Item List, rarity frames and original tooltips.** Work on the productive `InventoryItemList` and its real `ThePrisonsMarketInventoryMixin` render/input path. Preserve original Minecraft/Cosmic tooltip lines and add market data only when cache-backed. Verify card size/spacing, rarity colors/frames, search/filter/sort, long names and large inventories against live item examples.
+4. **P3 — AH/EE pricing.** Inspect `MarketScreen`, `MarketOverlay`, `MarketModule`, and the Energy calculations. Use only actual observations. Make price source, age, confidence, comparison set, quantity and formulas understandable; test invalid values and repeated observations.
+5. **P4 — UI consistency and performance.** Unify the existing Config GUI, Inventory Item List, AH/EE and active HUD without duplicate renderers/services. Check scaling, tooltip fidelity, frame cost and resource reload. Keep unverified claims clearly labeled.
+6. **P5 — Future texture batches.** Import only delivered artwork after exact registry/model matching. Current standard pack has 35 approved PNGs; maintain Classic/Cosmic fallback and never globally override unrelated items.
+
+**Hard stop:** no Bandit Macro work until the UI is visually accepted. Do not apply `stash@{0}` wholesale; it combines obsolete HD artwork with incomplete navigation changes. Do not alter product choices or texturepack selection without approval.
+
+Persistent screenshots: `visual-acceptance-2026-10-08/` (79 PNGs). Known visual issue and exact QA limitations: `VISUAL_ACCEPTANCE_2026-10-08.md`.

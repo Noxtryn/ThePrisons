@@ -1103,12 +1103,13 @@ public final class ClickGuiScreen extends Screen {
 
     @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
-        int cx = panelX + SIDEBAR_W + 1;
-        int cw = panelW - SIDEBAR_W - 1;
+        int cx = panelX + SIDEBAR_W + 2;
+        int cw = panelW - SIDEBAR_W - 2;
         int listX = cx + 8;
-        int listW = Math.max(150, (int) (cw * 0.40));
-        int top = panelY + 52;
-        int view = panelY + panelH - FOOTER_H - top;
+        int listW = Math.max(132, Math.min(220, (int) (cw * 0.42)));
+        int top = panelY + HEADER_H + 8;
+        int bottom = panelY + panelH - FOOTER_H;
+        int view = bottom - top;
         double step = verticalAmount * 18.0D;
         if (mouseX >= listX && mouseX < listX + listW) {
             listScroll = MathHelper.clamp(listScroll - step, 0.0D, Math.max(0, listContentH - view));

@@ -57,6 +57,17 @@ Run and record:
   `InventoryListLayoutAndInputTest`): pass. Direct selection reuses `ClickGuiScreen.focus`, whose
   persisted tab/module behaviour is the existing configuration path; live pointer flow is still a
   manual smoke-test item.
+
+## Official standard texture migration
+
+- ZIP audit: pass — 35 PNGs, all supplied paths map to existing models; Executive Shard required
+  the sole targeted model-reference correction. No random variants, pets, masks or guessed IDs were imported.
+- Image audit: pass after normalization — all active overlay PNGs are 256×256 RGBA with transparent
+  corners and visible pixels. The supplied ZIP had 15 1254×1254 images despite its 256×256 manifest;
+  they were Lanczos-normalized to the declared target size.
+- `ItemTexturePacksTest` and `ConfigStoreTest`: pass. They cover exact 35-path scope, dimensions,
+  transparency, manifest SHA-256s, archive-only V2/V4, exact model allow-list, user-pack ordering,
+  and pruning a persisted old `texture_pack` setting. A Minecraft-client reload remains manual.
 - Pre-push verification on the two Unified UI V4 commits: `./gradlew test build --no-daemon`:
   pass (8 tasks); `./scripts/check-release.sh`: pass (`content OK`, `release check OK`, version
   1.2.1). `Release` was only inspected, never checked out, merged, or pushed.

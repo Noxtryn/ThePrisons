@@ -121,6 +121,19 @@ class ConfigStoreTest {
     }
 
     @Test
+    void removedTexturePackSettingIsIgnoredAndPrunedOnTheNextSave() throws IOException {
+        manager.register(new Sample());
+        Path file = store().file();
+        Files.createDirectories(file.getParent());
+        Files.writeString(file, "{\"schema\":1,\"modules\":{\"sample\":{\"settings\":{\"texture_pack\":\"HD_V4\"}}}}");
+        ConfigStore store = store();
+        store.load(false);
+        assertTrue(store.dirty(), "the obsolete selection is scheduled for cleanup");
+        store.saveNow(true);
+        assertFalse(Files.readString(file).contains("texture_pack"));
+    }
+
+    @Test
     void corruptFileIsBackedUpAndDefaultsUsed() throws IOException {
         Sample sample = manager.register(new Sample());
         sample.number.set(55);

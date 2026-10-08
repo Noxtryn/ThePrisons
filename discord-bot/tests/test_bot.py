@@ -219,10 +219,20 @@ class ReleaseTests(unittest.TestCase):
 
     def test_every_release_in_the_changelog_builds(self):
         ctx_cfg = C.Config(ENV)
-        for version in re.findall(r"^## \[(\d+\.\d+\.\d+)\]", (C.ROOT / "CHANGELOG.md").read_text(encoding="utf-8"), re.M):
+        for version in re.findall(r"^## \[(\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?)\]", (C.ROOT / "CHANGELOG.md").read_text(encoding="utf-8"), re.M):
             ctx = X.build(ctx_cfg, X.release_from_repo(version))
             ann, chg = R.build(ctx_cfg, ctx, version)
             self.assertTrue(ann and chg, version)
+
+    def test_public_beta_announcement_includes_limitations(self):
+        cfg = C.Config(ENV)
+        ann, chg = R.build(cfg, X.build(cfg), "1.3.0-beta.1")
+        rendered = json.dumps([ann, chg], ensure_ascii=False)
+        self.assertIn("COSMIC EVOLUTION", rendered)
+        self.assertIn("PUBLIC BETA", rendered)
+        self.assertIn("Known limitations", rendered)
+        self.assertIn("Bekannte Einschränkungen", rendered)
+        self.assertIn("1280×720", rendered)
 
 
 class CommandTests(unittest.TestCase):

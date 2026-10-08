@@ -86,6 +86,7 @@ public final class ConfigStore {
      */
     public Map<String, Boolean> load(boolean applyEnabled) {
         Map<String, Boolean> enabledStates = new java.util.HashMap<>();
+        boolean pruned = false;
         JsonObject root = read();
         JsonObject stored = root != null && root.has("modules") && root.get("modules").isJsonObject()
                 ? root.getAsJsonObject("modules") : new JsonObject();
@@ -107,6 +108,7 @@ public final class ConfigStore {
                 for (Map.Entry<String, JsonElement> value : entry.getAsJsonObject("settings").entrySet()) {
                     Setting<?> setting = module.setting(value.getKey());
                     if (setting == null || !setting.persistent()) {
+                        pruned = true; // removed settings (e.g. retired texture-pack choices) disappear on the next save
                         continue;
                     }
                     try {
@@ -114,6 +116,7 @@ public final class ConfigStore {
                     } catch (RuntimeException invalid) {
                         LOGGER.warn("Ignoring invalid value for {}.{}: {}", module.id(), setting.id(), value.getValue());
                         setting.reset();
+                        pruned = true;
                     }
                 }
             }
@@ -129,7 +132,7 @@ public final class ConfigStore {
                 }
             }
         }
-        dirtyTicks = -1;
+        dirtyTicks = pruned ? 0 : -1;
         return enabledStates;
     }
 

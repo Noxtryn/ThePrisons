@@ -5,8 +5,8 @@ from . import config as C
 from . import content as K
 from .publish import sync_messages
 
-GROUPS = {"en": [("New", "Added"), ("Improved", "Changed"), ("Fixed", "Fixed")],
-          "de": [("Neu", "Hinzugefügt"), ("Verbessert", "Geändert"), ("Behoben", "Behoben")]}
+GROUPS = {"en": [("New", "Added"), ("Improved", "Changed"), ("Fixed", "Fixed"), ("Known limitations", "Known issues")],
+          "de": [("Neu", "Hinzugefügt"), ("Verbessert", "Geändert"), ("Behoben", "Behoben"), ("Bekannte Einschränkungen", "Bekannte Einschränkungen")]}
 MORE = {"en": "more in the changelog", "de": "mehr im Changelog"}
 
 
@@ -99,7 +99,8 @@ def build(cfg, ctx, version, root=None):
         links = ("[Download the jar]({download_url}) · [Release notes]({release_url}) · [Full changelog]({changelog_url})" if lang == "en"
                  else "[Jar herunterladen]({download_url}) · [Release-Notizen]({release_url}) · [Voller Changelog]({changelog_url})")
         fields.append({"name": "Download", "value": links})
-        title = f"ThePrisons v{version} is out" if lang == "en" else f"ThePrisons v{version} ist da"
+        beta = "-" in version
+        title = (f"THEPRISONS — COSMIC EVOLUTION · v{version} · PUBLIC BETA" if beta else f"ThePrisons v{version} is out") if lang == "en" else (f"THEPRISONS — COSMIC EVOLUTION · v{version} · ÖFFENTLICHE BETA" if beta else f"ThePrisons v{version} ist da")
         announce_embeds.append(K.make_embed(lang, f"release-v{version}", ctx, title, head, fields, url=ctx["release_url"], image=image if lang == "en" else None))
         key = f"changelog-v{version}-{lang}"
         changelog.append(K.message(key, [K.make_embed(

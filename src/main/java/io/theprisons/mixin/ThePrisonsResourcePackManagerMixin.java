@@ -1,6 +1,6 @@
 package io.theprisons.mixin;
 
-import io.theprisons.modules.qol.items.HdPackSync;
+import io.theprisons.modules.qol.items.ItemTexturePacks;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.resource.DirectoryResourcePack;
 import net.minecraft.resource.ResourcePack;
@@ -23,19 +23,16 @@ public abstract class ThePrisonsResourcePackManagerMixin {
      * The mod's look (blocks, worn armour) is a built-in pack that always comes last = on top: it wins over every
      * texture pack the player has loaded. The comic filter still styles the textures of all other packs.
      *
-     * <p>Before it comes exactly one optional item overlay selected in settings. V2 and V4 both use the same Classic paths and replace only supplied,
-     * reviewed PNGs; every other item keeps its Classic texture.
+     * <p>Before it comes the one official item-design overlay. It replaces only its reviewed PNG paths; every
+     * other item keeps the Classic/Cosmic texture that would otherwise have won.
      */
     @Inject(method = "createResourcePacks", at = @At("RETURN"), cancellable = true)
     private void theprisons$lookOnTop(CallbackInfoReturnable<List<ResourcePack>> cir) {
-        HdPackSync.Choice choice = HdPackSync.shared().wanted();
-        ResourcePack v2 = choice == HdPackSync.Choice.V2 ? builtIn(HdPackSync.PACK_PATH, HdPackSync.PACK_ID, HdPackSync.PACK_NAME) : null;
-        ResourcePack v4 = choice == HdPackSync.Choice.V4 ? builtIn(HdPackSync.V4_PACK_PATH, HdPackSync.V4_PACK_ID, HdPackSync.V4_PACK_NAME) : null;
+        ResourcePack standard = builtIn(ItemTexturePacks.STANDARD_PATH, ItemTexturePacks.STANDARD_ID, ItemTexturePacks.STANDARD_NAME);
         ResourcePack look = builtIn("resourcepacks/theprisons_look", "theprisons_look", "ThePrisons Look");
-        if (v2 != null || v4 != null || look != null) {
-            cir.setReturnValue(HdPackSync.assemble(cir.getReturnValue(), choice, v2, v4, look));
+        if (standard != null || look != null) {
+            cir.setReturnValue(ItemTexturePacks.assemble(cir.getReturnValue(), standard, look));
         }
-        HdPackSync.shared().packsComputed(choice, v2 != null || v4 != null);
     }
 
     private static ResourcePack builtIn(String path, String id, String name) {

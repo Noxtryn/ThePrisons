@@ -1,8 +1,7 @@
 name: Release
 
 # Push a tag like v1.0.0 -> tests + build -> GitHub Release with the jar -> Discord.
-# Discord: the ThePrisons bot posts the announcement + changelog when the secret DISCORD_BOT_TOKEN exists;
-# otherwise the old webhook embed (DISCORD_WEBHOOK) is used. Never both. A Discord problem can never fail the release.
+# Discord: announcements are sent only by the official bot. Webhook secrets are deliberately not consumed.
 on:
   push:
     tags:
@@ -106,18 +105,6 @@ jobs:
           DISCORD_CHANNEL_KNOWN_ISSUES: ${{ vars.DISCORD_CHANNEL_KNOWN_ISSUES }}
         run: python3 -m prisonsbot release --version "${{ steps.version.outputs.version }}"
 
-      - name: Discord embed (webhook, used while the bot is not set up)
+      - name: Discord unavailable (bot not configured)
         if: ${{ !contains(github.event.head_commit.message, '[no-discord]') && env.HAS_BOT != 'true' }}
-        continue-on-error: true
-        env:
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-          VERSION: ${{ steps.version.outputs.version }}
-          CODENAME: ${{ steps.version.outputs.codename }}
-          MC: ${{ steps.version.outputs.mc }}
-          JAR_NAME: ${{ steps.version.outputs.jar }}
-          TAG: ${{ github.ref_name }}
-          REPO: ${{ github.repository }}
-          NOTES: notes.md
-          NOTES_DE: notes-de.md
-          MENTIONS: ${{ vars.DISCORD_MENTIONS }}
-        run: scripts/discord-embed.sh
+        run: echo "Official Discord bot is not configured; no Discord message was sent. No webhook fallback is used."

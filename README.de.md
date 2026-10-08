@@ -26,8 +26,8 @@ Eine **clientseitige Fabric-Mod** für Minecraft `1.21.11` und den **Cosmic-Pris
 - **Wegpunkt-Editor und Routen-Rekorder**, Grenzmarkierungen
 - Taste `K` schaltet das Makro; `/prisons stop` stoppt es
 
-### Markt (noch nicht verfügbar)
-Das Markt-Modul (eigene Auktionshaus- und `/ee`-Bildschirme, Shop-Overlays, Item List, Preis-Scan) ist in Release-Builds **abgeschaltet**, bis es überprüft ist. Der Code bleibt im Repository und läuft nur im Entwickler-Build.
+### Markt (öffentliche Beta)
+Die AH-/EE-Marktansichten und Item List sind in **v1.3.0-beta.1** enthalten. Das serverspezifische Verhalten wurde noch nicht vollständig auf Cosmic Prisons geprüft; Marktbeobachtungen können veraltet oder unvollständig sein und sind keine Handelsgarantie. Weitere Marktoberflächen können separate Einschränkungen haben, die in den Release-Notizen stehen.
 
 
 ### HUD

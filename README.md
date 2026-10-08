@@ -43,7 +43,7 @@ Opens with `/prisons`, the keybinds (`I`, or right shift for the module menu) or
 <!-- SCREENSHOT: docs/media/guard-zones.webp - guard zone and border marks (see docs/raw/BENÖTIGT.md) -->
 
 ### Market (not available yet)
-The market module (own auction house and `/ee` screens, shop overlays, item list, price scan) is **switched off in release builds** until it has been reviewed. Its code stays in the repository and runs in the developer build only.
+The AH/EE market views and Item List are included in the **v1.3.0-beta.1 public beta**. Their server-specific behavior has not been fully validated on Cosmic Prisons; market observations can be stale or incomplete and are not trading guarantees. Shop overlays and other market surfaces may have separate limitations described in the release notes.
 
 
 ### HUD

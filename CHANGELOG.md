@@ -6,9 +6,34 @@ The long development notes of the core rewrite live in [docs/dev-notes/core-rewr
 
 ## [Unreleased]
 
+No unreleased changes.
+
+## [1.3.0-beta.1] - 2026-10-08
+
+> **THEPRISONS — COSMIC EVOLUTION · PUBLIC BETA / PRERELEASE**
+
+### Added
+
+- **35 approved sci-fi item textures** are included in the standard ThePrisons texture source; items without an approved replacement retain their existing Cosmic Prisons / Minecraft appearance.
+- **Unified UI V4 foundations:** the production Config GUI, inventory Item List, rarity presentation and market-facing surfaces use the new gunmetal visual direction.
+- **Market context:** AH/EE screens can present observed offers and price context from the local market services; values are observations, not guaranteed prices.
+
 ### Changed
 
-- **Market module off for users:** the auction house and `/ee` screens, the `/gz` and `/pb` shop overlays, the item list and the price scan are switched off in release builds until they are reviewed. Earlier entries below describe them as they were
+- **Config GUI and session dashboard:** the existing client screens have been updated with clearer navigation, panels and status presentation.
+- **Item List and rarity presentation:** item cards, icons and rarity accents are integrated into the existing inventory view; original item identity and lore remain the source of truth.
+- **Market analysis:** observed offer prices, comparison context and data confidence are surfaced more clearly where data is available.
+
+### Fixed
+
+- **Configuration and market input handling:** invalid price values and several UI layout/state edge cases now receive safer handling.
+- **Texture fallback:** items without an approved ThePrisons texture continue to use their original resource instead of a blanket replacement.
+
+### Known issues
+
+- At **1280×720 with GUI Scale 3**, some Config GUI navigation/control content can overflow or become cramped. Use a lower GUI scale or larger resolution while this is addressed.
+- **Cosmic Prisons live-server validation is incomplete.** `/ah`, `/ee`, server-specific lore and market observations have not all been verified against live server data. Do not use beta market estimates as trading guarantees.
+- Some UI evidence is from automated/client-side tests and screenshots; this does not establish correct behavior on the live server at every scale.
 
 ## [1.2.1] - 2026-10-07
 
@@ -133,7 +158,8 @@ First public release: a client-side Fabric mod for Minecraft 1.21.11 and the Cos
 - Market scan backs off for 30 minutes where the market is disabled (Badlands)
 - Aim assist did not find bandits: they are players named `bandit_xx_xxxxxx`
 
-[Unreleased]: https://github.com/Noxtryn/ThePrisons/compare/v1.2.0...HEAD
+[Unreleased]: https://github.com/Noxtryn/ThePrisons/compare/v1.3.0-beta.1...HEAD
+[1.3.0-beta.1]: https://github.com/Noxtryn/ThePrisons/releases/tag/v1.3.0-beta.1
 [1.2.0]: https://github.com/Noxtryn/ThePrisons/releases/tag/v1.2.0
 [1.1.3]: https://github.com/Noxtryn/ThePrisons/releases/tag/v1.1.3
 [1.1.2]: https://github.com/Noxtryn/ThePrisons/releases/tag/v1.1.2

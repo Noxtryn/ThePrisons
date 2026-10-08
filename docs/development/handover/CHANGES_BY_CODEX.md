@@ -55,3 +55,20 @@ keep future entries scoped to one reviewed change set.
 - Dashboard feature tiles now preselect their exact module in the complete editor, so opening the
   Auction or Energy overlay tile lands directly on its real controls instead of a remembered,
   unrelated module.
+
+## Texture migration: official standard design
+
+- Archived the complete optional HD V2 overlay (98 PNGs and 12 model overrides) and metadata-only
+  V4 staging overlay under `archive/legacy-texturepacks/`, with origin, prior paths and restoration
+  instructions. They are no longer packaged or loaded.
+- Imported the 35 approved supplied files as the always-on `theprisons_items_standard` overlay.
+  It contains no model JSONs and only the exact reviewed paths, so every item outside Shards,
+  Contraband, Books, Revealed Books, Keys and Charge Orbs keeps its Classic/Cosmic texture.
+- Normalized the 15 supplied 1254×1254 PNGs to the source manifest's declared 256×256 RGBA size;
+  the source archive and all imported outputs are SHA-256 recorded in the pack manifest. The other
+  20 supplied files were already 256×256 and copied byte-for-byte.
+- Corrected only `misc/executive_shard` to reference the supplied `shard/executive` path. No IDs
+  were fabricated and random variants deliberately remain on their existing fallback textures.
+- Removed the Classic/V2/V4 selector and its reload synchronizer. Legacy `texture_pack` settings
+  are ignored during load and pruned automatically on the next config save; the official overlay
+  is now present whenever resource packs are built.
