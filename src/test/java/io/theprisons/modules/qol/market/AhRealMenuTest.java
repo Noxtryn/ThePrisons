@@ -127,7 +127,7 @@ class AhRealMenuTest {
             again.add(new AhAnalyzer.SaleInput(s.facts(), s.total(), s.amount(), s.agoMs() + 40_000L, s.seller(), s.buyer()));   // 40 s later: "sold 2m ago" has not changed
         }
         // the page shows the same minute, so the age text is the same while 40 s passed
-        int second = AhAnalyzer.learnSales(in, cache, now + 40_000L);
+        int second = AhAnalyzer.learnSales(again, cache, now + 40_000L);
         assertTrue(first > 10);
         assertEquals(0, second, "the same page again is not new data");
     }

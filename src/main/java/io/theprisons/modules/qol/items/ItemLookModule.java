@@ -35,9 +35,9 @@ public final class ItemLookModule extends Module {
         }
     }
 
-    /** Which ThePrisons art the item models show: the classic textures or the optional integrated HD V2 overlay (the PNGs it has; the rest stays classic). */
+    /** Which ThePrisons art the item models show. Both HD overlays replace only their approved PNG paths; all other items stay Classic. */
     public enum TexturePack {
-        CLASSIC("Classic"), HD_V2("HD V2");
+        CLASSIC("Classic"), HD_V2("HD V2"), HD_V4("HD V4 (validated)");
 
         private final String label;
 
@@ -94,12 +94,12 @@ public final class ItemLookModule extends Module {
         source = choice("source", "Texture source", Source.COSMIC_FIRST, s -> s.label)
                 .description("Which textures win when the Cosmic Textures mod is installed too.").group("Textures");
         texturePack = choice("texture_pack", "Texture pack", TexturePack.CLASSIC, p -> p.label)
-                .description("Classic ThePrisons art or the optional HD V2 item textures (high resolution; items without an HD V2 texture keep the classic one). "
+                .description("Classic art, the existing HD V2 overlay, or HD V4 when validated artwork is bundled. Missing HD textures always keep the classic one. "
                         + "Changing it reloads the resources once.").group("Textures");
         HdPackSync.setReloader(() -> MinecraftClient.getInstance().reloadResources());
-        HdPackSync.choose(texturePack.get() == TexturePack.HD_V2);
+        HdPackSync.choose(packChoice(texturePack.get()));
         texturePack.onChange(p -> {
-            HdPackSync.choose(p == TexturePack.HD_V2);
+            HdPackSync.choose(packChoice(p));
             MinecraftClient client = MinecraftClient.getInstance();
             if (client != null) {
                 client.execute(HdPackSync.shared()::reconcile);       // at most one reload, on the client thread; loading the config at start only sets the choice
@@ -127,6 +127,14 @@ public final class ItemLookModule extends Module {
     /** Whether the optional HD V2 overlay pack belongs in the next resource-pack list; false (classic) until the module exists. */
     public static boolean hdV2Enabled() {
         return HdPackSync.hdV2Chosen();
+    }
+
+    private static HdPackSync.Choice packChoice(TexturePack pack) {
+        return switch (pack) {
+            case CLASSIC -> HdPackSync.Choice.CLASSIC;
+            case HD_V2 -> HdPackSync.Choice.V2;
+            case HD_V4 -> HdPackSync.Choice.V4;
+        };
     }
 
     /** The reload bookkeeping of the HD pack (the resource-pack mixin reports what it built; the tick below reloads once when it differs). */

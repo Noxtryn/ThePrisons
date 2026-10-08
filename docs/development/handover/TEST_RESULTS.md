@@ -28,3 +28,13 @@ Run and record:
   cost calculation and malformed quote rejection.
 - Final pre-push verification on `a6188a8`: `./gradlew test build --no-daemon`: pass (8 tasks);
   `./scripts/check-release.sh`: pass (`release check OK (1.2.1)`); V4 pipeline tests: pass (4 tests).
+
+## Phase 4 integration
+
+- `LocalNavigator` focused simulation suite: pass. This covers walls/corners, jump phases,
+  blocked paths, heading stability, camera catch-up and multi-bandit spacing; it is not an
+  in-game production Macro test.
+- Targeted HD pack, dashboard and AH tests: pass. V4 pipeline partial-family fallback is covered
+  by a Python unit test; GUI-scale coverage is layout simulation, not an in-game GUI smoke test.
+- Required before push: final `./gradlew test build --no-daemon`, release guard, V4 pipeline tests,
+  remote-SHA verification, and an update of this section with the resulting commit.

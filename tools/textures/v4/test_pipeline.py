@@ -66,6 +66,20 @@ class V4PipelineTest(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "Unverified hash"):
                 pipeline.build(registry, source)
 
+    def test_partial_approved_family_is_never_emitted_into_the_runtime_overlay(self):
+        registry = copy.deepcopy(json.loads(REGISTRY.read_text()))
+        row = registry["assets"][0]
+        data = rgba_png()
+        row.update(visual_asset_id="book/elite", source_image="elite.png", validation_status="APPROVED",
+                   sha256=hashlib.sha256(data).hexdigest())
+        with tempfile.TemporaryDirectory() as temp:
+            source = Path(temp)
+            (source / "elite.png").write_bytes(data)
+            files = pipeline.build(registry, source)
+        self.assertFalse(any(name.endswith(".png") for name in files), "a partial family must fall through to Classic")
+        manifest = json.loads(files["manifest.json"])
+        self.assertEqual("CLASSIC_FALLBACK", manifest["assets"][0]["validation_status"])
+
 
 if __name__ == "__main__":
     unittest.main()

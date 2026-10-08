@@ -9,3 +9,6 @@
   require in-game GUI smoke tests in addition to unit tests.
 - Do not apply `stash@{0}` blindly: it includes superseded HD V2 assets and a partial navigation
   API change whose `LocalNavigator` orchestrator was not changed.
+- HD V4 selection is intentionally empty until artwork arrives. It is a safe Classic fallback, not
+  evidence of in-game artwork validation. A release integrator must populate its directory only from
+  a reviewed `pipeline.py build` artifact and then perform an in-game resource-reload smoke test.

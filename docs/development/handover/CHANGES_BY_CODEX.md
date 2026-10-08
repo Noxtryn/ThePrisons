@@ -19,3 +19,14 @@ keep future entries scoped to one reviewed change set.
   sale quantities produce the correct unit price. Hardened `/ee` analysis against invalid quotes.
 - Added a non-invasive Bandit dashboard adapter. The incomplete goal-navigation experiment in
   `stash@{0}` was reviewed but deliberately not applied.
+
+## Phase 4 (in review)
+
+- Re-audited `LocalNavigator` and the untracked portion of `stash@{0}`. The latter remains an
+  incomplete, incompatible goal-navigation experiment plus obsolete assets; no movement code was
+  copied into the production macro.
+- Added an explicit HD V4 validated overlay choice and an empty pack scaffold. It selects exactly
+  one overlay (V2 or V4), keeps the always-on look pack last, and falls through to Classic while
+  no V4 artwork is present.
+- Added V4 partial-family gating, HD selection, GUI-scale layout, and age-shifted repeated-sale
+  regression coverage.

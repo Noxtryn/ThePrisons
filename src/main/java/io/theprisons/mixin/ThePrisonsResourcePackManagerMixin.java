@@ -23,18 +23,19 @@ public abstract class ThePrisonsResourcePackManagerMixin {
      * The mod's look (blocks, worn armour) is a built-in pack that always comes last = on top: it wins over every
      * texture pack the player has loaded. The comic filter still styles the textures of all other packs.
      *
-     * <p>Before it - and only when "Texture pack: HD V2" is chosen - comes the optional HD V2 item pack: its PNGs sit at the same paths as the classic
-     * ones and replace exactly the textures it has; every other item keeps its classic texture.
+     * <p>Before it comes exactly one optional item overlay selected in settings. V2 and V4 both use the same Classic paths and replace only supplied,
+     * reviewed PNGs; every other item keeps its Classic texture.
      */
     @Inject(method = "createResourcePacks", at = @At("RETURN"), cancellable = true)
     private void theprisons$lookOnTop(CallbackInfoReturnable<List<ResourcePack>> cir) {
-        boolean hdWanted = HdPackSync.hdV2Chosen();
-        ResourcePack hd = hdWanted ? builtIn(HdPackSync.PACK_PATH, HdPackSync.PACK_ID, HdPackSync.PACK_NAME) : null;
+        HdPackSync.Choice choice = HdPackSync.shared().wanted();
+        ResourcePack v2 = choice == HdPackSync.Choice.V2 ? builtIn(HdPackSync.PACK_PATH, HdPackSync.PACK_ID, HdPackSync.PACK_NAME) : null;
+        ResourcePack v4 = choice == HdPackSync.Choice.V4 ? builtIn(HdPackSync.V4_PACK_PATH, HdPackSync.V4_PACK_ID, HdPackSync.V4_PACK_NAME) : null;
         ResourcePack look = builtIn("resourcepacks/theprisons_look", "theprisons_look", "ThePrisons Look");
-        if (hd != null || look != null) {
-            cir.setReturnValue(HdPackSync.assemble(cir.getReturnValue(), hdWanted, hd, look));
+        if (v2 != null || v4 != null || look != null) {
+            cir.setReturnValue(HdPackSync.assemble(cir.getReturnValue(), choice, v2, v4, look));
         }
-        HdPackSync.shared().packsComputed(hdWanted, hd != null);
+        HdPackSync.shared().packsComputed(choice, v2 != null || v4 != null);
     }
 
     private static ResourcePack builtIn(String path, String id, String name) {

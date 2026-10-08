@@ -19,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class HdPackAssetsTest {
     private static final Path RES = Path.of("src/main/resources");
     private static final Path PACK = RES.resolve("resourcepacks/theprisons_items_hd");
+    private static final Path V4_PACK = RES.resolve("resourcepacks/theprisons_items_hd_v4");
     private static final Path TEXTURES = Path.of("assets/theprisons/textures/item/prisons");
 
     private static List<Path> packPngs() throws IOException {
@@ -194,5 +195,8 @@ class HdPackAssetsTest {
         assertTrue(mixin.contains("HdPackSync.PACK_PATH"));
         assertEquals("theprisons_items_hd", HdPackSync.PACK_ID);
         assertEquals("ThePrisons HD V2 Items", HdPackSync.PACK_NAME);
+        assertTrue(Files.isRegularFile(V4_PACK.resolve("pack.mcmeta")), "V4 is an empty, selectable staging overlay until approved artwork arrives");
+        assertEquals("theprisons_items_hd_v4", HdPackSync.V4_PACK_ID);
+        assertTrue(mixin.contains("HdPackSync.V4_PACK_PATH"));
     }
 }

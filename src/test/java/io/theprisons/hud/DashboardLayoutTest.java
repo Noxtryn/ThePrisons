@@ -109,6 +109,23 @@ class DashboardLayoutTest {
     }
 
     @Test
+    void dashboardBoundsRemainValidAtEverySupportedWidgetScale() {
+        TextFit.Measure m = s -> s.length() * 7;
+        SessionView v = ore("Walking to the far waypoint of the diamond route lane seven", TWO, TWO,
+                List.of(new SessionView.Row("Learned routes", "123", SessionView.Tone.MUTED)));
+        // SessionHudModule turns physical screen room into logical layout room before the renderer scales it.
+        // Test the smallest common screen as well as a large one at every setting limit.
+        for (int screenWidth : new int[]{854, 1280, 1920}) {
+            for (double widgetScale : new double[]{0.5D, 0.75D, 1.0D, 1.5D, 2.5D}) {
+                int logicalWidth = (int) Math.max(120, Math.min(420, (screenWidth - 8) / widgetScale));
+                DashboardLayout.Result r = DashboardLayout.layout(v, DashboardStyle.DETAILED, logicalWidth, m);
+                assertClean(r, screenWidth + "px at " + widgetScale + "x");
+                assertTrue(r.width() * widgetScale <= screenWidth - 8 + 1.0D, "widget exceeds screen at " + widgetScale + "x");
+            }
+        }
+    }
+
+    @Test
     void aLongActivityIsCutWithAnEllipsisNotWrappedIntoTheNextField() {
         TextFit.Measure m = s -> s.length() * 6;
         DashboardLayout.Result r = DashboardLayout.layout(ore("Walking to the far waypoint of the diamond route lane seven", List.of(), List.of(), List.of()), DashboardStyle.STANDARD, 220, m);
