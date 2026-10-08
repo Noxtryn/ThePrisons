@@ -84,7 +84,7 @@ public final class ThePrisonsClient implements ClientModInitializer {
             io.theprisons.core.setup.ModCommands.register(core);
         }
         registerLegacyHandlers(core);
-        HudRenderCallback.EVENT.register(io.theprisons.modules.qol.market.MarketSearch.hudGuard(profiled(core, "legacy:hud-render", ThePrisonsHudRenderer::render)));
+        HudRenderCallback.EVENT.register(io.theprisons.items.client.InventoryItemList.hudGuard(profiled(core, "legacy:hud-render", ThePrisonsHudRenderer::render)));
 
         ClientLifecycleEvents.CLIENT_STOPPING.register(client -> {
             CACHE.save();

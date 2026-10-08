@@ -37,12 +37,12 @@ public final class ModuleRegistry {
         io.theprisons.modules.hud.SessionHudModule sessionHud =
                 new io.theprisons.modules.hud.SessionHudModule(core.world(), routes, oreMacro);
         modules.register(sessionHud);
-        net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback.EVENT.register(io.theprisons.modules.qol.market.MarketSearch.hudGuard(sessionHud::render));
+        net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback.EVENT.register(io.theprisons.items.client.InventoryItemList.hudGuard(sessionHud::render));
         io.theprisons.modules.hud.scoreboard.ScoreboardModule scoreboard =
                 new io.theprisons.modules.hud.scoreboard.ScoreboardModule();
         modules.register(scoreboard);
         scoreboard.register(core.bus());
-        net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback.EVENT.register(io.theprisons.modules.qol.market.MarketSearch.hudGuard(scoreboard::render));
+        net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback.EVENT.register(io.theprisons.items.client.InventoryItemList.hudGuard(scoreboard::render));
         modules.register(new io.theprisons.modules.hud.tab.BetterTabModule());
         // QoL
         // Cosmic market: AH/History, /ee, /gz and /pb price tracking + inventory search overlay.
@@ -65,7 +65,7 @@ public final class ModuleRegistry {
             modules.register(dodgeTest);
             dodgeTest.register(core);
         }
-        net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback.EVENT.register(io.theprisons.modules.qol.market.MarketSearch.hudGuard(spearHelper::render));
+        net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback.EVENT.register(io.theprisons.items.client.InventoryItemList.hudGuard(spearHelper::render));
         io.theprisons.modules.general.tunnel.TunnelVisionModule tunnel =
                 new io.theprisons.modules.general.tunnel.TunnelVisionModule(oreMacro, sessionHud);
         modules.register(tunnel);
@@ -81,7 +81,7 @@ public final class ModuleRegistry {
                 new io.theprisons.modules.qol.players.PlayerCardModule();
         modules.register(playerCards);
         playerCards.register(core.bus());
-        net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback.EVENT.register(io.theprisons.modules.qol.market.MarketSearch.hudGuard(playerCards::render));
+        net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback.EVENT.register(io.theprisons.items.client.InventoryItemList.hudGuard(playerCards::render));
         io.theprisons.modules.qol.storage.StorageOverlayModule storage =
                 new io.theprisons.modules.qol.storage.StorageOverlayModule();
         modules.register(storage);

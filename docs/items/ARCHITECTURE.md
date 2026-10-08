@@ -5,7 +5,7 @@ One shared data layer (`io.theprisons.items`), three consumers. Nothing parses l
 ```
 ItemStack / menu line --ItemFactsReader--> ItemFacts (immutable) --ItemClassifier--> ItemClass --ItemIdentity--> stable key
                                                                            |
-                       ItemRegistry (seeded from ItemDirectory + real items learned once) --revision--> ItemSearchIndex --> ItemListModel --> ItemView --> ItemListScreen
+                       ItemRegistry (seeded from ItemDirectory + real items learned once) --revision--> ItemSearchIndex --> ItemListModel --> ItemView --> InventoryItemList (search bar above the hotbar, panel beside the inventory; no screen, no key)
 AH menu revision changes --> ListingInput[] --AhAnalyzer--> MarketCache (bounded) --> AhSnapshot (immutable) --> AhOverlayRender (border, badge, hover)
 focused item changes --> EnergyReader --> EnergyTracker --> EnergyExtractorState --> EnergyOverlayModel --> EnergyOverlayRender
 ```

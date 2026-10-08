@@ -1,6 +1,6 @@
 package io.theprisons.mixin;
 
-import io.theprisons.modules.qol.market.MarketSearch;
+import io.theprisons.items.client.InventoryItemList;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
@@ -27,13 +27,13 @@ public abstract class ThePrisonsMarketInventoryMixin {
     @Inject(method = "render", at = @At("TAIL"))
     private void theprisons$searchRender(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
         if ((Object) this instanceof InventoryScreen screen) {
-            MarketSearch.render(context, MinecraftClient.getInstance().textRenderer, screen.width, screen.height, mouseX, mouseY);
+            InventoryItemList.render(context, MinecraftClient.getInstance().textRenderer, screen.width, screen.height, mouseX, mouseY);
         }
     }
 
     @Inject(method = "keyPressed", at = @At("HEAD"), cancellable = true)
     private void theprisons$searchKey(KeyInput input, CallbackInfoReturnable<Boolean> cir) {
-        if ((Object) this instanceof InventoryScreen && MarketSearch.keyPressed(input.key(), input.modifiers(), theprisons$overSlot())) {
+        if ((Object) this instanceof InventoryScreen && InventoryItemList.keyPressed(input.key(), input.modifiers(), theprisons$overSlot())) {
             cir.setReturnValue(true);
         }
     }
@@ -45,7 +45,7 @@ public abstract class ThePrisonsMarketInventoryMixin {
             if (Character.isDigit(ch) && theprisons$overSlot()) {
                 return;
             }
-            if (MarketSearch.charTyped(ch)) {
+            if (InventoryItemList.charTyped(ch)) {
                 cir.setReturnValue(true);
             }
         }
@@ -54,7 +54,7 @@ public abstract class ThePrisonsMarketInventoryMixin {
     @Inject(method = "mouseClicked", at = @At("HEAD"), cancellable = true)
     private void theprisons$searchClick(Click click, boolean doubled, CallbackInfoReturnable<Boolean> cir) {
         if ((Object) this instanceof InventoryScreen screen
-                && MarketSearch.click(click.x(), click.y(), screen.width, screen.height)) {
+                && InventoryItemList.click(click.x(), click.y(), screen.width, screen.height)) {
             cir.setReturnValue(true);
         }
     }
