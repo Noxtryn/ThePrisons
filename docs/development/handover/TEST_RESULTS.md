@@ -26,5 +26,5 @@ Run and record:
   Bandit/Ore views.
 - AH and `/ee` fixture tests cover fractional history sales, sale-slot confirmation, scam outliers,
   cost calculation and malformed quote rejection.
-- Required before push: rerun `./gradlew test build --no-daemon` and `./scripts/check-release.sh` on
-  the final commit, then record their result here.
+- Final pre-push verification on `a6188a8`: `./gradlew test build --no-daemon`: pass (8 tasks);
+  `./scripts/check-release.sh`: pass (`release check OK (1.2.1)`); V4 pipeline tests: pass (4 tests).
