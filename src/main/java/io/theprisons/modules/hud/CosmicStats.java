@@ -49,7 +49,7 @@ public final class CosmicStats {
     private static final int UNPARSED_MAX = 64;
 
     private static final String NUMBER = "([0-9][0-9,]*(?:\\.[0-9]+)?)\\s*([kKmMbB])?";
-    static final Pattern PERCENT = Pattern.compile("([0-9]+(?:[.,][0-9]+)?)\\s*%");
+    static final Pattern PERCENT = io.theprisons.core.cosmic.parse.CosmicPatterns.PERCENT;
     static final Pattern MULTIPLIER = Pattern.compile("([0-9]+(?:\\.[0-9]+)?)\\s*x\\b", Pattern.CASE_INSENSITIVE);
     static final Pattern ENERGY_GAIN = Pattern.compile("\\+\\s*" + NUMBER + "\\s*(?:cosmic\\s+)?energy", Pattern.CASE_INSENSITIVE);
     static final Pattern XP_GAIN = Pattern.compile("\\+\\s*" + NUMBER + "\\s*(?:mining\\s+)?(?:xp|exp)\\b", Pattern.CASE_INSENSITIVE);
@@ -106,9 +106,9 @@ public final class CosmicStats {
     /** XP still needed for the next level: the sidebar's "a / b" XP line, else what the module last gave. */
     static final Pattern XP_OF = Pattern.compile(NUMBER + "\\s*/\\s*" + NUMBER);
     /** Sidebar "Level" value: "81 (16,321,009 XP)" - the total XP, it grows with every mined block. */
-    static final Pattern TOTAL_XP = Pattern.compile("^[0-9][0-9,.]*\\s*\\(([0-9][0-9,.]*)\\s*xp\\)$", Pattern.CASE_INSENSITIVE);
+    static final Pattern TOTAL_XP = io.theprisons.core.cosmic.parse.CosmicPatterns.TOTAL_XP;
     /** Sidebar under "Cosmic Energy": "(429,210 / 1,259,523)" - the pickaxe's energy and its capacity. */
-    static final Pattern ENERGY_OF = Pattern.compile("^\\(([0-9][0-9,.]*)\\s*/\\s*([0-9][0-9,.]*)\\)$");
+    static final Pattern ENERGY_OF = io.theprisons.core.cosmic.parse.CosmicPatterns.ENERGY_OF;
 
     private final long startMs;
     private final Rolling ores = new Rolling();
@@ -431,9 +431,10 @@ public final class CosmicStats {
             }
             if (lower.contains("tax")) {
                 Matcher m = PERCENT.matcher(line);
-                if (!m.find() && i + 1 < lines.size()) {
-                    m = PERCENT.matcher(lines.get(i + 1));
-                    if (!m.find()) {
+                if (!m.find()) {
+                    // The number may be on the next line; a tax line without a number (and no next line) is not a reading.
+                    m = i + 1 < lines.size() ? PERCENT.matcher(lines.get(i + 1)) : null;
+                    if (m != null && !m.find()) {
                         m = null;
                     }
                 }
@@ -703,42 +704,17 @@ public final class CosmicStats {
 
     /** The energy number in a pickaxe lore line ("Energy: 1,234 / 50,000" → 1234); -1 = none. */
     public static long loreEnergy(String line) {
-        // Only "energy now / energy full" counts: "+34% Energy Gain from 6 Charge Orbs" is not the pickaxe's energy.
-        if (!line.toLowerCase(Locale.ROOT).contains("energy")) {
-            return -1L;
-        }
-        Matcher m = ENERGY_FILL.matcher(line);
-        return m.find() ? Long.parseLong(m.group(1).replaceAll("[,.\\s]", "")) : -1L;
+        return io.theprisons.core.cosmic.parse.PickaxeLore.energyOfLine(line);
     }
 
     /**
-     * The held pickaxe's energy from its lore; -1 = none. Cosmic writes a heading "Cosmic Energy", a bar line
-     * ("||||| 82.0%") and then "(242,159 / 293,135)"; the "Battery" block below has the same form and is not the energy.
-     * Older form: "Energy: 1,234 / 50,000" on one line.
+     * The held pickaxe's energy from its lore; -1 = none. The rules live in {@code PickaxeLore} (shared with the Cosmic model):
+     * Cosmic writes a heading "Cosmic Energy", a bar line and then "(242,159 / 293,135)"; the "Battery" block below has the same
+     * form and is not the energy. Older form: "Energy: 1,234 / 50,000" on one line.
      */
     public static long loreEnergy(java.util.List<String> lore) {
-        for (int i = 0; i < lore.size(); i++) {
-            String line = lore.get(i).trim();
-            if (line.equalsIgnoreCase("cosmic energy") || line.equalsIgnoreCase("energy")) {
-                for (int j = i + 1; j <= Math.min(lore.size() - 1, i + 3); j++) {
-                    Matcher m = ENERGY_FILL.matcher(lore.get(j));
-                    if (m.find()) {
-                        return Long.parseLong(m.group(1).replaceAll("[,.\\s]", ""));
-                    }
-                }
-            }
-        }
-        for (String line : lore) {
-            long v = loreEnergy(line);
-            if (v >= 0L) {
-                return v;
-            }
-        }
-        return -1L;
+        return io.theprisons.core.cosmic.parse.PickaxeLore.energy(lore);
     }
-
-    /** "242,159 / 293,135" (brackets optional): group 1 = the energy now. */
-    static final Pattern ENERGY_FILL = Pattern.compile("(\\d[\\d,.]*)\\s*/\\s*\\d[\\d,.]*");
 
     private static String stripPrefix(String line) {
         return line.replaceFirst("^\\s*[(\\[]!?[)\\]]\\s*", "").trim();

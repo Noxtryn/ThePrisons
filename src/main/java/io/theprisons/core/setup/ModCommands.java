@@ -19,6 +19,13 @@ public final class ModCommands {
     }
 
     public static void register(ThePrisonsCore core) {
+        if (io.theprisons.core.cosmic.capture.CaptureService.enabled(core.dataDir())) {
+            // Capture mode (developer / hidden): /prisons capture [note] writes the current moment, anonymised, to a local file.
+            core.commands().contribute(root -> root.then(ClientCommandManager.literal("capture")
+                    .executes(ctx -> capture(core, ""))
+                    .then(ClientCommandManager.argument("note", StringArgumentType.greedyString())
+                            .executes(ctx -> capture(core, StringArgumentType.getString(ctx, "note"))))));
+        }
         core.commands().contribute(root -> root
                 .then(ClientCommandManager.literal("lang")
                         .executes(ctx -> {
@@ -36,6 +43,15 @@ public final class ModCommands {
                                 .then(ClientCommandManager.argument("setting", StringArgumentType.word())
                                         .executes(ctx -> openAt(core, StringArgumentType.getString(ctx, "module"),
                                                 StringArgumentType.getString(ctx, "setting")))))));
+    }
+
+    private static int capture(ThePrisonsCore core, String note) {
+        MinecraftClient client = MinecraftClient.getInstance();
+        if (client.player == null || client.world == null) {
+            return 0;
+        }
+        io.theprisons.core.cosmic.capture.CaptureService.capture(client, core.cosmic(), core.dataDir(), note);
+        return 1;
     }
 
     private static int openAt(ThePrisonsCore core, String moduleId, String settingId) {

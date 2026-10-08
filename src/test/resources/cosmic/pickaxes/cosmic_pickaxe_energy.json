@@ -1,0 +1,175 @@
+{
+  "schema": 1,
+  "kind": "theprisons-capture",
+  "meta": {
+    "createdAt": "synthetic",
+    "modVersion": "synthetic",
+    "minecraftVersion": "1.21.11",
+    "note": "Lore format 'Cosmic Energy' / bar / '(now / capacity)' with a Battery block below that must not count",
+    "synthetic": true,
+    "category": "pickaxes"
+  },
+  "frame": {
+    "tick": 100,
+    "nowMs": 1000000,
+    "where": {
+      "server": "play.cosmicprisons.com",
+      "dimension": "minecraft:overworld",
+      "singleplayer": false
+    },
+    "player": {
+      "name": "Self",
+      "x": 100.5,
+      "y": 64.0,
+      "z": -20.5,
+      "vx": 0.0,
+      "vy": 0.0,
+      "vz": 0.1,
+      "yaw": 90.0,
+      "pitch": 10.0,
+      "health": 20.0,
+      "maxHealth": 20.0,
+      "food": 20,
+      "held": {
+        "itemId": "minecraft:diamond_pickaxe",
+        "name": "Cosmic Pickaxe",
+        "count": 1,
+        "lore": [
+          "Fractured III",
+          "Shatter II",
+          "Cosmic Energy",
+          "||||||||||| 82.0%",
+          "(242,159 / 293,135)",
+          "Battery",
+          "(10 / 100)"
+        ],
+        "damage": 0,
+        "maxDamage": 0,
+        "itemClass": "pickaxe",
+        "itemTier": ""
+      },
+      "offHand": {
+        "itemId": "minecraft:air",
+        "name": "",
+        "count": 0,
+        "lore": [],
+        "damage": 0,
+        "maxDamage": 0,
+        "itemClass": "",
+        "itemTier": ""
+      },
+      "armor": [
+        {
+          "itemId": "minecraft:air",
+          "name": "",
+          "count": 0,
+          "lore": [],
+          "damage": 0,
+          "maxDamage": 0,
+          "itemClass": "",
+          "itemTier": ""
+        },
+        {
+          "itemId": "minecraft:air",
+          "name": "",
+          "count": 0,
+          "lore": [],
+          "damage": 0,
+          "maxDamage": 0,
+          "itemClass": "",
+          "itemTier": ""
+        },
+        {
+          "itemId": "minecraft:air",
+          "name": "",
+          "count": 0,
+          "lore": [],
+          "damage": 0,
+          "maxDamage": 0,
+          "itemClass": "",
+          "itemTier": ""
+        },
+        {
+          "itemId": "minecraft:air",
+          "name": "",
+          "count": 0,
+          "lore": [],
+          "damage": 0,
+          "maxDamage": 0,
+          "itemClass": "",
+          "itemTier": ""
+        }
+      ],
+      "effects": [],
+      "input": {
+        "forward": false,
+        "back": false,
+        "left": false,
+        "right": false,
+        "jump": false,
+        "sneak": false,
+        "sprint": false,
+        "attack": false,
+        "use": false
+      },
+      "onGround": true,
+      "spearCooldown": -1.0
+    },
+    "entities": [],
+    "blocks": {
+      "radius": 4,
+      "scanned": 729,
+      "counts": {
+        "#air": 400,
+        "#solid": 320,
+        "minecraft:diamond_ore": 9
+      },
+      "solidBelow": true,
+      "headroom": true
+    },
+    "sidebar": [
+      "Account Self",
+      "Level",
+      "95 (54,186,166 XP)",
+      "Guard XP Tax",
+      "10%",
+      "Cosmic Energy",
+      "34% (level 71)",
+      "(456,410 / 1,259,523)"
+    ],
+    "bossBars": [],
+    "actionBar": [],
+    "screen": {
+      "screenClass": "",
+      "container": false,
+      "slots": []
+    },
+    "inventory": []
+  },
+  "memory": {
+    "zone": "mine",
+    "systemLines": []
+  },
+  "expected": {
+    "combat.bandits": "0",
+    "combat.hostiles": "0",
+    "combat.players": "0",
+    "combat.spear": "false [VERIFIED_LIVE, held item id]",
+    "combat.spearCooldown": "UNKNOWN",
+    "cosmic.energyCapacity": "1259523 [VERIFIED_LIVE, sidebar energy]",
+    "cosmic.energyLevel": "71 [VERIFIED_LIVE, sidebar energy level]",
+    "cosmic.energyNow": "456410 [VERIFIED_LIVE, sidebar energy]",
+    "cosmic.event": "UNKNOWN",
+    "cosmic.mine": "UNKNOWN",
+    "cosmic.sidebarPresent": "true",
+    "cosmic.taxPercent": "10.0 [VERIFIED_LIVE, sidebar tax line]",
+    "cosmic.totalXp": "54186166 [VERIFIED_LIVE, sidebar level row]",
+    "cosmic.zone": "mine [OBSERVED, chat zone message]",
+    "pickaxe.capacity": "293135 [VERIFIED_LIVE, pickaxe lore]",
+    "pickaxe.durability": "UNKNOWN",
+    "pickaxe.energy": "242159 [VERIFIED_LIVE, pickaxe lore]",
+    "player.heldClass": "pickaxe/",
+    "player.manualInput": "false",
+    "ui.title": "null"
+  }
+}

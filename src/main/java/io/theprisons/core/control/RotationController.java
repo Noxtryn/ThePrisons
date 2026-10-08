@@ -72,6 +72,12 @@ public final class RotationController {
         pendingFollow = new Follow(yaw, pitch, yawOmega, pitchOmega);
     }
 
+    /** Drops this tick's pending wish (the control layer replaces it when a higher intent arrives). */
+    void clearPending() {
+        pending = null;
+        pendingFollow = null;
+    }
+
     /** End of tick: this tick's winning request becomes the motion target. @return remaining angle to it */
     public float apply(ClientPlayerEntity player) {
         return apply(player, now());
@@ -155,6 +161,15 @@ public final class RotationController {
 
     public boolean hasTarget() {
         return hasTarget;
+    }
+
+    /** The yaw currently asked for (NaN when nobody wants a direction), for the telemetry. */
+    public float requestedYaw() {
+        return activeFollow != null ? activeFollow.yaw() : hasTarget ? (float) motion.targetYaw() : Float.NaN;
+    }
+
+    public float requestedPitch() {
+        return activeFollow != null ? activeFollow.pitch() : hasTarget ? (float) motion.targetPitch() : Float.NaN;
     }
 
     /** Current angular speed of the view in °/s. */

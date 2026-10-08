@@ -1,7 +1,6 @@
 package io.theprisons.modules.hud;
 
 import io.theprisons.ThePrisonsClient;
-import io.theprisons.core.client.ClientReadouts;
 import io.theprisons.core.client.TextStrip;
 import io.theprisons.core.event.CoreEvents;
 import io.theprisons.core.module.Category;
@@ -313,33 +312,36 @@ public final class SessionHudModule extends Module implements io.theprisons.gui.
             }
         }
         if (ticks % READ_TICKS == 0) {
-            List<String> side = ClientReadouts.sidebar(client, w);
-            if (side != null) {
-                stats.sidebar(side, now);
-                long killed = SessionMode.banditsKilled(side);
-                long step = SessionMode.killStep(banditsKilled, killed);
-                if (step > 0L) {
-                    ActivityLog.Activity a = fight(activities.entry(SessionMode.BANDIT).detail, now);
-                    a.kills += step;
+            // The sidebar, boss bars and the held pickaxe come from the shared Cosmic state (one reader for everybody) instead
+            // of being read from the client here again. At most a few ticks old; nothing to read before the first sample.
+            io.theprisons.core.cosmic.data.CosmicContextSnapshot cosmic = io.theprisons.core.ThePrisonsCore.get().cosmic().latest();
+            if (cosmic != null) {
+                List<String> side = cosmic.cosmic().sidebarPresent() ? cosmic.cosmic().sidebar() : null;
+                if (side != null) {
+                    stats.sidebar(side, now);
+                    long killed = SessionMode.banditsKilled(side);
+                    long step = SessionMode.killStep(banditsKilled, killed);
+                    if (step > 0L) {
+                        ActivityLog.Activity a = fight(activities.entry(SessionMode.BANDIT).detail, now);
+                        a.kills += step;
+                    }
+                    if (killed >= 0L) {
+                        banditsKilled = killed;
+                    }
                 }
-                if (killed >= 0L) {
-                    banditsKilled = killed;
+                stats.bossBars(cosmic.cosmic().bossBars(), now);
+                io.theprisons.core.cosmic.data.Raw.Stack heldStack = cosmic.player().held();
+                if (cosmic.player().present() && player.getMainHandStack().isIn(ItemTags.PICKAXES)) {
+                    List<String> lore = heldStack.lore();
+                    long energy = CosmicStats.loreEnergy(lore);
+                    if (energy >= 0L) {
+                        stats.pickaxeEnergy(heldStack.name(), energy, now);
+                    }
+                    // Durability from the item data (unbreakable / no durability: no warning).
+                    stats.pickaxe(CosmicStats.procLines(lore), heldStack.durabilityShare(), CosmicStats.procChance(lore));
+                } else {
+                    stats.pickaxe("", -1.0D, -1.0D);
                 }
-            }
-            stats.bossBars(ClientReadouts.bossBarTitles(client), now);
-            ItemStack held = player.getMainHandStack();
-            if (held.isIn(ItemTags.PICKAXES)) {
-                List<String> lore = ClientReadouts.lore(held);
-                long energy = CosmicStats.loreEnergy(lore);
-                if (energy >= 0L) {
-                    stats.pickaxeEnergy(TextStrip.strip(held.getName().getString()), energy, now);
-                }
-                // Durability from the item data (unbreakable / no durability: no warning).
-                double durability = held.isDamageable() && held.getMaxDamage() > 0
-                        ? 1.0D - held.getDamage() / (double) held.getMaxDamage() : -1.0D;
-                stats.pickaxe(CosmicStats.procLines(lore), durability, CosmicStats.procChance(lore));
-            } else {
-                stats.pickaxe("", -1.0D, -1.0D);
             }
             stats.vanillaXp(player.totalExperience, now);
             stats.vanillaXpLeft(Math.round((1.0D - player.experienceProgress) * player.getNextLevelExperience()));

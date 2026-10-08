@@ -1,0 +1,50 @@
+{
+  "schema": 1,
+  "entries": [
+    {
+      "id": "fractured",
+      "name": "Fractured",
+      "attributes": {
+        "kind": {
+          "value": "mining proc",
+          "confidence": "OBSERVED",
+          "source": "session log: procs seen in the ore macro / session HUD"
+        },
+        "procChance": {
+          "confidence": "UNKNOWN",
+          "source": "owner: needed"
+        }
+      }
+    },
+    {
+      "id": "shatter",
+      "name": "Shatter",
+      "attributes": {
+        "kind": {
+          "value": "mining proc",
+          "confidence": "OBSERVED",
+          "source": "session log: procs seen in the ore macro / session HUD"
+        },
+        "procChance": {
+          "confidence": "UNKNOWN",
+          "source": "owner: needed"
+        }
+      }
+    },
+    {
+      "id": "ore_magnet",
+      "name": "Ore Magnet",
+      "attributes": {
+        "kind": {
+          "value": "mining proc",
+          "confidence": "OBSERVED",
+          "source": "session log: procs seen in the ore macro / session HUD"
+        },
+        "procChance": {
+          "confidence": "UNKNOWN",
+          "source": "owner: needed"
+        }
+      }
+    }
+  ]
+}

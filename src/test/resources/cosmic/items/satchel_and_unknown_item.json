@@ -1,0 +1,181 @@
+{
+  "schema": 1,
+  "kind": "theprisons-capture",
+  "meta": {
+    "createdAt": "synthetic",
+    "modVersion": "synthetic",
+    "minecraftVersion": "1.21.11",
+    "note": "A recognised satchel and an unrecognised item side by side in a container screen",
+    "synthetic": true,
+    "category": "items"
+  },
+  "frame": {
+    "tick": 100,
+    "nowMs": 1000000,
+    "where": {
+      "server": "play.cosmicprisons.com",
+      "dimension": "minecraft:overworld",
+      "singleplayer": false
+    },
+    "player": {
+      "name": "Self",
+      "x": 100.5,
+      "y": 64.0,
+      "z": -20.5,
+      "vx": 0.0,
+      "vy": 0.0,
+      "vz": 0.1,
+      "yaw": 90.0,
+      "pitch": 10.0,
+      "health": 20.0,
+      "maxHealth": 20.0,
+      "food": 20,
+      "held": {
+        "itemId": "minecraft:air",
+        "name": "",
+        "count": 0,
+        "lore": [],
+        "damage": 0,
+        "maxDamage": 0,
+        "itemClass": "",
+        "itemTier": ""
+      },
+      "offHand": {
+        "itemId": "minecraft:air",
+        "name": "",
+        "count": 0,
+        "lore": [],
+        "damage": 0,
+        "maxDamage": 0,
+        "itemClass": "",
+        "itemTier": ""
+      },
+      "armor": [
+        {
+          "itemId": "minecraft:air",
+          "name": "",
+          "count": 0,
+          "lore": [],
+          "damage": 0,
+          "maxDamage": 0,
+          "itemClass": "",
+          "itemTier": ""
+        },
+        {
+          "itemId": "minecraft:air",
+          "name": "",
+          "count": 0,
+          "lore": [],
+          "damage": 0,
+          "maxDamage": 0,
+          "itemClass": "",
+          "itemTier": ""
+        },
+        {
+          "itemId": "minecraft:air",
+          "name": "",
+          "count": 0,
+          "lore": [],
+          "damage": 0,
+          "maxDamage": 0,
+          "itemClass": "",
+          "itemTier": ""
+        },
+        {
+          "itemId": "minecraft:air",
+          "name": "",
+          "count": 0,
+          "lore": [],
+          "damage": 0,
+          "maxDamage": 0,
+          "itemClass": "",
+          "itemTier": ""
+        }
+      ],
+      "effects": [],
+      "input": {
+        "forward": false,
+        "back": false,
+        "left": false,
+        "right": false,
+        "jump": false,
+        "sneak": false,
+        "sprint": false,
+        "attack": false,
+        "use": false
+      },
+      "onGround": true,
+      "spearCooldown": -1.0
+    },
+    "entities": [],
+    "sidebar": [],
+    "bossBars": [],
+    "actionBar": [],
+    "screen": {
+      "title": "Private Vaults",
+      "screenClass": "GenericContainerScreen",
+      "container": true,
+      "slots": [
+        {
+          "index": 0,
+          "stack": {
+            "itemId": "minecraft:chest",
+            "name": "Diamond Ore Satchel 25 (7,130 / 57,600 Ores)",
+            "count": 1,
+            "lore": [
+              "Automatically collects Diamond Ore"
+            ],
+            "damage": 0,
+            "maxDamage": 0,
+            "itemClass": "satchel",
+            "itemTier": ""
+          }
+        },
+        {
+          "index": 1,
+          "stack": {
+            "itemId": "minecraft:stick",
+            "name": "Mystery Thing",
+            "count": 1,
+            "lore": [
+              "???"
+            ],
+            "damage": 0,
+            "maxDamage": 0,
+            "itemClass": "",
+            "itemTier": ""
+          }
+        }
+      ]
+    },
+    "inventory": []
+  },
+  "memory": {
+    "zone": "",
+    "systemLines": []
+  },
+  "expected": {
+    "combat.bandits": "0",
+    "combat.hostiles": "0",
+    "combat.players": "0",
+    "combat.spear": "false [VERIFIED_LIVE, held item id]",
+    "combat.spearCooldown": "UNKNOWN",
+    "cosmic.energyCapacity": "UNKNOWN",
+    "cosmic.energyLevel": "UNKNOWN",
+    "cosmic.energyNow": "UNKNOWN",
+    "cosmic.event": "UNKNOWN",
+    "cosmic.mine": "UNKNOWN",
+    "cosmic.sidebarPresent": "true",
+    "cosmic.taxPercent": "UNKNOWN",
+    "cosmic.totalXp": "UNKNOWN",
+    "cosmic.zone": "UNKNOWN",
+    "pickaxe.capacity": "UNKNOWN",
+    "pickaxe.durability": "UNKNOWN",
+    "pickaxe.energy": "UNKNOWN",
+    "player.heldClass": "/",
+    "player.manualInput": "false",
+    "slot.000": "satchel/",
+    "slot.001": "/",
+    "ui.title": "Private Vaults"
+  }
+}

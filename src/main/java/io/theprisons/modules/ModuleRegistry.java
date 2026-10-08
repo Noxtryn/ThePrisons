@@ -58,6 +58,13 @@ public final class ModuleRegistry {
         modules.register(spearHelper);
         modules.register(new io.theprisons.modules.qol.bandit.BanditMacroModule(core.control(), core.world(), routes));
         spearHelper.register(core.bus());
+        if (FeatureProfile.DEV) {
+            // Temporary developer test of the movement alone; never part of a shipped profile.
+            io.theprisons.modules.qol.bandit.debug.BanditDodgeTestModule dodgeTest =
+                    new io.theprisons.modules.qol.bandit.debug.BanditDodgeTestModule(core.control(), core.world());
+            modules.register(dodgeTest);
+            dodgeTest.register(core);
+        }
         net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback.EVENT.register(io.theprisons.modules.qol.market.MarketSearch.hudGuard(spearHelper::render));
         io.theprisons.modules.general.tunnel.TunnelVisionModule tunnel =
                 new io.theprisons.modules.general.tunnel.TunnelVisionModule(oreMacro, sessionHud);

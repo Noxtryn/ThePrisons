@@ -259,7 +259,7 @@ public final class SpearHelperModule extends Module {
             return false;
         }
         String path = Registries.ITEM.getId(stack.getItem()).getPath();
-        return path.contains("spear") || path.equals("trident");
+        return io.theprisons.core.cosmic.parse.SpearRule.isSpearPath(path);
     }
 
     // ── Tick ─────────────────────────────────────────────────────────────────

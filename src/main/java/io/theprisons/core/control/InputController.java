@@ -21,17 +21,57 @@ public final class InputController {
     private Keys wanted = Keys.NONE;
     private Keys applied = Keys.NONE;
     private boolean paused;
+    private IntentPriority wantedPriority = IntentPriority.IDLE;
+    private String wantedSource = "";
+    private IntentPriority winnerPriority = IntentPriority.IDLE;
+    private String winnerSource = "";
+    private int rejected;
 
+    /**
+     * The macro's own wish at PATHFINDING priority. Among requests of the same priority the last one wins, exactly like the old
+     * "last set wins"; only a higher priority ({@link #request}) can override it within a tick.
+     */
     public void set(Keys keys) {
+        request(IntentPriority.PATHFINDING, "macro", keys);
+    }
+
+    /**
+     * Asks for a key state this tick. The highest priority wins, the later request among equals. Returns false when a higher
+     * priority already holds the keys this tick. The winner stays wanted until somebody asks again (as before).
+     */
+    public boolean request(IntentPriority priority, String source, Keys keys) {
+        if (priority.rank() < wantedPriority.rank()) {
+            rejected++;
+            return false;
+        }
         wanted = keys;
+        wantedPriority = priority;
+        wantedSource = source;
+        return true;
     }
 
     public Keys wanted() {
         return wanted;
     }
 
+    /** Who won the keys in the last applied tick ("macro", "unstuck" ...), for the telemetry. */
+    public String winnerSource() {
+        return winnerSource;
+    }
+
+    public IntentPriority winnerPriority() {
+        return winnerPriority;
+    }
+
+    /** Requests that lost against a higher priority since start. */
+    public int rejectedRequests() {
+        return rejected;
+    }
+
     public void clear() {
         wanted = Keys.NONE;
+        wantedPriority = IntentPriority.IDLE;
+        wantedSource = "";
     }
 
     public boolean paused() {
@@ -45,6 +85,9 @@ public final class InputController {
         // Pressed every tick: a key event from the real keyboard may have lifted one of ours.
         press(client.options, target);
         applied = target;
+        winnerPriority = wantedPriority;
+        winnerSource = wantedSource;
+        wantedPriority = IntentPriority.IDLE; // next tick everybody may ask again; the wanted keys themselves stay
     }
 
     /** Lifts the keys this controller pressed. */

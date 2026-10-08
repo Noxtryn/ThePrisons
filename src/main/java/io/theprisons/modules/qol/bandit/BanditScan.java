@@ -1,6 +1,7 @@
 package io.theprisons.modules.qol.bandit;
 
 import io.theprisons.core.client.TextStrip;
+import io.theprisons.core.cosmic.parse.BanditClassifier;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -10,9 +11,8 @@ import java.util.regex.Pattern;
 
 /** What a Cosmic bandit is (shared by the spear helper and the bandit macro). */
 final class BanditScan {
-    private static final String[] ORES = {"coal", "iron", "gold", "diamond", "emerald"};
     /** Cosmic's bandits are fake players named "bandit_<2 hex>_<6 hex>" (their skull shows in chat as [bandit_ae_821e4c head]). */
-    static final Pattern NAME = Pattern.compile("bandit_[0-9a-f]{2}_[0-9a-f]{4,8}");
+    static final Pattern NAME = BanditClassifier.NAME;
 
     private BanditScan() {
     }
@@ -33,21 +33,7 @@ final class BanditScan {
             }
             shown += " " + TextStrip.strip(e.getDisplayName().getString()).toLowerCase(Locale.ROOT);
         }
-        if (NAME.matcher(name).matches()) {
-            // Ore bandit by name; bosses and the like only when asked for. The name alone does not tell the ore.
-            return any || !shown.contains("boss");
-        }
-        if (!shown.contains("bandit")) {
-            return false;
-        }
-        if (any) {
-            return true;
-        }
-        for (String ore : ORES) {
-            if (shown.contains(ore)) {
-                return true;
-            }
-        }
-        return false;
+        // The rule itself is shared with the Cosmic model (BanditClassifier); this class only gathers the names.
+        return BanditClassifier.isBandit(BanditClassifier.classify(name, shown), any);
     }
 }

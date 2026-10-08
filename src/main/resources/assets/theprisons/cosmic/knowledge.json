@@ -1,0 +1,99 @@
+{
+  "schema": 1,
+  "values": [
+    {
+      "key": "mining.speedRequirement",
+      "confidence": "UNKNOWN",
+      "source": "owner: needed",
+      "note": "Mining speed needed for an ore / mine"
+    },
+    {
+      "key": "mining.oreRespawnSeconds",
+      "confidence": "UNKNOWN",
+      "source": "owner: needed",
+      "note": "Time until a mined ore block comes back"
+    },
+    {
+      "key": "pickaxe.energyCapacityByLevel",
+      "confidence": "UNKNOWN",
+      "source": "owner: needed",
+      "note": "Pickaxe energy capacity per level"
+    },
+    {
+      "key": "energy.levelCurve",
+      "confidence": "UNKNOWN",
+      "source": "owner: needed",
+      "note": "Energy needed per level"
+    },
+    {
+      "key": "enchants.procChances",
+      "confidence": "UNKNOWN",
+      "source": "owner: needed",
+      "note": "Fractured / Shatter / Ore Magnet chances per level"
+    },
+    {
+      "key": "bandits.aggroRange",
+      "confidence": "UNKNOWN",
+      "source": "owner: needed",
+      "note": "Blocks at which a bandit notices the player (owner: to be measured)"
+    },
+    {
+      "key": "bandits.respawnSeconds",
+      "confidence": "UNKNOWN",
+      "source": "owner: needed"
+    },
+    {
+      "key": "weapons.spearJabCooldownSeconds",
+      "confidence": "UNKNOWN",
+      "source": "owner: needed",
+      "note": "Owner: official value needed"
+    },
+    {
+      "key": "weapons.spearThrowRange",
+      "confidence": "UNKNOWN",
+      "source": "owner: needed"
+    },
+    {
+      "key": "armor.masks",
+      "confidence": "UNKNOWN",
+      "source": "owner: needed",
+      "note": "Mask effects"
+    },
+    {
+      "key": "zones.mineList",
+      "confidence": "UNKNOWN",
+      "source": "owner: needed",
+      "note": "All mines and their ore mix"
+    },
+    {
+      "key": "events.schedule",
+      "confidence": "UNKNOWN",
+      "source": "owner: needed",
+      "note": "When meteor / other events happen"
+    },
+    {
+      "key": "season.current",
+      "confidence": "UNKNOWN",
+      "source": "owner: needed",
+      "note": "Season / map number and its start date"
+    },
+    {
+      "key": "social.gangLimits",
+      "confidence": "UNKNOWN",
+      "source": "owner: needed"
+    },
+    {
+      "key": "economy.taxModel",
+      "confidence": "UNKNOWN",
+      "source": "owner: needed",
+      "note": "Guard XP tax: percent inside / outside the guarded zone (sidebar shows 'Guard XP Tax 10%' at times; the macro assumes 4 %)"
+    },
+    {
+      "key": "travel.teleportCountdownSeconds",
+      "value": 18,
+      "confidence": "OBSERVED",
+      "source": "game log (/spawn countdown 'DO NOT MOVE')",
+      "note": "the server counts down 18 s; a new /spawn restarts it"
+    }
+  ]
+}

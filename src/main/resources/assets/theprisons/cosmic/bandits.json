@@ -1,0 +1,62 @@
+{
+  "schema": 1,
+  "entries": [
+    {
+      "id": "ore_bandit",
+      "name": "Ore bandit",
+      "attributes": {
+        "identification": {
+          "value": "fake player named bandit_<2 hex>_<4-8 hex>",
+          "confidence": "OBSERVED",
+          "source": "game: skull shows as [bandit_ae_821e4c head]"
+        },
+        "aggroRange": {
+          "confidence": "UNKNOWN",
+          "source": "owner: needed"
+        },
+        "health": {
+          "confidence": "UNKNOWN",
+          "source": "owner: needed"
+        }
+      }
+    },
+    {
+      "id": "boss",
+      "name": "Boss bandit",
+      "attributes": {
+        "identification": {
+          "value": "the shown name contains 'boss'",
+          "confidence": "OBSERVED",
+          "source": "existing BanditScan rule"
+        }
+      }
+    },
+    {
+      "id": "special",
+      "name": "Special bandit",
+      "attributes": {
+        "identification": {
+          "value": "the shown name contains 'bandit' but is not a fake-player name",
+          "confidence": "OBSERVED",
+          "source": "existing BanditScan rule"
+        }
+      }
+    },
+    {
+      "id": "elite",
+      "name": "Elite bandit",
+      "attributes": {
+        "identification": {
+          "confidence": "UNKNOWN",
+          "source": "owner: needed",
+          "note": "keyword 'elite' is only a guess; no confirmed way to tell elite bandits apart"
+        }
+      }
+    },
+    {
+      "id": "unknown_bandit",
+      "name": "Unknown bandit",
+      "attributes": {}
+    }
+  ]
+}
