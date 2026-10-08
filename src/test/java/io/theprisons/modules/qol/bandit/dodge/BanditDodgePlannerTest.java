@@ -213,9 +213,17 @@ class BanditDodgePlannerTest {
         assertTrue(Math.abs(d.dirX()) < 0.5D && d.dirZ() < -0.6D, "still north: " + d.dirX() + "," + d.dirZ());
         assertTrue(d.jump(), "the step is 1.5 blocks away: " + d.reason());
         assertEquals(DodgeAction.JUMP_FORWARD, d.action());
-        // no bunny hopping: the very next tick does not jump again
-        DodgeDecision next = s.planner.plan(new DodgeInputs(s.now + 50L, s.x, 64.0D, s.z, 0, -5.6, 0.0, true, List.of(), t, SpearAreaState.UNKNOWN));
-        assertFalse(next.jump(), "jump cooldown");
+        // The key is held for the commit (4 ticks) and then released; the player lifts off, lands, and no second jump follows inside the cooldown.
+        int keyTicks = 0;
+        double yaw = 0.0D;
+        for (int i = 1; i <= 11; i++) {      // up to the end of the 600 ms cooldown; the test player never moves, so a later retry would be legitimate
+            boolean lifted = i >= 2;       // in the air from the second tick
+            DodgeDecision next = s.planner.plan(new DodgeInputs(s.now + i * 50L, s.x, 64.0D, s.z, 0, -5.6, yaw, !lifted, List.of(), t, SpearAreaState.UNKNOWN));
+            if (next.jump() && lifted) {
+                keyTicks++;      // a key press AFTER lift-off would be a bunny hop
+            }
+        }
+        assertEquals(0, keyTicks, "no key press once the player is in the air and none within the cooldown after it");
     }
 
     @Test
