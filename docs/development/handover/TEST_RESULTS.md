@@ -50,3 +50,6 @@ Run and record:
   server capture because registry-only list icons cannot contain unretrieved server components.
 - Dashboard-to-Click-GUI delegation is a source-level integration path: both screens receive the
   same `ThePrisonsCore`; a live client smoke test remains appropriate for pointer flow and scale.
+- Pre-push verification on the two Unified UI V4 commits: `./gradlew test build --no-daemon`:
+  pass (8 tasks); `./scripts/check-release.sh`: pass (`content OK`, `release check OK`, version
+  1.2.1). `Release` was only inspected, never checked out, merged, or pushed.
