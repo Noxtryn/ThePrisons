@@ -213,6 +213,7 @@ public final class BanditMacroModule extends AutomationModule {
                         + "the human view motion (lead and drop), throws, recalls at the best moment and starts again. Backs off when "
                         + "danger grows or another player comes near.",
                 GLFW.GLFW_KEY_J, control, world, 48, 16);
+        io.theprisons.hud.BanditHudInfo.source(this::hudInfo);
         mode = choice("mode", "Mode", Mode.SPEAR, m -> "Spear").group("Macro");
         anyBandit = bool("any_bandit", "Include bosses & special bandits", false).group("Macro");
         targetRange = integer("target_range", "Target range", 60, 10, 120, 1).suffix(" blocks")
@@ -280,6 +281,40 @@ public final class BanditMacroModule extends AutomationModule {
             return "No spear in the hotbar.";
         }
         return null;
+    }
+
+    /**
+     * What the session dashboard shows of the fight, in plain words (internal planner terms stay in the debug lines, which only developer / debug mode adds).
+     * Read on the client thread; cheap.
+     */
+    io.theprisons.hud.@Nullable BanditHudInfo hudInfo() {
+        if (!enabled()) {
+            return null;
+        }
+        String target = brain.targetId() == null ? "" : brain.targetId();
+        double distance = Double.isNaN(brain.targetDistance()) ? -1.0D : brain.targetDistance();
+        int threats = Math.max(0, brain.threats().count() - (target.isEmpty() ? 0 : 1));
+        String spear = switch (spearState) {
+            case READY -> "Ready";
+            case AVAILABLE -> "In hotbar";
+            case THROWN -> "In flight";
+            case RETURNING -> "Returning";
+            case MISSING -> "Missing";
+        };
+        double charge = -1.0D;
+        if (attack == Attack.THROWING && chargeTicks.value() > 0) {
+            charge = Math.max(0.0D, Math.min(1.0D, (System.currentTimeMillis() - attackSinceMs) / (chargeTicks.value() * 50.0D)));
+        }
+        String recall = switch (attack) {
+            case RECALL_DUE -> "Due";
+            case RECALLING -> "Recalling";
+            case FLIGHT -> autoRecall.on() ? "Waiting" : "Manual";
+            default -> "";
+        };
+        String route = patrolRoute.off() ? "" : patrolRoute.get();
+        java.util.List<String> debug = tracing() ? java.util.List.of("state " + brain.state() + " (" + brain.reason() + ")", "band " + brain.bandState() + ", ring "
+                + String.format(Locale.ROOT, "%.1f", brain.ring()), lastDetail) : java.util.List.of();
+        return new io.theprisons.hud.BanditHudInfo(true, brain.state().label(), target, distance, threats, spear, charge, recall, "", route, false, brain.kills(), 0L, debug);
     }
 
     private boolean tracing() {

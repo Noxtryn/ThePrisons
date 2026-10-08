@@ -41,7 +41,16 @@ public record EeAnalysis(EeMenu menu, double lowestRate, double medianRate, Map<
     }
 
     public static EeAnalysis of(EeMenu menu, double heldEnergy, double weekAvgPerK, double todayAvgPerK) {
-        List<EeMenu.Listing> all = menu.listings();
+        // EeParser already rejects malformed offers. Keep this boundary defensive as EeAnalysis is also used by
+        // tests and future menu readers: a zero/negative/non-finite quote must never poison a median or reach
+        // the buy simulation (where it could otherwise turn into a division by zero).
+        List<EeMenu.Listing> all = new ArrayList<>();
+        for (EeMenu.Listing listing : menu.listings()) {
+            if (Double.isFinite(listing.amount()) && Double.isFinite(listing.total()) && Double.isFinite(listing.ratePer1k())
+                    && listing.amount() > 0.0D && listing.total() > 0.0D && listing.ratePer1k() > 0.0D) {
+                all.add(listing);
+            }
+        }
         double median = Double.NaN;
         double mad = Double.NaN;
         if (!all.isEmpty()) {

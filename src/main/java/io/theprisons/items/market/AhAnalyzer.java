@@ -32,6 +32,21 @@ public final class AhAnalyzer {
         }
     }
 
+    /**
+     * One slot of the history page as a sale, or null: only a slot that itself is a confirmed sale ("Item sold ... ago" and "Price: $T (Nx)") counts - a sale in
+     * another slot proves nothing about this one. The quantity is the one the lore names ("(19,999.796x)"), not the stack count, so the unit price is right
+     * for energy and stacks.
+     */
+    public static @org.jspecify.annotations.Nullable SaleInput saleOf(io.theprisons.modules.qol.market.MarketParser.Item it, ItemFacts facts) {
+        List<io.theprisons.modules.qol.market.MarketParser.Sale> confirmed = io.theprisons.modules.qol.market.MarketParser.sales(List.of(it));
+        if (confirmed.isEmpty()) {
+            return null;
+        }
+        io.theprisons.modules.qol.market.MarketParser.Sale sale = confirmed.get(0);
+        ListingMeta meta = ListingMeta.parse(it.lore());
+        return new SaleInput(facts, sale.unitPrice(), 1, sale.agoMs(), meta.seller(), meta.buyer());
+    }
+
     public static AhSnapshot analyze(List<ListingInput> inputs, MarketCache cache, long now, long pageSignature) {
         long t0 = System.nanoTime();
         List<MarketObservation> obs = new ArrayList<>(inputs.size());

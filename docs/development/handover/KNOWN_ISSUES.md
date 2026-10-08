@@ -5,6 +5,7 @@
   otherwise Minecraft resolves the Classic texture.
 - The current pipeline enforces one canonical visual ID for `random_*` variants. Do not invent
   per-tier random artwork or remap pets/masks by filename.
-- HUD, market, and Bandit edits were present before this integration and remain uncommitted;
-  inspect their diffs independently before committing them.
-- Do not apply the existing stash blindly.
+- HUD, market, and Bandit Phase-3 changes are intentionally committed separately from V4 and
+  require in-game GUI smoke tests in addition to unit tests.
+- Do not apply `stash@{0}` blindly: it includes superseded HD V2 assets and a partial navigation
+  API change whose `LocalNavigator` orchestrator was not changed.

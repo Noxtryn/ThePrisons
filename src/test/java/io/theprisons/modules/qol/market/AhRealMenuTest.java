@@ -131,4 +131,34 @@ class AhRealMenuTest {
         assertTrue(first > 10);
         assertEquals(0, second, "the same page again is not new data");
     }
+
+    @Test
+    void aSaleUsesTheQuantityOfItsLoreNotTheStackCount() {
+        List<MarketParser.Item> items = MenuDumps.first(MarketParser.HISTORY).items();
+        MarketParser.Item energy = items.get(1);       // "Price: $45,979.54 (19,999.796x)" on a single item stack
+        AhAnalyzer.SaleInput sale = AhAnalyzer.saleOf(energy, ItemFacts.of(energy.itemId(), energy.name(), energy.lore(), energy.customId(), energy.count()));
+        assertTrue(sale != null);
+        assertEquals(45_979.54D / 19_999.796D, sale.total() / sale.amount(), 1e-9, "unit price per energy, not per stack");
+        assertEquals("ImKoby", sale.seller());
+        assertEquals("BandoBackpack", sale.buyer());
+    }
+
+    @Test
+    void onlyASlotThatIsItselfASaleCounts() {
+        List<MarketParser.Item> items = MenuDumps.first(MarketParser.HISTORY).items();
+        int sales = 0;
+        int others = 0;
+        for (MarketParser.Item it : items) {
+            AhAnalyzer.SaleInput s = AhAnalyzer.saleOf(it, ItemFacts.of(it.itemId(), it.name(), it.lore(), it.customId(), it.count()));
+            boolean sold = it.lore().stream().anyMatch(l -> l.strip().startsWith("Item sold "));
+            if (s != null) {
+                sales++;
+                assertTrue(sold, "slot " + it.slot() + " counted as a sale without an 'Item sold' line");
+            } else if (!sold) {
+                others++;
+            }
+        }
+        assertTrue(sales > 10, "sales " + sales);
+        assertTrue(others > 0, "the page's buttons and panes are not sales");
+    }
 }

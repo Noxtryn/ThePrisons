@@ -137,7 +137,10 @@ public final class AhOverlayModule extends Module {
             }
             ListingMeta meta = ListingMeta.parse(f.lore());
             if (history) {
-                sales.add(new AhAnalyzer.SaleInput(f, total, it.count(), meta.soldAgoMs(), meta.seller(), meta.buyer()));
+                AhAnalyzer.SaleInput sale = AhAnalyzer.saleOf(it, f);
+                if (sale != null) {
+                    sales.add(sale);
+                }
             } else {
                 listings.add(new AhAnalyzer.ListingInput(i, f, total, it.count(), meta.seller(), meta.expiresInMs()));
             }

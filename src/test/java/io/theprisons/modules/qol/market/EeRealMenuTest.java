@@ -159,4 +159,17 @@ class EeRealMenuTest {
         assertEquals(2800D, a.medianRate(), 1e-9, "listings under one energy say nothing about the market");
         assertEquals(2000D, a.lowestRate(), 1e-9);
     }
+
+    @Test
+    void malformedQuotesCannotPoisonRatesOrTheBuyCalculation() {
+        EeMenu m = new EeMenu(List.of(new EeMenu.Listing(9, "zero", 1_000D, 1D, 0.0D),
+                        new EeMenu.Listing(10, "nan", Double.NaN, 1D, 2300D),
+                        new EeMenu.Listing(11, "valid", 20_000D, 46_000D, 2300D)),
+                Double.NaN, Double.NaN, -1, -1L, Double.NaN, Double.NaN, 100D);
+        EeAnalysis a = EeAnalysis.of(m, 0.0D, Double.NaN, Double.NaN);
+        assertEquals(2300D, a.lowestRate(), 1e-9);
+        assertEquals(2300D, a.medianRate(), 1e-9);
+        assertTrue(Double.isFinite(a.affordable()));
+        assertNull(a.hover(9), "invalid offer is not presented as a real quote");
+    }
 }
