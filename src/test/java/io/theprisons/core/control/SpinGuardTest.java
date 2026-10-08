@@ -152,7 +152,7 @@ class SpinGuardTest {
         telemetry.sink(lines::add);
         for (int i = 0; i < 200; i++) {
             RotationMode mode = i < 100 ? RotationMode.NAVIGATION : RotationMode.MINING;
-            telemetry.record(new ControlTelemetry.Sample(i, 0, 0, 0, 10, 0, 20, 0, mode, mode.intent(), "macro", IntentPriority.PATHFINDING,
+            telemetry.record(new ControlTelemetry.Sample(i, 0, 0, 0, 10, 0, 20, 0, mode, mode.intent(), "", "macro", IntentPriority.PATHFINDING,
                     "WJ", 5.0F), SpinGuard.Metrics.EMPTY, i * 50L, true);
         }
         assertTrue(lines.size() <= 3, "owner lines are rate limited, got " + lines.size());

@@ -16,6 +16,11 @@ public final class CaptureBuilder {
 
     public static Capture build(Raw.Frame frame, String zone, @Nullable String event, List<Raw.Line> systemLines, CosmicGameModel model,
                                 String modVersion, String minecraftVersion, String note, String category) {
+        return build(frame, zone, event, systemLines, model, modVersion, minecraftVersion, note, category, java.util.Map.of());
+    }
+
+    public static Capture build(Raw.Frame frame, String zone, @Nullable String event, List<Raw.Line> systemLines, CosmicGameModel model,
+                                String modVersion, String minecraftVersion, String note, String category, java.util.Map<String, String> extras) {
         Anonymizer anonymizer = new Anonymizer(frame);
         Raw.Frame safe = anonymizer.frame(frame);
         List<String> lines = systemLines.stream().map(Raw.Line::text).filter(l -> !PrivacyFilter.isPrivateMessage(l)).map(anonymizer::text).toList();
@@ -24,6 +29,8 @@ public final class CaptureBuilder {
         var summary = SnapshotSummary.of(SnapshotBuilder.build(safe, view, model));
         Capture.Meta meta = new Capture.Meta(Instant.now().toString(), modVersion, minecraftVersion, PrivacyFilter.redact(note == null ? "" : note),
                 false, category == null ? "" : category);
-        return new Capture(Capture.SCHEMA, Capture.KIND, meta, safe, memory, summary);
+        java.util.Map<String, String> safeExtras = new java.util.TreeMap<>();
+        extras.forEach((k, v) -> safeExtras.put(k, anonymizer.text(v)));
+        return new Capture(Capture.SCHEMA, Capture.KIND, meta, safe, memory, summary, safeExtras);
     }
 }

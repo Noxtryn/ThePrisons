@@ -33,3 +33,8 @@ in the file (`expected`). A changed parser that changes an answer fails that tes
 
 A file of an older schema is refused with "stale capture ... record it again"; a newer one with "update ThePrisons".
 Regenerate the synthetic starters: `./gradlew test --tests '*FixtureGenerator' -Dcosmic.fixtures.write=true`.
+
+## Module extras (bandit macro)
+
+A module can add its own state to every capture (`CosmicStateService.captureExtra`); the file's `extras` map holds it as plain text, anonymised and filtered like everything else, informational and
+not replayed. The bandit macro adds the `bandit.*` block described in `docs/bandit/COMBAT.md`. Older files have no `extras`.

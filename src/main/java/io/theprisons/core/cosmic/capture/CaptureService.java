@@ -37,7 +37,7 @@ public final class CaptureService {
         long now = System.currentTimeMillis();
         Raw.Frame frame = cosmic.captureFrame(client);
         Capture capture = CaptureBuilder.build(frame, cosmic.memory().zone(), cosmic.memory().event(now), cosmic.memory().systemLines(),
-                cosmic.model(), version("theprisons"), version("minecraft"), note, "capture");
+                cosmic.model(), version("theprisons"), version("minecraft"), note, "capture", cosmic.captureExtras());
         Path file = dataDir.resolve("captures").resolve("capture-" + STAMP.format(LocalDateTime.now()) + ".json");
         Util.getIoWorkerExecutor().execute(() -> {
             try {

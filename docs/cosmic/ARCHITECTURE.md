@@ -21,7 +21,7 @@ Minecraft client
 | bandit classification | `BanditScan` (spear helper + bandit macro), name checks in BanditMacro, `SessionHud.banditActivity`, `ThePrisonsBanditManager` | rule in `BanditClassifier`; `BanditScan` delegates (98 combinations proven identical). **Still separate:** BanditMacro's own checks, SessionHud.banditActivity |
 | spear rule | `SpearHelperModule.isSpear` | `SpearRule`; the module delegates |
 | "human is pressing a key" | `SafetyMonitor.physicallyPressed` | `InputSensor`; the monitor delegates |
-| entity scans | `world.getEntities()` loops in SpearHelper, BanditMacro (x2), OreMacro, plus `getEntitiesByClass` for projectiles | `EntitySensor` (bounded box, max 96). Not yet migrated (macros untouched in this sprint) |
+| entity scans | `world.getEntities()` loops in SpearHelper, BanditMacro (x2), OreMacro, plus `getEntitiesByClass` for projectiles | `EntitySensor` (bounded box, max 96, radius up to 64 on request via `CosmicStateService.interest`). **BanditMacro now reads the store** (entity ids -> live entity only for the target and 8 candidates); SpearHelper and OreMacro still scan themselves |
 | meteor event | inline in SessionHud | `EventParser` (not yet used by SessionHud) |
 | item classification | `PrisonsItems` (textures) and `ItemIdentity` (market) | sensors call `PrisonsItems.info`; ItemRegistry lists its 32 families |
 | legacy | `ThePrisonsFeatureManager` (12 patterns), `ThePrisonsTracker`, market parsers, `Chores` money / shard text | untouched; candidates for the next sprints |

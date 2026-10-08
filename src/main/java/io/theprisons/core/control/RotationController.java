@@ -72,6 +72,12 @@ public final class RotationController {
         pendingFollow = new Follow(yaw, pitch, yawOmega, pitchOmega);
     }
 
+    /** Drops this tick's pending wish (the control layer replaces it when a higher intent arrives). */
+    void clearPending() {
+        pending = null;
+        pendingFollow = null;
+    }
+
     /** End of tick: this tick's winning request becomes the motion target. @return remaining angle to it */
     public float apply(ClientPlayerEntity player) {
         return apply(player, now());

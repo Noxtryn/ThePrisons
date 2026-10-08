@@ -26,6 +26,8 @@ public final class ControlService {
     private @Nullable SpinHandler spinHandler;
     private int stabiliseTicks;
     private long tick;
+    private @Nullable RotationIntent rotationWinner;
+    private @Nullable RotationIntent lastRotationWinner;
     private boolean logOwners = Boolean.getBoolean("theprisons.dev") || Boolean.getBoolean("theprisons.control.log");
 
     public SpinGuard spinGuard() {
@@ -38,6 +40,48 @@ public final class ControlService {
 
     public void setSpinHandler(@Nullable SpinHandler handler) {
         this.spinHandler = handler;
+    }
+
+    /**
+     * The system's wish for the keys this tick. One winner per tick: the highest priority, the later among equals. The loser is
+     * counted ({@link InputController#rejectedRequests()}) and never reaches the keys.
+     */
+    public boolean submit(MovementIntent intent) {
+        return input.request(intent.priority(), intent.source(), intent.keys());
+    }
+
+    /**
+     * The system's wish for the view this tick. One winner per tick: the highest {@link IntentPriority}; among equals the higher
+     * {@link RotationMode} priority; the later among those. Systems that use this must not also call
+     * {@code rotation().request / follow} in the same tick.
+     */
+    public boolean submit(RotationIntent intent) {
+        RotationIntent held = rotationWinner;
+        if (held != null) {
+            int byIntent = Integer.compare(intent.priority().rank(), held.priority().rank());
+            int byMode = Integer.compare(intent.mode().priority(), held.mode().priority());
+            if (byIntent < 0 || byIntent == 0 && byMode < 0) {
+                return false;
+            }
+        }
+        rotationWinner = intent;
+        rotation.clearPending();
+        if (intent.follow()) {
+            rotation.follow(intent.yaw(), intent.pitch(), intent.yawOmega(), intent.pitchOmega());
+        } else {
+            rotation.request(intent.mode(), intent.yaw(), intent.pitch(), intent.width());
+        }
+        return true;
+    }
+
+    /** The view intent that is winning right now (this tick, before it is applied); null = none yet. */
+    public @Nullable RotationIntent pendingRotation() {
+        return rotationWinner;
+    }
+
+    /** Who won the view in the last tick that had an intent ({@code null} = only legacy requests, or nothing). */
+    public @Nullable RotationIntent rotationWinner() {
+        return lastRotationWinner;
     }
 
     /** Something real changed in the world (a block): feeds the spin guard's "progress". */
@@ -122,6 +166,8 @@ public final class ControlService {
             input.clear();
             rotation.clear();
         }
+        lastRotationWinner = rotationWinner;
+        rotationWinner = null;
         if (client.player != null && client.currentScreen == null) {
             rotation.apply(client.player);
         } else {
@@ -133,6 +179,16 @@ public final class ControlService {
         }
     }
 
+    private String rotationSource() {
+        RotationIntent winner = lastRotationWinner;
+        return winner != null ? winner.source() : "";
+    }
+
+    private IntentPriority rotationOwner(RotationMode mode) {
+        RotationIntent winner = lastRotationWinner;
+        return winner != null ? winner.priority() : mode.intent();
+    }
+
     /** After keys and view were applied: telemetry sample and spin check. */
     private void observe(net.minecraft.client.network.ClientPlayerEntity player) {
         long now = System.currentTimeMillis();
@@ -142,7 +198,7 @@ public final class ControlService {
             spin.reset();
         }
         telemetry.record(new ControlTelemetry.Sample(tick, player.getX(), player.getY(), player.getZ(), player.getYaw(), player.getPitch(),
-                rotation.requestedYaw(), rotation.requestedPitch(), mode, mode.intent(), input.winnerSource(), input.winnerPriority(),
+                rotation.requestedYaw(), rotation.requestedPitch(), mode, rotationOwner(mode), rotationSource(), input.winnerSource(), input.winnerPriority(),
                 ControlTelemetry.keysText(input.wanted()), rotation.remaining()), spin.metrics(), now, logOwners);
         SpinHandler handler = spinHandler;
         if (verdict != SpinGuard.Verdict.NONE && handler != null && owner != null) {

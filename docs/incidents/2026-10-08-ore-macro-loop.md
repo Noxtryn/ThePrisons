@@ -51,3 +51,17 @@ SECONDARY CONTRIBUTING FACTORS (hypotheses, not proven):
 
 Send the lines `[ore_macro] trace` around the incident (they now show yaw, requested yaw, who owned view and keys, the pressed keys, stuck counters)
 and any `[control] SPIN_LOOP_DETECTED` line. If the loops are H1, `walked` in the trace drops to 0 right after each re-load.
+
+## Follow-up: the first run with the new telemetry (02:20-02:25, 63 trace lines)
+
+* No `SPIN_LOOP_DETECTED`. The spin window never exceeded 273 deg in 3 s (limit 720), `reach` (movement in the window) was 4-16 blocks, `stuck 0/0 recover 0`
+  in every sample. The view followed the steering: `view` and the requested yaw stay within a few degrees, owner `MINING/TARGET_LOOK` all the time, keys `W`+sprint
+  (sometimes jump). So there is no rotation fight, no stuck-recovery loop and no spin in this run; yaw values like `-187 -> 173` are the same direction (the view yaw is
+  not wrapped, the request is).
+* The corridor ping-pong is visible again: 02:22:05-02:22:30 the macro walks z 628-655 at x ~1400 back and forth, the steering direction flips by ~180 deg every
+  4-6 s (`way -28 -> 173 -> -14 -> 42 -> 119 -> 173 -> -2`), `ore ahead yes`, until a route plan ("no ore ahead: a way to ore", 59 blocks) takes it out at 02:22:30.
+  A second world re-load (02:22:50) drops `walked` from 273 to 8 (H1 confirmed as a fact: the visit memory is wiped; its effect on the route is still unproven).
+* `made` (block changes seen by the client) is 200-9000 per window, so it says "blocks changed", not "ores mined here"; it cannot separate productive from idle walking.
+
+Verdict: still no single provable cause, and nothing here justifies touching the steering. The corridor ping-pong lasts about 25 s per occurrence and ends by itself through the planner; the
+owner's definition of "too long" is needed. Not blocking the Bandit sprint.

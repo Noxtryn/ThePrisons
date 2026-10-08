@@ -100,9 +100,25 @@ class CaptureTest {
     void theCaptureDoesNotReadAnythingBeyondTheFrame() {
         // The format has exactly these top-level parts; there is no place for account, launcher or network data.
         com.google.gson.JsonObject root = com.google.gson.JsonParser.parseString(CaptureIO.toJson(capture(busyFrame()))).getAsJsonObject();
-        assertEquals(java.util.Set.of("schema", "kind", "meta", "frame", "memory", "expected"), root.keySet());
+        assertEquals(java.util.Set.of("schema", "kind", "meta", "frame", "memory", "expected", "extras"), root.keySet());
         assertEquals(java.util.Set.of("createdAt", "modVersion", "minecraftVersion", "note", "synthetic", "category"),
                 root.getAsJsonObject("meta").keySet());
+    }
+
+    @Test
+    void moduleExtrasAreKeptAnonymisedAndFilteredButNotReplayed() throws CaptureException {
+        Capture c = CaptureBuilder.build(busyFrame(), "diamond", null, List.of(), MODEL, "1.2.1", "1.21.11", "n", "bandit",
+                java.util.Map.of("bandit.state", "ORBIT", "bandit.target", "bandit_ae_821e4c", "bandit.note", "Steve token " + JWT));
+        String json = CaptureIO.toJson(c);
+        assertTrue(json.contains("bandit_ae_821e4c"));
+        assertFalse(json.contains("Steve"));
+        assertFalse(json.contains("eyJhbGci"));
+        Capture back = CaptureIO.fromJson(json);
+        assertEquals("ORBIT", back.extras().get("bandit.state"));
+        assertTrue(Replay.run(back, MODEL).matches(), "extras do not take part in the replay");
+        // older files have no extras
+        Capture old = CaptureIO.fromJson("{\"schema\":1,\"kind\":\"theprisons-capture\",\"frame\":{}}");
+        assertTrue(old.extras().isEmpty());
     }
 
     @Test

@@ -18,8 +18,11 @@ import java.util.Map;
  * @param frame    the readings
  * @param memory   what the model remembered (zone, event, system lines)
  * @param expected the parsers' result when it was captured (see {@link SnapshotSummary}); null = not checked
+ * @param extras   what modules add about their own state at that moment (the bandit macro: FSM state, target, threats, orbit side, terrain
+ *                 probes ...). Plain key / value text, anonymised like everything else; informational, not replayed. Missing in older files.
  */
-public record Capture(int schema, String kind, Meta meta, Raw.Frame frame, Mem memory, @Nullable Map<String, String> expected) {
+public record Capture(int schema, String kind, Meta meta, Raw.Frame frame, Mem memory, @Nullable Map<String, String> expected,
+                      Map<String, String> extras) {
     public static final int SCHEMA = 1;
     public static final String KIND = "theprisons-capture";
 
@@ -27,6 +30,12 @@ public record Capture(int schema, String kind, Meta meta, Raw.Frame frame, Mem m
     public Capture {
         meta = meta == null ? new Meta("", "", "", "", false, "") : meta;
         memory = memory == null ? new Mem("", null, List.of()) : memory;
+        extras = extras == null ? Map.of() : java.util.Collections.unmodifiableMap(new java.util.TreeMap<>(extras));
+    }
+
+    /** Without extras. */
+    public Capture(int schema, String kind, Meta meta, Raw.Frame frame, Mem memory, @Nullable Map<String, String> expected) {
+        this(schema, kind, meta, frame, memory, expected, Map.of());
     }
 
     /**

@@ -16,7 +16,7 @@ public final class ControlTelemetry {
 
     /** One tick, after the control layer applied view and keys. */
     public record Sample(long tick, double x, double y, double z, float yaw, float pitch, float requestedYaw, float requestedPitch,
-                         RotationMode mode, IntentPriority rotationOwner, String movementSource, IntentPriority movementOwner,
+                         RotationMode mode, IntentPriority rotationOwner, String rotationSource, String movementSource, IntentPriority movementOwner,
                          String keys, float remaining) {
     }
 
@@ -67,7 +67,7 @@ public final class ControlTelemetry {
         }
         return String.format(Locale.ROOT, "view %.0f -> %s (%s/%s) keys %s (%s/%s) spin %.0fdeg/%dt reach %.1f made %d",
                 s.yaw(), Float.isNaN(s.requestedYaw()) ? "-" : String.format(Locale.ROOT, "%.0f", s.requestedYaw()), s.mode(),
-                s.rotationOwner(), s.keys(), s.movementSource().isEmpty() ? "-" : s.movementSource(), s.movementOwner(),
+                s.rotationSource().isEmpty() ? s.rotationOwner().name() : s.rotationOwner() + ":" + s.rotationSource(), s.keys(), s.movementSource().isEmpty() ? "-" : s.movementSource(), s.movementOwner(),
                 spin.yawTurnedDegrees(), spin.ticks(), spin.maxDisplacement(), spin.progressInWindow());
     }
 

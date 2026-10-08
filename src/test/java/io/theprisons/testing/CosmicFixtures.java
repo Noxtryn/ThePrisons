@@ -30,7 +30,7 @@ public final class CosmicFixtures {
     /** Every fixture file, sorted. */
     public static List<Path> all() throws IOException {
         try (Stream<Path> walk = Files.walk(root())) {
-            return walk.filter(p -> p.getFileName().toString().endsWith(".json")).sorted().toList();
+            return walk.filter(p -> p.getFileName().toString().endsWith(".json") && !p.getFileName().toString().endsWith(".scenario.json")).sorted().toList();
         }
     }
 
