@@ -2,7 +2,6 @@ package io.theprisons.items.client;
 
 import io.theprisons.core.module.Category;
 import io.theprisons.core.module.Module;
-import io.theprisons.core.setting.Settings;
 import io.theprisons.items.ItemsService;
 import net.minecraft.client.MinecraftClient;
 
@@ -10,7 +9,7 @@ import net.minecraft.client.MinecraftClient;
 public final class ItemListModule extends Module {
     public ItemListModule() {
         super("item_list", "Item List", Category.QOL, "Items",
-                "All Cosmic Prisons items with their textures: categories, search, tiers and details. Also opens with /prisons items.", Settings.KeybindSetting.NONE);
+                "All Cosmic Prisons items with their textures: categories, search, tiers and details. Opens with the I key (rebindable) and with /prisons items.", org.lwjgl.glfw.GLFW.GLFW_KEY_I);
     }
 
     @Override

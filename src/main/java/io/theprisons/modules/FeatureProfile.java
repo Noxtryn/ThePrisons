@@ -23,7 +23,7 @@ public final class FeatureProfile {
      */
     public static final Set<String> ON = Set.of(
             // Storage & items
-            "storage_overlay", "item_look",
+            "storage_overlay", "item_look", "item_list", "ah_overlay", "energy_overlay",
             // HUD
             "scoreboard", "better_tab", "session_hud", "pet_hud", "command_cooldowns", "satchel_hud", "armor_hud", "item_insights",
             // Quality of life
@@ -32,7 +32,7 @@ public final class FeatureProfile {
             "cooldown_cache", "update_checker");
 
     /** Modules that are user-configurable even though the shipped feature profile is otherwise fixed. */
-    public static final Set<String> FREE = Set.of("ore_macro", "waypoint_editor", "spear_helper", "bandit_macro", "item_list", "ah_overlay", "energy_overlay");
+    public static final Set<String> FREE = Set.of("ore_macro", "waypoint_editor", "spear_helper", "bandit_macro");
 
     /** Not part of the user mod (off and invisible; their code stays for the developer build). */
     public static final Set<String> REMOVED = Set.of("safety", "performance", "session_stats");
