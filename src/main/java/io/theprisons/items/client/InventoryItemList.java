@@ -386,6 +386,21 @@ public final class InventoryItemList {
             Ui.drawCentered(c, tr, lines.get(i), x + w / 2, ty, Ui.VALUE, 255);
             ty += 9;
         }
+        io.theprisons.items.market.ItemPrices.Card price = ItemsService.get().prices().card(e.key());
+        if (price != null) {
+            // the price from the shared market memory; the word of the confidence only where the card is wide enough
+            int colour = switch (price.confidence()) {
+                case HIGH -> 0x7CF0A0;
+                case MEDIUM -> 0xDCE6F5;
+                default -> 0x8A93A6;
+            };
+            String text = price.price();
+            String word = price.confidence().name();
+            if (Ui.width(tr, text + " " + word) <= w - 6) {
+                text = text + " " + word;
+            }
+            Ui.drawCentered(c, tr, text, x + w / 2, y + h - 13, colour, 255);
+        }
         if (e.tier() != null) {
             c.fill(x + 6, y + h - 3, x + w - 6, y + h - 2, 0xFF000000 | TierColors.rgb(e.tier()));     // a thin tier line, not a neon card
         }

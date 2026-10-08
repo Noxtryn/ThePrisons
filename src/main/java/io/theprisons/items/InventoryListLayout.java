@@ -39,7 +39,7 @@ public record InventoryListLayout(int barX, int barY, int barW, int barH, int pa
         int usable = Math.max(0, panelW - PAD * 2);
         int cols = Math.max(2, (usable + CARD_GAP) / (MIN_CARD_W + CARD_GAP));
         int cardW = Math.min(MAX_CARD_W, Math.max(MIN_CARD_W, (usable - (cols - 1) * CARD_GAP) / cols));
-        int cardH = cardW + 14;
+        int cardH = cardW + 24;      // icon, two name lines, the price line, the tier line
         return new InventoryListLayout(barX, barY, BAR_W, BAR_H, panelX, MARGIN, panelW, Math.max(0, screenH - MARGIN * 2), cardW, cardH, cols, fits);
     }
 

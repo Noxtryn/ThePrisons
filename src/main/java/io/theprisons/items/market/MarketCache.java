@@ -69,7 +69,29 @@ public final class MarketCache {
         return histories.get(key);
     }
 
-    /** Stats of one item excluding one observation (the listing being judged). Cached per history version and per minute of age. */
+    /** Stats of one item without the listing being judged (and without other sightings of it). Cached per history version and per minute. */
+    public MarketStats stats(String key, long now, MarketObservation exclude) {
+        MarketHistory h = histories.get(key);
+        if (h == null) {
+            return MarketStats.EMPTY;
+        }
+        String ck = key + "|" + exclude.signature() + "|" + exclude.expiresAtMs() / 4000L;
+        long bucket = now / 60_000L;
+        Cached c = statsCache.get(ck);
+        if (c != null && c.version() == h.version() && c.bucket() == bucket) {
+            hits++;
+            return c.stats();
+        }
+        misses++;
+        MarketStats s = MarketStats.compute(h.all(), now, exclude);
+        statsCache.put(ck, new Cached(h.version(), bucket, s));
+        if (statsCache.size() > MAX_KEYS * 4) {
+            statsCache.clear();
+        }
+        return s;
+    }
+
+    /** Same, excluding by signature only (no listing identity at hand). */
     public MarketStats stats(String key, long now, long excludeSignature) {
         MarketHistory h = histories.get(key);
         if (h == null) {
@@ -91,20 +113,29 @@ public final class MarketCache {
         return s;
     }
 
-    /** All observations of every variant of a catalog entry together (what the item list shows). */
+    /**
+     * The price of a catalog entry (what the item list shows): the best documented variant of it. Variants of one entry can be priced very differently (a charge
+     * orb at 5 % and at 100 %), so they are never mixed into one median; the variant with the most evidence (confidence, then samples) speaks for the entry.
+     */
     public MarketStats statsForCatalog(String catalogKey, long now) {
         java.util.Set<String> keys = byCatalog.get(catalogKey);
         if (keys == null || keys.isEmpty()) {
             return MarketStats.EMPTY;
         }
-        List<MarketObservation> all = new ArrayList<>();
+        MarketStats best = MarketStats.EMPTY;
         for (String k : keys) {
-            MarketHistory h = histories.get(k);
-            if (h != null) {
-                all.addAll(h.all());
+            MarketStats s = stats(k, now, 0L);
+            if (s.confidence().ordinal() > best.confidence().ordinal()
+                    || s.confidence() == best.confidence() && s.samples() > best.samples()) {
+                best = s;
             }
         }
-        return MarketStats.compute(all, now, 0L);
+        return best;
+    }
+
+    /** The catalog keys that have observations. */
+    public java.util.List<String> catalogKeys() {
+        return new ArrayList<>(byCatalog.keySet());
     }
 
     /** Everything, for saving. */

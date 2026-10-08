@@ -3,6 +3,7 @@ package io.theprisons.modules.qol.market;
 import io.theprisons.items.ItemFacts;
 import io.theprisons.items.market.AhAnalyzer;
 import io.theprisons.items.market.AhSnapshot;
+import io.theprisons.items.market.ListingMeta;
 import io.theprisons.items.market.MarketCache;
 import org.junit.jupiter.api.Test;
 
@@ -21,7 +22,9 @@ class AhRealMenuTest {
             if (it.slot() >= MarketParser.LISTING_SLOTS || total <= 0) {
                 continue;
             }
-            out.add(new AhAnalyzer.ListingInput(it.slot(), ItemFacts.of(it.itemId(), it.name(), it.lore(), it.customId(), it.count()), total, it.count()));
+            ListingMeta meta = ListingMeta.parse(it.lore());
+            out.add(new AhAnalyzer.ListingInput(it.slot(), ItemFacts.of(it.itemId(), it.name(), it.lore(), it.customId(), it.count()), total, it.count(),
+                    meta.seller(), meta.expiresInMs()));
         }
         return out;
     }
@@ -65,5 +68,67 @@ class AhRealMenuTest {
         }
         assertTrue(AhAnalyzer.learnSales(in, cache, 10_000_000_000L) > 0);
         assertTrue(cache.keys() > 0);
+    }
+
+    @Test
+    void theRealMenuGivesSellerAndExpiryAndTheyTellTwoIdenticalListingsApart() {
+        List<MarketParser.Item> items = MenuDumps.first(MarketParser.MARKET).items();
+        ListingMeta first = ListingMeta.parse(items.get(0).lore());
+        ListingMeta second = ListingMeta.parse(items.get(1).lore());
+        assertEquals("CookinTemp", first.seller());
+        assertEquals(23L * 3_600_000L + 58L * 60_000L + 58_000L, first.expiresInMs(), "Expires: 23h 58m 58s");
+        assertEquals(23L * 3_600_000L + 58L * 60_000L + 54_000L, second.expiresInMs());
+        MarketCache cache = new MarketCache();
+        long now = 5_000_000_000L;
+        AhSnapshot a = AhAnalyzer.analyze(inputs(items), cache, now, 1L);
+        // the two XP boosters (slots 0 and 1): same seller, same price, same amount - two real listings
+        io.theprisons.items.ItemIdentity xp = io.theprisons.items.ItemIdentity.of(ItemFacts.of(items.get(0).itemId(), items.get(0).name(), items.get(0).lore(), items.get(0).customId(), 1));
+        assertTrue(cache.history(xp.key()).size() >= 2, "both identical listings are kept");
+        int firstTotal = cache.history(xp.key()).size();
+        // the same menu opened again 3 s later: the countdown is lower, the absolute expiry is the same
+        List<AhAnalyzer.ListingInput> later = new ArrayList<>();
+        for (AhAnalyzer.ListingInput in : inputs(items)) {
+            later.add(new AhAnalyzer.ListingInput(in.slot(), in.facts(), in.total(), in.amount(), in.seller(), Math.max(0L, in.expiresInMs() - 3_000L)));
+        }
+        AhSnapshot b = AhAnalyzer.analyze(later, cache, now + 3_000L, 2L);
+        assertEquals(0, b.newObservations(), "reopening the menu adds no samples");
+        assertEquals(firstTotal, cache.history(xp.key()).size());
+        assertEquals(a.parsed(), b.parsed());
+    }
+
+    @Test
+    void theRealHistoryGivesSellerBuyerAndAgeOfASale() {
+        List<MarketParser.Item> items = MenuDumps.first(MarketParser.HISTORY).items();
+        ListingMeta meta = ListingMeta.parse(items.get(1).lore());
+        assertEquals("ImKoby", meta.seller());
+        assertEquals("BandoBackpack", meta.buyer());
+        assertEquals(2 * 60_000L, meta.soldAgoMs());
+        ListingMeta anonymous = ListingMeta.parse(items.get(0).lore());
+        assertEquals("???", anonymous.seller(), "an anonymous seller is printed as ???");
+    }
+
+    @Test
+    void salesPageReopenedDoesNotInflateTheSamples() {
+        List<MarketParser.Item> items = MenuDumps.first(MarketParser.HISTORY).items();
+        List<AhAnalyzer.SaleInput> in = new ArrayList<>();
+        for (MarketParser.Item it : items) {
+            double total = MarketParser.totalPrice(it);
+            if (total > 0 && it.slot() < MarketParser.LISTING_SLOTS) {
+                ListingMeta m = ListingMeta.parse(it.lore());
+                in.add(new AhAnalyzer.SaleInput(ItemFacts.of(it.itemId(), it.name(), it.lore(), it.customId(), 1), total, it.count(), m.soldAgoMs(), m.seller(), m.buyer()));
+            }
+        }
+        assertTrue(in.size() > 10);
+        MarketCache cache = new MarketCache();
+        long now = 9_000_000_000L;
+        int first = AhAnalyzer.learnSales(in, cache, now);
+        List<AhAnalyzer.SaleInput> again = new ArrayList<>();
+        for (AhAnalyzer.SaleInput s : in) {
+            again.add(new AhAnalyzer.SaleInput(s.facts(), s.total(), s.amount(), s.agoMs() + 40_000L, s.seller(), s.buyer()));   // 40 s later: "sold 2m ago" has not changed
+        }
+        // the page shows the same minute, so the age text is the same while 40 s passed
+        int second = AhAnalyzer.learnSales(in, cache, now + 40_000L);
+        assertTrue(first > 10);
+        assertEquals(0, second, "the same page again is not new data");
     }
 }

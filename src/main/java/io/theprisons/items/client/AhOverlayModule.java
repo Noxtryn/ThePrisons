@@ -9,6 +9,8 @@ import io.theprisons.items.ItemsService;
 import io.theprisons.items.market.AhAnalyzer;
 import io.theprisons.items.market.AhSnapshot;
 import io.theprisons.items.market.MarketCache;
+import io.theprisons.items.market.ItemPrices;
+import io.theprisons.items.market.ListingMeta;
 import io.theprisons.items.market.MarketStats;
 import io.theprisons.items.market.MarketStore;
 import io.theprisons.modules.qol.market.MarketParser;
@@ -108,6 +110,10 @@ public final class AhOverlayModule extends Module {
             lastRevision = Integer.MIN_VALUE;
         }
         long now = System.currentTimeMillis();
+        ItemsService svc = ItemsService.get();
+        if (svc != null) {
+            svc.prices().refresh(cache, now);
+        }
         if (cache.revision() != savedRevision && (wasMarket && !market || now - lastSaveMs > 60_000L)) {
             save();
         }
@@ -118,54 +124,34 @@ public final class AhOverlayModule extends Module {
         long now = System.currentTimeMillis();
         List<AhAnalyzer.ListingInput> listings = new ArrayList<>();
         List<AhAnalyzer.SaleInput> sales = new ArrayList<>();
-        List<MarketParser.Item> parserItems = new ArrayList<>();
-        List<ItemFacts> facts = new ArrayList<>();
         for (int i = 0; i < Math.min(MarketParser.LISTING_SLOTS, handler.slots.size()); i++) {
             Slot slot = handler.slots.get(i);
             if (slot.getStack().isEmpty()) {
                 continue;
             }
             ItemFacts f = ItemFactsReader.read(slot.getStack());
-            parserItems.add(new MarketParser.Item(i, f.vanillaId(), f.count(), f.name(), f.lore(), f.customId()));
-            facts.add(f);
+            MarketParser.Item it = new MarketParser.Item(i, f.vanillaId(), f.count(), f.name(), f.lore(), f.customId());
+            double total = MarketParser.totalPrice(it);
+            if (total <= 0.0D) {
+                continue;
+            }
+            ListingMeta meta = ListingMeta.parse(f.lore());
+            if (history) {
+                sales.add(new AhAnalyzer.SaleInput(f, total, it.count(), meta.soldAgoMs(), meta.seller(), meta.buyer()));
+            } else {
+                listings.add(new AhAnalyzer.ListingInput(i, f, total, it.count(), meta.seller(), meta.expiresInMs()));
+            }
         }
         if (history) {
-            List<MarketParser.Sale> found = MarketParser.sales(parserItems);
-            for (int i = 0; i < parserItems.size(); i++) {
-                MarketParser.Item it = parserItems.get(i);
-                double total = MarketParser.totalPrice(it);
-                if (total > 0 && found.size() > 0) {
-                    long ago = agoOf(it);
-                    sales.add(new AhAnalyzer.SaleInput(facts.get(i), total, it.count(), ago));
-                }
-            }
             AhAnalyzer.learnSales(sales, cache, now);
             snapshot = AhSnapshot.EMPTY;
         } else {
-            for (int i = 0; i < parserItems.size(); i++) {
-                MarketParser.Item it = parserItems.get(i);
-                double total = MarketParser.totalPrice(it);
-                if (total > 0) {
-                    listings.add(new AhAnalyzer.ListingInput(it.slot(), facts.get(i), total, it.count()));
-                }
-            }
             long t0 = System.nanoTime();
             snapshot = AhAnalyzer.analyze(listings, cache, now, ((long) handler.syncId << 32) ^ handler.getRevision());
             totalNanos += System.nanoTime() - t0;
             analyses++;
         }
         snapshotScreen = screen;
-    }
-
-    /** "Item sold 3m ago" of a history slot, 0 when the line is missing. */
-    private static long agoOf(MarketParser.Item it) {
-        for (String line : it.lore()) {
-            String l = line.strip();
-            if (l.startsWith("Item sold ") && l.endsWith(" ago")) {
-                return MarketParser.durationMs(l.substring("Item sold ".length(), l.length() - " ago".length()));
-            }
-        }
-        return 0L;
     }
 
     private void save() {
@@ -181,9 +167,7 @@ public final class AhOverlayModule extends Module {
         if (!s.known()) {
             return List.of();
         }
-        return List.of("Median  $" + io.theprisons.modules.qol.market.Money.compact(s.median()),
-                "Range   $" + io.theprisons.modules.qol.market.Money.compact(s.min()) + " - $" + io.theprisons.modules.qol.market.Money.compact(s.max()),
-                "Samples " + s.samples() + " · " + s.confidence().label());
+        return ItemPrices.detailLines(s);
     }
 
     // ── For the renderer (read only) ─────────────────────────────────────────

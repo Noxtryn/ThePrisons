@@ -51,7 +51,7 @@ class EeRealMenuTest {
     void theAbsurdListingsAreOutliersAndNeverTheCheapestOrTheTypicalRate() {
         EeAnalysis a = EeAnalysis.of(menu(), 0.0D, Double.NaN, Double.NaN);
         assertEquals(2299.0D, a.lowestRate(), 1e-9);
-        assertTrue(a.medianRate() < 3000.0D, "median of the sane ones: " + a.medianRate());
+        assertTrue(a.medianRate() < 3000.0D && a.medianRate() > 2200.0D, "typical rate of the sane listings: " + a.medianRate());
         long outliers = a.slots().values().stream().filter(EeAnalysis.SlotInfo::outlier).count();
         assertEquals(2, outliers, "the two 100,000,000 /1k offers");
         assertTrue(a.slots().get(9).cheapest());
@@ -81,7 +81,8 @@ class EeRealMenuTest {
         assertFalse(a.costs().get(0).complete(), "10k is more than the 5k on the page");
         assertEquals(2300.0D, a.lowestRate(), 1e-9);
         assertTrue(Double.isNaN(a.affordable()), "no balance in the menu: nothing is guessed");
-        assertTrue(a.lines().stream().noneMatch(l -> l.startsWith("You can buy")));
+        assertTrue(a.lines().stream().noneMatch(l -> l.startsWith("Can buy")));
+        assertTrue(a.panel().sections().stream().noneMatch(sec -> sec.title().equals("BUY COST")), "no cost for sizes the page cannot cover");
     }
 
     @Test
@@ -90,13 +91,17 @@ class EeRealMenuTest {
         // $1,788,270.626 at about 2,300 /1k buys roughly 777k energy
         assertTrue(a.affordable() > 700_000D && a.affordable() < 800_000D, "affordable " + a.affordable());
         assertEquals(2_000_000D * 2299.0D / 1000.0D, a.heldValue(), 1e-6);
-        assertTrue(a.lines().stream().anyMatch(l -> l.startsWith("You hold") && l.contains("2.0M CE")), a.lines().toString());
+        assertTrue(a.lines().stream().anyMatch(l -> l.startsWith("Hold") && l.contains("2.00M CE")), a.lines().toString());
+        assertTrue(a.lines().stream().anyMatch(l -> l.startsWith("Value") && l.contains("$4.60M")), a.lines().toString());
     }
 
     @Test
     void theWeekAverageComparesTheCheapestOfferWithTheRecentSales() {
         EeAnalysis a = EeAnalysis.of(menu(), 0.0D, 2185.3D, 2200.0D);
-        assertTrue(a.lines().stream().anyMatch(l -> l.startsWith("7-day avg") && l.contains("(+5%)")), a.lines().toString());
+        // typical 2,400-ish against a 7-day average of 2,185: the market is dearer than its week
+        double vs = a.marketVsWeek();
+        assertTrue(vs > 0.05D && vs < 0.15D, "vs week " + vs);
+        assertTrue(a.lines().stream().anyMatch(l -> l.startsWith("vs 7-day average") && l.contains("+")), a.lines().toString());
     }
 
     @Test
@@ -113,6 +118,45 @@ class EeRealMenuTest {
     void anEmptyMenuIsHandled() {
         EeAnalysis a = EeAnalysis.of(new EeMenu(List.of(), Double.NaN, Double.NaN, -1, -1L, Double.NaN, Double.NaN, Double.NaN), 0.0D, Double.NaN, Double.NaN);
         assertTrue(Double.isNaN(a.lowestRate()));
-        assertEquals(List.of("COSMIC ENERGY"), a.lines());
+        assertEquals(List.of("ENERGY MARKET"), a.lines());
+    }
+
+    @Test
+    void theRealPanelHasTheSectionsOfTheDashboardAndNoAbsurdRate() {
+        EeAnalysis a = EeAnalysis.of(menu(), 840_000D, 2500D, 2450D);
+        EeAnalysis.Panel p = a.panel();
+        assertEquals("ENERGY MARKET", p.title());
+        List<String> titles = p.sections().stream().map(EeAnalysis.Section::title).toList();
+        assertEquals(List.of("RATES", "MARKET", "BUY COST", "YOU"), titles);
+        EeAnalysis.Section rates = p.sections().get(0);
+        assertTrue(rates.metrics());
+        assertEquals("CHEAPEST", rates.rows().get(0).label());
+        assertEquals("$2.30K / 1k", rates.rows().get(0).value());
+        assertEquals("TYPICAL", rates.rows().get(1).label());
+        assertFalse(rates.rows().get(1).value().contains("100"), "the 100,000,000 /1k offers are not in the typical rate: " + rates.rows().get(1).value());
+        assertEquals("2 extreme listings ignored", p.note());
+        EeAnalysis.Section you = p.sections().get(3);
+        assertTrue(you.rows().stream().anyMatch(r -> r.label().equals("Balance") && r.value().equals("$1.79M")), you.rows().toString());
+        assertTrue(you.rows().stream().anyMatch(r -> r.label().equals("Hold") && r.value().equals("840K CE")), you.rows().toString());
+    }
+
+    @Test
+    void aFarBelowListingStaysTheCheapestAndOnlyHighSideScamsAreIgnored() {
+        EeMenu m = new EeMenu(List.of(new EeMenu.Listing(9, "typo", 1_000_000D, 230D, 0.23D), new EeMenu.Listing(10, "a", 1_000_000D, 2300D, 2300D),
+                new EeMenu.Listing(11, "b", 1_000_000D, 2400D, 2400D), new EeMenu.Listing(12, "c", 1_000_000D, 2500D, 2500D)),
+                Double.NaN, Double.NaN, -1, -1L, Double.NaN, Double.NaN, Double.NaN);
+        EeAnalysis a = EeAnalysis.of(m, 0.0D, Double.NaN, Double.NaN);
+        assertEquals(0.23D, a.lowestRate(), 1e-9, "a real, very cheap offer is still the cheapest");
+        assertFalse(a.slots().get(9).outlier());
+    }
+
+    @Test
+    void theTypicalRateIgnoresDustListings() {
+        EeMenu m = new EeMenu(List.of(new EeMenu.Listing(9, "dust1", 0.5D, 1.0D, 2000D), new EeMenu.Listing(10, "dust2", 0.4D, 1.0D, 2100D),
+                new EeMenu.Listing(11, "dust3", 0.3D, 1.0D, 2200D), new EeMenu.Listing(12, "big", 50_000_000D, 140_000D, 2800D)),
+                Double.NaN, Double.NaN, -1, -1L, Double.NaN, Double.NaN, Double.NaN);
+        EeAnalysis a = EeAnalysis.of(m, 0.0D, Double.NaN, Double.NaN);
+        assertEquals(2800D, a.medianRate(), 1e-9, "listings under one energy say nothing about the market");
+        assertEquals(2000D, a.lowestRate(), 1e-9);
     }
 }

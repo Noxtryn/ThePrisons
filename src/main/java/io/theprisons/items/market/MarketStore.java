@@ -42,8 +42,9 @@ public final class MarketStore {
                     if (now - ts > MAX_AGE_MS) {
                         continue;
                     }
-                    cache.observe(parts[0], MarketObservation.of(parts[1], r.get(0).getAsDouble(), r.get(1).getAsInt(), ts,
-                            r.get(3).getAsInt() == 1 ? MarketObservation.Source.SALE : MarketObservation.Source.LISTING));
+                    cache.observe(parts[0], MarketObservation.restore(parts[1], r.get(0).getAsDouble(), r.get(1).getAsInt(), ts,
+                            r.get(3).getAsInt() == 1 ? MarketObservation.Source.SALE : MarketObservation.Source.LISTING,
+                            r.size() > 4 ? r.get(4).getAsInt() : 0, r.size() > 5 ? r.get(5).getAsInt() : 0, r.size() > 6 ? r.get(6).getAsLong() : 0L));
                 }
             }
         } catch (IOException | RuntimeException e) {
@@ -64,6 +65,9 @@ public final class MarketStore {
                 r.add(o.amount());
                 r.add(o.timestampMs());
                 r.add(o.source() == MarketObservation.Source.SALE ? 1 : 0);
+                r.add(o.sellerHash());
+                r.add(o.buyerHash());
+                r.add(o.expiresAtMs());
                 rows.add(r);
             }
             if (rows.size() > 0) {

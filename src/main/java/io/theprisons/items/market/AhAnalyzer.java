@@ -18,11 +18,18 @@ public final class AhAnalyzer {
     }
 
     /** One slot of an open auction page. */
-    public record ListingInput(int slot, ItemFacts facts, double total, int amount) {
+    public record ListingInput(int slot, ItemFacts facts, double total, int amount, @org.jspecify.annotations.Nullable String seller, long expiresInMs) {
+        public ListingInput(int slot, ItemFacts facts, double total, int amount) {
+            this(slot, facts, total, amount, null, 0L);
+        }
     }
 
     /** A completed sale of the history page. {@code agoMs} = how long ago ("Item sold 3m ago"). */
-    public record SaleInput(ItemFacts facts, double total, int amount, long agoMs) {
+    public record SaleInput(ItemFacts facts, double total, int amount, long agoMs, @org.jspecify.annotations.Nullable String seller,
+                            @org.jspecify.annotations.Nullable String buyer) {
+        public SaleInput(ItemFacts facts, double total, int amount, long agoMs) {
+            this(facts, total, amount, agoMs, null, null);
+        }
     }
 
     public static AhSnapshot analyze(List<ListingInput> inputs, MarketCache cache, long now, long pageSignature) {
@@ -35,7 +42,8 @@ public final class AhAnalyzer {
                 continue;
             }
             ItemIdentity id = ItemIdentity.of(in.facts());
-            MarketObservation o = MarketObservation.of(id.key(), in.total(), in.amount(), now, MarketObservation.Source.LISTING);
+            MarketObservation o = MarketObservation.of(id.key(), in.total(), in.amount(), now, MarketObservation.Source.LISTING, in.seller(), null,
+                    in.expiresInMs() > 0L ? now + in.expiresInMs() : 0L);
             if (cache.observe(id.catalogKey(), o)) {
                 fresh++;
             }
@@ -47,7 +55,7 @@ public final class AhAnalyzer {
             ListingInput in = kept.get(i);
             MarketObservation o = obs.get(i);
             ItemIdentity id = ItemIdentity.of(in.facts());
-            MarketStats base = id.confidence() == ItemConfidence.VANILLA ? MarketStats.EMPTY : cache.stats(o.key(), now, o.signature());
+            MarketStats base = id.confidence() == ItemConfidence.VANILLA ? MarketStats.EMPTY : cache.stats(o.key(), now, o);
             slots.put(in.slot(), SlotView.of(ListingAnalysis.of(in.slot(), o, base)));
         }
         return new AhSnapshot(pageSignature, now, slots, kept.size(), fresh, System.nanoTime() - t0);
@@ -61,9 +69,10 @@ public final class AhAnalyzer {
                 continue;
             }
             ItemIdentity id = ItemIdentity.of(s.facts());
-            // the page says "sold 3m ago": round to ten minutes so a refresh of the page maps to the same sample
-            long ts = (now - s.agoMs()) / 600_000L * 600_000L;
-            if (cache.observe(id.catalogKey(), MarketObservation.of(id.key(), s.total(), s.amount(), ts, MarketObservation.Source.SALE))) {
+            // the page says "sold 3m ago": the sale time is computed once; a refresh of the page maps to the same sale (seller, buyer, price, amount, time within
+            // the minute the menu rounds to), two genuinely separate identical sales stay two
+            long ts = now - s.agoMs();
+            if (cache.observe(id.catalogKey(), MarketObservation.of(id.key(), s.total(), s.amount(), ts, MarketObservation.Source.SALE, s.seller(), s.buyer(), 0L))) {
                 fresh++;
             }
         }

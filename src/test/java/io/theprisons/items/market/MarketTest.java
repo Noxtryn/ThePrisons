@@ -46,8 +46,8 @@ class MarketTest {
     void theMedianMinAndMaxOfTheSamples() {
         MarketStats s = MarketStats.compute(listings(100, 120, 110, 130, 90), NOW, 0L);
         assertEquals(110.0D, s.median(), 1e-9);
-        assertEquals(90.0D, s.min(), 1e-9);
-        assertEquals(130.0D, s.max(), 1e-9);
+        assertEquals(90.0D, s.low(), 1e-9);
+        assertEquals(130.0D, s.high(), 1e-9);
         assertEquals(5, s.samples());
         assertEquals("listings", s.basis());
     }
@@ -56,7 +56,7 @@ class MarketTest {
     void aScamPriceAndAMistypedPriceDoNotMoveTheMedian() {
         MarketStats s = MarketStats.compute(listings(100, 105, 95, 102, 98, 100, 1.0D, 100_000.0D), NOW, 0L);
         assertEquals(100.0D, s.median(), 3.0D, "the median stays at the real price");
-        assertTrue(s.max() < 200.0D && s.min() > 50.0D, "min / max ignore the outliers: " + s.min() + ".." + s.max());
+        assertTrue(s.high() < 200.0D && s.low() > 50.0D, "min / max ignore the outliers: " + s.low() + ".." + s.high());
         assertTrue(s.why().get(0).contains("outliers"), s.why().toString());
     }
 
@@ -198,13 +198,17 @@ class MarketTest {
     }
 
     @Test
-    void theCatalogStatsMergeTheVariantsOfOneEntry() {
+    void theCatalogStatsSpeakForTheBestDocumentedVariantOfAnEntry() {
         MarketCache cache = new MarketCache();
         for (int i = 0; i < 4; i++) {
             cache.observe("godly shard|", listing("godly shard|", 100 + i, 1, (i + 1) * MIN));
             cache.observe("godly shard|", listing("godly shard|@shard#shard_tier=godly;", 104 + i, 1, (i + 1) * MIN));
         }
-        assertEquals(8, cache.statsForCatalog("godly shard|", NOW).samples());
+        assertEquals(4, cache.statsForCatalog("godly shard|", NOW).samples(), "one variant speaks for the entry, the variants are not mixed");
+        for (int i = 4; i < 7; i++) {
+            cache.observe("godly shard|", listing("godly shard|@shard#shard_tier=godly;", 110 + i, 1, (i + 1) * MIN));
+        }
+        assertEquals(7, cache.statsForCatalog("godly shard|", NOW).samples(), "the variant with more evidence wins");
         assertEquals(MarketStats.EMPTY, cache.statsForCatalog("nothing|", NOW));
     }
 
@@ -273,11 +277,13 @@ class MarketTest {
         AhSnapshot snap = AhAnalyzer.analyze(List.of(new AhAnalyzer.ListingInput(0, shard(), 1_200_000.0D, 10)), cache, NOW, 1L);
         List<String> hover = snap.slots().get(0).hover(NOW);
         assertEquals("MARKET", hover.get(0));
-        for (String field : List.of("Listed", "Estimated", "Difference", "Unit Price", "Samples", "Confidence", "Last Seen")) {
+        for (String field : List.of("Listed", "Fair", "Difference", "Unit", "Samples", "Basis", "Confidence", "Last Seen")) {
             assertTrue(hover.stream().anyMatch(l -> l.startsWith(field)), field + " in " + hover);
         }
-        assertTrue(hover.stream().anyMatch(l -> l.startsWith("Listed") && l.contains("$1.2M")), hover.toString());
-        assertTrue(hover.stream().anyMatch(l -> l.startsWith("Unit Price") && l.contains("$120.0K")), hover.toString());
+        assertTrue(hover.stream().anyMatch(l -> l.startsWith("Listed") && l.contains("$1.20M")), hover.toString());
+        assertTrue(hover.stream().anyMatch(l -> l.startsWith("Fair") && l.contains("$1.50M")), hover.toString());
+        assertTrue(hover.stream().anyMatch(l -> l.startsWith("Unit") && l.contains("$120K")), hover.toString());
+        assertTrue(hover.stream().anyMatch(l -> l.startsWith("Difference") && l.contains("-20.0%")), hover.toString());
     }
 
     @Test

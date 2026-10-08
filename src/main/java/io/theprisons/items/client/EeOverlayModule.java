@@ -7,6 +7,7 @@ import io.theprisons.core.setting.Settings;
 import io.theprisons.items.ItemFacts;
 import io.theprisons.items.market.EeAnalysis;
 import io.theprisons.items.market.EeMenu;
+import io.theprisons.items.market.EePanelLayout;
 import io.theprisons.items.market.EeParser;
 import io.theprisons.modules.qol.market.MarketParser;
 import net.minecraft.client.MinecraftClient;
@@ -140,6 +141,21 @@ public final class EeOverlayModule extends Module {
 
     public @Nullable EeAnalysis analysis() {
         return analysis;
+    }
+
+    private EePanelLayout.@Nullable Result cachedLayout;
+    private @Nullable EeAnalysis cachedFor;
+    private int cachedWidth;
+
+    /** The layout of the current analysis at this width; recomputed only when the page or the width changed (never per frame). */
+    public EePanelLayout.Result layout(int width, io.theprisons.gui.kit.TextFit.Measure measure) {
+        EeAnalysis a = analysis;
+        if (cachedLayout == null || cachedFor != a || cachedWidth != width) {
+            cachedLayout = EePanelLayout.layout(a.panel(), width, measure);
+            cachedFor = a;
+            cachedWidth = width;
+        }
+        return cachedLayout;
     }
 
     public boolean showBorders() {

@@ -22,6 +22,7 @@ public final class ItemsService {
 
     private final ItemRegistry registry = ItemRegistry.seeded();
     private final ItemListModel listModel = new ItemListModel(registry);
+    private final io.theprisons.items.market.ItemPrices prices = new io.theprisons.items.market.ItemPrices();
     private final Path dir;
     private boolean catalogLoading;
     /** What the detail panel shows about an item's market (set by the market part; empty until there is data). */
@@ -44,6 +45,11 @@ public final class ItemsService {
 
     public ItemRegistry registry() {
         return registry;
+    }
+
+    /** The prices the item list shows (prepared from the market memory; read-only for the renderer). */
+    public io.theprisons.items.market.ItemPrices prices() {
+        return prices;
     }
 
     public ItemListModel list() {
