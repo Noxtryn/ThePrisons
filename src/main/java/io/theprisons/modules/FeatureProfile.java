@@ -32,7 +32,7 @@ public final class FeatureProfile {
             "cooldown_cache", "update_checker");
 
     /** Modules that are user-configurable even though the shipped feature profile is otherwise fixed. */
-    public static final Set<String> FREE = Set.of("ore_macro", "waypoint_editor", "spear_helper", "bandit_macro", "item_list");
+    public static final Set<String> FREE = Set.of("ore_macro", "waypoint_editor", "spear_helper", "bandit_macro", "item_list", "ah_overlay", "energy_overlay");
 
     /** Not part of the user mod (off and invisible; their code stays for the developer build). */
     public static final Set<String> REMOVED = Set.of("safety", "performance", "session_stats");

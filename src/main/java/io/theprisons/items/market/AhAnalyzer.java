@@ -1,0 +1,72 @@
+package io.theprisons.items.market;
+
+import io.theprisons.items.ItemFacts;
+import io.theprisons.items.ItemIdentity;
+import io.theprisons.items.ItemConfidence;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * Auction page to {@link AhSnapshot}: normalise the listings, put them in the market cache, judge each one against the OTHER observations of the same
+ * item, and publish an immutable snapshot. Pure and independent of Minecraft - the client part only hands it the items read from the open screen.
+ */
+public final class AhAnalyzer {
+    private AhAnalyzer() {
+    }
+
+    /** One slot of an open auction page. */
+    public record ListingInput(int slot, ItemFacts facts, double total, int amount) {
+    }
+
+    /** A completed sale of the history page. {@code agoMs} = how long ago ("Item sold 3m ago"). */
+    public record SaleInput(ItemFacts facts, double total, int amount, long agoMs) {
+    }
+
+    public static AhSnapshot analyze(List<ListingInput> inputs, MarketCache cache, long now, long pageSignature) {
+        long t0 = System.nanoTime();
+        List<MarketObservation> obs = new ArrayList<>(inputs.size());
+        List<ListingInput> kept = new ArrayList<>(inputs.size());
+        int fresh = 0;
+        for (ListingInput in : inputs) {
+            if (in.total() <= 0.0D) {
+                continue;
+            }
+            ItemIdentity id = ItemIdentity.of(in.facts());
+            MarketObservation o = MarketObservation.of(id.key(), in.total(), in.amount(), now, MarketObservation.Source.LISTING);
+            if (cache.observe(id.catalogKey(), o)) {
+                fresh++;
+            }
+            obs.add(o);
+            kept.add(in);
+        }
+        Map<Integer, SlotView> slots = new HashMap<>();
+        for (int i = 0; i < kept.size(); i++) {
+            ListingInput in = kept.get(i);
+            MarketObservation o = obs.get(i);
+            ItemIdentity id = ItemIdentity.of(in.facts());
+            MarketStats base = id.confidence() == ItemConfidence.VANILLA ? MarketStats.EMPTY : cache.stats(o.key(), now, o.signature());
+            slots.put(in.slot(), SlotView.of(ListingAnalysis.of(in.slot(), o, base)));
+        }
+        return new AhSnapshot(pageSignature, now, slots, kept.size(), fresh, System.nanoTime() - t0);
+    }
+
+    /** The history page: only learns the sales (nothing is rated there). Returns how many were new. */
+    public static int learnSales(List<SaleInput> sales, MarketCache cache, long now) {
+        int fresh = 0;
+        for (SaleInput s : sales) {
+            if (s.total() <= 0.0D) {
+                continue;
+            }
+            ItemIdentity id = ItemIdentity.of(s.facts());
+            // the page says "sold 3m ago": round to ten minutes so a refresh of the page maps to the same sample
+            long ts = (now - s.agoMs()) / 600_000L * 600_000L;
+            if (cache.observe(id.catalogKey(), MarketObservation.of(id.key(), s.total(), s.amount(), ts, MarketObservation.Source.SALE))) {
+                fresh++;
+            }
+        }
+        return fresh;
+    }
+}

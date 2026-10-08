@@ -28,6 +28,7 @@
     "ThePrisonsHandledAccessor",
     "ThePrisonsMarketInventoryMixin",
     "ThePrisonsMarketOverlayMixin",
+    "ThePrisonsItemsOverlayMixin",
     "ThePrisonsFriendGlowMixin",
     "ThePrisonsFriendColourMixin"
   ],

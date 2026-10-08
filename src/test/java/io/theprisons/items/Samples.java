@@ -11,11 +11,11 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /** Real item stacks the game sent (config/theprisons/market/catalog.json of a play session, masks without their skin profile). */
-final class Samples {
+public final class Samples {
     private Samples() {
     }
 
-    static Map<String, ItemFacts> catalog() {
+    public static Map<String, ItemFacts> catalog() {
         try (InputStream in = Samples.class.getResourceAsStream("/items/catalog-sample.json")) {
             JsonObject root = JsonParser.parseReader(new InputStreamReader(in, StandardCharsets.UTF_8)).getAsJsonObject();
             Map<String, ItemFacts> out = new LinkedHashMap<>();
@@ -26,7 +26,7 @@ final class Samples {
         }
     }
 
-    static ItemFacts facts(String name, String vanilla, String customId, Map<String, String> values) {
+    public static ItemFacts facts(String name, String vanilla, String customId, Map<String, String> values) {
         java.util.Map<String, String> v = new java.util.HashMap<>(values);
         if (customId != null) {
             v.put("custom_item_id", customId);

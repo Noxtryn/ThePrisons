@@ -91,6 +91,8 @@ public final class ModuleRegistry {
         io.theprisons.items.ItemsService itemsService = io.theprisons.items.ItemsService.init(core.dataDir());
         itemsService.loadCatalogOnce(core.dataDir().resolve("market").resolve("catalog.json"), r -> net.minecraft.client.MinecraftClient.getInstance().execute(r));
         modules.register(new io.theprisons.items.client.ItemListModule());
+        modules.register(new io.theprisons.items.client.AhOverlayModule(core.dataDir()));
+        modules.register(new io.theprisons.items.client.EnergyOverlayModule());
         // General
         modules.register(new ClickGuiModule(openGui));
         modules.register(new io.theprisons.modules.general.DesignModule());
