@@ -4,6 +4,7 @@ import io.theprisons.core.ThePrisonsCore;
 import io.theprisons.core.module.Module;
 import io.theprisons.core.setting.Setting;
 import io.theprisons.core.setting.Settings;
+import io.theprisons.gui.click.ClickGuiScreen;
 import io.theprisons.gui.kit.Ui;
 import io.theprisons.gui.theme.Theme;
 import io.theprisons.modules.FeatureProfile;
@@ -302,7 +303,10 @@ public final class DashboardScreen extends Screen implements io.theprisons.gui.k
             if (openClassic != null) {
                 // A module tile is the intentional bridge to the complete editor.  This keeps the dashboard
                 // focused while every setting type (including market multi-choice controls) remains reachable.
-                hits.add(new Hit(tx, ty, tw, th, "page:module:" + m.id(), openClassic));
+                hits.add(new Hit(tx, ty, tw, th, "page:module:" + m.id(), () -> {
+                    ClickGuiScreen.focus(m, null);
+                    openClassic.run();
+                }));
             }
         }
         if (features.isEmpty()) {

@@ -53,6 +53,10 @@ Run and record:
 - Targeted post-push tooltip regression (`ItemPresentationTest`, `ItemIdentityTest`,
   `InventoryListLayoutAndInputTest`): pass. It verifies the stable shared block header used to
   prevent a Fabric callback plus inventory-card fallback from duplicating market facts.
+- Targeted GUI compile/layout regression after direct module preselection (`TextFitTest`,
+  `InventoryListLayoutAndInputTest`): pass. Direct selection reuses `ClickGuiScreen.focus`, whose
+  persisted tab/module behaviour is the existing configuration path; live pointer flow is still a
+  manual smoke-test item.
 - Pre-push verification on the two Unified UI V4 commits: `./gradlew test build --no-daemon`:
   pass (8 tasks); `./scripts/check-release.sh`: pass (`content OK`, `release check OK`, version
   1.2.1). `Release` was only inspected, never checked out, merged, or pushed.

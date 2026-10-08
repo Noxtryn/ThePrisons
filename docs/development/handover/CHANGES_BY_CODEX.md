@@ -52,3 +52,6 @@ keep future entries scoped to one reviewed change set.
   parallel configuration architecture.
 - The inventory-list tooltip detects a market block already supplied by Fabric's normal tooltip
   callback before adding its registry fallback, so real market facts cannot be duplicated.
+- Dashboard feature tiles now preselect their exact module in the complete editor, so opening the
+  Auction or Energy overlay tile lands directly on its real controls instead of a remembered,
+  unrelated module.
