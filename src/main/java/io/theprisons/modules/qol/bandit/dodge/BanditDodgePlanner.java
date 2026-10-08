@@ -253,11 +253,13 @@ public final class BanditDodgePlanner {
                 && !closingFast && !airborne && headingDrift <= cfg.stableHeadingDegrees && !stuck;
         aimWindow.update(safeNow, breach);
 
+        boolean terrainChange = chosen != current && (!current.blocked().isEmpty() || current.pressure() > 0.0D
+                || !current.stop().equals("CLEAR") && current.free() < cfg.wallUrgent);
         DodgeAction action = classify(chosen, angle, sign, breach, stuck, jump);
         lastAction = action;
         return new DodgeDecision(chosen.dirX(), chosen.dirZ(), true, jump, chosen.score(), nearest, chosen.nearest(), threatHere, chosen.free(), safeNow,
                 aimWindow.open(), aimWindow.ticks(), breach, nearby, action, Math.toDegrees(Math.atan2(chosen.dirZ(), chosen.dirX())), in.area(), reason,
-                candidates, oscillations, stuck);
+                candidates, oscillations, stuck, chosen, terrainChange);
     }
 
     /** @param sign the side of the turn: +1 = to the player's right, -1 = left, 0 = straight on (cross product of the old and the new heading) */
@@ -297,17 +299,59 @@ public final class BanditDodgePlanner {
 
     // ── Scoring ──────────────────────────────────────────────────────────────
 
-    private DodgeCandidate evaluate(DodgeInputs in, int index, double dx, double dz, boolean breach, double nearestNow) {
+    /** The three body probes along the executed direction: centre, left edge, right edge. The free distance is the worst of them. */
+    private record Body(double free, double center, double left, double right, Terrain.Stop stop, double jumpAt, double heightChange) {
+    }
+
+    private Body probe(DodgeInputs in, double ex, double ez) {
+        double hw = Math.max(0.0D, in.halfWidth() - cfg.bodyInset);
+        double rx = -ez;   // perpendicular to the executed direction (its right side in x/z)
+        double rz = ex;
+        Terrain.Ray c = in.terrain().cast(in.x(), in.y(), in.z(), ex, ez, cfg.lookahead);
+        Terrain.Ray l = in.terrain().cast(in.x() - rx * hw, in.y(), in.z() - rz * hw, ex, ez, cfg.lookahead);
+        Terrain.Ray r = in.terrain().cast(in.x() + rx * hw, in.y(), in.z() + rz * hw, ex, ez, cfg.lookahead);
+        Terrain.Ray worst = c;
+        if (l.free() < worst.free()) {
+            worst = l;
+        }
+        if (r.free() < worst.free()) {
+            worst = r;
+        }
+        // a step up counts only when every body edge climbs it (one edge against a wall corner is a wall, not a step)
+        double jumpAt = c.jumpAt();
+        if (jumpAt >= 0.0D && (l.jumpAt() < 0.0D && l.free() <= jumpAt + 0.3D || r.jumpAt() < 0.0D && r.free() <= jumpAt + 0.3D)) {
+            jumpAt = -1.0D;
+        }
+        return new Body(worst.free(), c.free(), l.free(), r.free(), worst.stop(), jumpAt, c.heightChange());
+    }
+
+    private DodgeCandidate evaluate(DodgeInputs in, int index, double wantX, double wantZ, boolean breach, double nearestNow) {
         double px = in.x();
         double pz = in.z();
-        Terrain.Ray ray = in.terrain().cast(px, in.y(), pz, dx, dz, cfg.lookahead);
-        double free = ray.free();
+        // What Minecraft will really do for this desired heading with the current view yaw: everything below is judged along THAT direction.
+        DodgeDrive.ExecutedMove exec = DodgeDrive.resolve(wantX, wantZ, in.viewYaw());
+        double dx = exec.dirX();
+        double dz = exec.dirZ();
+        Body body = probe(in, dx, dz);
+        double free = body.free();
+        Terrain.Stop stop = body.stop();
+        double jumpAt = body.jumpAt();
         String blocked = "";
-        if (ray.stop() != Terrain.Stop.CLEAR && free < cfg.minFree) {
-            blocked = ray.stop() + " " + fmt(free);
+        if (jumpAt >= 0.0D && free < jumpAt + cfg.jumpLanding && stop != Terrain.Stop.CLEAR) {
+            // the "step" leads into a wall / dead end right behind it: not a jumpable step
+            blocked = "STEP_NO_LANDING " + fmt(free);
+            jumpAt = -1.0D;
+        } else if (stop != Terrain.Stop.CLEAR && free < cfg.minFree) {
+            blocked = stop + " " + fmt(free);
         }
-        boolean jumpTooSoon = ray.needsJump() && ray.jumpAt() <= 1.5D && (!in.onGround() || in.nowMs() - lastJumpMs < cfg.jumpCooldownMs);
+        boolean jumpTooSoon = jumpAt >= 0.0D && jumpAt <= 1.5D && (!in.onGround() || in.nowMs() - lastJumpMs < cfg.jumpCooldownMs);
         double reach = Math.min(free, cfg.lookahead);
+        // Wall pressure: the closer the end of the way (wall / drop / hazard), the worse - long before it is "blocked".
+        double pressure = 0.0D;
+        if (stop != Terrain.Stop.CLEAR && free < cfg.wallComfort) {
+            double t = (cfg.wallComfort - free) / cfg.wallComfort;
+            pressure = cfg.wWall * t * t;
+        }
 
         double nearestProj = Double.POSITIVE_INFINITY;
         double sum = 0.0D;
@@ -348,7 +392,7 @@ public final class BanditDodgePlanner {
             }
         }
 
-        double dot = clamp(dx * hx + dz * hz, -1.0D, 1.0D);
+        double dot = clamp(wantX * hx + wantZ * hz, -1.0D, 1.0D);
         double angle = Math.toDegrees(Math.acos(dot));
         // More distance than half the warning band past the minimum is not worth leaving the run for.
         double sepCap = cfg.minDistance + cfg.warningBand * 0.5D;
@@ -357,7 +401,7 @@ public final class BanditDodgePlanner {
         double wTurn = cfg.wTurn * (breach ? 0.3D : 1.0D);
         double score = cfg.wFree * reach + wSep * Math.min(nearestProj, sepCap) - cfg.wThreat * threatAvg - cfg.wPeak * peak
                 + cfg.wGap * Math.min(gap, GAP_CAP) + wFwd * dot - wTurn * angle / 180.0D;
-        boolean deadEnd = ray.stop() != Terrain.Stop.CLEAR && ray.stop() != Terrain.Stop.STEP;
+        boolean deadEnd = stop != Terrain.Stop.CLEAR && stop != Terrain.Stop.STEP;
         if (deadEnd) {
             score -= cfg.wDeadEnd * (cfg.lookahead - free);
         }
@@ -370,15 +414,18 @@ public final class BanditDodgePlanner {
                 blocked = "";
             }
         }
-        if (ray.needsJump()) {
+        score -= pressure + cfg.wExecError * exec.errorDegrees();
+        if (jumpAt >= 0.0D) {
             score -= cfg.wJump * (jumpTooSoon ? 4.0D : 1.0D);
         }
         if (in.area() == SpearAreaState.INVALID && !Double.isNaN(anchorX)) {
             double[] to = Geo.unit(anchorX - px, anchorZ - pz);
-            score += cfg.wArea * (dx * to[0] + dz * to[1]);
+            score += cfg.wArea * (wantX * to[0] + wantZ * to[1]);
         }
-        boolean safe = blocked.isEmpty() && nearestProj >= cfg.minDistance * cfg.projectedMarginFraction;
-        return new DodgeCandidate(index, dx, dz, free, ray.stop().name(), ray.jumpAt(), nearestProj, threatAvg, peak, gap, score, blocked, safe);
+        boolean wallClose = stop != Terrain.Stop.CLEAR && free < cfg.wallUrgent;
+        boolean safe = blocked.isEmpty() && !wallClose && nearestProj >= cfg.minDistance * cfg.projectedMarginFraction;
+        return new DodgeCandidate(index, wantX, wantZ, dx, dz, exec.errorDegrees(), free, body.center(), body.left(), body.right(), stop.name(), jumpAt,
+                pressure, nearestProj, threatAvg, peak, gap, score, blocked, safe);
     }
 
     /** The danger at the player's own place a short time ahead (the bandits predicted that far). */

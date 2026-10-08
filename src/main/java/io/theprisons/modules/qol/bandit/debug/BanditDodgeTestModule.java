@@ -64,6 +64,7 @@ public final class BanditDodgeTestModule extends AutomationModule {
     private volatile List<double[]> bandits = List.of();   // x, z for the overlay
     private double px;
     private double py;
+    private double halfWidth = 0.3D;
     private double pz;
     // log-on-change memory
     private DodgeAction lastAction;
@@ -146,6 +147,7 @@ public final class BanditDodgeTestModule extends AutomationModule {
             return;
         }
         long now = System.currentTimeMillis();
+        halfWidth = player.getWidth() / 2.0D;
         px = player.getX();
         py = player.getY();
         pz = player.getZ();
@@ -195,7 +197,7 @@ public final class BanditDodgeTestModule extends AutomationModule {
 
         SpearAreaState area = SpearAreaEvaluator.evaluate(ThePrisonsCore.get().cosmic().model(), cosmic.zone());
         DodgeInputs in = new DodgeInputs(now, px, py, pz, (px - player.lastX) * 20.0D, (pz - player.lastZ) * 20.0D, player.getYaw(),
-                player.isOnGround(), list, new WorldTerrain(new LiveWorldView(client.world, world.classifier())), area);
+                player.isOnGround(), list, new WorldTerrain(new LiveWorldView(client.world, world.classifier())), area, player.getWidth() / 2.0D);
         DodgeDecision d = planner.plan(in);
         last = d;
         logChanges(d);
@@ -225,6 +227,12 @@ public final class BanditDodgeTestModule extends AutomationModule {
                     fmt(d.threatScore()), fmt(d.freeDistance()), d.nearbyCount(), d.jump(), d.sprint(), d.aimWindowOpen() ? "OPEN" : "CLOSED",
                     d.aimWindowTicks(), d.area(), control.input().winnerSource().isEmpty() ? "-" : control.input().winnerSource(),
                     control.rotationWinner(), d.reason());
+        }
+        if (d.terrainChange() && (headingChanged || d.action() != lastAction)) {
+            var c = d.chosen();
+            ThePrisonsClient.LOGGER.info("[BanditDodge] COLLISION_PLAN desired={}° executed={}° error={}° center={} left={} right={} stop={} wallPressure={} jumpAt={} "
+                            + "selected={}°", Math.round(c.headingDegrees()), Math.round(c.executedDegrees()), Math.round(c.errorDegrees()), fmt(c.centerFree()),
+                    fmt(c.leftFree()), fmt(c.rightFree()), c.stop(), fmt(c.pressure()), fmt(c.jumpAt()), Math.round(d.headingDegrees()));
         }
         lastHeadingBucket = bucket;
         lastAction = d.action();
@@ -312,7 +320,16 @@ public final class BanditDodgeTestModule extends AutomationModule {
             double len = Math.min(c.free(), cfg.lookahead);
             o.line(px, y, pz, px + c.dirX() * len, y, pz + c.dirZ() * len, c.safe() ? 0x8865F59B : 0x88FF4040, 1.0F);
         }
-        o.line(px, y + 0.3D, pz, px + d.dirX() * 6.0D, y + 0.3D, pz + d.dirZ() * 6.0D, 0xFF4DD8FF, 3.0F);
+        o.line(px, y + 0.3D, pz, px + d.dirX() * 6.0D, y + 0.3D, pz + d.dirZ() * 6.0D, 0xFFFFFFFF, 2.0F);      // desired (white)
+        DodgeCandidate c = d.chosen();
+        double ex = c.execX();
+        double ez = c.execZ();
+        double hw = Math.max(0.0D, halfWidth - 0.02D);
+        double rx = -ez * hw;
+        double rz = ex * hw;
+        o.line(px, y + 0.5D, pz, px + ex * Math.max(0.5D, c.centerFree()), y + 0.5D, pz + ez * Math.max(0.5D, c.centerFree()), 0xFF4DD8FF, 3.0F);   // executed centre (cyan)
+        o.line(px - rx, y + 0.5D, pz - rz, px - rx + ex * Math.max(0.5D, c.leftFree()), y + 0.5D, pz - rz + ez * Math.max(0.5D, c.leftFree()), 0xFFFFE066, 2.0F);   // left body edge (yellow)
+        o.line(px + rx, y + 0.5D, pz + rz, px + rx + ex * Math.max(0.5D, c.rightFree()), y + 0.5D, pz + rz + ez * Math.max(0.5D, c.rightFree()), 0xFFFF66E6, 2.0F); // right body edge (magenta)
         o.label(px + d.dirX() * 6.0D, y + 0.8D, pz + d.dirZ() * 6.0D, d.action().name(), 0xFF4DD8FF);
     }
 

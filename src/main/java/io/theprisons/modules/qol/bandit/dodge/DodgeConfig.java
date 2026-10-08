@@ -25,6 +25,20 @@ public final class DodgeConfig {
     public int directions = 16;
     /** A probe that stops sooner than this at a wall / drop / hazard is blocked. */
     public double minFree = 3.0D;
+    /**
+     * Wall comfort distance: a way that ends in a wall / drop / hazard sooner than this is increasingly penalised (sprint is 5.6 blocks per second, the
+     * view needs a few ticks to turn), so the player bends away long before the wall instead of at it.
+     */
+    public double wallComfort = 7.0D;
+    /** A way that ends this close is "unsafe" (the player must leave it now). */
+    public double wallUrgent = 4.0D;
+    public double wWall = 70.0D;
+    /** Penalty per degree between the desired and the really executed direction. */
+    public double wExecError = 0.15D;
+    /** After a step up the player needs this much more floor, or the step is treated as a wall (no jump into a dead end). */
+    public double jumpLanding = 2.0D;
+    /** The body probes sit this far inside the full half width, so a player hugging a wall is not "inside" it. */
+    public double bodyInset = 0.02D;
     /** A candidate is "safe" when no bandit gets closer than this fraction of the minimum distance on the way. */
     public double projectedMarginFraction = 1.0D;
     /** A new direction must beat the current one by this much (and by this share of its score) to be taken. */

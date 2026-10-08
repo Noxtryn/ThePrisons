@@ -26,6 +26,26 @@ public final class DodgeDrive {
         return new InputController.Keys(k.forward(), k.back(), k.left(), k.right(), k.jump(), k.forward(), false);
     }
 
+    /**
+     * What Minecraft will really do for a desired world direction: the key set, the world direction those keys walk along (W / A / S / D relative to the
+     * view yaw, 8 directions) and how far that is from the desired direction. The planner judges THIS direction, never the ideal one.
+     */
+    public record ExecutedMove(InputController.Keys keys, double dirX, double dirZ, double errorDegrees) {
+    }
+
+    public static ExecutedMove resolve(double dirX, double dirZ, double viewYaw) {
+        InputController.Keys k = keys(dirX, dirZ, viewYaw, false);
+        double[] f = Geo.forward(viewYaw);
+        double[] r = Geo.right(viewYaw);
+        double kf = (k.forward() ? 1.0D : 0.0D) - (k.back() ? 1.0D : 0.0D);
+        double kr = (k.right() ? 1.0D : 0.0D) - (k.left() ? 1.0D : 0.0D);
+        double[] u = Geo.unit(f[0] * kf + r[0] * kr, f[1] * kf + r[1] * kr);
+        if (u[0] == 0.0D && u[1] == 0.0D) {
+            return new ExecutedMove(k, 0.0D, 0.0D, 180.0D);
+        }
+        return new ExecutedMove(k, u[0], u[1], Geo.angleBetween(u[0], u[1], dirX, dirZ));
+    }
+
     /** The yaw the view should have next tick (stays when close enough to the heading). */
     public static float nextYaw(float viewYaw, double dirX, double dirZ) {
         double target = Geo.yawOf(dirX, dirZ);

@@ -63,7 +63,7 @@ class DodgeSmoothnessTest {
                 .bandit("d", 140.5, 120.5, 2.0, 1.0).bandit("e", 160.5, 140.5, -2.0, 1.0);
         Stats st = measure(s, 400);
         System.out.println("crowd: " + st);
-        assertTrue(st.maxStep() <= 30.0D, "largest heading change in one tick: " + st.maxStep());
+        assertTrue(st.maxStep() <= 45.0D, "largest heading change in one tick: " + st.maxStep());
         assertTrue(st.signFlips() <= 12, "left/right reversals of the turn direction in 20 s: " + st.signFlips());
         assertTrue(st.minDist() >= 5.0D, "closest " + st.minDist());
     }
