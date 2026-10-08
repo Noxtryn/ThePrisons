@@ -1,0 +1,50 @@
+technical_id,visual_asset,visual_semantics,status,note
+book/random_simple,book/random,SHARED_RANDOM,VERIFIED_MAPPING,Technical rarity ID reuses one neutral Random artwork in HD V2.1
+book/random_uncommon,book/random,SHARED_RANDOM,VERIFIED_MAPPING,Technical rarity ID reuses one neutral Random artwork in HD V2.1
+book/random_elite,book/random,SHARED_RANDOM,VERIFIED_MAPPING,Technical rarity ID reuses one neutral Random artwork in HD V2.1
+book/random_ultimate,book/random,SHARED_RANDOM,VERIFIED_MAPPING,Technical rarity ID reuses one neutral Random artwork in HD V2.1
+book/random_legendary,book/random,SHARED_RANDOM,VERIFIED_MAPPING,Technical rarity ID reuses one neutral Random artwork in HD V2.1
+book/random_godly,book/random,SHARED_RANDOM,VERIFIED_MAPPING,Technical rarity ID reuses one neutral Random artwork in HD V2.1
+contraband/random_simple,contraband/random,SHARED_RANDOM,VERIFIED_MAPPING,Technical rarity ID reuses one neutral Random artwork in HD V2.1
+contraband/random_uncommon,contraband/random,SHARED_RANDOM,VERIFIED_MAPPING,Technical rarity ID reuses one neutral Random artwork in HD V2.1
+contraband/random_elite,contraband/random,SHARED_RANDOM,VERIFIED_MAPPING,Technical rarity ID reuses one neutral Random artwork in HD V2.1
+contraband/random_ultimate,contraband/random,SHARED_RANDOM,VERIFIED_MAPPING,Technical rarity ID reuses one neutral Random artwork in HD V2.1
+contraband/random_legendary,contraband/random,SHARED_RANDOM,VERIFIED_MAPPING,Technical rarity ID reuses one neutral Random artwork in HD V2.1
+contraband/random_godly,contraband/random,SHARED_RANDOM,VERIFIED_MAPPING,Technical rarity ID reuses one neutral Random artwork in HD V2.1
+charge_orb/stage_1,,PROGRESSION,NEEDS_REDESIGN,Old sheet removed: all four stages must share one exact base orb and differ only by charge activation. Classic fallback active.
+charge_orb/stage_2,,PROGRESSION,NEEDS_REDESIGN,Old sheet removed: all four stages must share one exact base orb and differ only by charge activation. Classic fallback active.
+charge_orb/stage_3,,PROGRESSION,NEEDS_REDESIGN,Old sheet removed: all four stages must share one exact base orb and differ only by charge activation. Classic fallback active.
+charge_orb/stage_4,,PROGRESSION,NEEDS_REDESIGN,Old sheet removed: all four stages must share one exact base orb and differ only by charge activation. Classic fallback active.
+mask/anonymous,,UNIQUE_REAL_IDENTITY,NEEDS_REFERENCE,Generated fantasy mask removed. Must preserve real Cosmic Prisons mask identity before HD redesign. Classic fallback active.
+mask/clue,,UNIQUE_REAL_IDENTITY,NEEDS_REFERENCE,Generated fantasy mask removed. Must preserve real Cosmic Prisons mask identity before HD redesign. Classic fallback active.
+mask/elite,,UNIQUE_REAL_IDENTITY,NEEDS_REFERENCE,Generated fantasy mask removed. Must preserve real Cosmic Prisons mask identity before HD redesign. Classic fallback active.
+mask/godly,,UNIQUE_REAL_IDENTITY,NEEDS_REFERENCE,Generated fantasy mask removed. Must preserve real Cosmic Prisons mask identity before HD redesign. Classic fallback active.
+mask/legendary,,UNIQUE_REAL_IDENTITY,NEEDS_REFERENCE,Generated fantasy mask removed. Must preserve real Cosmic Prisons mask identity before HD redesign. Classic fallback active.
+mask/leprechaun,,UNIQUE_REAL_IDENTITY,NEEDS_REFERENCE,Generated fantasy mask removed. Must preserve real Cosmic Prisons mask identity before HD redesign. Classic fallback active.
+mask/nitro,,UNIQUE_REAL_IDENTITY,NEEDS_REFERENCE,Generated fantasy mask removed. Must preserve real Cosmic Prisons mask identity before HD redesign. Classic fallback active.
+mask/outpost,,UNIQUE_REAL_IDENTITY,NEEDS_REFERENCE,Generated fantasy mask removed. Must preserve real Cosmic Prisons mask identity before HD redesign. Classic fallback active.
+mask/prisoner,,UNIQUE_REAL_IDENTITY,NEEDS_REFERENCE,Generated fantasy mask removed. Must preserve real Cosmic Prisons mask identity before HD redesign. Classic fallback active.
+mask/sentinel,,UNIQUE_REAL_IDENTITY,NEEDS_REFERENCE,Generated fantasy mask removed. Must preserve real Cosmic Prisons mask identity before HD redesign. Classic fallback active.
+mask/simple,,UNIQUE_REAL_IDENTITY,NEEDS_REFERENCE,Generated fantasy mask removed. Must preserve real Cosmic Prisons mask identity before HD redesign. Classic fallback active.
+mask/turkey,,UNIQUE_REAL_IDENTITY,NEEDS_REFERENCE,Generated fantasy mask removed. Must preserve real Cosmic Prisons mask identity before HD redesign. Classic fallback active.
+mask/ultimate,,UNIQUE_REAL_IDENTITY,NEEDS_REFERENCE,Generated fantasy mask removed. Must preserve real Cosmic Prisons mask identity before HD redesign. Classic fallback active.
+mask/uncommon,,UNIQUE_REAL_IDENTITY,NEEDS_REFERENCE,Generated fantasy mask removed. Must preserve real Cosmic Prisons mask identity before HD redesign. Classic fallback active.
+mask/valor,,UNIQUE_REAL_IDENTITY,NEEDS_REFERENCE,Generated fantasy mask removed. Must preserve real Cosmic Prisons mask identity before HD redesign. Classic fallback active.
+pet/anti_xp_tax,,UNIQUE_REAL_IDENTITY,NEEDS_REFERENCE,Do not infer from animal/name alone. Must preserve actual Cosmic Prisons pet icon identity. Classic fallback active.
+pet/bandit_king,,UNIQUE_REAL_IDENTITY,NEEDS_REFERENCE,Do not infer from animal/name alone. Must preserve actual Cosmic Prisons pet icon identity. Classic fallback active.
+pet/blacksmith,,UNIQUE_REAL_IDENTITY,NEEDS_REFERENCE,Do not infer from animal/name alone. Must preserve actual Cosmic Prisons pet icon identity. Classic fallback active.
+pet/cleanse,,UNIQUE_REAL_IDENTITY,NEEDS_REFERENCE,Do not infer from animal/name alone. Must preserve actual Cosmic Prisons pet icon identity. Classic fallback active.
+pet/dragon,,UNIQUE_REAL_IDENTITY,NEEDS_REFERENCE,Do not infer from animal/name alone. Must preserve actual Cosmic Prisons pet icon identity. Classic fallback active.
+pet/fox,,UNIQUE_REAL_IDENTITY,NEEDS_REFERENCE,Do not infer from animal/name alone. Must preserve actual Cosmic Prisons pet icon identity. Classic fallback active.
+pet/lucky,,UNIQUE_REAL_IDENTITY,NEEDS_REFERENCE,Do not infer from animal/name alone. Must preserve actual Cosmic Prisons pet icon identity. Classic fallback active.
+pet/owl,,UNIQUE_REAL_IDENTITY,NEEDS_REFERENCE,Do not infer from animal/name alone. Must preserve actual Cosmic Prisons pet icon identity. Classic fallback active.
+pet/pig,,UNIQUE_REAL_IDENTITY,NEEDS_REFERENCE,Do not infer from animal/name alone. Must preserve actual Cosmic Prisons pet icon identity. Classic fallback active.
+pet/rabbit,,UNIQUE_REAL_IDENTITY,NEEDS_REFERENCE,Do not infer from animal/name alone. Must preserve actual Cosmic Prisons pet icon identity. Classic fallback active.
+pet/shockwave,,UNIQUE_REAL_IDENTITY,NEEDS_REFERENCE,Do not infer from animal/name alone. Must preserve actual Cosmic Prisons pet icon identity. Classic fallback active.
+pet/signal_jammer,,UNIQUE_REAL_IDENTITY,NEEDS_REFERENCE,Do not infer from animal/name alone. Must preserve actual Cosmic Prisons pet icon identity. Classic fallback active.
+pet/slime,,UNIQUE_REAL_IDENTITY,NEEDS_REFERENCE,Do not infer from animal/name alone. Must preserve actual Cosmic Prisons pet icon identity. Classic fallback active.
+pet/wormhole,,UNIQUE_REAL_IDENTITY,NEEDS_REFERENCE,Do not infer from animal/name alone. Must preserve actual Cosmic Prisons pet icon identity. Classic fallback active.
+reroll/*,,FAMILY,REJECTED_CURRENT_EXPORT,Wrong count/order/identity in current Scenario export; not included in HD overlay.
+spear_orb/*,,FAMILY,REJECTED_CURRENT_EXPORT,Wrong count/order/identity in current Scenario export; not included in HD overlay.
+satchel/*,,FAMILY,REJECTED_CURRENT_EXPORT,Wrong count/order/identity in current Scenario export; not included in HD overlay.
+shard/random_*,,SHARED_RANDOM,REJECTED_CURRENT_EXPORT,Generated Random Shard was not a pure shard/crystal; not included.

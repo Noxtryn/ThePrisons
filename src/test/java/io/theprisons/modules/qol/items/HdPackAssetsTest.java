@@ -27,26 +27,68 @@ class HdPackAssetsTest {
         }
     }
 
-    @Test
-    void thePackIsThereWithAMcmetaAndOnlyTextures() throws IOException {
-        assertTrue(Files.isRegularFile(PACK.resolve("pack.mcmeta")));
-        assertFalse(Files.exists(PACK.resolve("assets/theprisons/models")), "no duplicated model json: the pack only replaces PNGs");
-        assertFalse(Files.exists(PACK.resolve("assets/theprisons/items")));
-        try (Stream<Path> s = Files.walk(PACK)) {
-            assertTrue(s.filter(Files::isRegularFile).allMatch(p -> p.toString().endsWith(".png") || p.getFileName().toString().equals("pack.mcmeta")));
+    private static List<Path> packModels() throws IOException {
+        Path models = PACK.resolve("assets/theprisons/models");
+        if (!Files.exists(models)) {
+            return List.of();
         }
-        assertEquals(123 - 1, packPngs().size(), "122 textures (the export has 122 PNGs and the mcmeta)");
+        try (Stream<Path> s = Files.walk(models)) {
+            return s.filter(p -> p.toString().endsWith(".json")).map(PACK::relativize).sorted().toList();
+        }
     }
 
     @Test
-    void everyHdTextureReplacesAClassicOneAtTheSamePath() throws IOException {
+    void thePackHasAMcmetaTexturesAndOnlyTheTwelveRandomModelOverrides() throws IOException {
+        assertTrue(Files.isRegularFile(PACK.resolve("pack.mcmeta")));
+        assertFalse(Files.exists(PACK.resolve("assets/theprisons/items")), "no item definitions: the classic ones stay");
+        try (Stream<Path> s = Files.walk(PACK)) {
+            assertTrue(s.filter(Files::isRegularFile).allMatch(p -> p.toString().endsWith(".png") || p.toString().endsWith(".json") || p.getFileName().toString().equals("pack.mcmeta")));
+        }
+        List<Path> models = packModels();
+        assertEquals(12, models.size(), "6 Book Random + 6 Contraband Random technical ids point to one canonical picture each: " + models);
+        for (Path m : models) {
+            String name = m.toString();
+            assertTrue(name.matches("assets/theprisons/models/item/prisons/(book|contraband)/random_(simple|uncommon|elite|ultimate|legendary|godly)\\.json"), name);
+        }
+        assertEquals(98, packPngs().size(), "98 textures");
+    }
+
+    @Test
+    void theRandomOverridesReplaceTheClassicModelsAtTheSamePathAndShareOnePicture() throws IOException {
+        for (String family : List.of("book", "contraband")) {
+            String texture = null;
+            for (String tier : List.of("simple", "uncommon", "elite", "ultimate", "legendary", "godly")) {
+                Path override = PACK.resolve("assets/theprisons/models/item/prisons/" + family + "/random_" + tier + ".json");
+                Path classic = RES.resolve("assets/theprisons/models/item/prisons/" + family + "/random_" + tier + ".json");
+                assertTrue(Files.isRegularFile(classic), "the classic model exists, so the override really replaces it: " + classic);
+                com.google.gson.JsonObject o = com.google.gson.JsonParser.parseString(Files.readString(override)).getAsJsonObject();
+                com.google.gson.JsonObject c = com.google.gson.JsonParser.parseString(Files.readString(classic)).getAsJsonObject();
+                assertEquals(c.get("parent").getAsString(), o.get("parent").getAsString());
+                assertEquals(c.getAsJsonObject("textures").keySet(), o.getAsJsonObject("textures").keySet());
+                String layer = o.getAsJsonObject("textures").get("layer0").getAsString();
+                assertEquals("theprisons:item/prisons/" + family + "/random", layer, "one canonical Random picture per family");
+                texture = layer;
+            }
+            assertTrue(Files.isRegularFile(PACK.resolve("assets/theprisons/textures/item/prisons/" + family + "/random.png")), texture + " is in the pack");
+        }
+    }
+
+    @Test
+    void everyHdTextureReplacesAClassicOneOrIsUsedByAnOverrideModel() throws IOException {
+        StringBuilder overrides = new StringBuilder();
+        for (Path m : packModels()) {
+            overrides.append(Files.readString(PACK.resolve(m)));
+        }
         List<String> orphans = new ArrayList<>();
         for (Path rel : packPngs()) {
-            if (!Files.isRegularFile(RES.resolve(rel))) {
+            String id = "theprisons:item/prisons/" + TEXTURES.relativize(rel.subpath(0, rel.getNameCount())).toString().replace(".png", "");
+            boolean replaces = Files.isRegularFile(RES.resolve(rel));
+            boolean used = overrides.toString().contains("\"" + id + "\"");
+            if (!replaces && !used) {
                 orphans.add(rel.toString());
             }
         }
-        assertTrue(orphans.isEmpty(), "HD textures with no classic texture at their path (they would never be shown): " + orphans);
+        assertTrue(orphans.isEmpty(), "HD textures that would never be shown (no classic texture at the path, no override model uses them): " + orphans);
     }
 
     @Test
@@ -61,27 +103,51 @@ class HdPackAssetsTest {
     }
 
     @Test
-    void skippedFamiliesAreNotInThePackAndKeepTheirClassicTexture() throws IOException {
+    void rejectedAndUnverifiedFamiliesAreNotInThePackAndKeepTheirClassicTexture() throws IOException {
         List<String> rels = packPngs().stream().map(Path::toString).toList();
-        for (String skipped : List.of("/pet/", "satchel", "/reroll/", "/spear_orb/", "/shard/")) {
-            assertTrue(rels.stream().noneMatch(r -> r.contains(skipped)), skipped + " was skipped in the quality review and must stay classic");
+        for (String skipped : List.of("/pet/", "satchel", "/reroll/", "/spear_orb/", "/shard/", "/charge_orb/", "/mask/")) {
+            assertTrue(rels.stream().noneMatch(r -> r.contains(skipped)), skipped + " was rejected / skipped in the quality review and must stay classic");
         }
-        // and the classic art for them exists, so the fallback has something to show
-        assertTrue(Files.isRegularFile(RES.resolve("assets/theprisons/textures/item/prisons/shard/godly.png")));
-        assertTrue(Files.exists(RES.resolve("assets/theprisons/textures/item/prisons/pet")));
-        assertTrue(Files.exists(RES.resolve("assets/theprisons/textures/item/prisons/reroll")));
+        for (String family : List.of("shard/godly.png", "charge_orb/stage_1.png", "charge_orb/stage_4.png", "mask/anonymous.png", "mask/turkey.png")) {
+            assertTrue(Files.isRegularFile(RES.resolve(TEXTURES.resolve(family))), "the classic " + family + " is what shows now");
+        }
+        assertTrue(Files.exists(RES.resolve(TEXTURES.resolve("pet"))));
+        assertTrue(Files.exists(RES.resolve(TEXTURES.resolve("reroll"))));
     }
 
     @Test
-    void onlyPartiallyDeliveredFamiliesHaveWhatWasDelivered() throws IOException {
+    void prestigeLevelsOneToFiveOnly() throws IOException {
         List<String> rels = packPngs().stream().map(Path::toString).toList();
-        assertEquals(5, rels.stream().filter(r -> r.contains("/prestige_token/")).count(), "prestige levels 1-5 only");
+        assertEquals(5, rels.stream().filter(r -> r.contains("/prestige_token/")).count());
         assertTrue(rels.stream().noneMatch(r -> r.endsWith("prestige_token/level_6.png")));
-        assertEquals(10, rels.stream().filter(r -> r.contains("/mask/")).count(), "10 of 15 masks");
-        for (String missing : List.of("simple", "turkey", "ultimate", "uncommon", "valor")) {
-            assertTrue(rels.stream().noneMatch(r -> r.endsWith("mask/" + missing + ".png")), missing + " mask is not delivered yet");
-            assertTrue(Files.isRegularFile(RES.resolve(TEXTURES.resolve("mask/" + missing + ".png"))), "classic " + missing + " mask stays");
+        assertTrue(Files.isRegularFile(RES.resolve(TEXTURES.resolve("prestige_token/level_6.png"))), "level 6 stays classic");
+    }
+
+    /** VISUAL_ASSET_MAP.csv is the import gate: only VERIFIED_MAPPING rows may be in the pack, everything else must be absent. */
+    @Test
+    void theVisualAssetMapIsTheImportGate() throws IOException {
+        List<String> lines = Files.readAllLines(Path.of("docs/textures/HD_V2_VISUAL_ASSET_MAP.csv"));
+        assertTrue(lines.size() > 40);
+        int verified = 0;
+        int blocked = 0;
+        for (String line : lines.subList(1, lines.size())) {
+            String[] c = line.split(",", 5);
+            String technical = c[0];
+            String status = c[3];
+            Path texture = PACK.resolve(TEXTURES.resolve(technical + ".png"));
+            Path model = PACK.resolve("assets/theprisons/models/item/prisons/" + technical + ".json");
+            if (status.equals("VERIFIED_MAPPING")) {
+                verified++;
+                assertTrue(Files.isRegularFile(model), technical + " is verified: its override model must be in the pack");
+                assertTrue(Files.isRegularFile(PACK.resolve(TEXTURES.resolve(c[1] + ".png"))), technical + " -> " + c[1] + " must exist");
+            } else {
+                blocked++;
+                assertFalse(Files.exists(texture), technical + " is " + status + ": no texture in the pack");
+                assertFalse(Files.exists(model), technical + " is " + status + ": no model in the pack");
+            }
         }
+        assertEquals(12, verified);
+        assertTrue(blocked >= 30, "blocked rows: " + blocked);
     }
 
     @Test
