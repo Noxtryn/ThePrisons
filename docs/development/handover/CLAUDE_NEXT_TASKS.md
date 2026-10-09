@@ -1,14 +1,12 @@
-# Claude next tasks — handover at 18:34
+# Claude next tasks — after Phase 1 (2026-10-09)
 
-Work only on `dev`; preserve `Release` and `stash@{0}`. Continue from the exact tree/commit recorded in `NEXT_SESSION_1834.md`. The current product acceptance is incomplete; do not call the UI finished based on builds or synthetic GameTests.
+Work only on `dev`; preserve `Release`, `stash@{0}` and the six uncommitted mode diffs. Start from `CURRENT_STATE.md`.
 
-1. **P0 — Repair Config GUI at 1280×720 / GUI Scale 3.** Edit the real `io.theprisons.gui.click.ClickGuiScreen`, not a parallel screen. Fix horizontal category-tab overflow and overly narrow labels/controls. Re-render after each focused change; test the actual navigation, dropdown, slider, search and scroll, with no clipped controls. Keep the existing `mouseScrolled` geometry correction.
-2. **P1 — Prism and Cosmic Prisons live acceptance.** Start the installed `ThePrisons-Nebula-v1.2.1-mc1.21.11.jar` in the `Cosmic` Prism instance (MC 1.21.11, Fabric 0.19.5, Java 21). Capture screenshots from the actual client. On Cosmic Prisons, verify `/ah`, `/ee`, server item icons, original Cosmic lore, tooltips, market observations, and actual prices. If server access is unavailable, document each specific step as `MANUAL TEST REQUIRED`; never substitute synthetic prices.
-3. **P2 — Item List, rarity frames and original tooltips.** Work on the productive `InventoryItemList` and its real `ThePrisonsMarketInventoryMixin` render/input path. Preserve original Minecraft/Cosmic tooltip lines and add market data only when cache-backed. Verify card size/spacing, rarity colors/frames, search/filter/sort, long names and large inventories against live item examples.
-4. **P3 — AH/EE pricing.** Inspect `MarketScreen`, `MarketOverlay`, `MarketModule`, and the Energy calculations. Use only actual observations. Make price source, age, confidence, comparison set, quantity and formulas understandable; test invalid values and repeated observations.
-5. **P4 — UI consistency and performance.** Unify the existing Config GUI, Inventory Item List, AH/EE and active HUD without duplicate renderers/services. Check scaling, tooltip fidelity, frame cost and resource reload. Keep unverified claims clearly labeled.
-6. **P5 — Future texture batches.** Import only delivered artwork after exact registry/model matching. Current standard pack has 35 approved PNGs; maintain Classic/Cosmic fallback and never globally override unrelated items.
+1. **Wait for the approved Claude Design specification.** No new Config GUI and no repair of `DashboardScreen`/`ClickGuiScreen` before it arrives (the former P0 scale-3 fix is superseded by the rebuild).
+2. **Decisions needed from the product owner** before Phase 2 or any release: public presentation of the paused item look (`docs/audit/RELEASE_AUDIT.md` §3), back-merge of `origin/Release` into `dev`, push of the local Phase-1 commits, open UI questions (`docs/design/UI_REPLACEMENT_REQUIREMENTS.md` §10).
+3. **Phase 2** strictly in the order of `docs/development/PHASE_2_IMPLEMENTATION_PLAN.md` (P2.0 … P2.8). The old GUI is deleted in P2.4, in the same change that proves full coverage. No hidden alternative.
+4. **Live acceptance** in Prism instance `Cosmic` on Cosmic Prisons (`/ah`, `/ee`, Item List, original tooltips/lore) remains **MANUAL TEST REQUIRED**. Never substitute synthetic prices.
 
-**Hard stop:** no Bandit Macro work until the UI is visually accepted. Do not apply `stash@{0}` wholesale; it combines obsolete HD artwork with incomplete navigation changes. Do not alter product choices or texturepack selection without approval.
+**Hard stops:** Cosmic item system paused (no textures, item look or texture settings) until explicit re-approval. No Bandit Macro work before UI acceptance. Do not apply `stash@{0}`. No release, tag or Discord post without approval.
 
-Persistent screenshots: `visual-acceptance-2026-10-08/` (79 PNGs). Known visual issue and exact QA limitations: `VISUAL_ACCEPTANCE_2026-10-08.md`.
+Previous task list (Codex handover, 18:34) is superseded; history in Git.
