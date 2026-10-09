@@ -67,6 +67,41 @@ Jeder Schritt ist ein eigener Commit (oder eine kleine Serie) auf `dev`. Pflicht
 
 Die alte GUI wird **erst** in P2.4 gelöscht, wenn die neue alle Settings, Aktionen und Einstiege nachweislich übernommen hat (Vollständigkeitstest aus P2.3 plus GameTest). Zwischen P2.3 und P2.4 gibt es keinen Zustand, in dem beide GUIs ausgeliefert werden.
 
+## 3a. Verbindliche PO-Vorgaben (2026-10-10)
+
+1. Die Config GUI wird vollständig neu entwickelt. Die alte wird nach erfolgreicher Migration **entfernt**, nicht als Alternative behalten.
+2. **Alle 204 bestehenden Settings** (178 Core + 26 Legacy, Anhang A des Vertrags) werden funktional übernommen. Das gilt auch für `hud_layout.snap` und `hud_layout.grid`, die heute wirkungslos sind. Sie werden im neuen HUD-Editor wirksam (Snap-Standard, Rastergröße). Der Vollständigkeitstest aus P2.3 prüft gegen exakt diese 204 IDs plus ein `keybind` pro Modul.
+3. **Sämtliche HUDs und produktiven Overlays**, einschließlich AH und EE, bekommen das neue Designsystem (P2.6, P2.7). Keines bleibt auf dem alten Look.
+4. Implementierung erst nach Freigabe des finalen Designpakets durch den PO.
+5. Das Cosmic Item System bleibt pausiert (siehe §3c).
+
+## 3b. Korrektur `/prisons open` (Risiko R16) – Teil von P2.4
+
+**Befund (Code-Analyse, nicht live reproduziert):**
+
+- `core/module/AutomationModule.java:42` ruft vor jedem Makrostart `SetupGate.check(this)` auf. Das betrifft `ore_macro` und `bandit_macro`, beide im Nutzer-Build frei schaltbar.
+- Bei fehlenden Pflicht-Settings schreibt `core/setup/SetupGate.java:30` je Lücke einen Chat-Link „Set now“ mit `ClickEvent.RunCommand("/prisons open <modul> <setting>")` (`ModChat.link`).
+- Den Befehl `open` (und `lang`) registriert `core/setup/ModCommands.register`. Das geschieht nur in `ThePrisonsClient.java:64` hinter `if (FeatureProfile.DEV)`. Im Nutzer-Build ist der Link daher tot (unbekannter Befehl).
+- Wann es auftritt: Der Nutzer leert ein Pflichtfeld des Ore Macro (z. B. `vault_shards`, `pet_name`, `ability_names`, `ore_packs`) und startet mit `K`. Mit den Defaults sind die Pflichtwerte gefüllt; deshalb ist der Fehler bisher nicht aufgefallen.
+- `capture` liegt zwar in `ModCommands`, ist dort aber zusätzlich über `CaptureService.enabled()` abgesichert. Ein Registrieren in allen Builds macht also kein Entwicklerwerkzeug sichtbar.
+
+**Korrektur in P2.4 (mit der neuen GUI, nicht vorher):**
+
+1. `ModCommands.register(core)` in **allen** Builds aufrufen; die DEV-Bedingung in `ThePrisonsClient` entfällt. `capture` bleibt hinter `CaptureService.enabled()`.
+2. `ModCommands.openAt` ruft die neue `gui.config.DeepLink.open(moduleId, settingId)` auf statt `ClickGuiScreen.focus` + `new ClickGuiScreen(...)`. Unbekannte Module oder Settings bekommen eine Chat-Rückmeldung statt eines stillen `return 0`.
+3. Dieselbe `DeepLink`-API nutzen die Kacheln und die Suche der neuen GUI. Es gibt genau einen Weg, „Modul X, Setting Y“ zu öffnen.
+4. Tests:
+   - Unit: Jeder von `SetupGate` erzeugte Befehlstext ist im Befehlsbaum des **Nutzer-Profils** (`theprisons.dev=false`) auflösbar. Zusätzlich gilt für jedes Pflicht-Setting jedes Moduls: `DeepLink` findet Seite und Control.
+   - Client-GameTest im Nutzer-Profil: Pflichtfeld leeren, Makro starten, den Chat-Link ausführen. Erwartet: die neue GUI ist offen, das Setting sichtbar und markiert.
+5. Abnahme live in Prism: **MANUAL TEST REQUIRED**.
+
+## 3c. Schutz der Pause während Phase 2
+
+- `CosmicItemPauseTest` bleibt im Build und darf nicht abgeschwächt werden. Er prüft, dass keine pausierten Assets, Mixins, Module oder Settings im ausgelieferten Baum liegen.
+- Bei jedem Phase-2-Commit gilt: `checkPausedCosmicItems` muss grün sein und der JAR-Scan auf `resourcepacks/`, `assets/theprisons/{items,models}`, `textures/item/prisons`, `ItemLookModule`, `ComicTextures` muss 0 Treffer ergeben.
+- Das Designsystem zeichnet Rarity **neben** Items (Kartenrahmen, Label), nie auf oder hinter dem Item-Icon. Es gibt keinen `DrawContext.drawItem`-Hook und keine Item-Modell-, Textur- oder Tooltip-Rahmen-Mixins.
+- `tools/textures/*.py` werden in Phase 2 nicht ausgeführt.
+
 ## 4. Was bewusst nicht Teil von Phase 2 ist
 
 - Cosmic Item System (pausiert), Item-Texturen jeder Art.

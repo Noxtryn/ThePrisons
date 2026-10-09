@@ -155,7 +155,7 @@ Die Zuordnung ist nicht nur modulweise: `Tab.of(module, group)` verteilt die Gru
 
 ### 4.3 Vollständigkeit
 
-**Jedes** Setting aus Anhang A muss erreichbar sein – außer den dort als *entfällt* markierten. Für DEV-only-Module (`bandit_dodge_test`) und REMOVED-Module (`safety`, `performance`, `session_stats`) gilt: nur im DEV-Build sichtbar, aber mit denselben Komponenten.
+**Alle 204 bestehenden Settings** aus Anhang A (178 Core + 26 Legacy) werden **funktional** übernommen (PO-Entscheidung 2026-10-10), zusätzlich das `keybind` jedes Moduls. Die pausierten Item-Look-Settings sind in diesen 204 nicht enthalten. Für DEV-only-Module (`bandit_dodge_test`) und REMOVED-Module (`safety`, `performance`, `session_stats`) gilt: nur im DEV-Build sichtbar, aber mit denselben Komponenten.
 
 ### 4.4 Feature-Profil in der UI
 
@@ -256,7 +256,7 @@ Für jede Komponente erwartet: Maße in skalierten Pixeln für Skala 1/2/3 (oder
 | Element | Grund |
 |---|---|
 | `item_look` (alle 6 Settings), `design.comic_textures` | Cosmic Item System pausiert |
-| `hud_layout.snap`, `hud_layout.grid` | wirkungslos: nur vom toten `ThePrisonsHudLayoutScreen` gelesen. Der HUD-Editor hat einen eigenen Snap-Schalter. |
+| ~~`hud_layout.snap`, `hud_layout.grid` entfallen~~ | **Revidiert 2026-10-10:** Beide bleiben und werden funktional. Sie steuern im neuen HUD-Editor den Standard des Snap-Schalters und die Rastergröße (heute wirkungslos, weil sie nur der tote `ThePrisonsHudLayoutScreen` liest). |
 | `ThePrisonsHudLayoutScreen`, `MarketSearch`, `NebulaHudRenderer` | toter bzw. ersetzter Code |
 | Dashboard und ClickGui als getrennte Oberflächen | werden durch **eine** GUI ersetzt |
 
@@ -264,7 +264,7 @@ Für jede Komponente erwartet: Maße in skalierten Pixeln für Skala 1/2/3 (oder
 
 ## 9. Abnahmekriterien für das Design
 
-1. Jedes Setting aus Anhang A (außer §8) hat einen Platz und eine Komponente.
+1. Jedes der 204 Settings aus Anhang A hat einen Platz und eine Komponente.
 2. Layouts sind für die skalierten Größen **320×180, 427×240, 480×270, 640×360, 960×540, 1280×720** spezifiziert. Bei 427×240 ist alles erreichbar, nichts abgeschnitten.
 3. Deutsche Texte sind in den Layouts berücksichtigt (Beispiel: „Speicher für Energie ab (Millionen)“).
 4. Alle Zustände aus §3.2 sind pro Control definiert.
@@ -597,8 +597,8 @@ Jedes Legacy-Modul hat außerdem seinen An/Aus-Zustand (gebunden an ein v1-Flag)
 | `armor_hud` | `gap` | integer | Gap | 0–8 | Style |
 | `item_insights` | `clue_steps` | bool | Clue scroll steps | v1-Default | – |
 | `hud_layout` (SYSTEM) | `open` | action | Layout editor → „Open“ | öffnet den HUD-Editor | – |
-| `hud_layout` | `snap` | bool | Snap to grid | **entfällt** (wirkungslos, §8) | – |
-| `hud_layout` | `grid` | integer | Grid size | **entfällt** (wirkungslos, §8) | – |
+| `hud_layout` | `snap` | bool | Snap to grid | v1-Default; **neu funktional:** Standardzustand des Snap-Schalters im HUD-Editor | – |
+| `hud_layout` | `grid` | integer | Grid size | 6–32 px; **neu funktional:** Rasterweite im HUD-Editor | – |
 | `hud_layout` | `module_hud_scale` | decimal | Module widget scale | 0.5–2.5, Schritt 0.05 | – |
 | `message_notifications` | `sound` | bool | Sound | v1-Default | – |
 | `message_notifications` | `volume` | decimal | Volume | 0.0–2.0, Schritt 0.05 | – |
@@ -613,7 +613,7 @@ Die v1-HUD-Positionen (x/y je Widget) liegen ebenfalls in `config/theprisons.jso
 
 ### A.3 Entfallene Settings (nicht übernehmen)
 
-`item_look.source`, `item_look.frames`, `item_look.badges`, `item_look.pickaxes`, `item_look.gear`, `item_look.plain_items`, `design.comic_textures` (pausiert) sowie `hud_layout.snap` und `hud_layout.grid` (wirkungslos).
+`item_look.source`, `item_look.frames`, `item_look.badges`, `item_look.pickaxes`, `item_look.gear`, `item_look.plain_items`, `design.comic_textures` (pausiert; nicht in den 204 enthalten).
 
 ---
 

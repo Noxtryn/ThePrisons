@@ -31,6 +31,10 @@
 - `runClientGameTest -Pshowcase` (Config-GUI-Screenshots) wurde in dieser Session nicht ausgeführt.
 - Live-Test in Prism und auf Cosmic Prisons: **MANUAL TEST REQUIRED**.
 
+## Übergabe an Claude Design (2026-10-10)
+
+Einstieg: [`docs/design/CLAUDE_DESIGN_HANDOFF.md`](../../design/CLAUDE_DESIGN_HANDOFF.md) mit den verbindlichen PO-Vorgaben (Neubau, alle 204 Settings funktional, alle HUDs und Overlays inkl. AH/EE im neuen Designsystem, Pause bleibt). Aktuelle Ist-Screenshots: `docs/design/reference/current-state-2026-10-10/`. Korrekturplan für `/prisons open`: `PHASE_2_IMPLEMENTATION_PLAN.md` §3b.
+
 ## Nächster Schritt
 
 Auf die freigegebene Designspezifikation von Claude Design warten. Bis dahin: keine neue Config GUI, kein Ausbessern der alten GUI (der frühere P0 „ClickGuiScreen bei 1280×720 / Skala 3 reparieren“ entfällt durch den Neubau). Entscheidungen, die vorher fallen müssen, stehen in `RELEASE_AUDIT.md` §3 und `UI_REPLACEMENT_REQUIREMENTS.md` §10.
