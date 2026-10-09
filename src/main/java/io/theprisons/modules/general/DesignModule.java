@@ -17,7 +17,6 @@ public final class DesignModule extends Module {
     private final Settings.IntSetting darkness;
     private final Settings.BoolSetting animations;
     private final Settings.BoolSetting sleekFont;
-    private final Settings.BoolSetting comicTextures;
 
     public DesignModule() {
         super("design", "Design", Category.GENERAL, "Interface", "Theme, card darkness, animations and font.",
@@ -26,10 +25,6 @@ public final class DesignModule extends Module {
         darkness = integer("darkness", "Card darkness", 60, 10, 100, 5).suffix("%").group("Design");
         animations = bool("animations", "Animations", true).group("Design");
         sleekFont = bool("sleek_font", "Boxy font", true).group("Design");
-        comicTextures = bool("comic_textures", "Comic textures", true)
-                .description("Every texture of the game in the comic / MMORPG look (reloads the textures).").group("Design");
-        comicTextures.onChange(on -> net.minecraft.client.MinecraftClient.getInstance().execute(
-                () -> net.minecraft.client.MinecraftClient.getInstance().reloadResources()));
         instance = this;
     }
 
@@ -61,15 +56,6 @@ public final class DesignModule extends Module {
     public static boolean sleekFont() {
         DesignModule d = instance;
         return d == null || d.sleekFont.on();
-    }
-
-    public static boolean comicTextures() {
-        DesignModule d = instance;
-        return d == null || d.comicTextures.on();
-    }
-
-    public Settings.BoolSetting comicTexturesSetting() {
-        return comicTextures;
     }
 
     public Settings.EnumSetting<Theme> themeSetting() {

@@ -159,6 +159,32 @@ tasks.register('legacyBenchmark', Test) {
     testLogging { showStandardStreams = true }
 }
 
+// The paused Cosmic item look (docs/development/COSMIC_ITEM_PAUSE_PLAN.md): code, mixins, models, textures, the 35 standard
+// textures, the comic filter and the tooltip look pack. Never part of the JAR (`build` does not touch it); kept compilable
+// against the current main code: ./gradlew checkPausedCosmicItems
+sourceSets {
+    pausedCosmicItems {
+        java { srcDir 'src/paused/cosmic-items/java' }
+        resources { srcDirs = [] }
+        compileClasspath += sourceSets.main.compileClasspath + sourceSets.main.output
+        runtimeClasspath += sourceSets.main.runtimeClasspath + sourceSets.main.output
+    }
+    pausedCosmicItemsTest {
+        java { srcDir 'src/paused/cosmic-items/test/java' }
+        resources { srcDirs = [] }
+        compileClasspath += sourceSets.test.compileClasspath + sourceSets.main.output + sourceSets.pausedCosmicItems.output
+        runtimeClasspath += sourceSets.test.runtimeClasspath + sourceSets.main.output + sourceSets.pausedCosmicItems.output
+    }
+}
+
+tasks.register('checkPausedCosmicItems', Test) {
+    description = 'Compiles the paused Cosmic item look against the current code and runs its own tests (not part of build).'
+    group = 'verification'
+    testClassesDirs = sourceSets.pausedCosmicItemsTest.output.classesDirs
+    classpath = sourceSets.pausedCosmicItemsTest.runtimeClasspath
+    useJUnitPlatform()
+}
+
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)

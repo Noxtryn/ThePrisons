@@ -48,7 +48,7 @@ public enum Tab {
             case "safety" -> SAFETY;
             case "spear_helper" -> BANDITS;
             case "market", "ah_overlay", "ee_overlay", "energy_overlay" -> MARKET;
-            case "item_list", "item_look", "storage_overlay" -> ITEMS;
+            case "item_list", "storage_overlay" -> ITEMS;
             default -> module.category() == Category.BANDIT ? BANDITS : module.category() == Category.HUD ? HUD : module.category() == Category.MINING ? MINING : SETTINGS;
         };
     }

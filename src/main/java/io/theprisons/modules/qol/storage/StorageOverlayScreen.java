@@ -297,8 +297,7 @@ public final class StorageOverlayScreen extends HandledScreen<ScreenHandler> imp
         ItemStack cached = hoveredCached;
         if (cached != null && handler.getCursorStack().isEmpty() && focusedSlot == null) {
             context.drawTooltip(textRenderer, getTooltipFromItem(cached), cached.getTooltipData(), mouseX, mouseY,
-                    io.theprisons.modules.qol.items.ItemLookModule.tooltipStyle(cached,
-                            cached.get(net.minecraft.component.DataComponentTypes.TOOLTIP_STYLE)));
+                    cached.get(net.minecraft.component.DataComponentTypes.TOOLTIP_STYLE));
         }
     }
 

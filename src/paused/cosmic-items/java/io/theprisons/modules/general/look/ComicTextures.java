@@ -1,7 +1,6 @@
 package io.theprisons.modules.general.look;
 
 import io.theprisons.ThePrisonsClient;
-import io.theprisons.modules.general.DesignModule;
 import net.minecraft.client.resource.metadata.AnimationResourceMetadata;
 import net.minecraft.client.texture.NativeImage;
 import net.minecraft.client.texture.SpriteDimensions;
@@ -21,8 +20,18 @@ public final class ComicTextures {
     private ComicTextures() {
     }
 
+    /**
+     * Paused: the switch used to be DesignModule's "comic_textures" setting (default on, reloads the resources on
+     * change). Reactivation wires it back there, see src/paused/cosmic-items/README.md.
+     */
+    private static volatile boolean enabled = true;
+
     public static boolean enabled() {
-        return DesignModule.comicTextures();
+        return enabled;
+    }
+
+    public static void setEnabled(boolean on) {
+        enabled = on;
     }
 
     static boolean skip(Identifier id) {

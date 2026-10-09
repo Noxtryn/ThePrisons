@@ -86,7 +86,6 @@ public final class ModuleRegistry {
                 new io.theprisons.modules.qol.storage.StorageOverlayModule();
         modules.register(storage);
         storage.register(core.bus());
-        modules.register(new io.theprisons.modules.qol.items.ItemLookModule());
         // The shared item platform (registry, search, item list); the AH overlay and the energy overlay read the same data.
         io.theprisons.items.ItemsService itemsService = io.theprisons.items.ItemsService.init(core.dataDir());
         itemsService.loadCatalogOnce(core.dataDir().resolve("market").resolve("catalog.json"), r -> net.minecraft.client.MinecraftClient.getInstance().execute(r));

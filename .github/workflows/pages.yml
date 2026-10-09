@@ -12,7 +12,7 @@ on:
       - 'site/**'
       - 'docs/media/**'
       - 'docs/development/handover/visual-acceptance-2026-10-08/**'
-      - 'src/main/resources/resourcepacks/theprisons_items_standard/**'
+      - 'src/paused/cosmic-items/resources/resourcepacks/theprisons_items_standard/**'
       - 'CHANGELOG*.md'
       - '.github/workflows/pages.yml'
   release:
@@ -49,7 +49,7 @@ jobs:
         run: |
           mkdir -p site/media/textures site/media/screenshots
           cp docs/media/banner.png site/media/
-          cp -R src/main/resources/resourcepacks/theprisons_items_standard/assets/theprisons/textures/item/prisons/. site/media/textures/
+          cp -R src/paused/cosmic-items/resources/resourcepacks/theprisons_items_standard/assets/theprisons/textures/item/prisons/. site/media/textures/
           qa=docs/development/handover/visual-acceptance-2026-10-08
           cp "$qa/config/0005_config_scale1_overview.png" site/media/screenshots/config-session.png
           cp "$qa/0004_market_1d_inventory_search.png" site/media/screenshots/item-list.png

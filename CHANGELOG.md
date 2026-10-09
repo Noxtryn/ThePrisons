@@ -6,7 +6,9 @@ The long development notes of the core rewrite live in [docs/dev-notes/core-rewr
 
 ## [Unreleased]
 
-No unreleased changes.
+### Changed
+
+- **Item look paused:** ThePrisons no longer changes how items look. The own item textures, tier frames, slot badges, tier tooltip frames, the comic texture filter, the custom tooltip frame and the 35 sci-fi item textures are not shipped for now; items appear exactly as Cosmic Prisons, Minecraft or your resource packs show them. Item recognition, the Item List, AH/EE overlays and market data are unchanged.
 
 ## [1.3.0-beta.1] - 2026-10-08
 
