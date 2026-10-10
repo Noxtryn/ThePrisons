@@ -30,7 +30,7 @@ jobs:
         with:
           python-version: '3.12'
       - name: Install Discord listener dependency
-        run: python3 -m pip install -r discord-bot/requirements.txt
+        run: python3 -m pip install -r discord-bot/requirements.txt -r discord-bot/requirements-dashboard.txt
       - name: Discord bot tests and content check (offline)
         working-directory: discord-bot
         run: |
