@@ -10,7 +10,8 @@
       "io.theprisons.gametest.RedstoneCaveClientGameTest",
       "io.theprisons.gametest.ShowcaseClientGameTest",
       "io.theprisons.gametest.MarketClientGameTest",
-      "io.theprisons.gametest.TunnelClientGameTest"
+      "io.theprisons.gametest.TunnelClientGameTest",
+      "io.theprisons.gametest.ConfigGuiClientGameTest"
     ]
   },
   "depends": {

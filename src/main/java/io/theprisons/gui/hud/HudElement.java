@@ -22,4 +22,9 @@ public interface HudElement {
 
     /** Back to the default position and scale. */
     void reset();
+
+    /** The modules that show this element; it is on while any of them is on. A module that is its own element needs no override. */
+    default java.util.List<String> moduleIds() {
+        return java.util.List.of(id());
+    }
 }

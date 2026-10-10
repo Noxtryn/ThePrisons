@@ -65,7 +65,7 @@ public final class PlayerCardModule extends Module implements HudElement {
             }
             return ActionResult.PASS;
         });
-        bus.subscribe(CoreEvents.TickEnd.class, this, e -> tick(e.client()));
+        always(CoreEvents.TickEnd.class, e -> tick(e.client()));
         PlayerStats.register();
     }
 

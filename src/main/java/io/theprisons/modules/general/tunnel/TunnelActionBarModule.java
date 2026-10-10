@@ -42,7 +42,7 @@ public final class TunnelActionBarModule extends Module implements HudElement {
     }
 
     public void register(EventBus bus) {
-        bus.subscribe(CoreEvents.ChatReceived.class, this, event -> {
+        always(CoreEvents.ChatReceived.class, event -> {
             if (event.overlay() && !event.fromPlayer()) {
                 String s = io.theprisons.core.client.TextStrip.strip(event.message().getString()).trim();
                 if (!s.isEmpty()) {

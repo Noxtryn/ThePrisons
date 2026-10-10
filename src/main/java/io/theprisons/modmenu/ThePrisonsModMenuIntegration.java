@@ -8,6 +8,6 @@ import com.terraformersmc.modmenu.api.ModMenuApi;
 public final class ThePrisonsModMenuIntegration implements ModMenuApi {
     @Override
     public ConfigScreenFactory<?> getModConfigScreenFactory() {
-        return parent -> ThePrisonsClient.dashboard(parent, ThePrisonsCore.get());
+        return parent -> ThePrisonsClient.configScreen(parent, ThePrisonsCore.get());
     }
 }

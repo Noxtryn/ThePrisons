@@ -1,5 +1,6 @@
 package io.theprisons.items.client;
 
+import io.theprisons.gui.kit.Panel;
 import io.theprisons.gui.kit.Ui;
 import io.theprisons.items.energy.EnergyOverlayModel;
 import io.theprisons.modules.FeatureProfile;
@@ -29,20 +30,17 @@ public final class EnergyOverlayRender {
         List<String> lines = detailed ? model.detailedLines() : model.compactLines();
         int w = detailed ? 176 : 132;
         int h = 14 + lines.size() * 11 + (model.progress() != null ? 5 : 0);       // the bar row is 16 px, the text rows 11
-        int x = screen.width - w - 8;
-        int y = screen.height - h - 8;
+        int[] at = Panel.corner(screen.width, screen.height, w, h, true, true, 8);
+        int x = at[0];
+        int y = at[1];
         int alpha = model.stale() ? 150 : 255;
-        Ui.round(c, x, y, w, h, 0xF00A0F1A);
-        Ui.outline(c, x, y, w, h, 0xFF1C2740);
+        Panel.box(c, x, y, w, h);
         int ty = y + 7;
         for (String line : lines) {
             if (line.startsWith("█") || line.startsWith("░")) {
                 int bx = x + 8;
                 int bw = w - 16;
-                c.fill(bx, ty + 1, bx + bw, ty + 6, 0xFF111A2C);
-                if (model.progress() != null) {
-                    c.fill(bx, ty + 1, bx + Math.round(bw * model.progress()), ty + 6, model.stale() ? 0xFF2B6B80 : 0xFF3CC4E8);
-                }
+                Panel.bar(c, bx, ty + 1, bw, 5, model.progress(), model.stale());
                 Ui.drawRight(c, tr, model.percent() == null ? "" : model.percent(), x + w - 8, ty + 8, Ui.VALUE, alpha);
                 ty += 16;
                 continue;

@@ -14,8 +14,8 @@ public final class ClickGuiModule extends Module {
     private final Settings.EnumSetting<I18n.Lang> language;
 
     public ClickGuiModule(Runnable open) {
-        super("click_gui", "Click GUI", Category.GENERAL, "Interface",
-                "The module menu. Also opens with /prisons.", GLFW.GLFW_KEY_RIGHT_SHIFT);
+        super("click_gui", "Config GUI", Category.GENERAL, "Interface",
+                "The config menu: every module and setting. Also opens with /prisons.", GLFW.GLFW_KEY_RIGHT_SHIFT);
         this.open = open;
         language = choice("language", "Language", I18n.Lang.EN, I18n.Lang::label)
                 .description("Language of the menu, the welcome setup and the mod's chat messages. Switches live.")

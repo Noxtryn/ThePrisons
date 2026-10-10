@@ -110,8 +110,8 @@ class CosmicStatsTest {
         assertEquals(3_723_000L, CosmicStats.remaining("1:02:03"));
         assertEquals(3_900_000L, CosmicStats.remaining("1h 5m"));
         assertEquals(30_000L, CosmicStats.remaining("30s left"));
-        assertEquals("00:01:05", NebulaHudRenderer.clock(65_000L));
-        assertEquals("1.25M", NebulaHudRenderer.compact(1_250_000L));
+        assertEquals("00:01:05", io.theprisons.hud.SessionViewFactory.clock(65_000L));
+        assertEquals("1.25M", io.theprisons.hud.SessionViewFactory.compact(1_250_000L));
     }
 
     @Test
@@ -122,7 +122,7 @@ class CosmicStatsTest {
         assertEquals(30L * 60_000L, stats.snapshot(300_000L, 0, "").levelUpEtaMs());
         stats.sidebar(List.of("Level 50", "XP: 1,000 / 2.2k"), 300_000L);
         assertEquals(60L * 60_000L, stats.snapshot(300_000L, 0, "").levelUpEtaMs(), "sidebar first: 1,200 left");
-        assertEquals("01:00", NebulaHudRenderer.eta(60L * 60_000L));
+        assertEquals("01:00", io.theprisons.hud.SessionViewFactory.eta(60L * 60_000L));
     }
 
     @Test
@@ -134,20 +134,9 @@ class CosmicStatsTest {
         CosmicStats.Snapshot snap = stats.snapshot(1_000L, 0, "");
         assertEquals(0.4D, snap.procShare(), 1e-9);
         assertEquals("Fractured III · Shatter 12%", snap.loreProcs());
-        assertEquals("REPAIR REQUIRED", NebulaHudRenderer.rows(snap, 0L).get(0).value());
         // 10 hits in the last 60 s window (1 s old session → 10 per second), 12 % proc, 2 blocks per proc measured.
         assertEquals(10.0D * (1.0D + 0.12D * 2.0D), snap.forecastOps(), 1e-9);
         stats.pickaxe("", 0.5D, -1.0D);
-        assertEquals("UpTime", NebulaHudRenderer.rows(stats.snapshot(1_000L, 0, ""), 0L).get(0).label());
-    }
-
-    @Test
-    void botStateAndInventoryRowsOnlyWhenKnown() {
-        List<NebulaHudRenderer.Row> rows = NebulaHudRenderer.rows(stats.snapshot(1_000L, 0, "Tunnel", "SORTING LOOT", 75), 0L);
-        assertEquals("Bot State", rows.get(0).label());
-        assertEquals("SORTING LOOT", rows.get(0).value());
-        assertEquals("75 %", rows.get(1).value());
-        assertEquals("UpTime", NebulaHudRenderer.rows(stats.snapshot(1_000L, 0, ""), 0L).get(0).label(), "macro off: no state row");
     }
 
     @org.junit.jupiter.api.Test

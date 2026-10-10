@@ -1,4 +1,4 @@
-package io.theprisons.gui.click;
+package io.theprisons.gui.config;
 
 import io.theprisons.ThePrisonsClient;
 import io.theprisons.core.ThePrisonsCore;
@@ -8,6 +8,8 @@ import io.theprisons.core.module.Module;
 import io.theprisons.core.module.ModuleManager;
 import io.theprisons.core.setting.Setting;
 import io.theprisons.core.setting.Settings;
+import io.theprisons.gui.kit.Ui;
+import io.theprisons.modules.FeatureProfile;
 import io.theprisons.modules.ModuleRegistry;
 import io.theprisons.modules.general.ClickGuiModule;
 import io.theprisons.ui.ThePrisonsColors;
@@ -32,7 +34,7 @@ import java.util.Locale;
 import java.util.Map;
 
 /**
- * Module GUI in the style of Nebula-like clients, bound directly to the core {@link ModuleManager}.
+ * The one config GUI: categories, modules and every setting, bound directly to the core {@link ModuleManager}.
  *
  * <pre>
  * ┌────────────┬──────────────────────────────────────────────────────────┐
@@ -49,26 +51,30 @@ import java.util.Map;
  * Immediate-mode: every frame lays out the visible widgets and records their hit boxes; input is matched against
  * the boxes of the last frame. Nothing here touches files except through {@link ConfigStore}.
  */
-public final class ClickGuiScreen extends Screen {
+public final class ConfigScreen extends Screen {
     /** The real configuration screen deliberately has a desktop-style layout, even on a scaled Minecraft GUI. */
-    private static final int SIDEBAR_W = 164;
-    private static final int HEADER_H = 70;
-    private static final int FOOTER_H = 34;
     private static final int CARD_H = 46;
     private static final int CONTROL_W = 148;
     private static final int ROW_GAP = 8;
 
-    private static Tab lastTab = Tab.OVERVIEW;
+    private static ConfigCategory lastTab = ConfigCategory.OVERVIEW;
     private static @Nullable String lastModule;
     /** Setting to scroll to and flash once the GUI opens ({@link #focus}). */
     private static @Nullable String focusSetting;
     private static long focusAtMs;
     /** The next GUI opens on this module, scrolled to this setting, which flashes for a moment. */
     public static void focus(Module module, @Nullable String settingId) {
-        lastTab = Tab.home(module);
+        lastTab = ConfigCategory.home(module);
         lastModule = module.id();
         focusSetting = settingId;
         focusAtMs = System.currentTimeMillis();
+    }
+
+    /** The next GUI opens on this category (its first module selected). */
+    public static void focusCategory(ConfigCategory category) {
+        lastTab = category;
+        lastModule = null;
+        focusSetting = null;
     }
 
     private interface ClickAction {
@@ -90,12 +96,18 @@ public final class ClickGuiScreen extends Screen {
     private final List<Hit> hits = new ArrayList<>();
     private final List<Hit> popupHits = new ArrayList<>();
 
+    /** Small windows (GUI scale 3 on 720p is 427x240): narrow sidebar, and the list and the settings take turns. */
+    private boolean compact;
+    private boolean showDetail;
+    private int sidebarW = 164;
+    private int headerH = 70;
+    private int footerH = 34;
     private int panelX;
     private int panelY;
     private int panelW;
     private int panelH;
 
-    private Tab tab;
+    private ConfigCategory tab;
     private String groupFilter = "";
     private @Nullable Module selected;
     private String search = "";
@@ -121,7 +133,7 @@ public final class ClickGuiScreen extends Screen {
     private int clipX2;
     private int clipY2;
 
-    public ClickGuiScreen(@Nullable Screen parent, ThePrisonsCore core) {
+    public ConfigScreen(@Nullable Screen parent, ThePrisonsCore core) {
         super(Text.literal("ThePrisons"));
         this.parent = parent;
         this.core = core;
@@ -139,10 +151,17 @@ public final class ClickGuiScreen extends Screen {
 
     @Override
     protected void init() {
-        panelW = Math.min(width - 16, MathHelper.clamp((int) (width * 0.90), 620, 1120));
-        panelH = Math.min(height - 16, MathHelper.clamp((int) (height * 0.90), 390, 680));
+        panelW = Math.min(width - 8, MathHelper.clamp((int) (width * 0.90), 620, 1120));
+        panelH = Math.min(height - 8, MathHelper.clamp((int) (height * 0.90), 390, 680));
         panelX = (width - panelW) / 2;
         panelY = (height - panelH) / 2;
+        compact = panelW < 520 || panelH < 300;
+        sidebarW = compact ? 100 : 164;
+        headerH = compact ? 56 : 70;
+        footerH = compact ? 26 : 34;
+        if (focusSetting != null) {
+            showDetail = true;
+        }
     }
 
     @Override
@@ -207,8 +226,8 @@ public final class ClickGuiScreen extends Screen {
         gradientBar(context, panelX, panelY, panelW);
         context.drawStrokedRectangle(panelX, panelY, panelW, panelH, 0x9A94A4B8);
         context.drawStrokedRectangle(panelX + 2, panelY + 2, panelW - 4, panelH - 4, 0x245C6B7D);
-        context.fillGradient(panelX + 3, panelY + 3, panelX + SIDEBAR_W, panelY + panelH - 3, 0xF0121820, 0xF00A0E14);
-        context.fill(panelX + SIDEBAR_W, panelY + 3, panelX + SIDEBAR_W + 2, panelY + panelH - 3, 0xFF4C5665);
+        context.fillGradient(panelX + 3, panelY + 3, panelX + sidebarW, panelY + panelH - 3, 0xF0121820, 0xF00A0E14);
+        context.fill(panelX + sidebarW, panelY + 3, panelX + sidebarW + 2, panelY + panelH - 3, 0xFF4C5665);
 
         renderSidebar(context, mouseX, mouseY);
         renderContent(context, mouseX, mouseY);
@@ -217,7 +236,7 @@ public final class ClickGuiScreen extends Screen {
     }
 
     private void gradientBar(DrawContext context, int x, int y, int w) {
-        int[] colors = {ThePrisonsColors.HEADING_PINK, ThePrisonsColors.MOD_BLUE};
+        int[] colors = {title(), accent()};
         int segments = colors.length - 1;
         for (int i = 0; i < w; i++) {
             float t = i / (float) Math.max(1, w - 1) * segments;
@@ -226,36 +245,89 @@ public final class ClickGuiScreen extends Screen {
         }
     }
 
+    private void renderSidebarCompact(DrawContext context, int mouseX, int mouseY) {
+        TextRenderer font = textRenderer;
+        int x = panelX;
+        int y = panelY + 8;
+        context.drawText(font, "ThePrisons", x + 8, y, ThePrisonsColors.FG_PRIMARY, true);
+        String lang = I18n.lang().code();
+        int lw = font.getWidth(lang) + 8;
+        int lx = x + sidebarW - 8 - lw;
+        boolean langHover = inside(mouseX, mouseY, lx, y - 2, lx + lw, y + 11);
+        context.fill(lx, y - 2, lx + lw, y + 11, langHover ? tint(0x30) : ThePrisonsColors.BG_INPUT);
+        context.drawStrokedRectangle(lx, y - 2, lw, 13, accent());
+        context.drawText(font, lang, lx + 4, y, ThePrisonsColors.FG_PRIMARY, false);
+        hit(lx, y - 2, lx + lw, y + 11, (mx, my, b) -> switchLanguage());
+
+        int sx1 = x + 6;
+        int sy1 = y + 14;
+        int sx2 = x + sidebarW - 6;
+        int sy2 = sy1 + 15;
+        context.fill(sx1, sy1, sx2, sy2, ThePrisonsColors.BG_INPUT);
+        context.drawStrokedRectangle(sx1, sy1, sx2 - sx1, sy2 - sy1, searchFocused ? accent() : ThePrisonsColors.BORDER);
+        String shown = search.isEmpty() && !searchFocused ? I18n.t("Search…") : search + (searchFocused && blink() ? "_" : "");
+        context.drawText(font, trim(shown, sx2 - sx1 - 10), sx1 + 4, sy1 + 4, search.isEmpty() && !searchFocused ? ThePrisonsColors.FG_DISABLED : ThePrisonsColors.FG_PRIMARY, false);
+        hit(sx1, sy1, sx2, sy2, (mx, my, b) -> {
+            stopEditing();
+            searchFocused = true;
+        });
+
+        int cy = sy2 + 6;
+        int tabH = Math.max(14, Math.min(18, (panelY + panelH - 6 - cy) / ConfigCategory.values().length));
+        for (ConfigCategory entry : ConfigCategory.values()) {
+            boolean active = search.isEmpty() && entry == tab;
+            boolean hover = inside(mouseX, mouseY, x + 4, cy, x + sidebarW - 4, cy + tabH);
+            if (active) {
+                context.fill(x + 4, cy, x + sidebarW - 4, cy + tabH, tint(0x38));
+                context.fill(x + 4, cy, x + 6, cy + tabH, accent());
+            } else if (hover) {
+                context.fill(x + 4, cy, x + sidebarW - 4, cy + tabH, ThePrisonsColors.SIDEBAR_HOVER);
+            }
+            int textY = cy + (tabH - 8) / 2;
+            context.drawText(font, entry.icon(), x + 9, textY, active ? accent() : ThePrisonsColors.FG_MUTED, false);
+            context.drawText(font, trim(I18n.t(entry.label()), sidebarW - 30), x + 22, textY,
+                    active ? ThePrisonsColors.FG_PRIMARY : ThePrisonsColors.FG_SECONDARY, false);
+            ConfigCategory target = entry;
+            hit(x + 4, cy, x + sidebarW - 4, cy + tabH, (mx, my, b) -> selectTab(target));
+            cy += tabH;
+        }
+    }
+
     private void renderSidebar(DrawContext context, int mouseX, int mouseY) {
+        if (compact) {
+            renderSidebarCompact(context, mouseX, mouseY);
+            return;
+        }
         TextRenderer font = textRenderer;
         int x = panelX;
         int y = panelY + 14;
         context.fill(x + 12, y - 2, x + 38, y + 24, 0xFF202B38);
-        context.drawStrokedRectangle(x + 12, y - 2, 26, 26, ThePrisonsColors.ACCENT_CYAN);
-        context.drawCenteredTextWithShadow(font, "T", x + 25, y + 6, ThePrisonsColors.ACCENT_CYAN);
+        context.drawStrokedRectangle(x + 12, y - 2, 26, 26, accent());
+        context.drawCenteredTextWithShadow(font, "T", x + 25, y + 6, accent());
         context.drawText(font, Text.literal("THEPRISONS").styled(style -> style.withBold(true)), x + 46, y, ThePrisonsColors.FG_PRIMARY, true);
-        context.drawText(font, "COMMAND CENTER  //  V4", x + 46, y + 12, ThePrisonsColors.ACCENT_CYAN, false);
-        long enabled = modules.all().stream().filter(Module::enabled).count();
-        context.drawText(font, I18n.f("%d / %d SYSTEMS ONLINE", enabled, modules.all().size()), x + 12, y + 35, ThePrisonsColors.FG_MUTED, false);
+        context.drawText(font, "CONFIG", x + 46, y + 12, accent(), false);
+        List<Module> listed = ConfigCategory.modulesIn(modules.all(), ConfigCategory.OVERVIEW);
+        long enabled = listed.stream().filter(Module::enabled).count();
+        context.drawText(font, I18n.f("%d / %d SYSTEMS ONLINE", enabled, listed.size()), x + 12, y + 35, ThePrisonsColors.FG_MUTED, false);
         // Language button (live): EN ⇄ DE
         String lang = I18n.lang().code();
         int lw = font.getWidth(lang) + 10;
-        int lx = x + SIDEBAR_W - 12 - lw;
+        int lx = x + sidebarW - 12 - lw;
         boolean langHover = inside(mouseX, mouseY, lx, y + 27, lx + lw, y + 41);
-        context.fill(lx, y + 27, lx + lw, y + 41, langHover ? ThePrisonsColors.SIDEBAR_ACTIVE : ThePrisonsColors.BG_INPUT);
-        context.drawStrokedRectangle(lx, y + 27, lw, 14, ThePrisonsColors.ACCENT_CYAN);
+        context.fill(lx, y + 27, lx + lw, y + 41, langHover ? tint(0x30) : ThePrisonsColors.BG_INPUT);
+        context.drawStrokedRectangle(lx, y + 27, lw, 14, accent());
         context.drawText(font, lang, lx + 5, y + 30, ThePrisonsColors.FG_PRIMARY, false);
         hit(lx, y + 27, lx + lw, y + 41, (mx, my, b) -> switchLanguage());
 
         // Search box
         int sx1 = x + 8;
         int sy1 = y + 52;
-        int sx2 = x + SIDEBAR_W - 12;
+        int sx2 = x + sidebarW - 12;
         int sy2 = sy1 + 22;
         context.fill(sx1, sy1, sx2, sy2, ThePrisonsColors.BG_INPUT);
-        context.drawStrokedRectangle(sx1, sy1, sx2 - sx1, sy2 - sy1, searchFocused ? ThePrisonsColors.ACCENT_CYAN : ThePrisonsColors.BORDER);
+        context.drawStrokedRectangle(sx1, sy1, sx2 - sx1, sy2 - sy1, searchFocused ? accent() : ThePrisonsColors.BORDER);
         String shown = search.isEmpty() && !searchFocused ? I18n.t("Search… (Ctrl+F)") : search + (searchFocused && blink() ? "_" : "");
-        context.drawText(font, "⌕", sx1 + 6, sy1 + 6, ThePrisonsColors.ACCENT_CYAN, false);
+        context.drawText(font, "⌕", sx1 + 6, sy1 + 6, accent(), false);
         context.drawText(font, trim(shown, sx2 - sx1 - 20), sx1 + 18, sy1 + 7, search.isEmpty() && !searchFocused ? ThePrisonsColors.FG_DISABLED : ThePrisonsColors.FG_PRIMARY, false);
         hit(sx1, sy1, sx2, sy2, (mx, my, b) -> {
             stopEditing();
@@ -269,15 +341,15 @@ public final class ClickGuiScreen extends Screen {
         boolean compactSidebar = panelH < 420;
         int tabH = compactSidebar ? 17 : 22;
         int tabGap = compactSidebar ? 1 : 3;
-        for (Tab entry : Tab.values()) {
+        for (ConfigCategory entry : ConfigCategory.values()) {
             boolean active = search.isEmpty() && entry == tab;
-            boolean hover = inside(mouseX, mouseY, x + 8, cy, x + SIDEBAR_W - 8, cy + tabH);
+            boolean hover = inside(mouseX, mouseY, x + 8, cy, x + sidebarW - 8, cy + tabH);
             if (active) {
-                context.fill(x + 8, cy, x + SIDEBAR_W - 8, cy + tabH, 0x38C084FC);
-                context.fill(x + 8, cy, x + 11, cy + tabH, ThePrisonsColors.ACCENT_CYAN);
-                context.drawStrokedRectangle(x + 8, cy, SIDEBAR_W - 16, tabH, 0x40C084FC);
+                context.fill(x + 8, cy, x + sidebarW - 8, cy + tabH, tint(0x38));
+                context.fill(x + 8, cy, x + 11, cy + tabH, accent());
+                context.drawStrokedRectangle(x + 8, cy, sidebarW - 16, tabH, tint(0x40));
             } else if (hover) {
-                context.fill(x + 8, cy, x + SIDEBAR_W - 8, cy + tabH, ThePrisonsColors.SIDEBAR_HOVER);
+                context.fill(x + 8, cy, x + sidebarW - 8, cy + tabH, ThePrisonsColors.SIDEBAR_HOVER);
             }
             List<Module> inCategory = modulesIn(entry);
             int on = 0;
@@ -285,14 +357,14 @@ public final class ClickGuiScreen extends Screen {
                 on += module.enabled() ? 1 : 0;
             }
             int textY = cy + (compactSidebar ? 4 : 7);
-            context.drawText(font, entry.icon(), x + 18, textY, active ? ThePrisonsColors.ACCENT_CYAN : ThePrisonsColors.FG_MUTED, false);
+            context.drawText(font, entry.icon(), x + 18, textY, active ? accent() : ThePrisonsColors.FG_MUTED, false);
             String count = inCategory.isEmpty() ? "–" : on + "/" + inCategory.size();
-            context.drawText(font, trim(I18n.t(entry.label()), SIDEBAR_W - 58 - font.getWidth(count)), x + 36, textY,
+            context.drawText(font, trim(I18n.t(entry.label()), sidebarW - 58 - font.getWidth(count)), x + 36, textY,
                     active ? ThePrisonsColors.FG_PRIMARY : ThePrisonsColors.FG_SECONDARY, false);
-            context.drawText(font, count, x + SIDEBAR_W - 16 - font.getWidth(count), textY,
+            context.drawText(font, count, x + sidebarW - 16 - font.getWidth(count), textY,
                     on > 0 ? ThePrisonsColors.ACCENT_LIME : ThePrisonsColors.FG_DISABLED, false);
-            Tab target = entry;
-            hit(x + 8, cy, x + SIDEBAR_W - 8, cy + tabH, (mx, my, b) -> selectTab(target));
+            ConfigCategory target = entry;
+            hit(x + 8, cy, x + sidebarW - 8, cy + tabH, (mx, my, b) -> selectTab(target));
             cy += tabH + tabGap;
         }
 
@@ -302,7 +374,7 @@ public final class ClickGuiScreen extends Screen {
             String owner = core.control().ownerName();
             int dot = owner != null ? ThePrisonsColors.ACCENT_LIME : ThePrisonsColors.FG_DISABLED;
             context.fill(x + 10, by + 3, x + 14, by + 7, dot);
-            context.drawText(font, trim(owner != null ? I18n.f("%s running", I18n.t(owner)) : I18n.t("No macro running"), SIDEBAR_W - 28), x + 18, by, ThePrisonsColors.FG_SECONDARY, false);
+            context.drawText(font, trim(owner != null ? I18n.f("%s running", I18n.t(owner)) : I18n.t("No macro running"), sidebarW - 28), x + 18, by, ThePrisonsColors.FG_SECONDARY, false);
             var tick = core.profiler().section("core:tick");
             context.drawText(font, String.format(Locale.ROOT, "tick %.2f ms", tick.avgMs()), x + 18, by + 10, ThePrisonsColors.FG_MUTED, false);
         }
@@ -310,25 +382,33 @@ public final class ClickGuiScreen extends Screen {
 
     private void renderContent(DrawContext context, int mouseX, int mouseY) {
         TextRenderer font = textRenderer;
-        int cx = panelX + SIDEBAR_W + 2;
-        int cw = panelW - SIDEBAR_W - 2;
+        int cx = panelX + sidebarW + 2;
+        int cw = panelW - sidebarW - 2;
         boolean searching = !search.isBlank();
         String title = searching ? I18n.t("Search: ") + search : I18n.t(tab.label()).toUpperCase(Locale.ROOT);
         String subtitle = searching ? I18n.t("Matches in all tabs") : I18n.t(tab.description());
-        context.fillGradient(cx + 1, panelY + 3, panelX + panelW - 3, panelY + HEADER_H, 0xE017202A, 0xA810151C);
-        context.fill(cx + 13, panelY + 18, cx + 17, panelY + 48, ThePrisonsColors.ACCENT_CYAN);
-        context.drawText(font, Text.literal(title).styled(style -> style.withBold(true)), cx + 27, panelY + 18, ThePrisonsColors.FG_PRIMARY, true);
-        context.drawText(font, subtitle, cx + 27, panelY + 32, ThePrisonsColors.FG_MUTED, false);
+        context.fillGradient(cx + 1, panelY + 3, panelX + panelW - 3, panelY + headerH, 0xE017202A, 0xA810151C);
+        int titleY = compact ? panelY + 9 : panelY + 18;
+        context.fill(cx + (compact ? 6 : 13), titleY, cx + (compact ? 9 : 17), titleY + (compact ? 10 : 30), accent());
+        context.drawText(font, Text.literal(title).styled(style -> style.withBold(true)), cx + (compact ? 14 : 27), titleY, ThePrisonsColors.FG_PRIMARY, true);
+        if (!compact) {
+            context.drawText(font, subtitle, cx + 27, panelY + 32, ThePrisonsColors.FG_MUTED, false);
+        }
 
         List<Module> list = visibleModules();
         // Sub-category chips
         int chipX = cx + 12;
-        int chipY = panelY + 51;
-        if (!searching) {
+        int chipY = compact ? panelY + headerH - 20 : panelY + 51;
+        if (compact && showDetail) {
+            chip(context, mouseX, mouseY, cx + 8, chipY, "‹ " + I18n.t("Back"), false, () -> showDetail = false);
+        } else if (!searching && !(compact && tab == ConfigCategory.OVERVIEW)) {
             List<String> groups = groupsOf(tab);
             if (groups.size() > 1) {
                 chipX = chip(context, mouseX, mouseY, chipX, chipY, I18n.t("All"), groupFilter.isEmpty(), () -> groupFilter = "");
                 for (String group : groups) {
+                    if (chipX + textRenderer.getWidth(I18n.t(group)) + 14 > panelX + panelW - 8) {
+                        break; // no room: the remaining groups are still listed under their headings
+                    }
                     chipX = chip(context, mouseX, mouseY, chipX, chipY, I18n.t(group), group.equals(groupFilter), () -> {
                         groupFilter = group;
                         listScroll = 0;
@@ -337,13 +417,20 @@ public final class ClickGuiScreen extends Screen {
             }
         }
 
-        int top = panelY + HEADER_H + 8;
-        int bottom = panelY + panelH - FOOTER_H;
+        int top = panelY + headerH + 8;
+        int bottom = panelY + panelH - footerH;
         int listX = cx + 8;
         int listW = Math.max(132, Math.min(220, (int) (cw * 0.42)));
         int setX = listX + listW + 12;
+        if (compact) {
+            listW = cw - 16;
+            setX = listX;
+        }
         int setW = panelX + panelW - 8 - setX;
+        boolean drawList = !compact || !showDetail;
+        boolean drawDetail = !compact || showDetail;
 
+        if (drawList) {
         // Module list
         clip(context, listX, top, listX + listW, bottom);
         int y = top - (int) listScroll;
@@ -358,9 +445,9 @@ public final class ClickGuiScreen extends Screen {
             }
         }
         for (Module module : list) {
-            String header = searching ? Tab.home(module).label() : module.group();
+            String header = searching ? ConfigCategory.home(module).label() : module.group();
             if (!header.equals(lastGroup) && (searching || groupFilter.isEmpty())) {
-                context.drawText(font, I18n.t(header).toUpperCase(Locale.ROOT), listX + 2, y + 3, ThePrisonsColors.HEADING_PINK, false);
+                context.drawText(font, I18n.t(header).toUpperCase(Locale.ROOT), listX + 2, y + 3, title(), false);
                 y += 13;
                 lastGroup = header;
             }
@@ -370,7 +457,9 @@ public final class ClickGuiScreen extends Screen {
         listContentH = y + (int) listScroll - top;
         unclip(context);
         scrollbar(context, listX + listW - 2, top, bottom, listScroll, listContentH);
+        }
 
+        if (drawDetail) {
         // Settings panel
         context.fillGradient(setX, top, setX + setW, bottom, 0xBB111821, 0xA8070B10);
         context.drawStrokedRectangle(setX, top, setW, bottom - top, 0x56616D7C);
@@ -391,6 +480,7 @@ public final class ClickGuiScreen extends Screen {
         }
         unclip(context);
         scrollbar(context, setX + setW - 3, top, bottom, settingsScroll, settingsContentH + 16);
+        }
     }
 
     private void renderCard(DrawContext context, int mouseX, int mouseY, Module module, int x, int y, int w) {
@@ -399,7 +489,7 @@ public final class ClickGuiScreen extends Screen {
         boolean hover = inside(mouseX, mouseY, x, y, x + w, y + CARD_H) && insideClip(mouseX, mouseY);
         context.fillGradient(x, y, x + w, y + CARD_H,
                 hover || isSelected ? 0xE0222B37 : 0xD0131920, hover || isSelected ? 0xE011161D : 0xD00C1016);
-        context.drawStrokedRectangle(x, y, w, CARD_H, isSelected ? ThePrisonsColors.ACCENT_CYAN : 0x52616D7C);
+        context.drawStrokedRectangle(x, y, w, CARD_H, isSelected ? accent() : 0x52616D7C);
         context.fill(x, y, x + 3, y + CARD_H, module.enabled() ? ThePrisonsColors.ACCENT_LIME : ThePrisonsColors.FG_DISABLED);
         Module.Status status = module.status();
         context.drawText(font, trim(I18n.t(module.name()), w - 48), x + 12, y + 9, ThePrisonsColors.FG_PRIMARY, false);
@@ -412,8 +502,14 @@ public final class ClickGuiScreen extends Screen {
             context.fill(x + 12, y + 29, x + 17, y + 34, dot);
             context.drawText(font, trim(status.text(), w - 30), x + 22, y + 27, ThePrisonsColors.FG_MUTED, false);
         }
-        hit(x, y, x + w, y + CARD_H, (mx, my, b) -> select(module));
-        if (module.toggleable()) {
+        hit(x, y, x + w, y + CARD_H, (mx, my, b) -> {
+            select(module);
+            showDetail = compact;
+        });
+        if (kindOf(module) == FeatureProfile.Kind.CORE) {
+            context.drawText(font, I18n.t("CORE"), x + w - 12 - font.getWidth(I18n.t("CORE")), y + 12, ThePrisonsColors.FG_DISABLED, false);
+        }
+        if (kindOf(module) == FeatureProfile.Kind.SWITCHABLE) {
             int sx = x + w - 30;
             int sy = y + 12;
             toggle(context, sx, sy, module.enabled());
@@ -426,19 +522,22 @@ public final class ClickGuiScreen extends Screen {
 
     private int renderSettings(DrawContext context, int mouseX, int mouseY, Module module, int x, int y, int w) {
         TextRenderer font = textRenderer;
-        context.drawText(font, Text.literal(I18n.t(module.name())).styled(style -> style.withBold(true)), x, y, ThePrisonsColors.HEADING_PINK, true);
+        context.drawText(font, Text.literal(I18n.t(module.name())).styled(style -> style.withBold(true)), x, y, title(), true);
         // Overview is a real working view: it intentionally exposes the selected module's complete settings,
         // rather than sending the player to a second, parallel settings renderer.
-        boolean home = !search.isBlank() || tab == Tab.OVERVIEW || Tab.home(module) == tab;
+        boolean home = !search.isBlank() || tab == ConfigCategory.OVERVIEW || ConfigCategory.home(module) == tab;
         context.drawText(font, I18n.t(tab.label()) + " › " + I18n.t(module.group()), x, y + 11, ThePrisonsColors.FG_MUTED, false);
-        if (module.toggleable()) {
+        if (kindOf(module) == FeatureProfile.Kind.CORE) {
+            context.drawText(font, I18n.t("CORE"), x + w - font.getWidth(I18n.t("CORE")), y + 1, ThePrisonsColors.FG_DISABLED, false);
+        }
+        if (kindOf(module) == FeatureProfile.Kind.SWITCHABLE) {
             toggle(context, x + w - 22, y + 1, module.enabled());
             hit(x + w - 26, y - 2, x + w + 2, y + 13, (mx, my, b) -> modules.toggle(module));
         }
         y += 24;
         if (!home) {
             // Another tab's part of this module: only the settings of this tab (name, status and keybind are in its home tab).
-            context.drawText(font, trim(I18n.f("Main settings: %s", I18n.t(Tab.home(module).label())), w), x, y, ThePrisonsColors.FG_MUTED, false);
+            context.drawText(font, trim(I18n.f("Main settings: %s", I18n.t(ConfigCategory.home(module).label())), w), x, y, ThePrisonsColors.FG_MUTED, false);
             y += 12;
             return renderGroups(context, mouseX, mouseY, module, x, y, w);
         }
@@ -477,7 +576,7 @@ public final class ClickGuiScreen extends Screen {
         Map<String, List<Setting<?>>> grouped = new LinkedHashMap<>();
         for (Setting<?> setting : module.settings()) {
             if (setting == module.keybind() || !setting.visible()
-                    || search.isBlank() && tab != Tab.OVERVIEW && Tab.of(module, setting.group()) != tab) {
+                    || search.isBlank() && !ConfigCategory.shows(module, setting, tab)) {
                 continue;
             }
             grouped.computeIfAbsent(setting.group(), key -> new ArrayList<>()).add(setting);
@@ -490,10 +589,10 @@ public final class ClickGuiScreen extends Screen {
                 step++;
                 String number = String.valueOf(step);
                 int nw = font.getWidth(number) + 6;
-                context.fill(x, y - 1, x + nw, y + 9, ThePrisonsColors.HEADING_PINK);
+                context.fill(x, y - 1, x + nw, y + 9, title());
                 context.drawText(font, number, x + 3, y, 0xFF000000, false);
                 context.drawText(font, Text.literal(I18n.t(group.getKey()).toUpperCase(Locale.ROOT)).styled(style -> style.withBold(true)),
-                        x + nw + 5, y, ThePrisonsColors.HEADING_PINK, false);
+                        x + nw + 5, y, title(), false);
                 context.fill(x, y + 11, x + w, y + 12, ThePrisonsColors.BORDER);
                 y += 16;
             }
@@ -520,8 +619,8 @@ public final class ClickGuiScreen extends Screen {
             focusY = y;
             long age = System.currentTimeMillis() - focusAtMs;
             if (age < 3000L && (age / 300L) % 2L == 0L) {
-                context.fill(x - 6, y - 2, x + w + 4, y + 16, 0x40FF6EC7);
-                context.drawStrokedRectangle(x - 6, y - 2, w + 10, 18, ThePrisonsColors.HEADING_PINK);
+                context.fill(x - 6, y - 2, x + w + 4, y + 16, tint(0x40));
+                context.drawStrokedRectangle(x - 6, y - 2, w + 10, 18, title());
             }
         }
         context.drawText(font, trim(I18n.t(setting.name()), wide ? w : labelW), x, y + 3, labelColor, false);
@@ -529,7 +628,7 @@ public final class ClickGuiScreen extends Screen {
             context.fill(x - 5, y + 2, x - 3, y + 12, ThePrisonsColors.ACCENT_RED);
         } else if (!setting.isDefault() && setting.persistent() && !(setting instanceof Settings.ActionSetting)) {
             // Small "changed" marker; right-click on the control resets it.
-            context.fill(x - 5, y + 4, x - 3, y + 10, ThePrisonsColors.ACCENT_VIOLET);
+            context.fill(x - 5, y + 4, x - 3, y + 10, accent());
         }
         int cx = x + w - CONTROL_W;
         int rowTop = y;
@@ -550,11 +649,11 @@ public final class ClickGuiScreen extends Screen {
             double value = ((Number) setting.get()).doubleValue();
             float t = (float) ((value - min) / Math.max(1.0E-9D, max - min));
             String text = setting.display();
-            context.drawText(font, text, x + w - font.getWidth(text), y + 1, ThePrisonsColors.ACCENT_CYAN, false);
+            context.drawText(font, text, x + w - font.getWidth(text), y + 1, accent(), false);
             int ty = y + 12;
             context.fill(cx, ty, cx + CONTROL_W, ty + 3, ThePrisonsColors.TOGGLE_OFF);
             int fill = cx + Math.round(CONTROL_W * MathHelper.clamp(t, 0.0F, 1.0F));
-            context.fillGradient(cx, ty, Math.max(cx + 1, fill), ty + 3, ThePrisonsColors.ACCENT_VIOLET, ThePrisonsColors.ACCENT_CYAN);
+            context.fillGradient(cx, ty, Math.max(cx + 1, fill), ty + 3, accent(), accent());
             context.fill(fill - 2, ty - 2, fill + 2, ty + 5, ThePrisonsColors.TOGGLE_KNOB);
             hit(cx - 3, ty - 4, cx + CONTROL_W + 3, ty + 7, (mx, my, b) -> {
                 if (b == 1) {
@@ -630,7 +729,7 @@ public final class ClickGuiScreen extends Screen {
             controlBottom = Math.max(controlBottom, y + 22);
         } else if (setting instanceof Settings.ActionSetting button) {
             boolean hover = inside(mouseX, mouseY, cx, y, cx + CONTROL_W, y + 14);
-            context.fill(cx, y, cx + CONTROL_W, y + 14, hover ? ThePrisonsColors.ACCENT_VIOLET : ThePrisonsColors.BG_CARD_HOVER);
+            context.fill(cx, y, cx + CONTROL_W, y + 14, hover ? accent() : ThePrisonsColors.BG_CARD_HOVER);
             context.drawStrokedRectangle(cx, y, CONTROL_W, 14, ThePrisonsColors.BORDER_HI);
             context.drawCenteredTextWithShadow(font, button.label(), cx + CONTROL_W / 2, y + 3, ThePrisonsColors.FG_PRIMARY);
             hit(cx, y, cx + CONTROL_W, y + 14, (mx, my, b) -> {
@@ -671,7 +770,7 @@ public final class ClickGuiScreen extends Screen {
                     chipY += 14;
                 }
                 boolean hover = inside(mouseX, mouseY, chipX, chipY, chipX + chipW, chipY + 12);
-                context.fill(chipX, chipY, chipX + chipW, chipY + 12, on ? ThePrisonsColors.SIDEBAR_ACTIVE : hover ? ThePrisonsColors.SIDEBAR_HOVER : ThePrisonsColors.BG_INPUT);
+                context.fill(chipX, chipY, chipX + chipW, chipY + 12, on ? tint(0x30) : hover ? ThePrisonsColors.SIDEBAR_HOVER : ThePrisonsColors.BG_INPUT);
                 context.drawStrokedRectangle(chipX, chipY, chipW, 12, on ? option.color() : ThePrisonsColors.BORDER);
                 context.fill(chipX + 3, chipY + 4, chipX + 7, chipY + 8, on ? option.color() : ThePrisonsColors.FG_DISABLED);
                 context.drawText(font, option.label(), chipX + 10, chipY + 2, on ? ThePrisonsColors.FG_PRIMARY : ThePrisonsColors.FG_MUTED, false);
@@ -680,7 +779,7 @@ public final class ClickGuiScreen extends Screen {
                 chipX += chipW + 3;
             }
             String summary = multi.display();
-            context.drawText(font, summary, x + w - font.getWidth(summary), y + 3, ThePrisonsColors.ACCENT_CYAN, false);
+            context.drawText(font, summary, x + w - font.getWidth(summary), y + 3, accent(), false);
             controlBottom = chipY + 12;
         } else {
             context.drawText(font, setting.display(), cx, y + 3, ThePrisonsColors.FG_PRIMARY, false);
@@ -710,8 +809,8 @@ public final class ClickGuiScreen extends Screen {
 
     private void renderFooter(DrawContext context, int mouseX, int mouseY) {
         TextRenderer font = textRenderer;
-        int x1 = panelX + SIDEBAR_W + 9;
-        int y = panelY + panelH - FOOTER_H + 4;
+        int x1 = panelX + sidebarW + 9;
+        int y = panelY + panelH - footerH + 4;
         ConfigStore store = core.config();
         String state;
         int color;
@@ -728,7 +827,7 @@ public final class ClickGuiScreen extends Screen {
             state = I18n.t("All changes saved");
             color = ThePrisonsColors.FG_MUTED;
         }
-        context.drawText(font, trim(state, panelW - SIDEBAR_W - 200), x1, y + 4, color, false);
+        context.drawText(font, trim(state, panelW - sidebarW - 200), x1, y + 4, color, false);
         int bx = panelX + panelW - 8;
         bx = button(context, mouseX, mouseY, bx, y, I18n.t("Reset module"), selected != null, () -> {
             Module module = selected;
@@ -778,7 +877,7 @@ public final class ClickGuiScreen extends Screen {
         int h = rows * 13 + 2;
         int y = Math.max(panelY + 2, Math.min(dropdownY, panelY + panelH - h - 2));
         context.fill(dropdownX, y, dropdownX + CONTROL_W, y + h, ThePrisonsColors.BG_CARD_INNER);
-        context.drawStrokedRectangle(dropdownX, y, CONTROL_W, h, ThePrisonsColors.ACCENT_VIOLET);
+        context.drawStrokedRectangle(dropdownX, y, CONTROL_W, h, accent());
         int oy = y + 1;
         oy = choiceRow(context, mouseX, mouseY, setting, "", setting.offLabel(), ThePrisonsColors.FG_PRIMARY, oy);
         section = null;
@@ -797,9 +896,9 @@ public final class ClickGuiScreen extends Screen {
         boolean hover = inside(mouseX, mouseY, dropdownX, oy, dropdownX + CONTROL_W, oy + 13);
         boolean current = id.equals(setting.get());
         if (hover || current) {
-            context.fill(dropdownX + 1, oy, dropdownX + CONTROL_W - 1, oy + 13, hover ? ThePrisonsColors.SIDEBAR_HOVER : ThePrisonsColors.SIDEBAR_ACTIVE);
+            context.fill(dropdownX + 1, oy, dropdownX + CONTROL_W - 1, oy + 13, hover ? ThePrisonsColors.SIDEBAR_HOVER : tint(0x30));
         }
-        context.drawText(textRenderer, trim(label, CONTROL_W - 8), dropdownX + 4, oy + 3, current ? ThePrisonsColors.ACCENT_CYAN : color, false);
+        context.drawText(textRenderer, trim(label, CONTROL_W - 8), dropdownX + 4, oy + 3, current ? accent() : color, false);
         popupHits.add(new Hit(dropdownX, oy, dropdownX + CONTROL_W, oy + 13, (mx, my, b) -> {
             setting.set(id);
             dropdown = null;
@@ -812,16 +911,16 @@ public final class ClickGuiScreen extends Screen {
         int h = options.size() * 13 + 2;
         int y = Math.min(dropdownY, panelY + panelH - h - 2);
         context.fill(dropdownX, y, dropdownX + CONTROL_W, y + h, ThePrisonsColors.BG_CARD_INNER);
-        context.drawStrokedRectangle(dropdownX, y, CONTROL_W, h, ThePrisonsColors.ACCENT_VIOLET);
+        context.drawStrokedRectangle(dropdownX, y, CONTROL_W, h, accent());
         int oy = y + 1;
         for (E option : options) {
             boolean hover = inside(mouseX, mouseY, dropdownX, oy, dropdownX + CONTROL_W, oy + 13);
             boolean current = option == setting.get();
             if (hover || current) {
-                context.fill(dropdownX + 1, oy, dropdownX + CONTROL_W - 1, oy + 13, hover ? ThePrisonsColors.SIDEBAR_HOVER : ThePrisonsColors.SIDEBAR_ACTIVE);
+                context.fill(dropdownX + 1, oy, dropdownX + CONTROL_W - 1, oy + 13, hover ? ThePrisonsColors.SIDEBAR_HOVER : tint(0x30));
             }
             context.drawText(textRenderer, trim(setting.label(option), CONTROL_W - 8), dropdownX + 4, oy + 3,
-                    current ? ThePrisonsColors.ACCENT_CYAN : ThePrisonsColors.FG_PRIMARY, false);
+                    current ? accent() : ThePrisonsColors.FG_PRIMARY, false);
             int top = oy;
             popupHits.add(new Hit(dropdownX, top, dropdownX + CONTROL_W, top + 13, (mx, my, b) -> {
                 setting.set(option);
@@ -837,7 +936,7 @@ public final class ClickGuiScreen extends Screen {
         int w = 20;
         int h = 10;
         if (on) {
-            context.fillGradient(x, y, x + w, y + h, ThePrisonsColors.TOGGLE_ON_L, ThePrisonsColors.TOGGLE_ON_R);
+            context.fillGradient(x, y, x + w, y + h, accent(), title());
         } else {
             context.fill(x, y, x + w, y + h, ThePrisonsColors.TOGGLE_OFF);
         }
@@ -847,15 +946,15 @@ public final class ClickGuiScreen extends Screen {
 
     private void box(DrawContext context, int x, int y, int w, int h, boolean focused) {
         context.fill(x, y, x + w, y + h, ThePrisonsColors.BG_INPUT);
-        context.drawStrokedRectangle(x, y, w, h, focused ? ThePrisonsColors.ACCENT_CYAN : ThePrisonsColors.BORDER_HI);
+        context.drawStrokedRectangle(x, y, w, h, focused ? accent() : ThePrisonsColors.BORDER_HI);
     }
 
     private int chip(DrawContext context, int mouseX, int mouseY, int x, int y, String label, boolean active, Runnable action) {
         int w = textRenderer.getWidth(label) + 10;
         boolean hover = inside(mouseX, mouseY, x, y, x + w, y + 12);
-        context.fill(x, y, x + w, y + 12, active ? ThePrisonsColors.SIDEBAR_ACTIVE : hover ? ThePrisonsColors.SIDEBAR_HOVER : ThePrisonsColors.BG_INPUT);
-        context.drawStrokedRectangle(x, y, w, 12, active ? ThePrisonsColors.ACCENT_VIOLET : ThePrisonsColors.BORDER);
-        context.drawText(textRenderer, label, x + 5, y + 2, active ? ThePrisonsColors.ACCENT_CYAN : ThePrisonsColors.FG_SECONDARY, false);
+        context.fill(x, y, x + w, y + 12, active ? tint(0x30) : hover ? ThePrisonsColors.SIDEBAR_HOVER : ThePrisonsColors.BG_INPUT);
+        context.drawStrokedRectangle(x, y, w, 12, active ? accent() : ThePrisonsColors.BORDER);
+        context.drawText(textRenderer, label, x + 5, y + 2, active ? accent() : ThePrisonsColors.FG_SECONDARY, false);
         hit(x, y, x + w, y + 12, (mx, my, b) -> action.run());
         return x + w + 4;
     }
@@ -865,7 +964,7 @@ public final class ClickGuiScreen extends Screen {
         int w = textRenderer.getWidth(label) + 12;
         int x = right - w;
         boolean hover = enabled && inside(mouseX, mouseY, x, y, right, y + 14);
-        context.fill(x, y, right, y + 14, hover ? ThePrisonsColors.ACCENT_VIOLET : ThePrisonsColors.BG_CARD_HOVER);
+        context.fill(x, y, right, y + 14, hover ? accent() : ThePrisonsColors.BG_CARD_HOVER);
         context.drawStrokedRectangle(x, y, w, 14, ThePrisonsColors.BORDER_HI);
         context.drawText(textRenderer, label, x + 6, y + 3, enabled ? ThePrisonsColors.FG_PRIMARY : ThePrisonsColors.FG_DISABLED, false);
         if (enabled) {
@@ -961,7 +1060,7 @@ public final class ClickGuiScreen extends Screen {
 
     private List<Module> visibleModules() {
         if (!search.isBlank()) {
-            return modules.search(search);
+            return modules.search(search).stream().filter(m -> ConfigCategory.listed(m)).toList();
         }
         List<Module> list = new ArrayList<>();
         for (Module module : modulesIn(tab)) {
@@ -972,28 +1071,12 @@ public final class ClickGuiScreen extends Screen {
         return list;
     }
 
-    /** Modules shown in a tab: its home modules and every module with settings in it. */
-    private List<Module> modulesIn(Tab entry) {
-        if (entry == Tab.OVERVIEW) {
-            return new ArrayList<>(modules.all());
-        }
-        List<Module> list = new ArrayList<>();
-        for (Module module : modules.all()) {
-            if (Tab.home(module) == entry) {
-                list.add(module);
-                continue;
-            }
-            for (Setting<?> setting : module.settings()) {
-                if (setting != module.keybind() && setting.visible() && Tab.of(module, setting.group()) == entry) {
-                    list.add(module);
-                    break;
-                }
-            }
-        }
-        return list;
+    /** Modules shown in a category: its home modules and every module with settings in it. */
+    private List<Module> modulesIn(ConfigCategory entry) {
+        return ConfigCategory.modulesIn(modules.all(), entry);
     }
 
-    private List<String> groupsOf(Tab entry) {
+    private List<String> groupsOf(ConfigCategory entry) {
         List<String> groups = new ArrayList<>();
         for (Module module : modulesIn(entry)) {
             if (!groups.contains(module.group())) {
@@ -1003,11 +1086,12 @@ public final class ClickGuiScreen extends Screen {
         return groups;
     }
 
-    private void selectTab(Tab entry) {
+    private void selectTab(ConfigCategory entry) {
         stopEditing();
         search = "";
         searchFocused = false;
         tab = entry;
+        showDetail = false;
         groupFilter = "";
         listScroll = 0;
         List<Module> list = modulesIn(entry);
@@ -1022,6 +1106,23 @@ public final class ClickGuiScreen extends Screen {
             commitEdit();
         }
         selected = module;
+    }
+
+    /** Highlights follow the design theme (Settings > Design), like every HUD and overlay. */
+    private static int accent() {
+        return 0xFF000000 | Ui.theme().accent();
+    }
+
+    private static int title() {
+        return 0xFF000000 | Ui.theme().title();
+    }
+
+    private static int tint(int alpha) {
+        return Ui.argb(alpha, Ui.theme().accent());
+    }
+
+    private static FeatureProfile.Kind kindOf(Module module) {
+        return FeatureProfile.kind(module);
     }
 
     private void showToast(String text) {
@@ -1103,12 +1204,12 @@ public final class ClickGuiScreen extends Screen {
 
     @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
-        int cx = panelX + SIDEBAR_W + 2;
-        int cw = panelW - SIDEBAR_W - 2;
+        int cx = panelX + sidebarW + 2;
+        int cw = panelW - sidebarW - 2;
         int listX = cx + 8;
         int listW = Math.max(132, Math.min(220, (int) (cw * 0.42)));
-        int top = panelY + HEADER_H + 8;
-        int bottom = panelY + panelH - FOOTER_H;
+        int top = panelY + headerH + 8;
+        int bottom = panelY + panelH - footerH;
         int view = bottom - top;
         double step = verticalAmount * 18.0D;
         if (mouseX >= listX && mouseX < listX + listW) {
@@ -1158,7 +1259,7 @@ public final class ClickGuiScreen extends Screen {
                 }
                 case GLFW.GLFW_KEY_ENTER, GLFW.GLFW_KEY_KP_ENTER -> {
                     searchFocused = false;
-                    List<Module> found = modules.search(search);
+                    List<Module> found = modules.search(search).stream().filter(m -> ConfigCategory.listed(m)).toList();
                     if (!found.isEmpty()) {
                         select(found.get(0));
                     }
@@ -1176,6 +1277,10 @@ public final class ClickGuiScreen extends Screen {
         }
         if (key == GLFW.GLFW_KEY_ESCAPE && dropdown != null) {
             dropdown = null;
+            return true;
+        }
+        if (key == GLFW.GLFW_KEY_ESCAPE && compact && showDetail) {
+            showDetail = false;
             return true;
         }
         return super.keyPressed(input);

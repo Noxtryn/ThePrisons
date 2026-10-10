@@ -54,6 +54,12 @@ public final class EeOverlayModule extends Module {
         return instance;
     }
 
+    /** Part of the shipped profile: on for a new player, who may switch it off in the config GUI. */
+    @Override
+    public boolean enabledByDefault() {
+        return true;
+    }
+
     @Override
     protected void onEnable() {
         on(CoreEvents.TickEnd.class, event -> tick(event.client()));

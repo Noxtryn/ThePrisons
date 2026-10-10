@@ -24,7 +24,7 @@ public final class ItemLookClientGameTest implements FabricClientGameTest {
 
     @Override
     public void runTest(ClientGameTestContext context) {
-        if (ShowcaseClientGameTest.ENABLED || ShowcaseClientGameTest.MARKET || ShowcaseClientGameTest.TUNNEL) {
+        if (ShowcaseClientGameTest.ENABLED || ShowcaseClientGameTest.MARKET || ShowcaseClientGameTest.TUNNEL || ShowcaseClientGameTest.CONFIG) {
             return; // the showcase run shows only the showcase
         }
         try (TestSingleplayerContext singleplayer = context.worldBuilder().create()) {
@@ -163,14 +163,9 @@ public final class ItemLookClientGameTest implements FabricClientGameTest {
             // Scoreboard on the HUD, the dashboard pages and the HUD editor.
             context.waitTicks(20);
             LOGGER.info("[look] screenshot {}", context.takeScreenshot("hud_scoreboard").toAbsolutePath());
-            context.runOnClient(client -> client.setScreen(io.theprisons.ThePrisonsClient.dashboard(null, ThePrisonsCore.getOrNull())));
+            context.runOnClient(client -> client.setScreen(io.theprisons.ThePrisonsClient.configScreen(null, ThePrisonsCore.getOrNull())));
             context.waitTicks(30);
             LOGGER.info("[look] screenshot {}", context.takeScreenshot("dashboard_overview").toAbsolutePath());
-            for (String name : new String[]{"dashboard_design", "dashboard_controls", "dashboard_hud"}) {
-                context.getInput().pressKey(org.lwjgl.glfw.GLFW.GLFW_KEY_TAB);
-                context.waitTicks(20);
-                LOGGER.info("[look] screenshot {}", context.takeScreenshot(name).toAbsolutePath());
-            }
             context.runOnClient(client -> client.setScreen(io.theprisons.ThePrisonsClient.hudEditor(null, ThePrisonsCore.getOrNull())));
             context.waitTicks(30);
             LOGGER.info("[look] screenshot {}", context.takeScreenshot("hud_editor").toAbsolutePath());

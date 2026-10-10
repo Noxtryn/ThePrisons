@@ -1,5 +1,6 @@
 package io.theprisons.items.client;
 
+import io.theprisons.gui.kit.Panel;
 import io.theprisons.gui.kit.Ui;
 import io.theprisons.items.market.SlotView;
 import io.theprisons.modules.FeatureProfile;
@@ -9,7 +10,6 @@ import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,13 +55,8 @@ public final class AhOverlayRender {
         if (v == null) {
             return;
         }
-        out.add(Text.empty());
-        List<String> hover = v.hover(System.currentTimeMillis());
-        for (int i = 0; i < hover.size(); i++) {
-            String line = hover.get(i);
-            Formatting color = i == 0 ? Formatting.AQUA : line.startsWith("Difference") ? (line.contains("-") ? Formatting.GREEN : Formatting.RED) : Formatting.GRAY;
-            out.add(Text.literal(line).formatted(color));
-        }
+        Panel.appendTooltip(out, v.hover(System.currentTimeMillis()),
+                line -> line.startsWith("Difference") && line.contains("-"), line -> line.startsWith("Difference") && !line.contains("-"));
     }
 
     /** Dev profile: the overlay's own numbers in the corner. */

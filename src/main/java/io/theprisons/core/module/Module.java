@@ -40,6 +40,8 @@ public abstract class Module {
     private final String description;
     private final List<Setting<?>> settings = new ArrayList<>();
     private final Settings.KeybindSetting keybind;
+    /** Owner of the session-long subscriptions ({@link #always}, {@link #observe}); {@code disable} leaves them alone. */
+    private final Object resident = new Object();
     private @Nullable ModuleHost host;
     private boolean enabled;
     private @Nullable String lastStopReason;
@@ -141,6 +143,34 @@ public abstract class Module {
                 profiled.end(start);
             }
         });
+    }
+
+    /**
+     * For features that hook the bus once at start-up: the subscription lives for the whole session and survives
+     * {@code disable} / {@code enable}, but the handler runs only while the module is enabled. A failure disables the
+     * module like any other listener error. (Subscribing with the module itself as owner would lose the listener the
+     * first time the module is switched off.)
+     */
+    protected final <E> void always(Class<E> type, Consumer<? super E> handler) {
+        host().bus().subscribe(type, resident, 0, (E event) -> {
+            if (!enabled) {
+                return;
+            }
+            Profiler.Section profiled = profilerSection();
+            long start = profiled.begin();
+            try {
+                handler.accept(event);
+            } catch (RuntimeException error) {
+                host().disable(this, "crashed: " + error.getClass().getSimpleName() + (error.getMessage() == null ? "" : ": " + error.getMessage()));
+            } finally {
+                profiled.end(start);
+            }
+        });
+    }
+
+    /** Like {@link #always}, but the handler also runs while the module is off: it only records facts (join time, chat state). */
+    protected final <E> void observe(Class<E> type, Consumer<? super E> handler) {
+        host().bus().subscribe(type, resident, 0, handler);
     }
 
     protected final TickScheduler.Task every(int intervalTicks, String taskName, Runnable task) {

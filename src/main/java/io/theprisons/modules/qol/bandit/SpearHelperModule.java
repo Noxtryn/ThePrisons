@@ -181,7 +181,7 @@ public final class SpearHelperModule extends Module {
     }
 
     public void register(EventBus bus) {
-        bus.subscribe(CoreEvents.TickEnd.class, this, e -> tick(e.client()));
+        always(CoreEvents.TickEnd.class, e -> tick(e.client()));
     }
 
     // ── Key L, lifecycle ─────────────────────────────────────────────────────
@@ -207,6 +207,11 @@ public final class SpearHelperModule extends Module {
         releaseAim(MinecraftClient.getInstance());
         effects.clear();
         planner.reset();
+        bandits.clear();
+        lineBest = null;
+        target = null;
+        solution = null;
+        velocity.clear();
     }
 
     /** True while the mod holds the view: the mouse must not turn it (mixin). */

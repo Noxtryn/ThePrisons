@@ -112,17 +112,10 @@ public final class TunnelClientGameTest implements FabricClientGameTest {
             LOGGER.info("[tunnel-test] leaving {}", keep(context.takeScreenshot("tunnel_6_leaving")));
             context.waitTicks(40);
             LOGGER.info("[tunnel-test] back in the game {}", keep(context.takeScreenshot("tunnel_7_back")));
-            // The dashboard pages: Overview -> Mining -> Bandits -> Tunnel (Tab cycles)
-            context.setScreen(() -> new io.theprisons.gui.dashboard.DashboardScreen(null,
-                    io.theprisons.core.ThePrisonsCore.getOrNull(), () -> { }, null));
+            // The config GUI.
+            context.setScreen(() -> io.theprisons.ThePrisonsClient.configScreen(null, io.theprisons.core.ThePrisonsCore.getOrNull()));
             context.waitTicks(25);
-            LOGGER.info("[tunnel-test] dashboard {}", keep(context.takeScreenshot("tunnel_8_dash_overview")));
-            String[] pages = {"mining", "bandits", "tunnel"};
-            for (String page : pages) {
-                context.getInput().pressKey(org.lwjgl.glfw.GLFW.GLFW_KEY_TAB);
-                context.waitTicks(25);
-                LOGGER.info("[tunnel-test] dashboard {} {}", page, keep(context.takeScreenshot("tunnel_9_dash_" + page)));
-            }
+            LOGGER.info("[tunnel-test] config {}", keep(context.takeScreenshot("tunnel_8_config_overview")));
         }
     }
 }

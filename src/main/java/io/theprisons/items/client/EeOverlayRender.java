@@ -1,5 +1,6 @@
 package io.theprisons.items.client;
 
+import io.theprisons.gui.kit.Panel;
 import io.theprisons.gui.kit.Ui;
 import io.theprisons.items.market.EeAnalysis;
 import io.theprisons.items.market.EePanelLayout;
@@ -10,7 +11,6 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
 
 import java.util.List;
 import java.util.Locale;
@@ -30,16 +30,16 @@ public final class EeOverlayRender {
             return;
         }
         if (info.outlier()) {
-            Ui.outline(c, slot.x, slot.y, 16, 16, 0xE0FF6B6B);
+            Ui.outline(c, slot.x, slot.y, 16, 16, Panel.slotEdge(Ui.BAD));
         } else if (info.cheapest()) {
-            Ui.outline(c, slot.x, slot.y, 16, 16, 0xE03CE0A0);
+            Ui.outline(c, slot.x, slot.y, 16, 16, Panel.slotEdge(Ui.GOOD));
         } else if (!Double.isNaN(info.premium()) && info.premium() >= 0.05D) {
             TextRenderer tr = MinecraftClient.getInstance().textRenderer;
             var mat = c.getMatrices();
             mat.pushMatrix();
             mat.translate(slot.x + 1, slot.y + 10);
             mat.scale(0.6F, 0.6F);
-            c.drawText(tr, String.format(Locale.ROOT, "+%.0f%%", info.premium() * 100.0D), 0, 0, 0xFFFFC14D, true);
+            c.drawText(tr, String.format(Locale.ROOT, "+%.0f%%", info.premium() * 100.0D), 0, 0, Ui.argb(255, Ui.WARN), true);
             mat.popMatrix();
         }
     }
@@ -53,10 +53,7 @@ public final class EeOverlayRender {
         if (hover == null) {
             return;
         }
-        out.add(Text.empty());
-        for (int i = 0; i < hover.size(); i++) {
-            out.add(Text.literal(hover.get(i)).formatted(i == 0 ? Formatting.AQUA : hover.get(i).contains("ignored") ? Formatting.RED : Formatting.GRAY));
-        }
+        Panel.appendTooltip(out, hover, line -> false, line -> line.contains("ignored"));
     }
 
     /** The market dashboard beside the menu: laid out once per page ({@link EePanelLayout}), drawn from that. */
@@ -67,14 +64,11 @@ public final class EeOverlayRender {
         }
         TextRenderer tr = MinecraftClient.getInstance().textRenderer;
         int width = Math.max(120, Math.min(176, screen.width / 2 - 88 - 14));
-        int x = screen.width / 2 + 88 + 10;
-        if (x + width > screen.width - 4) {
-            x = Math.max(4, screen.width / 2 - 88 - 10 - width);          // no room on the right: the left of the menu
-        }
         EePanelLayout.Result layout = m.layout(width, s -> Ui.width(tr, s));
-        int y = Math.max(6, Math.min(screen.height / 2 - 83, screen.height - layout.height() - 6));
-        Ui.round(c, x, y, layout.width(), layout.height(), 0xF00A0F1A);
-        Ui.outline(c, x, y, layout.width(), layout.height(), 0xFF1C2740);
+        int[] at = Panel.besideMenu(screen.width, screen.height, 176, 166, layout.width(), layout.height(), 10, 6);
+        int x = at[0];
+        int y = at[1];
+        Panel.box(c, x, y, layout.width(), layout.height());
         for (EePanelLayout.Item item : layout.items()) {
             int colour = switch (item.tone()) {
                 case GOOD -> Ui.GOOD;
@@ -84,7 +78,7 @@ public final class EeOverlayRender {
                 default -> Ui.VALUE;
             };
             switch (item.kind()) {
-                case RULE -> c.fill(x + item.x(), y + item.y(), x + item.x() + item.w(), y + item.y() + 1, 0xFF1C2740);
+                case RULE -> Panel.rule(c, x + item.x(), x + item.x() + item.w(), y + item.y());
                 case TITLE -> Ui.draw(c, tr, item.text(), x + item.x(), y + item.y(), Ui.theme().title(), 255);
                 case SECTION, METRIC_LABEL -> Ui.draw(c, tr, item.text(), x + item.x(), y + item.y(), Ui.MUTED, 255);
                 case ROW_LABEL -> Ui.draw(c, tr, item.text(), x + item.x(), y + item.y(), Ui.LABEL, 255);

@@ -24,7 +24,7 @@ import org.jspecify.annotations.Nullable;
 import java.util.List;
 
 /**
- * The session HUD ("Nebula" look, see {@link NebulaHudRenderer}) with live Cosmic Prisons numbers from
+ * The session HUD (dashboard look, see {@link io.theprisons.hud.DashboardRenderer}) with live Cosmic Prisons numbers from
  * {@link CosmicStats}. Work is spread over ticks: pending ore checks every tick (a small map), sidebar / boss bars /
  * pickaxe lore / XP every {@value #READ_TICKS} ticks, the snapshot every {@value #SNAPSHOT_TICKS}; the frame only draws.
  *

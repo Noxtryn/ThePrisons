@@ -4,8 +4,8 @@ import io.theprisons.ThePrisonsClient;
 import io.theprisons.core.ThePrisonsCore;
 import io.theprisons.core.module.Module;
 import io.theprisons.core.setting.Settings;
-import io.theprisons.gui.click.ClickGuiScreen;
-import io.theprisons.gui.click.Tab;
+import io.theprisons.gui.config.ConfigScreen;
+import io.theprisons.gui.config.ConfigCategory;
 import io.theprisons.gui.kit.Ui;
 import io.theprisons.gui.theme.Theme;
 import io.theprisons.modules.general.DesignModule;
@@ -45,6 +45,8 @@ public final class ShowcaseClientGameTest implements FabricClientGameTest {
     static final boolean MARKET = Boolean.getBoolean("theprisons.market");
     /** Only Tunnel Vision ({@link TunnelClientGameTest}). */
     static final boolean TUNNEL = Boolean.getBoolean("theprisons.tunnel");
+    /** Only the config GUI (ConfigGuiClientGameTest). */
+    static final boolean CONFIG = Boolean.getBoolean("theprisons.config");
     private static final Logger LOGGER = LoggerFactory.getLogger("ThePrisons/Showcase");
     private static final int SECONDS = Integer.getInteger("theprisons.showcase.seconds", 4);
 
@@ -170,24 +172,9 @@ public final class ShowcaseClientGameTest implements FabricClientGameTest {
     // ── scenes ───────────────────────────────────────────────────────────────
 
     private static void dashboard(ClientGameTestContext context) {
-        say(context, "The dashboard", "Right Shift (or Mod Menu) - every feature of the mod on one animated page.");
-        context.runOnClient(client -> client.setScreen(ThePrisonsClient.dashboard(null, ThePrisonsCore.getOrNull())));
-        hold(context, "dashboard_overview");
-        context.getInput().scroll(-3);
-        say(context, "Always on", "Every feature is fixed and active - a green dot means it is running.");
-        hold(context, "dashboard_scrolled");
-        context.getInput().pressKey(GLFW.GLFW_KEY_TAB);
-        context.getInput().pressKey(GLFW.GLFW_KEY_TAB);
-        say(context, "Controls", "Keybinds for the dashboard and the storage overlay.");
-        hold(context, "dashboard_controls");
-        context.getInput().pressKey(GLFW.GLFW_KEY_TAB);
-        say(context, "HUD page", "Opens the HUD editor: drag and scale every widget.");
-        hold(context, "dashboard_hud");
-        // This is the same settings screen reached by selecting a module from DashboardScreen.  Keep a visual
-        // regression capture here: changing an unused dashboard page must never hide a regression in the editor.
-        context.runOnClient(client -> client.setScreen(new ClickGuiScreen(client.currentScreen, ThePrisonsCore.getOrNull())));
-        say(context, "Command center", "The live module editor: categories, controls and persistent settings.");
-        hold(context, "config_command_center");
+        say(context, "The config GUI", "Right Shift (or Mod Menu) - the one place for every module and setting.");
+        context.runOnClient(client -> client.setScreen(ThePrisonsClient.configScreen(null, ThePrisonsCore.getOrNull())));
+        hold(context, "config_overview");
         configVisualQa(context);
     }
 
@@ -201,7 +188,7 @@ public final class ShowcaseClientGameTest implements FabricClientGameTest {
                 client.options.getGuiScale().setValue(currentScale);
                 client.onResolutionChanged();
             });
-            for (Tab tab : Tab.values()) {
+            for (ConfigCategory tab : ConfigCategory.values()) {
                 showConfigTab(context, tab);
                 context.waitTicks(1);
                 LOGGER.info("[config-qa] scale={} tab={} screenshot={}", scale, tab,
@@ -215,7 +202,7 @@ public final class ShowcaseClientGameTest implements FabricClientGameTest {
                 client.options.getGuiScale().setValue(currentScale);
                 client.onResolutionChanged();
             });
-            for (Tab tab : Tab.values()) {
+            for (ConfigCategory tab : ConfigCategory.values()) {
                 showConfigTab(context, tab);
                 context.waitTicks(1);
                 LOGGER.info("[config-qa] 720p scale={} tab={} screenshot={}", scale, tab,
@@ -234,14 +221,14 @@ public final class ShowcaseClientGameTest implements FabricClientGameTest {
                         || s instanceof io.theprisons.core.setting.Settings.DoubleSetting))
                 .findFirst().orElseThrow(() -> new AssertionError("No dropdown/slider module for the UI screenshot"));
         context.runOnClient(client -> {
-            ClickGuiScreen.focus(detailed, null);
-            ClickGuiScreen screen = new ClickGuiScreen(null, ThePrisonsCore.getOrNull());
+            ConfigScreen.focus(detailed, null);
+            ConfigScreen screen = new ConfigScreen(null, ThePrisonsCore.getOrNull());
             client.setScreen(screen);
         });
         context.waitTicks(1);
         LOGGER.info("[config-qa] settings screenshot={}", context.takeScreenshot("config_module_settings"));
         context.runOnClient(client -> {
-            ClickGuiScreen screen = (ClickGuiScreen) client.currentScreen;
+            ConfigScreen screen = (ConfigScreen) client.currentScreen;
             io.theprisons.core.setting.Setting<?> choice = detailed.settings().stream()
                     .filter(s -> s instanceof io.theprisons.core.setting.Settings.EnumSetting<?>).findFirst().orElseThrow();
             setGuiField(screen, "dropdown", choice);
@@ -251,17 +238,17 @@ public final class ShowcaseClientGameTest implements FabricClientGameTest {
         context.waitTicks(1);
         LOGGER.info("[config-qa] dropdown screenshot={}", context.takeScreenshot("config_dropdown"));
 
-        showConfigTab(context, Tab.OVERVIEW);
+        showConfigTab(context, ConfigCategory.OVERVIEW);
         context.waitTicks(1);
         context.runOnClient(client -> {
-            ClickGuiScreen screen = (ClickGuiScreen) client.currentScreen;
+            ConfigScreen screen = (ConfigScreen) client.currentScreen;
             setGuiField(screen, "search", "market");
             setGuiField(screen, "searchFocused", false);
         });
         context.waitTicks(1);
         LOGGER.info("[config-qa] search screenshot={}", context.takeScreenshot("config_search_market"));
         context.runOnClient(client -> {
-            ClickGuiScreen screen = (ClickGuiScreen) client.currentScreen;
+            ConfigScreen screen = (ConfigScreen) client.currentScreen;
             setGuiField(screen, "search", "");
             screen.mouseScrolled(client.getWindow().getScaledWidth() / 2 - 100, client.getWindow().getScaledHeight() / 2, 0, -5);
         });
@@ -274,62 +261,43 @@ public final class ShowcaseClientGameTest implements FabricClientGameTest {
         });
     }
 
-    private static void showConfigTab(ClientGameTestContext context, Tab tab) {
+    private static void showConfigTab(ClientGameTestContext context, ConfigCategory tab) {
         context.runOnClient(client -> {
             var modules = ThePrisonsCore.getOrNull().modules().all();
-            Module module = modules.stream().filter(m -> Tab.home(m) == tab).findFirst()
-                    .or(() -> modules.stream().filter(m -> m.settings().stream().anyMatch(s -> s != m.keybind() && s.visible() && Tab.of(m, s.group()) == tab)).findFirst())
+            Module module = modules.stream().filter(m -> ConfigCategory.home(m) == tab).findFirst()
+                    .or(() -> modules.stream().filter(m -> m.settings().stream().anyMatch(s -> s != m.keybind() && s.visible() && ConfigCategory.of(m, s.group()) == tab)).findFirst())
                     .or(() -> modules.stream().findFirst()).orElseThrow();
-            ClickGuiScreen.focus(module, null);
-            ClickGuiScreen screen = new ClickGuiScreen(null, ThePrisonsCore.getOrNull());
+            ConfigScreen.focus(module, null);
+            ConfigScreen screen = new ConfigScreen(null, ThePrisonsCore.getOrNull());
             setGuiField(screen, "tab", tab);
             setGuiField(screen, "selected", module);
             client.setScreen(screen);
         });
     }
 
-    private static void setGuiField(ClickGuiScreen screen, String fieldName, Object value) {
+    private static void setGuiField(ConfigScreen screen, String fieldName, Object value) {
         try {
-            var field = ClickGuiScreen.class.getDeclaredField(fieldName);
+            var field = ConfigScreen.class.getDeclaredField(fieldName);
             field.setAccessible(true);
             field.set(screen, value);
         } catch (ReflectiveOperationException e) {
-            throw new IllegalStateException("Cannot set ClickGuiScreen." + fieldName, e);
+            throw new IllegalStateException("Cannot set ConfigScreen." + fieldName, e);
         }
     }
 
-    /** The Bandits page: the Spear Helper and, on its own sub-tabs, the Bandit Macro (work in progress). */
+    /** The Bandit category: the Spear Helper and the Bandit Macro. */
     private static void banditPages(ClientGameTestContext context) {
-        context.runOnClient(client -> client.setScreen(ThePrisonsClient.dashboard(null, ThePrisonsCore.getOrNull())));
-        context.getInput().pressKey(GLFW.GLFW_KEY_TAB);
-        context.getInput().pressKey(GLFW.GLFW_KEY_TAB);
-        say(context, "Bandits", "Spear Helper: crosshair, sight point, aim assist on L, recall timing.");
+        showConfigTab(context, ConfigCategory.BANDIT);
+        say(context, "Bandit", "Spear Helper: crosshair, sight point, aim assist; Bandit Macro.");
         hold(context, "bandits_spear_helper");
-        for (int sub : new int[]{4, 5, 6}) {
-            context.runOnClient(client -> selectBanditSub(client.currentScreen, sub));
-            say(context, "Bandit Macro (work in progress)", "Hunts bandits with the spear on key J - about 2 % done.");
-            hold(context, "bandits_macro_" + sub);
-        }
         context.setScreen(() -> null);
     }
 
-    /** The dashboard's sub-tab chips are clicked in the real UI; the test picks them directly. */
-    private static void selectBanditSub(net.minecraft.client.gui.screen.Screen screen, int sub) {
-        try {
-            Class<?> pageClass = java.lang.Class.forName(screen.getClass().getName() + "$Page");
-            Object bandits = java.util.Arrays.stream(pageClass.getEnumConstants())
-                    .filter(e -> e.toString().equals("BANDITS")).findFirst().orElseThrow();
-            java.lang.reflect.Method m = screen.getClass().getDeclaredMethod("selectSub", pageClass, int.class);
-            m.setAccessible(true);
-            m.invoke(screen, bandits, sub);
-        } catch (ReflectiveOperationException e) {
-            throw new IllegalStateException(e);
-        }
-    }
-
     private static void design(ClientGameTestContext context) {
-        context.runOnClient(client -> client.setScreen(ThePrisonsClient.dashboard(null, ThePrisonsCore.getOrNull())));
-        context.getInput().pressKey(GLFW.GLFW_KEY_TAB);
+        context.runOnClient(client -> {
+            ConfigScreen.focus(ThePrisonsCore.getOrNull().modules().get("design"), "theme");
+            client.setScreen(ThePrisonsClient.configScreen(null, ThePrisonsCore.getOrNull()));
+        });
         for (Theme theme : Theme.values()) {
             context.runOnClient(client -> DesignModule.get().themeSetting().set(theme));
             say(context, "Design: " + theme.label() + " theme", "Six colour themes - the whole mod follows the one you pick.");

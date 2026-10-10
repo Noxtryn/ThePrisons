@@ -3,7 +3,7 @@ package io.theprisons.core.setup;
 import io.theprisons.core.ThePrisonsCore;
 import io.theprisons.core.i18n.I18n;
 import io.theprisons.core.module.Module;
-import io.theprisons.gui.click.ClickGuiScreen;
+import io.theprisons.gui.config.ConfigScreen;
 import io.theprisons.modules.ModuleRegistry;
 import io.theprisons.modules.general.ClickGuiModule;
 import com.mojang.brigadier.arguments.StringArgumentType;
@@ -57,11 +57,16 @@ public final class ModCommands {
     private static int openAt(ThePrisonsCore core, String moduleId, String settingId) {
         Module module = core.modules().get(moduleId);
         if (module == null) {
+            ModChat.show(ModChat.header("Unknown module: " + moduleId));
             return 0;
         }
-        ClickGuiScreen.focus(module, settingId);
+        if (settingId != null && module.setting(settingId) == null) {
+            ModChat.show(ModChat.header("Unknown setting: " + moduleId + "." + settingId));
+            settingId = null;
+        }
+        ConfigScreen.focus(module, settingId);
         MinecraftClient client = MinecraftClient.getInstance();
-        client.send(() -> client.setScreen(new ClickGuiScreen(null, core)));
+        client.send(() -> client.setScreen(new ConfigScreen(null, core)));
         return 1;
     }
 
