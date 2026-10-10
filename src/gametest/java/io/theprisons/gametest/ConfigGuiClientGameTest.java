@@ -7,6 +7,8 @@ import io.theprisons.core.setting.Setting;
 import io.theprisons.gui.config.ConfigCategory;
 import io.theprisons.core.module.AutomationModule;
 import io.theprisons.gui.config.ConfigScreen;
+import io.theprisons.gui.hud.HudElement;
+import io.theprisons.gui.hud.HudLayout;
 import io.theprisons.modules.FeatureProfile;
 import net.fabricmc.fabric.api.client.gametest.v1.FabricClientGameTest;
 import net.fabricmc.fabric.api.client.gametest.v1.context.ClientGameTestContext;
@@ -45,6 +47,10 @@ public final class ConfigGuiClientGameTest implements FabricClientGameTest {
         }
         screenshots(context, 1280, 720);
         screenshots(context, 1920, 1080);
+        hudEditor(context, core, problems);
+        if (!problems.isEmpty()) {
+            throw new AssertionError("HUD editor check failed:\n - " + String.join("\n - ", problems));
+        }
         context.setScreen(() -> null);
     }
 
@@ -182,6 +188,113 @@ public final class ConfigGuiClientGameTest implements FabricClientGameTest {
         if (!(opened[1] instanceof ConfigScreen)) {
             problems.add("the click_gui keybind opened " + opened[1]);
         }
+    }
+
+
+    /** The HUD editor with real mouse input: grid size and snap switch of hud_layout decide where a drag ends. */
+    private static void hudEditor(ClientGameTestContext context, ThePrisonsCore core, List<String> problems) {
+        context.getInput().resizeWindow(1920, 1080);
+        context.runOnClient(client -> {
+            client.options.getGuiScale().setValue(2);
+            client.onResolutionChanged();
+            core.modules().enable(core.modules().get("scoreboard"));
+            HudLayout.setSnapEnabled(true);
+            HudLayout.setGrid(16);
+            client.setScreen(ThePrisonsClient.hudEditor(null, core));
+        });
+        context.waitTicks(10);
+        HudElement board = (HudElement) core.modules().get("scoreboard");
+        int[] before = new int[4];
+        double[] scale = new double[1];
+        context.runOnClient(client -> {
+            System.arraycopy(board.bounds(client.getWindow().getScaledWidth(), client.getWindow().getScaledHeight()), 0, before, 0, 4);
+            scale[0] = client.getWindow().getScaleFactor();
+        });
+        LOGGER.info("[hud-editor] scoreboard at {} scale {}", java.util.Arrays.toString(before), scale[0]);
+        context.takeScreenshot("hud_editor_start");
+
+        // Snap on, grid 16: drag the card by its top-left corner to (101, 61) -> lands on the grid.
+        drag(context, board, before, scale[0], 101, 61);
+        int[] snapped = bounds(context, board);
+        LOGGER.info("[hud-editor] snap on, grid 16 -> {}", java.util.Arrays.toString(snapped));
+        if (snapped[0] % 16 != 0 || snapped[1] % 16 != 0) {
+            problems.add("snap on, grid 16: the card ended at " + snapped[0] + "," + snapped[1]);
+        }
+        context.takeScreenshot("hud_editor_snapped");
+
+        // Snap off: the card follows the mouse exactly.
+        context.runOnClient(client -> HudLayout.setSnapEnabled(false));
+        drag(context, board, snapped, scale[0], 103, 71);
+        int[] free = bounds(context, board);
+        LOGGER.info("[hud-editor] snap off -> {}", java.util.Arrays.toString(free));
+        if (free[0] != 103 || free[1] != 71) {
+            problems.add("snap off: the card ended at " + free[0] + "," + free[1] + " instead of 103,71");
+        }
+
+        // Another grid size changes the result.
+        context.runOnClient(client -> {
+            HudLayout.setSnapEnabled(true);
+            HudLayout.setGrid(20);
+        });
+        drag(context, board, free, scale[0], 111, 109);
+        int[] g20 = bounds(context, board);
+        if (g20[0] % 20 != 0 || g20[1] % 20 != 0) {
+            problems.add("snap on, grid 20: the card ended at " + g20[0] + "," + g20[1]);
+        }
+
+        // Scale with the wheel, hide and show again.
+        double oldScale = board.scale();
+        int[] now = bounds(context, board);
+        context.getInput().setCursorPos((now[0] + now[2] - 6) * scale[0], (now[1] + 40) * scale[0]);
+        context.getInput().scroll(1);
+        context.waitTicks(2);
+        if (board.scale() <= oldScale) {
+            problems.add("scrolling over the card did not scale it (" + oldScale + " -> " + board.scale() + ")");
+        }
+        context.runOnClient(client -> HudLayout.setVisible(core, board, false));
+        context.waitTicks(2);
+        if (core.modules().get("scoreboard").enabled()) {
+            problems.add("hiding the scoreboard element left its module on");
+        }
+        context.takeScreenshot("hud_editor_hidden");
+        context.runOnClient(client -> HudLayout.setVisible(core, board, true));
+        context.waitTicks(2);
+        if (!core.modules().get("scoreboard").enabled()) {
+            problems.add("showing the scoreboard element did not turn its module on");
+        }
+        context.runOnClient(client -> {
+            board.reset();
+            board.setScale(1.0D);
+            HudLayout.setGrid(8);
+        });
+        context.takeScreenshot("hud_editor_end");
+        context.setScreen(() -> null);
+    }
+
+    private static int[] bounds(ClientGameTestContext context, HudElement element) {
+        int[][] out = new int[1][];
+        context.runOnClient(client -> out[0] = element.bounds(client.getWindow().getScaledWidth(), client.getWindow().getScaledHeight()));
+        return out[0];
+    }
+
+    /** Presses inside the element near its top-left corner and drags so that the corner ends at (targetX, targetY). */
+    private static void drag(ClientGameTestContext context, HudElement element, int[] from, double scale, int targetX, int targetY) {
+        // grab near the bottom-right corner: the element list sits at the top-left and is in front
+        int grabX = from[2] - 6;
+        int grabY = Math.min(from[3] - 6, 80);
+        context.getInput().setCursorPos((from[0] + grabX) * scale, (from[1] + grabY) * scale);
+        context.getInput().holdMouse(0);
+        context.waitTicks(1);
+        int steps = 6;
+        for (int i = 1; i <= steps; i++) {
+            double t = i / (double) steps;
+            double x = (from[0] + grabX) + ((targetX + grabX) - (from[0] + grabX)) * t;
+            double y = (from[1] + grabY) + ((targetY + grabY) - (from[1] + grabY)) * t;
+            context.getInput().setCursorPos(x * scale, y * scale);
+            context.waitTicks(1);
+        }
+        context.getInput().releaseMouse(0);
+        context.waitTicks(2);
     }
 
     private static void screenshots(ClientGameTestContext context, int width, int height) {

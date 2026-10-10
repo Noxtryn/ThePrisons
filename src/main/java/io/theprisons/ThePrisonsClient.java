@@ -81,19 +81,10 @@ public final class ThePrisonsClient implements ClientModInitializer {
         return new ConfigScreen(parent, core);
     }
 
-    /** The HUD editor with every HUD element that is on. */
+    /** The HUD editor with every HUD element of the build (shown or hidden). */
     public static net.minecraft.client.gui.screen.Screen hudEditor(net.minecraft.client.gui.screen.@org.jspecify.annotations.Nullable Screen parent,
                                                                   ThePrisonsCore core) {
-        return new io.theprisons.gui.hud.HudEditorScreen(parent, () -> {
-            List<io.theprisons.gui.hud.HudElement> elements = new ArrayList<>();
-            for (io.theprisons.core.module.Module module : core.modules().all()) {
-                if (module.enabled() && module instanceof io.theprisons.gui.hud.HudElement element) {
-                    elements.add(element);
-                }
-            }
-            elements.addAll(io.theprisons.gui.hud.LegacyHudElements.all());
-            return elements;
-        }, context -> {
+        return new io.theprisons.gui.hud.HudEditorScreen(parent, core, context -> {
             io.theprisons.gui.hud.LegacyHudElements.drawWidgetPreviews(context);
             ThePrisonsHudRenderer.drawNotificationPreview(context, MinecraftClient.getInstance(), CONFIG.get());
         });

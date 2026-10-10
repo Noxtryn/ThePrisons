@@ -22,18 +22,23 @@ public final class LegacyHudElements {
         ThePrisonsConfig cfg = ThePrisonsClient.CONFIG.get();
         ThePrisonsConfig.GuiConfig def = new ThePrisonsConfig().gui;
         List<HudElement> list = new ArrayList<>();
-        list.add(widget("PET_TRINKET", "Pets & Trinkets", def.petHudX, def.petHudY, () -> cfg.gui.petHudX, v -> cfg.gui.petHudX = v,
+        list.add(widget("PET_TRINKET", "Pets & Trinkets", List.of("pet_hud"), def.petHudX, def.petHudY, () -> cfg.gui.petHudX, v -> cfg.gui.petHudX = v,
                 () -> cfg.gui.petHudY, v -> cfg.gui.petHudY = v, () -> cfg.gui.petHudScale, v -> cfg.gui.petHudScale = (float) v));
-        list.add(widget("SESSION_XP", "Session XP", def.sessionXpHudX, def.sessionXpHudY, () -> cfg.gui.sessionXpHudX, v -> cfg.gui.sessionXpHudX = v,
+        list.add(widget("SESSION_XP", "Session XP", List.of("session_stats"), def.sessionXpHudX, def.sessionXpHudY, () -> cfg.gui.sessionXpHudX, v -> cfg.gui.sessionXpHudX = v,
                 () -> cfg.gui.sessionXpHudY, v -> cfg.gui.sessionXpHudY = v, () -> cfg.gui.sessionXpHudScale, v -> cfg.gui.sessionXpHudScale = (float) v));
-        list.add(widget("ENERGY", "Energy", def.energyHudX, def.energyHudY, () -> cfg.gui.energyHudX, v -> cfg.gui.energyHudX = v,
+        list.add(widget("ENERGY", "Energy", List.of("session_stats"), def.energyHudX, def.energyHudY, () -> cfg.gui.energyHudX, v -> cfg.gui.energyHudX = v,
                 () -> cfg.gui.energyHudY, v -> cfg.gui.energyHudY = v, () -> cfg.gui.energyHudScale, v -> cfg.gui.energyHudScale = (float) v));
-        list.add(widget("MINING", "Cooldowns & Satchels", def.miningHudX, def.miningHudY, () -> cfg.gui.miningHudX, v -> cfg.gui.miningHudX = v,
+        list.add(widget("MINING", "Cooldowns & Satchels", List.of("command_cooldowns", "satchel_hud"), def.miningHudX, def.miningHudY, () -> cfg.gui.miningHudX, v -> cfg.gui.miningHudX = v,
                 () -> cfg.gui.miningHudY, v -> cfg.gui.miningHudY = v, () -> cfg.gui.miningHudScale, v -> cfg.gui.miningHudScale = (float) v));
         list.add(new HudElement() {
             @Override
             public String id() {
                 return "ARMOR";
+            }
+
+            @Override
+            public List<String> moduleIds() {
+                return List.of("armor_hud");
             }
 
             @Override
@@ -85,12 +90,17 @@ public final class LegacyHudElements {
         ThePrisonsHudRenderer.drawWidgetPreviews(context, MinecraftClient.getInstance(), ThePrisonsClient.CONFIG.get());
     }
 
-    private static HudElement widget(String id, String name, int defX, int defY, IntSupplier gx, Consumer<Integer> sx, IntSupplier gy,
+    private static HudElement widget(String id, String name, List<String> modules, int defX, int defY, IntSupplier gx, Consumer<Integer> sx, IntSupplier gy,
                                      Consumer<Integer> sy, DoubleSupplier gs, java.util.function.DoubleConsumer ss) {
         return new HudElement() {
             @Override
             public String id() {
                 return id;
+            }
+
+            @Override
+            public List<String> moduleIds() {
+                return modules;
             }
 
             @Override
