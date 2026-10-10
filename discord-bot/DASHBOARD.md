@@ -4,6 +4,21 @@ Diese Version implementiert Phase 1 und Entwurf-Editoren für fünf Kernmodule.
 Sie führt keine Discord-Schreiboperationen aus. Autorollen-Regeln, Ticket- und
 Release-Einstellungen werden noch nicht vom laufenden Bot übernommen.
 
+## Änderungen prüfen
+
+Speichere den Entwurf und wähle **Änderungen prüfen**. Im Demo-Modus entsteht
+eine ausdrücklich markierte Simulation. Beim echten Login wird ein frischer
+Serverzustand gelesen. Rollen, Kanaltypen, Ticketzugänge und modbezogene
+Release-Kanäle werden geprüft. Der Struktur-Editor berücksichtigt jetzt seine
+Kategorienamen und Kanalvorlage bei der Änderungsvorschau und behält vorhandene
+IDs bei. Revision, Dokument- und Snapshot-Prüfsumme binden die Vorschau an ihren
+Ausgangszustand. Vorschauen werden separat gespeichert und können als JSON
+heruntergeladen werden. Bei geändertem Entwurf wird die Prüfung abgebrochen.
+
+Die Vorschau ist ein Dashboard-Prüfbericht, kein vom CLI anwendbarer
+Migrationsplan. Es gibt weiterhin keinen Apply-Endpunkt. Autorollen-Worker und
+die Übernahme neuer Ticket-/Release-Einstellungen sind noch nicht aktiviert.
+
 ## Start
 
 Im discord-bot-Verzeichnis:

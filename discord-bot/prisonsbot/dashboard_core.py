@@ -80,6 +80,17 @@ class DraftStore:
                 CREATE TABLE IF NOT EXISTS dashboard_audit (
                 id INTEGER PRIMARY KEY, guild TEXT, actor TEXT, scope TEXT, module TEXT,
                 revision INTEGER, changed_fields TEXT, created_at REAL);''')
+            db.execute('CREATE TABLE IF NOT EXISTS dashboard_previews (digest TEXT PRIMARY KEY, guild TEXT, actor TEXT, proposal TEXT, created_at REAL)')
+
+    def record_preview(self, guild, proposal, actor):
+        with self.connect() as db:
+            db.execute('INSERT OR IGNORE INTO dashboard_previews VALUES (?,?,?,?,?)',
+                       (proposal['digest'], guild, actor, json.dumps(proposal), proposal['created_at']))
+
+    def previews(self, guild):
+        with self.connect() as db:
+            return [json.loads(row['proposal']) for row in db.execute(
+                'SELECT proposal FROM dashboard_previews WHERE guild=? ORDER BY created_at DESC LIMIT 20', (guild,))]
 
     @contextmanager
     def connect(self):

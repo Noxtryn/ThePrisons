@@ -169,6 +169,26 @@ class DashboardHTTPTests(unittest.TestCase):
         with self.assertRaises(ConfigError):
             readonly.request('GET', '/guilds/test', {'value': 'unexpected'})
 
+    def test_preview_requires_csrf_and_current_revision(self):
+        csrf = self.login_demo()
+        path = '/api/preview/community/messages'
+        self.assertEqual(self.client.post(path, json={'revision': 0}).status_code, 403)
+        headers = {'Origin': self.cfg.origin, 'X-CSRF-Token': csrf}
+        self.assertEqual(self.client.post(path, json={'revision': 1}, headers=headers).status_code, 409)
+        response = self.client.post(path, json={'revision': 0}, headers=headers)
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.json()['simulation'])
+        self.assertFalse(response.json()['live_apply_available'])
+        self.assertEqual(len(self.client.get('/api/previews').json()), 1)
+        self.assertEqual(self.client.post('/api/apply', json=response.json(), headers=headers).status_code, 404)
+
+    def test_preview_invalid_input_and_unknown_scope(self):
+        csrf = self.login_demo()
+        headers = {'Origin': self.cfg.origin, 'X-CSRF-Token': csrf}
+        for body in ({'revision': True}, {'revision': 0, 'token': 'unexpected'}, []):
+            self.assertEqual(self.client.post('/api/preview/community/roles', json=body, headers=headers).status_code, 400)
+        self.assertEqual(self.client.post('/api/preview/unknown/roles', json={'revision': 0}, headers=headers).status_code, 400)
+
 
 if __name__ == '__main__':
     unittest.main()

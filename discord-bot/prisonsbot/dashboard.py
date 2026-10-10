@@ -18,6 +18,7 @@ from .dashboard_core import DraftStore, DraftError, Conflict, MODULES, SCOPES, h
 from .config import Config, ConfigError
 from .api import Discord
 from . import migration
+from .dashboard_preview import compile_preview
 
 API = 'https://discord.com/api/v10'
 ASSETS = Path(__file__).resolve().parent / 'dashboard_assets'
@@ -263,6 +264,45 @@ def create_app(settings=None, provider=discord, bot_config=None, bot_api=None):
                 return data
             except Exception:
                 raise HTTPException(503, 'Serverdaten konnten nicht gelesen werden. Bot-Zugang und Rechte prüfen.') from None
+
+    @app.post('/api/preview/{scope}/{module}')
+    async def preview(scope: str, module: str, request: WebRequest):
+        session = await editor(request)
+        try:
+            body = await request.json()
+            if not isinstance(body, dict) or set(body) != {'revision'} or type(body['revision']) is not int:
+                raise DraftError('Eine gespeicherte Revision ist erforderlich.')
+            saved = store.get(cfg.guild, scope, module)
+            if saved['revision'] != body['revision']:
+                raise Conflict('Entwurf inzwischen geändert. Neu laden und erneut prüfen.')
+            snapshot = None
+            if not session['demo']:
+                if not bot_cfg.has_token() or bot_cfg.get('DISCORD_GUILD_ID') != cfg.guild:
+                    raise HTTPException(503, 'Bot-Zugang oder Serverkonfiguration fehlt.')
+                # Always fresh; the inventory cache is not an approval source.
+                snapshot = await asyncio.to_thread(migration.snapshot, readonly, bot_cfg)
+            proposal = compile_preview(saved, snapshot, bot_cfg)
+            if store.get(cfg.guild, scope, module)['revision'] != saved['revision']:
+                raise Conflict('Entwurf während der Prüfung geändert. Vorschau erneut erstellen.')
+            store.record_preview(cfg.guild, proposal, session['user']['id'])
+            return proposal
+        except Conflict as exc:
+            raise HTTPException(409, str(exc)) from None
+        except (DraftError, ConfigError) as exc:
+            raise HTTPException(400, str(exc)) from None
+        except HTTPException:
+            raise
+        except (ValueError, TypeError):
+            raise HTTPException(400, 'Ungültige Vorschauanfrage.') from None
+        except Exception:
+            raise HTTPException(503, 'Frischer Serverzustand konnte nicht geprüft werden.') from None
+
+    @app.get('/api/previews')
+    async def previews(request: WebRequest):
+        session = await identity(request)
+        if not session['can_edit']:
+            raise HTTPException(403, 'Vorschauen sind dem Verwaltungsteam vorbehalten.')
+        return store.previews(cfg.guild)
 
     @app.get('/')
     async def index():
