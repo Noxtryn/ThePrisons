@@ -1,5 +1,6 @@
 package io.theprisons.items.client;
 
+import io.theprisons.gui.kit.Panel;
 import io.theprisons.gui.kit.Ui;
 import io.theprisons.items.ItemCategory;
 import io.theprisons.items.ItemEntry;
@@ -38,12 +39,6 @@ import java.util.Optional;
  */
 public final class InventoryItemList {
     private static final long DOUBLE_CLICK_MS = 350L;
-    private static final int PANEL_BG = 0xF00A0F1A;
-    private static final int CARD = 0xFF101828;
-    private static final int CARD_HOVER = 0xFF16223A;
-    private static final int BORDER = 0xFF1C2740;
-    private static final int CYAN = 0xFF3CC4E8;
-    private static final int PINK = 0xFFFF6EC7;
 
     private static final SearchInput INPUT = new SearchInput();
     private static float scroll;
@@ -229,8 +224,7 @@ public final class InventoryItemList {
         InventoryListLayout l = layout;
         int px = l.panelX();
         int py = l.panelY();
-        Ui.round(c, px, py, l.panelW(), l.panelH(), PANEL_BG);
-        Ui.outline(c, px, py, l.panelW(), l.panelH(), BORDER);
+        Panel.box(c, px, py, l.panelW(), l.panelH());
         Ui.draw(c, tr, "ITEMS", px + InventoryListLayout.PAD, py + 7, Ui.theme().title(), 255);
         Ui.drawRight(c, tr, view.entries().size() + " items", px + l.panelW() - InventoryListLayout.PAD, py + 7, Ui.MUTED, 255);
         Ui.line(c, px + InventoryListLayout.PAD, px + l.panelW() - InventoryListLayout.PAD, py + 18, 0.4F);
@@ -293,7 +287,7 @@ public final class InventoryItemList {
         int accent = Ui.theme().accent();
         boolean open = INPUT.open();
         Ui.round(c, l.barX() - 1, l.barY() - 1, l.barW() + 2, l.barH() + 2, Ui.argb(open ? 230 : 140, accent));
-        Ui.round(c, l.barX(), l.barY(), l.barW(), l.barH(), 0xF00A0F1A);
+        Ui.round(c, l.barX(), l.barY(), l.barW(), l.barH(), Panel.BG);
         Ui.sprite(c, "market/nav_search", l.barX() + 6, l.barY() + 4, 10, 10, Ui.argb(255, accent));
         boolean blink = (System.currentTimeMillis() / 450L) % 2 == 0;
         String text;
@@ -341,9 +335,9 @@ public final class InventoryItemList {
                 y += 15;
             }
             boolean on = model.filter().category() == cat;
-            Ui.round(c, x, y, w, 13, on ? 0xFF16223A : 0xFF0F1626);
+            Ui.round(c, x, y, w, 13, on ? Panel.CARD_HOVER : Panel.CHIP);
             if (on) {
-                c.fill(x + 2, y + 11, x + w - 2, y + 12, CYAN);
+                c.fill(x + 2, y + 11, x + w - 2, y + 12, Ui.argb(255, Ui.theme().accent()));
             }
             Ui.draw(c, tr, label, x + 5, y + 3, on ? Ui.VALUE : Ui.LABEL, 255);
             CHIP_RECTS.add(new int[]{x, y, w, 13});
@@ -361,8 +355,8 @@ public final class InventoryItemList {
                 }
                 boolean on = model.filter().tiers().contains(tier);
                 int rgb = TierColors.rgb(tier);
-                Ui.round(c, x, y, w, 13, on ? 0xFF000000 | Ui.mix(0x0F1626, rgb, 0.28F) : 0xFF0F1626);
-                Ui.outline(c, x, y, w, 13, on ? 0xFF000000 | rgb : BORDER);
+                Ui.round(c, x, y, w, 13, on ? 0xFF000000 | Ui.mix(0x0F1626, rgb, 0.28F) : Panel.CHIP);
+                Ui.outline(c, x, y, w, 13, on ? 0xFF000000 | rgb : Panel.EDGE);
                 Ui.draw(c, tr, tier, x + 5, y + 3, on ? rgb : Ui.LABEL, 255);
                 CHIP_RECTS.add(new int[]{x, y, w, 13});
                 CHIP_ACTIONS.add(tier);
@@ -375,8 +369,8 @@ public final class InventoryItemList {
 
     private static void drawCard(DrawContext c, TextRenderer tr, ItemEntry e, int x, int y, int w, int h, boolean hover) {
         boolean sel = e.key().equals(selectedKey);
-        Ui.round(c, x, y, w, h, hover ? CARD_HOVER : CARD);
-        Ui.outline(c, x, y, w, h, sel ? PINK : hover ? CYAN : BORDER);
+        Ui.round(c, x, y, w, h, hover ? Panel.CARD_HOVER : Panel.CARD);
+        Ui.outline(c, x, y, w, h, sel ? Ui.argb(255, Ui.theme().accent()) : hover ? Ui.argb(255, Ui.theme().title()) : Panel.EDGE);
         var m = c.getMatrices();
         m.pushMatrix();
         m.translate(x + w / 2.0F - 16, y + 4);
@@ -437,7 +431,7 @@ public final class InventoryItemList {
         int barH = Math.max(18, gh * gh / content);
         int barY = top + (int) ((long) (gh - barH) * scrollPx / Math.max(1, content - gh));
         int bx = l.panelX() + l.panelW() - 4;
-        c.fill(bx, top, bx + 2, top + gh, 0xFF0F1626);
+        c.fill(bx, top, bx + 2, top + gh, Panel.CHIP);
         c.fill(bx, barY, bx + 2, barY + barH, 0xFF2D4466);
     }
 

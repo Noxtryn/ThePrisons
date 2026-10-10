@@ -1,5 +1,6 @@
 package io.theprisons.modules.qol.market;
 
+import io.theprisons.gui.kit.Panel;
 import io.theprisons.gui.kit.Ui;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
@@ -17,11 +18,12 @@ public final class MarketOverlay {
         boolean ee = title.equals(MarketParser.ENERGY);
         if (!ah && !ee) return;
         int w = 154;
-        int x = screen.width - w - 8;
-        int y = 8;
-        Ui.shadowCard(c, x, y, w, ee ? 62 : 76, 0.96f);
-        Ui.shimmer(c, net.minecraft.client.MinecraftClient.getInstance().textRenderer, ee ? "COSMIC ENERGY" : "COSMIC MARKET", x + 9, y + 8, 1f);
-        Ui.line(c, x + 8, x + w - 8, y + 22, 1f);
+        int[] at = Panel.corner(screen.width, screen.height, w, ee ? 62 : 76, true, false, 8);
+        int x = at[0];
+        int y = at[1];
+        Panel.box(c, x, y, w, ee ? 62 : 76);
+        Ui.draw(c, net.minecraft.client.MinecraftClient.getInstance().textRenderer, ee ? "COSMIC ENERGY" : "COSMIC MARKET", x + 9, y + 8, Ui.theme().title(), 255);
+        Panel.rule(c, x + 8, x + w - 8, y + 22);
         if (ee) {
             double rate = m.book().moneyPerEnergy();
             Ui.draw(c, net.minecraft.client.MinecraftClient.getInstance().textRenderer, "Rate", x + 9, y + 31, Ui.MUTED, 255);
