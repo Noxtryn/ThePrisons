@@ -63,7 +63,7 @@ for need in ("features", "textures", "screenshots", "release", "install", "commu
         print("ERROR: current site section missing:", need); ok = False
 for asset in re.findall(r'(?:src|href)="(media/[^\"]+)"', html):
     if asset.startswith("media/textures/"):
-        source = pathlib.Path("src/main/resources/resourcepacks/theprisons_items_standard/assets/theprisons/textures/item/prisons") / asset.removeprefix("media/textures/")
+        source = pathlib.Path("src/paused/cosmic-items/resources/resourcepacks/theprisons_items_standard/assets/theprisons/textures/item/prisons") / asset.removeprefix("media/textures/")
     elif asset.startswith("media/screenshots/"):
         shot_sources = {
             "media/screenshots/config-session.png": pathlib.Path("docs/development/handover/visual-acceptance-2026-10-08/config/0005_config_scale1_overview.png"),
@@ -78,7 +78,7 @@ for asset in re.findall(r'(?:src|href)="(media/[^\"]+)"', html):
         source = pathlib.Path("docs") / asset
     if not source.is_file():
         print("ERROR: missing site media source:", source); ok = False
-texture_root = pathlib.Path("src/main/resources/resourcepacks/theprisons_items_standard/assets/theprisons/textures/item/prisons")
+texture_root = pathlib.Path("src/paused/cosmic-items/resources/resourcepacks/theprisons_items_standard/assets/theprisons/textures/item/prisons")
 texture_count = len(list(texture_root.rglob("*.png")))
 if texture_count != 35:
     print("ERROR: expected 35 standard texture showcase PNGs, found", texture_count); ok = False

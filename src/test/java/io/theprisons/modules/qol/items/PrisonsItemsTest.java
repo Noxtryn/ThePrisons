@@ -78,18 +78,6 @@ class PrisonsItemsTest {
     }
 
     @Test
-    void plainItemsNeedAClearMajority() {
-        java.util.Map<String, Integer> counts = new java.util.HashMap<>();
-        assertNull(VanillaBases.decide(counts));
-        counts.put("theprisons:prisons/shard/simple", 2);
-        assertNull(VanillaBases.decide(counts), "too few sightings");
-        counts.put("theprisons:prisons/shard/simple", 9);
-        assertEquals("theprisons:prisons/shard/simple", VanillaBases.decide(counts).toString());
-        counts.put("theprisons:prisons/misc/money_note", 5);
-        assertNull(VanillaBases.decide(counts), "shared base item stays vanilla");
-    }
-
-    @Test
     void masksPetsAndRarityHints() {
         PrisonsItems.Info mask = PrisonsItems.resolve(new NbtCompound(), "Glitch Mask", PrisonsItems.Tier.GODLY);
         assertNull(mask.model(), "masks keep the server's look for now");
@@ -135,18 +123,6 @@ class PrisonsItemsTest {
             PrisonsItems.Info info = PrisonsItems.resolve(new NbtCompound(), c[0], null);
             org.junit.jupiter.api.Assertions.assertNotNull(info.model(), c[0]);
             assertEquals(c[1], info.model().toString(), c[0]);
-        }
-    }
-
-    @Test
-    void everyRandomFamilyHasItsBlackTextures() {
-        for (String family : PrisonsItems.RANDOM_FAMILIES) {
-            java.io.File dir = new java.io.File("src/main/resources/assets/theprisons/textures/item/prisons/" + family);
-            String[] files = dir.list((d, n) -> n.endsWith(".png") && !n.startsWith("random_"));
-            org.junit.jupiter.api.Assertions.assertTrue(files != null && files.length > 0, family);
-            for (String f : files) {
-                org.junit.jupiter.api.Assertions.assertTrue(new java.io.File(dir, "random_" + f).isFile(), family + "/" + f);
-            }
         }
     }
 

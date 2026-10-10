@@ -4,7 +4,9 @@ Die deutsche Fassung der Release-Notizen von ThePrisons. Der vollständige engli
 
 ## [Unreleased]
 
-Keine unveröffentlichten Änderungen.
+### Geändert
+
+- **Item-Look pausiert:** ThePrisons verändert die Darstellung von Items vorerst nicht mehr. Eigene Itemtexturen, Tier-Rahmen, Slot-Badges, Tier-Tooltip-Rahmen, der Comic-Texturfilter, der eigene Tooltip-Rahmen und die 35 Sci-Fi-Itemtexturen werden vorerst nicht ausgeliefert; Items erscheinen genau so, wie Cosmic Prisons, Minecraft oder deine Resource-Packs sie zeigen. Item-Erkennung, Item List, AH/EE-Overlays und Marktdaten bleiben unverändert.
 
 ## [1.3.0-beta.1] - 2026-10-08
 

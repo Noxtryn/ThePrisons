@@ -13,11 +13,26 @@ COMMANDS = [
     {"name": "roadmap", "description": "Show what we are working on", "de": "Zeigen, woran wir arbeiten"},
     {"name": "support", "description": "How to get help with ThePrisons", "de": "So bekommst du Hilfe bei ThePrisons"},
     {"name": "changelog", "description": "Show what changed in the latest version", "de": "Zeigen, was sich in der neuesten Version geändert hat"},
+    {"name": "mods", "description": "Choose your mods", "de": "Wähle deine Mods"},
+    {"name": "bug", "description": "Open a private bug report", "de": "Privaten Bugreport öffnen"},
+    {"name": "suggest", "description": "Open a private suggestion", "de": "Privaten Featurewunsch öffnen"},
+    {"name": "status", "description": "Show community bot status", "de": "Community-Bot-Status anzeigen"},
+    {"name": "setup", "description": "Preview or apply a migration", "de": "Migration prüfen oder anwenden"},
 ]
 
 
 def registration_payload() -> list:
-    return [{"name": c["name"], "type": 1, "description": c["description"], "description_localizations": {"de": c["de"]}} for c in COMMANDS]
+    payload = [{"name": c["name"], "type": 1, "description": c["description"], "description_localizations": {"de": c["de"]}, "dm_permission": False} for c in COMMANDS]
+    for c in payload:
+        if c["name"] in ("download", "changelog", "support", "bug", "suggest"):
+            c["options"] = [{"name": "mod", "type": 3, "description": "Project", "required": True,
+                             "choices": [{"name": "ThePrisons", "value": "theprisons"}, {"name": "Sky Supra", "value": "sky-supra"}]}]
+        if c["name"] == "setup":
+            c["default_member_permissions"] = "32"
+            c["options"] = [{"name": "preview", "type": 1, "description": "Read-only migration preview"},
+                            {"name": "apply", "type": 1, "description": "Apply the explicitly approved plan", "options": [
+                                {"name": "approval", "type": 3, "description": "Approved plan SHA256", "required": True}]}]
+    return payload
 
 
 _cache = {"at": 0.0, "release": None}
@@ -48,6 +63,13 @@ def _lang(locale) -> str:
 def handle(name: str, locale, cfg: C.Config, release=None) -> dict:
     """The embed (as a dict) that answers a slash command. `release` None = look it up."""
     lang = _lang(locale)
+    if name in ("mods", "bug", "suggest", "status", "setup"):
+        return K.make_embed(lang, name, {}, "Nexora Core", {
+            "mods": "ThePrisons / Sky Supra: select either, both, or neither.",
+            "bug": "Choose a mod to open a private bug report.",
+            "suggest": "Choose a mod to open a private suggestion.",
+            "status": "Nexora Core community service.",
+            "setup": "Preview required. Applying requires explicit approval of the plan."}[name])
     release = release or latest_release()
     ctx = X.build(cfg, release) if release else X.build(cfg)
     known = release is not None

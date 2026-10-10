@@ -87,24 +87,45 @@ jobs:
             --notes-file release-body.md \
             "${flags[@]}"
 
-      - name: Discord (ThePrisons bot)
-        # a tagged commit with "[no-discord]" in its message publishes the release without any Discord post
-        if: ${{ !contains(github.event.head_commit.message, '[no-discord]') && env.HAS_BOT == 'true' }}
-        continue-on-error: true
+  discord:
+    needs: release
+    if: ${{ vars.NEXORA_PUBLISH_ENABLED == 'true' && !contains(github.event.head_commit.message, '[no-discord]') }}
+    environment: nexora-discord
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    concurrency:
+      group: nexora-discord
+      cancel-in-progress: false
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Publish approved ThePrisons release
         working-directory: discord-bot
         env:
           DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
-          DISCORD_MENTIONS: ${{ vars.DISCORD_MENTIONS }}
+          DISCORD_APPLICATION_ID: ${{ vars.DISCORD_APPLICATION_ID }}
+          DISCORD_GUILD_ID: ${{ vars.DISCORD_GUILD_ID }}
+          NEXORA_PUBLISH_ENABLED: ${{ vars.NEXORA_PUBLISH_ENABLED }}
+          ACTION: release
+          MOD: theprisons
+          VERSION: ${{ github.ref_name }}
+          DRY_RUN: 'false'
           DISCORD_CHANNEL_WELCOME: ${{ vars.DISCORD_CHANNEL_WELCOME }}
           DISCORD_CHANNEL_RULES: ${{ vars.DISCORD_CHANNEL_RULES }}
           DISCORD_CHANNEL_GET_STARTED: ${{ vars.DISCORD_CHANNEL_GET_STARTED }}
           DISCORD_CHANNEL_FAQ: ${{ vars.DISCORD_CHANNEL_FAQ }}
-          DISCORD_CHANNEL_ANNOUNCEMENTS: ${{ vars.DISCORD_CHANNEL_ANNOUNCEMENTS }}
-          DISCORD_CHANNEL_CHANGELOG: ${{ vars.DISCORD_CHANNEL_CHANGELOG }}
           DISCORD_CHANNEL_ROADMAP: ${{ vars.DISCORD_CHANNEL_ROADMAP }}
           DISCORD_CHANNEL_KNOWN_ISSUES: ${{ vars.DISCORD_CHANNEL_KNOWN_ISSUES }}
-        run: python3 -m prisonsbot release --version "${{ steps.version.outputs.version }}"
-
-      - name: Discord unavailable (bot not configured)
-        if: ${{ !contains(github.event.head_commit.message, '[no-discord]') && env.HAS_BOT != 'true' }}
-        run: echo "Official Discord bot is not configured; no Discord message was sent. No webhook fallback is used."
+          DISCORD_CHANNEL_ANNOUNCEMENTS: ${{ vars.DISCORD_CHANNEL_ANNOUNCEMENTS }}
+          DISCORD_CHANNEL_CHANGELOG: ${{ vars.DISCORD_CHANNEL_CHANGELOG }}
+          DISCORD_CHANNEL_THEPRISONS_UPDATES: ${{ vars.DISCORD_CHANNEL_THEPRISONS_UPDATES }}
+          DISCORD_CHANNEL_THEPRISONS_DOWNLOADS: ${{ vars.DISCORD_CHANNEL_THEPRISONS_DOWNLOADS }}
+          DISCORD_CHANNEL_THEPRISONS_CHANGELOG: ${{ vars.DISCORD_CHANNEL_THEPRISONS_CHANGELOG }}
+          DISCORD_CHANNEL_SKY_SUPRA_UPDATES: ${{ vars.DISCORD_CHANNEL_SKY_SUPRA_UPDATES }}
+          DISCORD_CHANNEL_SKY_SUPRA_DOWNLOADS: ${{ vars.DISCORD_CHANNEL_SKY_SUPRA_DOWNLOADS }}
+          DISCORD_CHANNEL_SKY_SUPRA_CHANGELOG: ${{ vars.DISCORD_CHANNEL_SKY_SUPRA_CHANGELOG }}
+        run: python3 -m prisonsbot.workflow

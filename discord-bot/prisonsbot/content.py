@@ -6,7 +6,7 @@ from . import config as C
 
 LANGS = ("en", "de")
 LANG_NAME = {"en": "English", "de": "Deutsch"}
-FOOTER = {"en": "ThePrisons Official", "de": "ThePrisons Offiziell"}
+FOOTER = {"en": "Nexora Core · ThePrisons", "de": "Nexora Core · ThePrisons"}
 KEY_RE = re.compile(r"· ([a-z0-9._-]+)$")
 
 # limits of the Discord API
@@ -34,12 +34,15 @@ def fill(text, ctx: dict) -> str:
 
 
 def make_embed(lang, key, ctx, title, description="", fields=None, url=None, image=None) -> dict:
+    shared = key in ("welcome", "rules", "mods", "status", "setup", "bug", "suggest")
     embed = {
-        "author": {"name": f"ThePrisons · {LANG_NAME[lang]}", "icon_url": C.LOGO_URL},
+        "author": {"name": f"Nexora Core · {'Community' if shared else 'ThePrisons'} · {LANG_NAME[lang]}", "icon_url": C.LOGO_URL},
         "title": fill(title, ctx),
-        "color": C.COLOR,
+        "color": 0x263238 if shared else C.COLOR,
         "footer": {"text": f"{FOOTER[lang]} · {key}"},
     }
+    if shared:
+        embed["author"].pop("icon_url", None)
     if description:
         embed["description"] = fill(description, ctx)
     if fields:
@@ -153,5 +156,12 @@ def normalize(embed: dict) -> dict:
 
 
 def same(existing: dict, payload: dict) -> bool:
+    def components(value):
+        if isinstance(value, list):
+            return [components(v) for v in value]
+        if isinstance(value, dict):
+            return {k: components(v) for k, v in value.items() if k != "id"}
+        return value
     return ([normalize(e) for e in existing.get("embeds", [])] == [normalize(e) for e in payload["embeds"]]
-            and (existing.get("content") or "") == (payload.get("content") or ""))
+            and (existing.get("content") or "") == (payload.get("content") or "")
+            and components(existing.get("components", [])) == components(payload.get("components", [])))

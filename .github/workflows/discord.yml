@@ -1,4 +1,3 @@
-
 name: Discord
 
 # ThePrisons — Cosmic Evolution
@@ -41,7 +40,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: discord
+  group: nexora-discord
   cancel-in-progress: false
 
 jobs:
@@ -81,6 +80,8 @@ jobs:
           DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
           DISCORD_CHANNEL_ANNOUNCEMENTS: ${{ vars.DISCORD_CHANNEL_ANNOUNCEMENTS }}
           DISCORD_CHANNEL_CHANGELOG: ${{ vars.DISCORD_CHANNEL_CHANGELOG }}
+          DISCORD_CHANNEL_GET_STARTED: ${{ vars.DISCORD_CHANNEL_GET_STARTED }}
+          DISCORD_CHANNEL_FAQ: ${{ vars.DISCORD_CHANNEL_FAQ }}
           DISCORD_MENTIONS: ${{ vars.DISCORD_MENTIONS }}
           VERSION: ${{ inputs.version }}
           DRY_RUN: ${{ inputs.dry_run }}
@@ -101,8 +102,6 @@ jobs:
           DISCORD_CHANNEL_RULES: ${{ vars.DISCORD_CHANNEL_RULES }}
           DISCORD_CHANNEL_GET_STARTED: ${{ vars.DISCORD_CHANNEL_GET_STARTED }}
           DISCORD_CHANNEL_FAQ: ${{ vars.DISCORD_CHANNEL_FAQ }}
-          DISCORD_CHANNEL_ANNOUNCEMENTS: ${{ vars.DISCORD_CHANNEL_ANNOUNCEMENTS }}
-          DISCORD_CHANNEL_CHANGELOG: ${{ vars.DISCORD_CHANNEL_CHANGELOG }}
           DISCORD_CHANNEL_ROADMAP: ${{ vars.DISCORD_CHANNEL_ROADMAP }}
           DISCORD_CHANNEL_KNOWN_ISSUES: ${{ vars.DISCORD_CHANNEL_KNOWN_ISSUES }}
           DISCORD_APPLICATION_ID: ${{ vars.DISCORD_APPLICATION_ID }}

@@ -19,7 +19,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class ItemTexturePacksTest {
-    private static final Path PACK = Path.of("src/main/resources/resourcepacks/theprisons_items_standard");
+    static final String PAUSED = "src/paused/cosmic-items/resources";
+    private static final Path PACK = Path.of(PAUSED, "resourcepacks/theprisons_items_standard");
     private static final Path TEXTURES = PACK.resolve("assets/theprisons/textures/item/prisons");
     private static final List<String> FAMILIES = List.of("shard", "contraband", "book", "book_revealed", "key", "charge_orb");
 
@@ -34,7 +35,7 @@ class ItemTexturePacksTest {
         assertEquals(35, pngs.size());
         for (Path rel : pngs) {
             assertTrue(FAMILIES.stream().anyMatch(family -> rel.startsWith(family)), rel.toString());
-            assertTrue(Files.isRegularFile(Path.of("src/main/resources/assets/theprisons/textures/item/prisons").resolve(rel)), "classic fallback/model path " + rel);
+            assertTrue(Files.isRegularFile(Path.of(PAUSED, "assets/theprisons/textures/item/prisons").resolve(rel)), "classic fallback/model path " + rel);
         }
     }
 
@@ -65,7 +66,7 @@ class ItemTexturePacksTest {
 
     @Test
     void executiveShardIsTheOnlyCorrectedModelReference() throws IOException {
-        String executive = Files.readString(Path.of("src/main/resources/assets/theprisons/models/item/prisons/misc/executive_shard.json"));
+        String executive = Files.readString(Path.of(PAUSED, "assets/theprisons/models/item/prisons/misc/executive_shard.json"));
         assertTrue(executive.contains("theprisons:item/prisons/shard/executive"));
     }
 

@@ -14,7 +14,7 @@ ISSUES_URL = f"{REPO_URL}/issues/new"
 RELEASES_URL = f"{REPO_URL}/releases"
 # the official logo of the mod (src/main/resources/assets/theprisons/icon.png), served from the Release branch
 LOGO_URL = f"https://raw.githubusercontent.com/{REPO}/Release/src/main/resources/assets/theprisons/icon.png"
-COLOR = 0x7B3FFF  # one colour for every embed
+COLOR = 0xD633A6  # Nexora ThePrisons magenta; gold accents belong to approved graphics
 USER_AGENT = f"DiscordBot ({REPO_URL}, 1)"
 
 CHANNELS = ["welcome", "rules", "get-started", "faq", "announcements", "changelog", "roadmap", "known-issues"]

@@ -70,7 +70,6 @@ public final class DashboardScreen extends Screen implements io.theprisons.gui.k
     private float shownDarkness = -1;
     private float animationsKnob = -1;
     private float fontKnob = -1;
-    private float comicKnob = -1;
     private float sprintKnob = -1;
     private final Map<String, Float> oreKnobs = new HashMap<>();
     private float scroll;
@@ -446,7 +445,6 @@ public final class DashboardScreen extends Screen implements io.theprisons.gui.k
         section(c, "MOTION & FONT", left, y + 96, a2);
         animationsKnob = toggle(c, left, y + 112, "Animations", design.animationsSetting(), animationsKnob, mx, my, dt, a2);
         fontKnob = toggle(c, left, y + 130, "Boxy font", design.sleekFontSetting(), fontKnob, mx, my, dt, a2);
-        comicKnob = toggle(c, left, y + 148, "Comic textures", design.comicTexturesSetting(), comicKnob, mx, my, dt, a2);
 
         // right: live preview
         int px = left + colW + 10;

@@ -53,6 +53,8 @@ public final class PrisonsItems {
     /**
      * What is known about an item: our model (or null), its tier (or null), a badge text (or "") and the model the
      * plain base item (same Minecraft id, no components) gets once this family is learned for it (or null).
+     * While the item look is paused (src/paused/cosmic-items) {@code model} is only a classification key
+     * ({@code theprisons:prisons/<family>/<variant>}) for the market and the sensors; no asset is shipped for it.
      */
     public record Info(@Nullable Identifier model, @Nullable Tier tier, String badge, @Nullable Identifier plainModel) {
         static final Info NONE = new Info(null, null, "", null);
@@ -121,9 +123,6 @@ public final class PrisonsItems {
             CACHE.clear();
         }
         CACHE.put(key, info);
-        if (info.plainModel() != null && hasData) {
-            VanillaBases.observe(stack.getItem(), info.plainModel());
-        }
         return info;
     }
 

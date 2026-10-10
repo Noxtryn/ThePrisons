@@ -1,26 +1,44 @@
-# Current state — 2026-10-08
+# Current state — 2026-10-09 (Claude Code, Phase 1)
 
-## Repository and deployment
+## Repository
 
-- Branch `dev`; latest verified commit and `origin/dev`: `fbb1457feb47f839d09b43295258ece57b7a3e18`.
-- The preceding implementation and visual-QA code are committed and pushed. This handover update and archived screenshot batch are the only new local changes until committed.
-- `stash@{0}` is still `WIP on dev: fa30f51 ...`; it has not been applied, altered, or dropped. `Release` is untouched.
-- Built and installed artifact: `ThePrisons-Nebula-v1.2.1-mc1.21.11.jar`; build and Prism copy SHA-256 `697e9aaa5f69fd73d1ddea26f2ec056fc48a9f30d6d3daea01fb42268f72b48a`.
-- Identified Prism mod directory: `/home/freelocs/.local/share/PrismLauncher/instances/Cosmic/minecraft/mods/`; only one `ThePrisons*.jar` was present.
+- Branch `dev`. Basis bei Sessionbeginn: `e30829d` (= `origin/dev`).
+- Neuer lokaler Commit **`084f88c`** `feat(items): pause the Cosmic item look until re-approved`. Danach folgt der Doku-Commit mit diesem Dokument. **Beide sind noch nicht gepusht.**
+- `origin/Release` = `877185c` (enthält `dev` bis `e30829d` und einen direkten Commit an `discord.yml`). `Release` wurde nicht angefasst. Es gibt keinen Tag `v1.3.0-beta.1` und keinen Release; öffentlich ist v1.2.1.
+- `stash@{0}` (`WIP on dev: fa30f51 …`) unverändert. Die sechs Mode-Diffs (`gradlew`, `scripts/*.sh`, 755→644 durch `core.fileMode=true` unter Windows) wurden weder committet noch zurückgesetzt.
 
-## Verified and not yet accepted
+## Phase-1-Ergebnisse
 
-- `./gradlew clean test build --no-daemon` passed. Both local client GameTest runs passed: Showcase and Market.
-- The client test renders production `ClickGuiScreen` at GUI scales 1/2/3 and 1920×1080 plus 1280×720, and produces category/settings/search/dropdown/scroll screenshots. The tabs are selected reflectively, so this verifies render states, not physical navigation/input in Prism.
-- Confirmed visual defect: `ClickGuiScreen` at 1280×720, GUI Scale 3 clips the horizontal category tabs and squeezes the setting label/control columns. Fix this first; no broad redesign or new renderer.
-- The Inventory Item List test now calls its production entry points. It renders 211 registered items; `shard` and `mask` queries narrow results; icons, category/tier chips and card hover work. The synthetic fixture has no matching market quote for its hovered card, and UI correctly says “No market data yet.” Real Cosmic tooltip/lore remains unverified.
-- AH and EE screens render with synthetic seeded observations only. Cosmic `/ah`, `/ee`, server prices, original tooltip lore, and the installed Prism instance have not been manually exercised: **MANUAL TEST REQUIRED**.
-- The JAR contains 35 approved PNGs under `theprisons_items_standard`; its relevant models are present, the resource reload lists `theprisons_items_standard` and `theprisons_look`, and prior HD art remains archived in `archive/legacy-texturepacks/`.
+| Dokument | Inhalt |
+|---|---|
+| [`docs/audit/PROJECT_AUDIT.md`](../../audit/PROJECT_AUDIT.md) | Bestand, Einstiegspunkte, Speicherorte, Tests, Risiken R1–R16 |
+| [`docs/audit/RELEASE_AUDIT.md`](../../audit/RELEASE_AUDIT.md) | öffentlicher Stand, Abweichungen, Release-Blocker, JAR-Vergleich |
+| [`docs/design/UI_REPLACEMENT_REQUIREMENTS.md`](../../design/UI_REPLACEMENT_REQUIREMENTS.md) | technischer Vertrag für Claude Design inklusive vollständigem Setting-Inventar |
+| [`docs/development/COSMIC_ITEM_PAUSE_PLAN.md`](../COSMIC_ITEM_PAUSE_PLAN.md) | Abgrenzung, Umsetzung, Verifikation und Reaktivierung der Pause |
+| [`docs/development/PHASE_2_IMPLEMENTATION_PLAN.md`](../PHASE_2_IMPLEMENTATION_PLAN.md) | Zielarchitektur und Migrationsreihenfolge |
 
-## Durable QA evidence
+## Verifiziert in dieser Session (Windows 11, JDK 21.0.12 aus `~/.jdks/ms-21.0.12.1`)
 
-The 79 screenshots are now in `docs/development/handover/visual-acceptance-2026-10-08/` (about 11 MB). The directory includes all generated config variants and representative Item List/AH/EE captures. Their generation and limitations are detailed in [VISUAL_ACCEPTANCE_2026-10-08.md](VISUAL_ACCEPTANCE_2026-10-08.md).
+- Baseline `./gradlew clean test build`: grün, 737 Tests.
+- Nach der Pause `./gradlew clean test build`: grün, 732 Tests (8 in den pausierten Baum verschoben, 3 neue Schutztests).
+- `./gradlew checkPausedCosmicItems`: grün, 8 Tests.
+- `./gradlew runClientGameTest -Pmarket`: grün. Item List, AH, EE, Tinker und eigene Angebote gerendert; keine Missing-Model-Meldungen; Resource-Reload ohne die pausierten Packs.
+- JAR: 881 Einträge, 2,6 MB; keine pausierten Klassen, Packs oder Referenzen.
 
-## Immediate continuation
+## Nicht verifiziert
 
-Start with P0: fix and re-render the actual `ClickGuiScreen` at 1280×720 / Scale 3. Then launch the installed JAR in Prism and conduct the real Cosmic-server checks. Follow the ordered list in [CLAUDE_NEXT_TASKS.md](CLAUDE_NEXT_TASKS.md) and checkpoint file [NEXT_SESSION_1834.md](NEXT_SESSION_1834.md). No Bandit Macro work before UI acceptance.
+- `scripts/check-release.sh` und die Discord-Bot-Tests (kein Python auf dieser Maschine) → laufen in CI beim nächsten Push.
+- `runClientGameTest -Pshowcase` (Config-GUI-Screenshots) wurde in dieser Session nicht ausgeführt.
+- Live-Test in Prism und auf Cosmic Prisons: **MANUAL TEST REQUIRED**.
+
+## Übergabe an Claude Design (2026-10-10)
+
+Einstieg: [`docs/design/CLAUDE_DESIGN_HANDOFF.md`](../../design/CLAUDE_DESIGN_HANDOFF.md) mit den verbindlichen PO-Vorgaben (Neubau, alle 204 Settings funktional, alle HUDs und Overlays inkl. AH/EE im neuen Designsystem, Pause bleibt). Aktuelle Ist-Screenshots: `docs/design/reference/current-state-2026-10-10/`. Korrekturplan für `/prisons open`: `PHASE_2_IMPLEMENTATION_PLAN.md` §3b.
+
+## Nächster Schritt
+
+Auf die freigegebene Designspezifikation von Claude Design warten. Bis dahin: keine neue Config GUI, kein Ausbessern der alten GUI (der frühere P0 „ClickGuiScreen bei 1280×720 / Skala 3 reparieren“ entfällt durch den Neubau). Entscheidungen, die vorher fallen müssen, stehen in `RELEASE_AUDIT.md` §3 und `UI_REPLACEMENT_REQUIREMENTS.md` §10.
+
+## Frühere Stände
+
+Der Codex-Stand vom 2026-10-08 (letzter Commit `fbb1457` bzw. `e30829d`) steht in `NEXT_SESSION_1834.md`, `TEST_RESULTS.md`, `VISUAL_ACCEPTANCE_2026-10-08.md` und `DEPLOYMENT_AUDIT_2026-10-08.md`. Die Aussagen dort über die 35 Texturen im JAR gelten seit `084f88c` nicht mehr.

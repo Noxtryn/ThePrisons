@@ -456,12 +456,7 @@ public final class MarketScreen extends HandledScreen<GenericContainerScreenHand
         if (item == net.minecraft.item.Items.AIR) {
             return;
         }
-        io.theprisons.modules.qol.items.ItemLookModule.noFrame = true;
-        try {
-            c.drawItem(new ItemStack(item), x, y);
-        } finally {
-            io.theprisons.modules.qol.items.ItemLookModule.noFrame = false;
-        }
+        c.drawItem(new ItemStack(item), x, y);
     }
 
     private String titleText() {

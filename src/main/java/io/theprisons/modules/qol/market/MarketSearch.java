@@ -1,7 +1,6 @@
 package io.theprisons.modules.qol.market;
 
 import io.theprisons.gui.kit.Ui;
-import io.theprisons.modules.qol.items.ItemLookModule;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
@@ -588,13 +587,7 @@ public final class MarketSearch {
 
     /** The collapsed cell's texture: the lowest variant's real item, without a rarity frame. */
     private static void drawBase(DrawContext c, ItemCatalog catalog, Family f, int x, int y) {
-        ItemStack stack = stackFor(catalog, f.variants().get(0));
-        ItemLookModule.noFrame = true;
-        try {
-            c.drawItem(stack, x, y);
-        } finally {
-            ItemLookModule.noFrame = false;
-        }
+        c.drawItem(stackFor(catalog, f.variants().get(0)), x, y);
     }
 
     /** The real item of an entry (as the server sent it), else its plain icon with the name. */
@@ -638,10 +631,6 @@ public final class MarketSearch {
             }
             lore.add(Text.literal(e.category().replace("/", " · ")).setStyle(net.minecraft.text.Style.EMPTY.withColor(Formatting.GRAY).withItalic(false)));
             stack.set(DataComponentTypes.LORE, new net.minecraft.component.type.LoreComponent(lore));
-            String maskModel = ItemDirectory.maskModel(ItemIdentity.of(e.name(), null) != null ? e.name().replaceAll("^(?:Simple|Uncommon|Elite|Ultimate|Legendary|Godly) Mask$", "$0") : e.name());
-            if (maskModel != null) {
-                stack.set(DataComponentTypes.ITEM_MODEL, Identifier.of("theprisons", maskModel));
-            }
             return stack;
         } catch (RuntimeException ex) {
             return new ItemStack(net.minecraft.item.Items.PAPER);
@@ -695,8 +684,7 @@ public final class MarketSearch {
         if (!tip.hint().isEmpty()) {
             lines.add(Text.literal(tip.hint()).formatted(Formatting.DARK_GRAY));
         }
-        c.drawTooltip(tr, lines, Optional.empty(), mouseX, mouseY,
-                ItemLookModule.tooltipStyle(stack, stack.get(DataComponentTypes.TOOLTIP_STYLE)));
+        c.drawTooltip(tr, lines, Optional.empty(), mouseX, mouseY, stack.get(DataComponentTypes.TOOLTIP_STYLE));
     }
 
     /** The base cell: just the family ("Shard"), how many rarities and the cheapest price. */

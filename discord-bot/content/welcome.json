@@ -5,16 +5,16 @@
     {
       "key": "welcome",
       "en": {
-        "title": "Welcome to ThePrisons",
-        "description": "ThePrisons is a free, client-side Fabric mod for Cosmic Prisons on Minecraft {minecraft}: a clean dashboard, live session stats, HUD widgets, a storage overlay and customization.",
+        "title": "Welcome to Nexora • Mod Community",
+        "description": "Your community for ThePrisons and Sky Supra. Choose either mod, both, or neither with `/mods`. Shared community areas stay open to everyone.",
         "fields": [
           {
             "name": "Start here",
-            "value": "Read {channel_get_started} to install it in a few minutes."
+            "value": "Choose your mods with `/mods`. For ThePrisons installation, read {channel_get_started}. Sky Supra release information appears in its own mod area."
           },
           {
             "name": "Channels",
-            "value": "{channel_announcements} releases and news\n{channel_changelog} what changed\n{channel_faq} common questions\n{channel_roadmap} what we work on\n{channel_known_issues} open problems"
+            "value": "`/download mod` downloads\n`/changelog mod` release notes\n`/support mod`, `/bug mod`, `/suggest mod` private tickets\n{channel_faq} ThePrisons FAQ\n{channel_roadmap} roadmap · {channel_known_issues} known issues"
           },
           {
             "name": "Please note",
@@ -23,16 +23,16 @@
         ]
       },
       "de": {
-        "title": "Willkommen bei ThePrisons",
-        "description": "ThePrisons ist eine kostenlose, clientseitige Fabric-Mod für Cosmic Prisons auf Minecraft {minecraft}: ein sauberes Dashboard, Live-Session-Stats, HUD-Widgets, eine Lager-Übersicht und Anpassung.",
+        "title": "Willkommen bei Nexora • Mod Community",
+        "description": "Deine Community für ThePrisons und Sky Supra. Wähle mit `/mods` eine Mod, beide oder keine. Gemeinsame Community-Bereiche bleiben für alle offen.",
         "fields": [
           {
             "name": "Hier starten",
-            "value": "Lies {channel_get_started}, dann ist es in wenigen Minuten installiert."
+            "value": "Wähle deine Mods mit `/mods`. Die ThePrisons-Installation findest du in {channel_get_started}. Sky Supra erhält eigene Release-Informationen in seinem Mod-Bereich."
           },
           {
             "name": "Kanäle",
-            "value": "{channel_announcements} Releases und Neuigkeiten\n{channel_changelog} was sich geändert hat\n{channel_faq} häufige Fragen\n{channel_roadmap} woran wir arbeiten\n{channel_known_issues} offene Probleme"
+            "value": "`/download mod` Downloads\n`/changelog mod` Release-Notizen\n`/support mod`, `/bug mod`, `/suggest mod` private Tickets\n{channel_faq} ThePrisons-FAQ\n{channel_roadmap} Roadmap · {channel_known_issues} bekannte Probleme"
           },
           {
             "name": "Bitte beachten",

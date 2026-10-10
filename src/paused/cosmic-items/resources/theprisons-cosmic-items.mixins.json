@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "package": "io.theprisons.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "ThePrisonsItemModelManagerMixin",
+    "ThePrisonsDrawContextMixin",
+    "ThePrisonsSpriteContentsMixin",
+    "ThePrisonsTextureContentsMixin",
+    "ThePrisonsResourcePackManagerMixin",
+    "ThePrisonsHandledScreenTooltipMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
