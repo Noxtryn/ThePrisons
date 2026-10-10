@@ -24,7 +24,7 @@ public final class ItemLookClientGameTest implements FabricClientGameTest {
 
     @Override
     public void runTest(ClientGameTestContext context) {
-        if (ShowcaseClientGameTest.ENABLED || ShowcaseClientGameTest.MARKET || ShowcaseClientGameTest.TUNNEL) {
+        if (ShowcaseClientGameTest.ENABLED || ShowcaseClientGameTest.MARKET || ShowcaseClientGameTest.TUNNEL || ShowcaseClientGameTest.CONFIG) {
             return; // the showcase run shows only the showcase
         }
         try (TestSingleplayerContext singleplayer = context.worldBuilder().create()) {

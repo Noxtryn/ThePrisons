@@ -123,6 +123,9 @@ tasks.matching { it.name == 'runClientGameTest' }.configureEach {
     } else if (project.hasProperty('tunnel')) {
         // ./gradlew runClientGameTest -Ptunnel: the user build, only Tunnel Vision (screenshots)
         jvmArgs '-Dtheprisons.tunnel=true'
+    } else if (project.hasProperty('config')) {
+        // ./gradlew runClientGameTest -Pconfig: the user build, only the config GUI (completeness, entry points, screenshots)
+        jvmArgs '-Dtheprisons.config=true'
     } else if (project.hasProperty('market')) {
         // ./gradlew runClientGameTest -Pmarket: the user build, only the market screens (screenshots)
         jvmArgs '-Dtheprisons.market=true'

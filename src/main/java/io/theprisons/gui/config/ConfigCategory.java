@@ -2,6 +2,11 @@ package io.theprisons.gui.config;
 
 import io.theprisons.core.module.Category;
 import io.theprisons.core.module.Module;
+import io.theprisons.core.setting.Setting;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * The categories of the one config GUI. Every module has exactly one home category (its name, status, keybind and
@@ -80,5 +85,31 @@ public enum ConfigCategory {
             };
         }
         return home(module);
+    }
+
+    /** True when the category lists the setting (Overview lists every setting of every module). */
+    public static boolean shows(Module module, Setting<?> setting, ConfigCategory category) {
+        return category == OVERVIEW || of(module, setting.group()) == category;
+    }
+
+    /** The modules a category lists, in registration order: its home modules and those with settings in it. */
+    public static List<Module> modulesIn(Collection<Module> all, ConfigCategory category) {
+        if (category == OVERVIEW) {
+            return new ArrayList<>(all);
+        }
+        List<Module> list = new ArrayList<>();
+        for (Module module : all) {
+            if (home(module) == category) {
+                list.add(module);
+                continue;
+            }
+            for (Setting<?> setting : module.settings()) {
+                if (setting != module.keybind() && setting.visible() && of(module, setting.group()) == category) {
+                    list.add(module);
+                    break;
+                }
+            }
+        }
+        return list;
     }
 }

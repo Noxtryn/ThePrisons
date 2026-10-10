@@ -1,0 +1,137 @@
+package io.theprisons.gametest;
+
+import io.theprisons.ThePrisonsClient;
+import io.theprisons.core.ThePrisonsCore;
+import io.theprisons.core.module.Module;
+import io.theprisons.core.setting.Setting;
+import io.theprisons.gui.config.ConfigCategory;
+import io.theprisons.gui.config.ConfigScreen;
+import net.fabricmc.fabric.api.client.gametest.v1.FabricClientGameTest;
+import net.fabricmc.fabric.api.client.gametest.v1.context.ClientGameTestContext;
+import net.minecraft.client.gui.screen.Screen;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+/**
+ * The config GUI on a real client ({@code ./gradlew runClientGameTest -Pconfig}, user build): every one of the 204
+ * documented settings exists in the live registry and has a place in the GUI, the entry points open the one
+ * {@link ConfigScreen}, and every category is captured at GUI scale 1, 2 and 3.
+ */
+public final class ConfigGuiClientGameTest implements FabricClientGameTest {
+    private static final Logger LOGGER = LoggerFactory.getLogger("ThePrisons/ConfigGui");
+
+    @Override
+    public void runTest(ClientGameTestContext context) {
+        if (!ShowcaseClientGameTest.CONFIG) {
+            return;
+        }
+        ThePrisonsCore core = ThePrisonsCore.get();
+        List<String> problems = new ArrayList<>();
+        checkInventory(core, problems);
+        checkEntryPoints(context, core, problems);
+        if (!problems.isEmpty()) {
+            throw new AssertionError("Config GUI check failed:\n - " + String.join("\n - ", problems));
+        }
+        screenshots(context, 1280, 720);
+        screenshots(context, 1920, 1080);
+        context.setScreen(() -> null);
+    }
+
+    /** Every documented setting exists and appears in the category of its group; nothing undocumented exists. */
+    private static void checkInventory(ThePrisonsCore core, List<String> problems) {
+        Set<String> documented = new HashSet<>();
+        for (String line : inventory()) {
+            String key = line.split(" ")[0];
+            documented.add(key);
+            int dot = key.indexOf('.');
+            Module module = core.modules().get(key.substring(0, dot));
+            if (module == null) {
+                problems.add("module missing for " + key);
+                continue;
+            }
+            Setting<?> setting = module.setting(key.substring(dot + 1));
+            if (setting == null) {
+                problems.add("setting missing: " + key);
+                continue;
+            }
+            ConfigCategory category = ConfigCategory.of(module, setting.group());
+            if (!ConfigCategory.modulesIn(core.modules().all(), category).contains(module)) {
+                problems.add(key + " is not listed in " + category);
+            }
+        }
+        for (Module module : core.modules().all()) {
+            for (Setting<?> setting : module.settings()) {
+                String key = module.id() + "." + setting.id();
+                if (!setting.id().equals("keybind") && !documented.contains(key) && !module.id().equals("bandit_dodge_test")) {
+                    problems.add("setting not in the inventory (add it to settings-inventory.txt): " + key);
+                }
+            }
+            if (module.setting("keybind") == null) {
+                problems.add("no keybind in " + module.id());
+            }
+        }
+        LOGGER.info("[config-gui] {} documented settings checked, {} modules", documented.size(), core.modules().all().size());
+    }
+
+    private static void checkEntryPoints(ClientGameTestContext context, ThePrisonsCore core, List<String> problems) {
+        Screen[] opened = new Screen[2];
+        context.runOnClient(client -> {
+            opened[0] = ThePrisonsClient.configScreen(null, core);
+            core.modules().get("click_gui").onKeybind();
+        });
+        context.waitTicks(2);
+        context.runOnClient(client -> opened[1] = client.currentScreen);
+        if (!(opened[0] instanceof ConfigScreen)) {
+            problems.add("configScreen() is " + opened[0]);
+        }
+        if (!(opened[1] instanceof ConfigScreen)) {
+            problems.add("the click_gui keybind opened " + opened[1]);
+        }
+    }
+
+    private static void screenshots(ClientGameTestContext context, int width, int height) {
+        context.getInput().resizeWindow(width, height);
+        for (int scale = 1; scale <= 3; scale++) {
+            final int guiScale = scale;
+            context.runOnClient(client -> {
+                client.options.getGuiScale().setValue(guiScale);
+                client.onResolutionChanged();
+            });
+            for (ConfigCategory category : ConfigCategory.values()) {
+                context.runOnClient(client -> {
+                    ThePrisonsCore core = ThePrisonsCore.get();
+                    ConfigScreen.focusCategory(category);
+                    client.setScreen(ThePrisonsClient.configScreen(null, core));
+                });
+                context.waitTicks(2);
+                LOGGER.info("[config-gui] {}x{} scale={} {} {}", width, height, guiScale, category,
+                        context.takeScreenshot("config_" + width + "x" + height + "_s" + guiScale + "_" + category.name().toLowerCase()));
+            }
+        }
+    }
+
+    private static List<String> inventory() {
+        try (InputStream in = ConfigGuiClientGameTest.class.getResourceAsStream("/settings-inventory.txt")) {
+            if (in == null) {
+                throw new AssertionError("settings-inventory.txt is not on the gametest classpath");
+            }
+            List<String> lines = new ArrayList<>();
+            for (String line : new String(in.readAllBytes(), StandardCharsets.UTF_8).split("\\R")) {
+                if (!line.isBlank()) {
+                    lines.add(line.trim());
+                }
+            }
+            return lines;
+        } catch (IOException e) {
+            throw new java.io.UncheckedIOException(e);
+        }
+    }
+}

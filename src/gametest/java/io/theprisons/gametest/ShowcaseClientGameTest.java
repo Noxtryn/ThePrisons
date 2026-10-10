@@ -33,7 +33,7 @@ import java.util.List;
 /**
  * The showcase: walks through everything the mod shows a player - dashboard and its pages (themes, darkness, font,
  * comic textures), HUD editor, scoreboard, session HUD with live XP/h and energy/h, pets / cooldowns / satchels /
- * armour widgets, notifications, Better ConfigCategory, player list and player cards, the storage overlay, every item look,
+ * armour widgets, notifications, Better Tab, player list and player cards, the storage overlay, every item look,
  * worn armour and masks, the comic block textures. Not the Ore Macro.
  *
  * <p>Runs only with {@code -Dtheprisons.showcase=true} ({@code tools/showcase.sh}); every scene has a caption on
@@ -45,6 +45,8 @@ public final class ShowcaseClientGameTest implements FabricClientGameTest {
     static final boolean MARKET = Boolean.getBoolean("theprisons.market");
     /** Only Tunnel Vision ({@link TunnelClientGameTest}). */
     static final boolean TUNNEL = Boolean.getBoolean("theprisons.tunnel");
+    /** Only the config GUI (ConfigGuiClientGameTest). */
+    static final boolean CONFIG = Boolean.getBoolean("theprisons.config");
     private static final Logger LOGGER = LoggerFactory.getLogger("ThePrisons/Showcase");
     private static final int SECONDS = Integer.getInteger("theprisons.showcase.seconds", 4);
 
