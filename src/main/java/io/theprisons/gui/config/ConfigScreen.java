@@ -1,4 +1,4 @@
-package io.theprisons.gui.click;
+package io.theprisons.gui.config;
 
 import io.theprisons.ThePrisonsClient;
 import io.theprisons.core.ThePrisonsCore;
@@ -49,7 +49,7 @@ import java.util.Map;
  * Immediate-mode: every frame lays out the visible widgets and records their hit boxes; input is matched against
  * the boxes of the last frame. Nothing here touches files except through {@link ConfigStore}.
  */
-public final class ClickGuiScreen extends Screen {
+public final class ConfigScreen extends Screen {
     /** The real configuration screen deliberately has a desktop-style layout, even on a scaled Minecraft GUI. */
     private static final int SIDEBAR_W = 164;
     private static final int HEADER_H = 70;
@@ -58,14 +58,14 @@ public final class ClickGuiScreen extends Screen {
     private static final int CONTROL_W = 148;
     private static final int ROW_GAP = 8;
 
-    private static Tab lastTab = Tab.OVERVIEW;
+    private static ConfigCategory lastTab = ConfigCategory.OVERVIEW;
     private static @Nullable String lastModule;
     /** Setting to scroll to and flash once the GUI opens ({@link #focus}). */
     private static @Nullable String focusSetting;
     private static long focusAtMs;
     /** The next GUI opens on this module, scrolled to this setting, which flashes for a moment. */
     public static void focus(Module module, @Nullable String settingId) {
-        lastTab = Tab.home(module);
+        lastTab = ConfigCategory.home(module);
         lastModule = module.id();
         focusSetting = settingId;
         focusAtMs = System.currentTimeMillis();
@@ -95,7 +95,7 @@ public final class ClickGuiScreen extends Screen {
     private int panelW;
     private int panelH;
 
-    private Tab tab;
+    private ConfigCategory tab;
     private String groupFilter = "";
     private @Nullable Module selected;
     private String search = "";
@@ -121,7 +121,7 @@ public final class ClickGuiScreen extends Screen {
     private int clipX2;
     private int clipY2;
 
-    public ClickGuiScreen(@Nullable Screen parent, ThePrisonsCore core) {
+    public ConfigScreen(@Nullable Screen parent, ThePrisonsCore core) {
         super(Text.literal("ThePrisons"));
         this.parent = parent;
         this.core = core;
@@ -234,7 +234,7 @@ public final class ClickGuiScreen extends Screen {
         context.drawStrokedRectangle(x + 12, y - 2, 26, 26, ThePrisonsColors.ACCENT_CYAN);
         context.drawCenteredTextWithShadow(font, "T", x + 25, y + 6, ThePrisonsColors.ACCENT_CYAN);
         context.drawText(font, Text.literal("THEPRISONS").styled(style -> style.withBold(true)), x + 46, y, ThePrisonsColors.FG_PRIMARY, true);
-        context.drawText(font, "COMMAND CENTER  //  V4", x + 46, y + 12, ThePrisonsColors.ACCENT_CYAN, false);
+        context.drawText(font, "CONFIG", x + 46, y + 12, ThePrisonsColors.ACCENT_CYAN, false);
         long enabled = modules.all().stream().filter(Module::enabled).count();
         context.drawText(font, I18n.f("%d / %d SYSTEMS ONLINE", enabled, modules.all().size()), x + 12, y + 35, ThePrisonsColors.FG_MUTED, false);
         // Language button (live): EN ⇄ DE
@@ -269,7 +269,7 @@ public final class ClickGuiScreen extends Screen {
         boolean compactSidebar = panelH < 420;
         int tabH = compactSidebar ? 17 : 22;
         int tabGap = compactSidebar ? 1 : 3;
-        for (Tab entry : Tab.values()) {
+        for (ConfigCategory entry : ConfigCategory.values()) {
             boolean active = search.isEmpty() && entry == tab;
             boolean hover = inside(mouseX, mouseY, x + 8, cy, x + SIDEBAR_W - 8, cy + tabH);
             if (active) {
@@ -291,7 +291,7 @@ public final class ClickGuiScreen extends Screen {
                     active ? ThePrisonsColors.FG_PRIMARY : ThePrisonsColors.FG_SECONDARY, false);
             context.drawText(font, count, x + SIDEBAR_W - 16 - font.getWidth(count), textY,
                     on > 0 ? ThePrisonsColors.ACCENT_LIME : ThePrisonsColors.FG_DISABLED, false);
-            Tab target = entry;
+            ConfigCategory target = entry;
             hit(x + 8, cy, x + SIDEBAR_W - 8, cy + tabH, (mx, my, b) -> selectTab(target));
             cy += tabH + tabGap;
         }
@@ -358,7 +358,7 @@ public final class ClickGuiScreen extends Screen {
             }
         }
         for (Module module : list) {
-            String header = searching ? Tab.home(module).label() : module.group();
+            String header = searching ? ConfigCategory.home(module).label() : module.group();
             if (!header.equals(lastGroup) && (searching || groupFilter.isEmpty())) {
                 context.drawText(font, I18n.t(header).toUpperCase(Locale.ROOT), listX + 2, y + 3, ThePrisonsColors.HEADING_PINK, false);
                 y += 13;
@@ -429,7 +429,7 @@ public final class ClickGuiScreen extends Screen {
         context.drawText(font, Text.literal(I18n.t(module.name())).styled(style -> style.withBold(true)), x, y, ThePrisonsColors.HEADING_PINK, true);
         // Overview is a real working view: it intentionally exposes the selected module's complete settings,
         // rather than sending the player to a second, parallel settings renderer.
-        boolean home = !search.isBlank() || tab == Tab.OVERVIEW || Tab.home(module) == tab;
+        boolean home = !search.isBlank() || tab == ConfigCategory.OVERVIEW || ConfigCategory.home(module) == tab;
         context.drawText(font, I18n.t(tab.label()) + " › " + I18n.t(module.group()), x, y + 11, ThePrisonsColors.FG_MUTED, false);
         if (module.toggleable()) {
             toggle(context, x + w - 22, y + 1, module.enabled());
@@ -438,7 +438,7 @@ public final class ClickGuiScreen extends Screen {
         y += 24;
         if (!home) {
             // Another tab's part of this module: only the settings of this tab (name, status and keybind are in its home tab).
-            context.drawText(font, trim(I18n.f("Main settings: %s", I18n.t(Tab.home(module).label())), w), x, y, ThePrisonsColors.FG_MUTED, false);
+            context.drawText(font, trim(I18n.f("Main settings: %s", I18n.t(ConfigCategory.home(module).label())), w), x, y, ThePrisonsColors.FG_MUTED, false);
             y += 12;
             return renderGroups(context, mouseX, mouseY, module, x, y, w);
         }
@@ -477,7 +477,7 @@ public final class ClickGuiScreen extends Screen {
         Map<String, List<Setting<?>>> grouped = new LinkedHashMap<>();
         for (Setting<?> setting : module.settings()) {
             if (setting == module.keybind() || !setting.visible()
-                    || search.isBlank() && tab != Tab.OVERVIEW && Tab.of(module, setting.group()) != tab) {
+                    || search.isBlank() && tab != ConfigCategory.OVERVIEW && ConfigCategory.of(module, setting.group()) != tab) {
                 continue;
             }
             grouped.computeIfAbsent(setting.group(), key -> new ArrayList<>()).add(setting);
@@ -973,18 +973,18 @@ public final class ClickGuiScreen extends Screen {
     }
 
     /** Modules shown in a tab: its home modules and every module with settings in it. */
-    private List<Module> modulesIn(Tab entry) {
-        if (entry == Tab.OVERVIEW) {
+    private List<Module> modulesIn(ConfigCategory entry) {
+        if (entry == ConfigCategory.OVERVIEW) {
             return new ArrayList<>(modules.all());
         }
         List<Module> list = new ArrayList<>();
         for (Module module : modules.all()) {
-            if (Tab.home(module) == entry) {
+            if (ConfigCategory.home(module) == entry) {
                 list.add(module);
                 continue;
             }
             for (Setting<?> setting : module.settings()) {
-                if (setting != module.keybind() && setting.visible() && Tab.of(module, setting.group()) == entry) {
+                if (setting != module.keybind() && setting.visible() && ConfigCategory.of(module, setting.group()) == entry) {
                     list.add(module);
                     break;
                 }
@@ -993,7 +993,7 @@ public final class ClickGuiScreen extends Screen {
         return list;
     }
 
-    private List<String> groupsOf(Tab entry) {
+    private List<String> groupsOf(ConfigCategory entry) {
         List<String> groups = new ArrayList<>();
         for (Module module : modulesIn(entry)) {
             if (!groups.contains(module.group())) {
@@ -1003,7 +1003,7 @@ public final class ClickGuiScreen extends Screen {
         return groups;
     }
 
-    private void selectTab(Tab entry) {
+    private void selectTab(ConfigCategory entry) {
         stopEditing();
         search = "";
         searchFocused = false;

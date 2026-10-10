@@ -9,7 +9,7 @@ import io.theprisons.core.ThePrisonsCore;
 import io.theprisons.core.event.CoreEvents;
 import io.theprisons.core.event.EventBus;
 import io.theprisons.core.profiling.Profiler;
-import io.theprisons.gui.click.ClickGuiScreen;
+import io.theprisons.gui.config.ConfigScreen;
 import io.theprisons.modules.ModuleRegistry;
 import io.theprisons.ui.ThePrisonsColors;
 import io.theprisons.state.ThePrisonsTracker;
@@ -46,7 +46,7 @@ public final class ThePrisonsClient implements ClientModInitializer {
         };
         Runnable openGui = () -> {
             MinecraftClient client = MinecraftClient.getInstance();
-            client.setScreen(dashboard(client.currentScreen, core));
+            client.setScreen(configScreen(client.currentScreen, core));
         };
         core.setGuiOpener(openGui);
         core.setNotifier(notice -> ThePrisonsHudRenderer.pushNotification(notice.title(), notice.body(), switch (notice.level()) {
@@ -61,10 +61,8 @@ public final class ThePrisonsClient implements ClientModInitializer {
         ThePrisonsFeatureManager.register();
         ThePrisonsFeatureManager.setGuiOpener(openGui);
         ModuleRegistry.registerAll(core, openGui, openHudLayout);
-        if (io.theprisons.modules.FeatureProfile.DEV) {
-            // The client commands behind the setup chat links (/prisons open, /prisons lang): developer build only.
-            io.theprisons.core.setup.ModCommands.register(core);
-        }
+        // The client commands behind the setup chat links (/prisons open, /prisons lang) exist in every build.
+        io.theprisons.core.setup.ModCommands.register(core);
         registerLegacyHandlers(core);
         HudRenderCallback.EVENT.register(io.theprisons.items.client.InventoryItemList.hudGuard(profiled(core, "legacy:hud-render", ThePrisonsHudRenderer::render)));
 
@@ -77,18 +75,10 @@ public final class ThePrisonsClient implements ClientModInitializer {
         LOGGER.info("ThePrisons initialized");
     }
 
-    /** The settings dashboard (also used by Mod Menu). */
-    public static net.minecraft.client.gui.screen.Screen dashboard(net.minecraft.client.gui.screen.@org.jspecify.annotations.Nullable Screen parent,
-                                                                  ThePrisonsCore core) {
-        MinecraftClient client = MinecraftClient.getInstance();
-        Runnable[] self = new Runnable[1];
-        io.theprisons.gui.dashboard.DashboardScreen[] screen = new io.theprisons.gui.dashboard.DashboardScreen[1];
-        Runnable hud = () -> client.setScreen(hudEditor(screen[0], core));
-        // The dashboard is the curated fast path; the complete module editor stays available for market,
-        // multi-choice and advanced settings rather than hiding functional configuration behind DEV mode.
-        Runnable classic = () -> client.setScreen(new ClickGuiScreen(screen[0], core));
-        screen[0] = new io.theprisons.gui.dashboard.DashboardScreen(parent, core, hud, classic);
-        return screen[0];
+    /** The one config GUI: every key, command and Mod Menu entry opens this screen. */
+    public static net.minecraft.client.gui.screen.Screen configScreen(net.minecraft.client.gui.screen.@org.jspecify.annotations.Nullable Screen parent,
+                                                                     ThePrisonsCore core) {
+        return new ConfigScreen(parent, core);
     }
 
     /** The HUD editor with every HUD element that is on. */
