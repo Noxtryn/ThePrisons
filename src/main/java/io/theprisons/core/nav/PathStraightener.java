@@ -79,6 +79,10 @@ public final class PathStraightener {
         int from = (int) Math.floor(lowFeet);
         int to = (int) Math.floor(highFeet);
         for (int y = from; y <= to; y++) {
+            // String pulling must preserve the search's hard obstacles (warden/border zones included).
+            if (walk.penalties().get(Pos.pack(bx, y, bz)) == Double.POSITIVE_INFINITY) {
+                continue;
+            }
             double feet = walk.standHeight(bx, y, bz);
             if (!Double.isNaN(feet) && feet >= lowFeet - Walkability.STEP_HEIGHT && feet <= highFeet + Walkability.STEP_HEIGHT) {
                 return true;

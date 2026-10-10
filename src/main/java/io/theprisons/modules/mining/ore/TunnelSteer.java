@@ -290,6 +290,7 @@ public final class TunnelSteer {
     private long densityKey = Long.MIN_VALUE;
     private long densityAt = Long.MIN_VALUE;
     private BorderZones borders = new BorderZones();
+    private double[][] wardens = new double[0][];
     /** The guarded area: ways end where they would leave it (see {@link GuardArea}). */
     private GuardArea guards = new GuardArea();
     /** Route guide: the segment from the last waypoint to the next one ({@code null} = free tunnel mode). */
@@ -490,8 +491,7 @@ public final class TunnelSteer {
      * @param isForeign ores of packages that are not selected
      * @param wardens positions {x, y, z} of guard NPCs
      *
-     * <p>Wardens are NOT obstacles and their 15-block radius is not a
-     * hard movement boundary. Their distance only influences steering.</p>
+     * <p>Warden circles are hard movement boundaries, independent of guard-tax excursions.</p>
      */
     public Decision decide(
             VoxelView view,
@@ -507,6 +507,7 @@ public final class TunnelSteer {
             double[][] wardens,
             long nowMs
     ) {
+        this.wardens = wardens;
         boolean avoid =
                 !Double.isNaN(blockedHeading)
                         && nowMs < blockedUntil;
@@ -567,9 +568,7 @@ public final class TunnelSteer {
             }
 
             /*
-             * Wardens influence steering scores only. Their 15-block
-             * circles are not hard movement boundaries, so do not clip
-             * or reject rays when they cross a circle edge.
+             * Warden safety is checked in cast(), before ore scoring in every steering mode.
              */
             double turn =
                     Math.abs(
@@ -1801,7 +1800,7 @@ public final class TunnelSteer {
             int cz =
                     (int) Math.floor(pz);
 
-            if (borders.blocks(px, feetY, pz, x, z) || leavesGuide(px, pz, x, z)) {
+            if (WardenSafety.blocks(this.wardens, x, feetY, z, px, pz) || borders.blocks(px, feetY, pz, x, z) || leavesGuide(px, pz, x, z)) {
                 castEnd = "border";
                 break;
             }

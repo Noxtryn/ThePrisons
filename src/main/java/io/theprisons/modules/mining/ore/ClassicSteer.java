@@ -31,8 +31,7 @@ public final class ClassicSteer {
    static final int RAYS = 24;
    static final double STEP_DEGREES = 15.0D;
    static final double RANGE = 32.0D;
-   public static final double WARDEN_DISTANCE = 15.0D;
-   private static final double WARDEN_HEIGHT = 64.0D;
+   public static final double WARDEN_DISTANCE = WardenSafety.DISTANCE;
    private static final double FOREIGN_MARGIN = 2.0D;
    private static final double OPEN_WAY = 8.0D;
    private static final double SAMPLE = 0.5D;
@@ -50,6 +49,7 @@ public final class ClassicSteer {
    private double blockedHeading = Double.NaN;
    private long blockedUntil;
    private BorderZones borders = new BorderZones();
+    private double[][] wardens = new double[0][];
    /** The guarded area (an empty one = no limit): rays end at its edge. */
    private GuardArea guards = new GuardArea();
    /** The tunnel's floor and walls around the player (centring). */
@@ -391,6 +391,7 @@ public final class ClassicSteer {
    }
 
    public TunnelSteer.Decision decide(VoxelView view, IntPredicate isTarget, IntPredicate isForeign, double x, double feetY, double z, float yaw, boolean onGround, LongSet walked, LongToDoubleFunction zoneFactor, double[][] wardens, long nowMs) {
+      this.wardens = wardens;
       boolean avoid = !Double.isNaN(this.blockedHeading) && nowMs < this.blockedUntil;
       Walkability walk = new Walkability(view, 3);
       this.clusters.clear();
@@ -673,7 +674,7 @@ public final class ClassicSteer {
          double pz = z + fz * d;
          int cx = (int)Math.floor(px);
          int cz = (int)Math.floor(pz);
-         if (this.borders.blocks(px, feetY, pz, x, z) || this.leavesGuide(px, pz, x, z)) {
+         if (WardenSafety.blocks(this.wardens, x, feetY, z, px, pz) || this.borders.blocks(px, feetY, pz, x, z) || this.leavesGuide(px, pz, x, z)) {
             break;
          }
 
@@ -756,101 +757,6 @@ public final class ClassicSteer {
 
       return new Ray(heading, free, ore, rises, columns == 0 ? 0.0D : (double)overlap / (double)columns, Arrays.copyOf(feet, n), Arrays.copyOf(dist, n), firstOre,
               repeatColumns == 0 ? 0.0D : (double)repeatSum / (double)repeatColumns);
-   }
-
-   private static double limitRayToWardens(double[][] wardens, double x, double feetY, double z, double heading, double maxDistance) {
-      if (wardens != null && wardens.length != 0) {
-         boolean hasValidWarden = false;
-
-         for(double[] warden : wardens) {
-            if (warden != null && warden.length >= 3 && !(Math.abs(warden[1] - feetY) > 64.0D)) {
-               hasValidWarden = true;
-               break;
-            }
-         }
-
-         if (!hasValidWarden) {
-            return maxDistance;
-         } else {
-            double rad = Math.toRadians(heading);
-            double dx = -Math.sin(rad);
-            double dz = Math.cos(rad);
-            double previousDistance = 0.0D;
-            boolean previousInside = insideAnyWardenRange(wardens, x, feetY, z, heading, 0.0D);
-            if (!previousInside) {
-               double step = 0.25D;
-
-               for(double d = step; d <= maxDistance; d += step) {
-                  if (insideAnyWardenRange(wardens, x, feetY, z, heading, d)) {
-                     return Math.max(0.0D, d - step);
-                  }
-               }
-
-               return maxDistance;
-            } else {
-               double step = 0.25D;
-
-               for(double d = Math.max(step, previousDistance + step); d <= maxDistance; d += step) {
-                  boolean inside = insideAnyWardenRange(wardens, x, feetY, z, heading, d);
-                  if (!inside) {
-                     double low = d - step;
-                     double high = d;
-
-                     for(int i = 0; i < 8; ++i) {
-                        double mid = (low + high) * 0.5D;
-                        if (insideAnyWardenRange(wardens, x, feetY, z, heading, mid)) {
-                           low = mid;
-                        } else {
-                           high = mid;
-                        }
-                     }
-
-                     return low;
-                  }
-               }
-
-               return maxDistance;
-            }
-         }
-      } else {
-         return maxDistance;
-      }
-   }
-
-   private static boolean insideAnyWardenRange(double[][] wardens, double x, double feetY, double z, double heading, double distance) {
-      double rad = Math.toRadians(heading);
-      double px = x - Math.sin(rad) * distance;
-      double pz = z + Math.cos(rad) * distance;
-      return insideAnyWardenRange(wardens, px, feetY, pz);
-   }
-
-   private static boolean insideAnyWardenRange(double[][] wardens, double x, double feetY, double z) {
-      if (wardens != null && wardens.length != 0) {
-         for(double[] warden : wardens) {
-            if (warden != null && warden.length >= 3 && !(Math.abs(warden[1] - feetY) > 64.0D)) {
-               double distance = Math.hypot(warden[0] - x, warden[2] - z);
-               if (distance <= 15.0D) {
-                  return true;
-               }
-            }
-         }
-
-         return false;
-      } else {
-         return true;
-      }
-   }
-
-   private static Ray limitRayToDistance(Ray ray, double maxDistance) {
-      if (maxDistance >= ray.free()) {
-         return ray;
-      } else {
-         int n;
-         for(n = 0; n < ray.dist().length && ray.dist()[n] <= maxDistance; ++n) {
-         }
-
-         return new Ray(ray.heading(), maxDistance, ray.ore(), ray.rises(), ray.overlap(), Arrays.copyOf(ray.feet(), n), Arrays.copyOf(ray.dist(), n), ray.firstOre(), ray.repeat());
-      }
    }
 
    private static boolean seesForeign(VoxelView view, IntPredicate isForeign, double px, double pz, double lx, double lz, int feet) {

@@ -818,6 +818,7 @@ public final class OreMacroModule extends AutomationModule {
             enterRoute(client.player, activeRoute);
         }
         on(CoreEvents.TickEnd.class, Phases.DECIDE, event -> decide(event.client()));
+        on(CoreEvents.TickEnd.class, Phases.CONTROL + 1, event -> keepWardenDistance(event.client()));
         on(CoreEvents.TickEnd.class, Phases.ACT, event -> act(event.client()));
         on(CoreEvents.PlayerBrokeBlock.class, this::onBroken);
         on(CoreEvents.BlockChanged.class, this::onBlockChanged);
@@ -1092,7 +1093,7 @@ public final class OreMacroModule extends AutomationModule {
         countExtras(clientWorld);
         rememberWalked(player);
         learn(player, now);
-        if (ticks % 5 == 0) {
+        if (ticks == 1 || ticks % 5 == 0) {
             wardens = findWardens(clientWorld, player);
             remember(knownWardens, wardens);
             double[][] guards = findGuards(clientWorld, player);
@@ -1425,15 +1426,17 @@ public final class OreMacroModule extends AutomationModule {
      */
     private it.unimi.dsi.fastutil.longs.Long2DoubleMap guardedCosts(Long2DoubleOpenHashMap forbidden, ClientPlayerEntity player,
                                                                     boolean excursions) {
+        it.unimi.dsi.fastutil.longs.Long2DoubleMap safe = WardenSafety.penalties(forbidden, wardens,
+                player.getX(), player.getY(), player.getZ());
         if (!guarded.on() || guardArea.isEmpty()) {
-            return forbidden;
+            return safe;
         }
         GuardArea area = guardArea.copy();
         area.corridor(null);
         if (!excursions) {
             area.outsideBudget(0);
         }
-        return area.penalties(forbidden, player.getX(), player.getY(), player.getZ());
+        return area.penalties(safe, player.getX(), player.getY(), player.getZ());
     }
 
     /** Border areas (closer to the centre than the player is now) are forbidden for travel paths too. */
@@ -3280,6 +3283,8 @@ public final class OreMacroModule extends AutomationModule {
         }
         Long2DoubleOpenHashMap forbidden = new Long2DoubleOpenHashMap();
         forbidBorders(forbidden, player, borders.zones(MinecraftClient.getInstance()));
+        it.unimi.dsi.fastutil.longs.Long2DoubleMap safe = WardenSafety.penalties(forbidden, wardens,
+                player.getX(), player.getY(), player.getZ());
         int drop = ROUTE_DROP;
         int nodes = returnNodes;
         count("guard_plans");
@@ -3298,7 +3303,7 @@ public final class OreMacroModule extends AutomationModule {
                 }
             }
             guardJob = submit("guard", cancel -> {
-                Walkability walk = new Walkability(view, drop, true, forbidden);
+                Walkability walk = new Walkability(view, drop, true, safe);
                 PathSearch.Result found = PathSearch.findPath(walk, start, goals, nodes, radius, version, cancel::cancelled);
                 return found.path() == null ? null : PathStraightener.apply(found.path(), walk);
             }, path -> {
@@ -3323,7 +3328,7 @@ public final class OreMacroModule extends AutomationModule {
             return true;
         };
         guardJob = submit("guard", cancel -> {
-            Walkability walk = new Walkability(view, drop, true, forbidden);
+            Walkability walk = new Walkability(view, drop, true, safe);
             // Ground where the server showed the tax first; only without any: a guard's zone (the model).
             GuardReturn.Result found = GuardReturn.plan(walk, start, n -> notTried.test(n) && area.safeNode(n, true), nodes,
                     radius, cancel::cancelled);
@@ -3477,9 +3482,38 @@ public final class OreMacroModule extends AutomationModule {
         }
     }
 
+    /** Final movement gate also covers old paths, centring, recovery and the camera's gradual turn.
+     * Brake before the 15-block edge; vanilla friction has 1.5 blocks before the required 13.5 minimum. */
+    private void keepWardenDistance(MinecraftClient client) {
+        ClientPlayerEntity player = client.player;
+        if (player == null || control.owner() != this) return;
+        InputController.Keys keys = control.input().wanted();
+        double forward = (keys.forward() ? 1 : 0) - (keys.back() ? 1 : 0);
+        double side = (keys.left() ? 1 : 0) - (keys.right() ? 1 : 0);
+        double yaw = Math.toRadians(player.getYaw());
+        double dx = -Math.sin(yaw) * forward + Math.cos(yaw) * side;
+        double dz = Math.cos(yaw) * forward + Math.sin(yaw) * side;
+        if (WardenSafety.blocks(wardens, player.getX(), player.getY(), player.getZ(),
+                player.getX() + dx * 2.0D + player.getVelocity().x * 4.0D,
+                player.getZ() + dz * 2.0D + player.getVelocity().z * 4.0D)) {
+            control.input().clear();
+        }
+    }
+
+    private double breakRadius() {
+        if (breakWarden != null) {
+            for (double[] w : wardens) {
+                if (Math.hypot(w[0] - breakWarden[0], w[2] - breakWarden[2]) < 4.0D) {
+                    return WardenSafety.DISTANCE + 3.0D;
+                }
+            }
+        }
+        return BREAK_NEAR;
+    }
+
     private boolean atWarden(ClientPlayerEntity player) {
         double[] w = breakWarden;
-        return w != null && Math.hypot(w[0] - player.getX(), w[2] - player.getZ()) <= BREAK_NEAR
+        return w != null && Math.hypot(w[0] - player.getX(), w[2] - player.getZ()) <= breakRadius()
                 && Math.abs(w[1] - player.getY()) <= 2.0D;
     }
 
@@ -3498,12 +3532,13 @@ public final class OreMacroModule extends AutomationModule {
         if (start == Long.MIN_VALUE) {
             return;
         }
-        // Goals: the ring right beside the warden (not its own block).
+        // Rest / flee outside the keep-away circle of wardens; ordinary guards retain their close ring.
         LongOpenHashSet goals = new LongOpenHashSet();
-        for (int dx = -3; dx <= 3; dx++) {
-            for (int dz = -3; dz <= 3; dz++) {
+        int ring = (int) Math.ceil(breakRadius());
+        for (int dx = -ring; dx <= ring; dx++) {
+            for (int dz = -ring; dz <= ring; dz++) {
                 double d = Math.hypot(dx, dz);
-                if (d < 1.5D || d > BREAK_NEAR) {
+                if (d < (ring > BREAK_NEAR ? WardenSafety.DISTANCE + 1.0D : 1.5D) || d > ring) {
                     continue;
                 }
                 for (int dy = -1; dy <= 1; dy++) {
@@ -3511,12 +3546,14 @@ public final class OreMacroModule extends AutomationModule {
                 }
             }
         }
-        // Only the hand-placed borders are forbidden: the keep-away circle of the wardens is exactly where it goes.
+        // Warden safety also applies to deliberate rest / flee paths.
         Long2DoubleOpenHashMap forbidden = new Long2DoubleOpenHashMap();
         forbidBorders(forbidden, player, borders.zones(MinecraftClient.getInstance()));
         int drop = maxDrop.value();
+        it.unimi.dsi.fastutil.longs.Long2DoubleMap safe = WardenSafety.penalties(forbidden, wardens,
+                player.getX(), player.getY(), player.getZ());
         breakJob = submit("break", cancel -> {
-            Walkability walk = new Walkability(snapshot, drop, true, forbidden);
+            Walkability walk = new Walkability(snapshot, drop, true, safe);
             PathSearch.Result found = PathSearch.findPath(walk, start, goals, 60_000, radius, snapshot.version(), cancel::cancelled);
             return found.path() == null ? found : new PathSearch.Result(found.status(), PathStraightener.apply(found.path(), walk),
                     found.expanded(), found.reason());
