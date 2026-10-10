@@ -8,6 +8,7 @@ import io.theprisons.core.module.Module;
 import io.theprisons.core.module.ModuleManager;
 import io.theprisons.core.setting.Setting;
 import io.theprisons.core.setting.Settings;
+import io.theprisons.gui.kit.Ui;
 import io.theprisons.modules.FeatureProfile;
 import io.theprisons.modules.ModuleRegistry;
 import io.theprisons.modules.general.ClickGuiModule;
@@ -33,7 +34,7 @@ import java.util.Locale;
 import java.util.Map;
 
 /**
- * Module GUI in the style of Nebula-like clients, bound directly to the core {@link ModuleManager}.
+ * The one config GUI: categories, modules and every setting, bound directly to the core {@link ModuleManager}.
  *
  * <pre>
  * ┌────────────┬──────────────────────────────────────────────────────────┐
@@ -235,7 +236,7 @@ public final class ConfigScreen extends Screen {
     }
 
     private void gradientBar(DrawContext context, int x, int y, int w) {
-        int[] colors = {ThePrisonsColors.HEADING_PINK, ThePrisonsColors.MOD_BLUE};
+        int[] colors = {title(), accent()};
         int segments = colors.length - 1;
         for (int i = 0; i < w; i++) {
             float t = i / (float) Math.max(1, w - 1) * segments;
@@ -253,8 +254,8 @@ public final class ConfigScreen extends Screen {
         int lw = font.getWidth(lang) + 8;
         int lx = x + sidebarW - 8 - lw;
         boolean langHover = inside(mouseX, mouseY, lx, y - 2, lx + lw, y + 11);
-        context.fill(lx, y - 2, lx + lw, y + 11, langHover ? ThePrisonsColors.SIDEBAR_ACTIVE : ThePrisonsColors.BG_INPUT);
-        context.drawStrokedRectangle(lx, y - 2, lw, 13, ThePrisonsColors.ACCENT_CYAN);
+        context.fill(lx, y - 2, lx + lw, y + 11, langHover ? tint(0x30) : ThePrisonsColors.BG_INPUT);
+        context.drawStrokedRectangle(lx, y - 2, lw, 13, accent());
         context.drawText(font, lang, lx + 4, y, ThePrisonsColors.FG_PRIMARY, false);
         hit(lx, y - 2, lx + lw, y + 11, (mx, my, b) -> switchLanguage());
 
@@ -263,7 +264,7 @@ public final class ConfigScreen extends Screen {
         int sx2 = x + sidebarW - 6;
         int sy2 = sy1 + 15;
         context.fill(sx1, sy1, sx2, sy2, ThePrisonsColors.BG_INPUT);
-        context.drawStrokedRectangle(sx1, sy1, sx2 - sx1, sy2 - sy1, searchFocused ? ThePrisonsColors.ACCENT_CYAN : ThePrisonsColors.BORDER);
+        context.drawStrokedRectangle(sx1, sy1, sx2 - sx1, sy2 - sy1, searchFocused ? accent() : ThePrisonsColors.BORDER);
         String shown = search.isEmpty() && !searchFocused ? I18n.t("Search…") : search + (searchFocused && blink() ? "_" : "");
         context.drawText(font, trim(shown, sx2 - sx1 - 10), sx1 + 4, sy1 + 4, search.isEmpty() && !searchFocused ? ThePrisonsColors.FG_DISABLED : ThePrisonsColors.FG_PRIMARY, false);
         hit(sx1, sy1, sx2, sy2, (mx, my, b) -> {
@@ -277,13 +278,13 @@ public final class ConfigScreen extends Screen {
             boolean active = search.isEmpty() && entry == tab;
             boolean hover = inside(mouseX, mouseY, x + 4, cy, x + sidebarW - 4, cy + tabH);
             if (active) {
-                context.fill(x + 4, cy, x + sidebarW - 4, cy + tabH, 0x38C084FC);
-                context.fill(x + 4, cy, x + 6, cy + tabH, ThePrisonsColors.ACCENT_CYAN);
+                context.fill(x + 4, cy, x + sidebarW - 4, cy + tabH, tint(0x38));
+                context.fill(x + 4, cy, x + 6, cy + tabH, accent());
             } else if (hover) {
                 context.fill(x + 4, cy, x + sidebarW - 4, cy + tabH, ThePrisonsColors.SIDEBAR_HOVER);
             }
             int textY = cy + (tabH - 8) / 2;
-            context.drawText(font, entry.icon(), x + 9, textY, active ? ThePrisonsColors.ACCENT_CYAN : ThePrisonsColors.FG_MUTED, false);
+            context.drawText(font, entry.icon(), x + 9, textY, active ? accent() : ThePrisonsColors.FG_MUTED, false);
             context.drawText(font, trim(I18n.t(entry.label()), sidebarW - 30), x + 22, textY,
                     active ? ThePrisonsColors.FG_PRIMARY : ThePrisonsColors.FG_SECONDARY, false);
             ConfigCategory target = entry;
@@ -301,10 +302,10 @@ public final class ConfigScreen extends Screen {
         int x = panelX;
         int y = panelY + 14;
         context.fill(x + 12, y - 2, x + 38, y + 24, 0xFF202B38);
-        context.drawStrokedRectangle(x + 12, y - 2, 26, 26, ThePrisonsColors.ACCENT_CYAN);
-        context.drawCenteredTextWithShadow(font, "T", x + 25, y + 6, ThePrisonsColors.ACCENT_CYAN);
+        context.drawStrokedRectangle(x + 12, y - 2, 26, 26, accent());
+        context.drawCenteredTextWithShadow(font, "T", x + 25, y + 6, accent());
         context.drawText(font, Text.literal("THEPRISONS").styled(style -> style.withBold(true)), x + 46, y, ThePrisonsColors.FG_PRIMARY, true);
-        context.drawText(font, "CONFIG", x + 46, y + 12, ThePrisonsColors.ACCENT_CYAN, false);
+        context.drawText(font, "CONFIG", x + 46, y + 12, accent(), false);
         List<Module> listed = ConfigCategory.modulesIn(modules.all(), ConfigCategory.OVERVIEW);
         long enabled = listed.stream().filter(Module::enabled).count();
         context.drawText(font, I18n.f("%d / %d SYSTEMS ONLINE", enabled, listed.size()), x + 12, y + 35, ThePrisonsColors.FG_MUTED, false);
@@ -313,8 +314,8 @@ public final class ConfigScreen extends Screen {
         int lw = font.getWidth(lang) + 10;
         int lx = x + sidebarW - 12 - lw;
         boolean langHover = inside(mouseX, mouseY, lx, y + 27, lx + lw, y + 41);
-        context.fill(lx, y + 27, lx + lw, y + 41, langHover ? ThePrisonsColors.SIDEBAR_ACTIVE : ThePrisonsColors.BG_INPUT);
-        context.drawStrokedRectangle(lx, y + 27, lw, 14, ThePrisonsColors.ACCENT_CYAN);
+        context.fill(lx, y + 27, lx + lw, y + 41, langHover ? tint(0x30) : ThePrisonsColors.BG_INPUT);
+        context.drawStrokedRectangle(lx, y + 27, lw, 14, accent());
         context.drawText(font, lang, lx + 5, y + 30, ThePrisonsColors.FG_PRIMARY, false);
         hit(lx, y + 27, lx + lw, y + 41, (mx, my, b) -> switchLanguage());
 
@@ -324,9 +325,9 @@ public final class ConfigScreen extends Screen {
         int sx2 = x + sidebarW - 12;
         int sy2 = sy1 + 22;
         context.fill(sx1, sy1, sx2, sy2, ThePrisonsColors.BG_INPUT);
-        context.drawStrokedRectangle(sx1, sy1, sx2 - sx1, sy2 - sy1, searchFocused ? ThePrisonsColors.ACCENT_CYAN : ThePrisonsColors.BORDER);
+        context.drawStrokedRectangle(sx1, sy1, sx2 - sx1, sy2 - sy1, searchFocused ? accent() : ThePrisonsColors.BORDER);
         String shown = search.isEmpty() && !searchFocused ? I18n.t("Search… (Ctrl+F)") : search + (searchFocused && blink() ? "_" : "");
-        context.drawText(font, "⌕", sx1 + 6, sy1 + 6, ThePrisonsColors.ACCENT_CYAN, false);
+        context.drawText(font, "⌕", sx1 + 6, sy1 + 6, accent(), false);
         context.drawText(font, trim(shown, sx2 - sx1 - 20), sx1 + 18, sy1 + 7, search.isEmpty() && !searchFocused ? ThePrisonsColors.FG_DISABLED : ThePrisonsColors.FG_PRIMARY, false);
         hit(sx1, sy1, sx2, sy2, (mx, my, b) -> {
             stopEditing();
@@ -344,9 +345,9 @@ public final class ConfigScreen extends Screen {
             boolean active = search.isEmpty() && entry == tab;
             boolean hover = inside(mouseX, mouseY, x + 8, cy, x + sidebarW - 8, cy + tabH);
             if (active) {
-                context.fill(x + 8, cy, x + sidebarW - 8, cy + tabH, 0x38C084FC);
-                context.fill(x + 8, cy, x + 11, cy + tabH, ThePrisonsColors.ACCENT_CYAN);
-                context.drawStrokedRectangle(x + 8, cy, sidebarW - 16, tabH, 0x40C084FC);
+                context.fill(x + 8, cy, x + sidebarW - 8, cy + tabH, tint(0x38));
+                context.fill(x + 8, cy, x + 11, cy + tabH, accent());
+                context.drawStrokedRectangle(x + 8, cy, sidebarW - 16, tabH, tint(0x40));
             } else if (hover) {
                 context.fill(x + 8, cy, x + sidebarW - 8, cy + tabH, ThePrisonsColors.SIDEBAR_HOVER);
             }
@@ -356,7 +357,7 @@ public final class ConfigScreen extends Screen {
                 on += module.enabled() ? 1 : 0;
             }
             int textY = cy + (compactSidebar ? 4 : 7);
-            context.drawText(font, entry.icon(), x + 18, textY, active ? ThePrisonsColors.ACCENT_CYAN : ThePrisonsColors.FG_MUTED, false);
+            context.drawText(font, entry.icon(), x + 18, textY, active ? accent() : ThePrisonsColors.FG_MUTED, false);
             String count = inCategory.isEmpty() ? "–" : on + "/" + inCategory.size();
             context.drawText(font, trim(I18n.t(entry.label()), sidebarW - 58 - font.getWidth(count)), x + 36, textY,
                     active ? ThePrisonsColors.FG_PRIMARY : ThePrisonsColors.FG_SECONDARY, false);
@@ -388,7 +389,7 @@ public final class ConfigScreen extends Screen {
         String subtitle = searching ? I18n.t("Matches in all tabs") : I18n.t(tab.description());
         context.fillGradient(cx + 1, panelY + 3, panelX + panelW - 3, panelY + headerH, 0xE017202A, 0xA810151C);
         int titleY = compact ? panelY + 9 : panelY + 18;
-        context.fill(cx + (compact ? 6 : 13), titleY, cx + (compact ? 9 : 17), titleY + (compact ? 10 : 30), ThePrisonsColors.ACCENT_CYAN);
+        context.fill(cx + (compact ? 6 : 13), titleY, cx + (compact ? 9 : 17), titleY + (compact ? 10 : 30), accent());
         context.drawText(font, Text.literal(title).styled(style -> style.withBold(true)), cx + (compact ? 14 : 27), titleY, ThePrisonsColors.FG_PRIMARY, true);
         if (!compact) {
             context.drawText(font, subtitle, cx + 27, panelY + 32, ThePrisonsColors.FG_MUTED, false);
@@ -446,7 +447,7 @@ public final class ConfigScreen extends Screen {
         for (Module module : list) {
             String header = searching ? ConfigCategory.home(module).label() : module.group();
             if (!header.equals(lastGroup) && (searching || groupFilter.isEmpty())) {
-                context.drawText(font, I18n.t(header).toUpperCase(Locale.ROOT), listX + 2, y + 3, ThePrisonsColors.HEADING_PINK, false);
+                context.drawText(font, I18n.t(header).toUpperCase(Locale.ROOT), listX + 2, y + 3, title(), false);
                 y += 13;
                 lastGroup = header;
             }
@@ -488,7 +489,7 @@ public final class ConfigScreen extends Screen {
         boolean hover = inside(mouseX, mouseY, x, y, x + w, y + CARD_H) && insideClip(mouseX, mouseY);
         context.fillGradient(x, y, x + w, y + CARD_H,
                 hover || isSelected ? 0xE0222B37 : 0xD0131920, hover || isSelected ? 0xE011161D : 0xD00C1016);
-        context.drawStrokedRectangle(x, y, w, CARD_H, isSelected ? ThePrisonsColors.ACCENT_CYAN : 0x52616D7C);
+        context.drawStrokedRectangle(x, y, w, CARD_H, isSelected ? accent() : 0x52616D7C);
         context.fill(x, y, x + 3, y + CARD_H, module.enabled() ? ThePrisonsColors.ACCENT_LIME : ThePrisonsColors.FG_DISABLED);
         Module.Status status = module.status();
         context.drawText(font, trim(I18n.t(module.name()), w - 48), x + 12, y + 9, ThePrisonsColors.FG_PRIMARY, false);
@@ -521,7 +522,7 @@ public final class ConfigScreen extends Screen {
 
     private int renderSettings(DrawContext context, int mouseX, int mouseY, Module module, int x, int y, int w) {
         TextRenderer font = textRenderer;
-        context.drawText(font, Text.literal(I18n.t(module.name())).styled(style -> style.withBold(true)), x, y, ThePrisonsColors.HEADING_PINK, true);
+        context.drawText(font, Text.literal(I18n.t(module.name())).styled(style -> style.withBold(true)), x, y, title(), true);
         // Overview is a real working view: it intentionally exposes the selected module's complete settings,
         // rather than sending the player to a second, parallel settings renderer.
         boolean home = !search.isBlank() || tab == ConfigCategory.OVERVIEW || ConfigCategory.home(module) == tab;
@@ -588,10 +589,10 @@ public final class ConfigScreen extends Screen {
                 step++;
                 String number = String.valueOf(step);
                 int nw = font.getWidth(number) + 6;
-                context.fill(x, y - 1, x + nw, y + 9, ThePrisonsColors.HEADING_PINK);
+                context.fill(x, y - 1, x + nw, y + 9, title());
                 context.drawText(font, number, x + 3, y, 0xFF000000, false);
                 context.drawText(font, Text.literal(I18n.t(group.getKey()).toUpperCase(Locale.ROOT)).styled(style -> style.withBold(true)),
-                        x + nw + 5, y, ThePrisonsColors.HEADING_PINK, false);
+                        x + nw + 5, y, title(), false);
                 context.fill(x, y + 11, x + w, y + 12, ThePrisonsColors.BORDER);
                 y += 16;
             }
@@ -618,8 +619,8 @@ public final class ConfigScreen extends Screen {
             focusY = y;
             long age = System.currentTimeMillis() - focusAtMs;
             if (age < 3000L && (age / 300L) % 2L == 0L) {
-                context.fill(x - 6, y - 2, x + w + 4, y + 16, 0x40FF6EC7);
-                context.drawStrokedRectangle(x - 6, y - 2, w + 10, 18, ThePrisonsColors.HEADING_PINK);
+                context.fill(x - 6, y - 2, x + w + 4, y + 16, tint(0x40));
+                context.drawStrokedRectangle(x - 6, y - 2, w + 10, 18, title());
             }
         }
         context.drawText(font, trim(I18n.t(setting.name()), wide ? w : labelW), x, y + 3, labelColor, false);
@@ -627,7 +628,7 @@ public final class ConfigScreen extends Screen {
             context.fill(x - 5, y + 2, x - 3, y + 12, ThePrisonsColors.ACCENT_RED);
         } else if (!setting.isDefault() && setting.persistent() && !(setting instanceof Settings.ActionSetting)) {
             // Small "changed" marker; right-click on the control resets it.
-            context.fill(x - 5, y + 4, x - 3, y + 10, ThePrisonsColors.ACCENT_VIOLET);
+            context.fill(x - 5, y + 4, x - 3, y + 10, accent());
         }
         int cx = x + w - CONTROL_W;
         int rowTop = y;
@@ -648,11 +649,11 @@ public final class ConfigScreen extends Screen {
             double value = ((Number) setting.get()).doubleValue();
             float t = (float) ((value - min) / Math.max(1.0E-9D, max - min));
             String text = setting.display();
-            context.drawText(font, text, x + w - font.getWidth(text), y + 1, ThePrisonsColors.ACCENT_CYAN, false);
+            context.drawText(font, text, x + w - font.getWidth(text), y + 1, accent(), false);
             int ty = y + 12;
             context.fill(cx, ty, cx + CONTROL_W, ty + 3, ThePrisonsColors.TOGGLE_OFF);
             int fill = cx + Math.round(CONTROL_W * MathHelper.clamp(t, 0.0F, 1.0F));
-            context.fillGradient(cx, ty, Math.max(cx + 1, fill), ty + 3, ThePrisonsColors.ACCENT_VIOLET, ThePrisonsColors.ACCENT_CYAN);
+            context.fillGradient(cx, ty, Math.max(cx + 1, fill), ty + 3, accent(), accent());
             context.fill(fill - 2, ty - 2, fill + 2, ty + 5, ThePrisonsColors.TOGGLE_KNOB);
             hit(cx - 3, ty - 4, cx + CONTROL_W + 3, ty + 7, (mx, my, b) -> {
                 if (b == 1) {
@@ -728,7 +729,7 @@ public final class ConfigScreen extends Screen {
             controlBottom = Math.max(controlBottom, y + 22);
         } else if (setting instanceof Settings.ActionSetting button) {
             boolean hover = inside(mouseX, mouseY, cx, y, cx + CONTROL_W, y + 14);
-            context.fill(cx, y, cx + CONTROL_W, y + 14, hover ? ThePrisonsColors.ACCENT_VIOLET : ThePrisonsColors.BG_CARD_HOVER);
+            context.fill(cx, y, cx + CONTROL_W, y + 14, hover ? accent() : ThePrisonsColors.BG_CARD_HOVER);
             context.drawStrokedRectangle(cx, y, CONTROL_W, 14, ThePrisonsColors.BORDER_HI);
             context.drawCenteredTextWithShadow(font, button.label(), cx + CONTROL_W / 2, y + 3, ThePrisonsColors.FG_PRIMARY);
             hit(cx, y, cx + CONTROL_W, y + 14, (mx, my, b) -> {
@@ -769,7 +770,7 @@ public final class ConfigScreen extends Screen {
                     chipY += 14;
                 }
                 boolean hover = inside(mouseX, mouseY, chipX, chipY, chipX + chipW, chipY + 12);
-                context.fill(chipX, chipY, chipX + chipW, chipY + 12, on ? ThePrisonsColors.SIDEBAR_ACTIVE : hover ? ThePrisonsColors.SIDEBAR_HOVER : ThePrisonsColors.BG_INPUT);
+                context.fill(chipX, chipY, chipX + chipW, chipY + 12, on ? tint(0x30) : hover ? ThePrisonsColors.SIDEBAR_HOVER : ThePrisonsColors.BG_INPUT);
                 context.drawStrokedRectangle(chipX, chipY, chipW, 12, on ? option.color() : ThePrisonsColors.BORDER);
                 context.fill(chipX + 3, chipY + 4, chipX + 7, chipY + 8, on ? option.color() : ThePrisonsColors.FG_DISABLED);
                 context.drawText(font, option.label(), chipX + 10, chipY + 2, on ? ThePrisonsColors.FG_PRIMARY : ThePrisonsColors.FG_MUTED, false);
@@ -778,7 +779,7 @@ public final class ConfigScreen extends Screen {
                 chipX += chipW + 3;
             }
             String summary = multi.display();
-            context.drawText(font, summary, x + w - font.getWidth(summary), y + 3, ThePrisonsColors.ACCENT_CYAN, false);
+            context.drawText(font, summary, x + w - font.getWidth(summary), y + 3, accent(), false);
             controlBottom = chipY + 12;
         } else {
             context.drawText(font, setting.display(), cx, y + 3, ThePrisonsColors.FG_PRIMARY, false);
@@ -876,7 +877,7 @@ public final class ConfigScreen extends Screen {
         int h = rows * 13 + 2;
         int y = Math.max(panelY + 2, Math.min(dropdownY, panelY + panelH - h - 2));
         context.fill(dropdownX, y, dropdownX + CONTROL_W, y + h, ThePrisonsColors.BG_CARD_INNER);
-        context.drawStrokedRectangle(dropdownX, y, CONTROL_W, h, ThePrisonsColors.ACCENT_VIOLET);
+        context.drawStrokedRectangle(dropdownX, y, CONTROL_W, h, accent());
         int oy = y + 1;
         oy = choiceRow(context, mouseX, mouseY, setting, "", setting.offLabel(), ThePrisonsColors.FG_PRIMARY, oy);
         section = null;
@@ -895,9 +896,9 @@ public final class ConfigScreen extends Screen {
         boolean hover = inside(mouseX, mouseY, dropdownX, oy, dropdownX + CONTROL_W, oy + 13);
         boolean current = id.equals(setting.get());
         if (hover || current) {
-            context.fill(dropdownX + 1, oy, dropdownX + CONTROL_W - 1, oy + 13, hover ? ThePrisonsColors.SIDEBAR_HOVER : ThePrisonsColors.SIDEBAR_ACTIVE);
+            context.fill(dropdownX + 1, oy, dropdownX + CONTROL_W - 1, oy + 13, hover ? ThePrisonsColors.SIDEBAR_HOVER : tint(0x30));
         }
-        context.drawText(textRenderer, trim(label, CONTROL_W - 8), dropdownX + 4, oy + 3, current ? ThePrisonsColors.ACCENT_CYAN : color, false);
+        context.drawText(textRenderer, trim(label, CONTROL_W - 8), dropdownX + 4, oy + 3, current ? accent() : color, false);
         popupHits.add(new Hit(dropdownX, oy, dropdownX + CONTROL_W, oy + 13, (mx, my, b) -> {
             setting.set(id);
             dropdown = null;
@@ -910,16 +911,16 @@ public final class ConfigScreen extends Screen {
         int h = options.size() * 13 + 2;
         int y = Math.min(dropdownY, panelY + panelH - h - 2);
         context.fill(dropdownX, y, dropdownX + CONTROL_W, y + h, ThePrisonsColors.BG_CARD_INNER);
-        context.drawStrokedRectangle(dropdownX, y, CONTROL_W, h, ThePrisonsColors.ACCENT_VIOLET);
+        context.drawStrokedRectangle(dropdownX, y, CONTROL_W, h, accent());
         int oy = y + 1;
         for (E option : options) {
             boolean hover = inside(mouseX, mouseY, dropdownX, oy, dropdownX + CONTROL_W, oy + 13);
             boolean current = option == setting.get();
             if (hover || current) {
-                context.fill(dropdownX + 1, oy, dropdownX + CONTROL_W - 1, oy + 13, hover ? ThePrisonsColors.SIDEBAR_HOVER : ThePrisonsColors.SIDEBAR_ACTIVE);
+                context.fill(dropdownX + 1, oy, dropdownX + CONTROL_W - 1, oy + 13, hover ? ThePrisonsColors.SIDEBAR_HOVER : tint(0x30));
             }
             context.drawText(textRenderer, trim(setting.label(option), CONTROL_W - 8), dropdownX + 4, oy + 3,
-                    current ? ThePrisonsColors.ACCENT_CYAN : ThePrisonsColors.FG_PRIMARY, false);
+                    current ? accent() : ThePrisonsColors.FG_PRIMARY, false);
             int top = oy;
             popupHits.add(new Hit(dropdownX, top, dropdownX + CONTROL_W, top + 13, (mx, my, b) -> {
                 setting.set(option);
@@ -935,7 +936,7 @@ public final class ConfigScreen extends Screen {
         int w = 20;
         int h = 10;
         if (on) {
-            context.fillGradient(x, y, x + w, y + h, ThePrisonsColors.TOGGLE_ON_L, ThePrisonsColors.TOGGLE_ON_R);
+            context.fillGradient(x, y, x + w, y + h, accent(), title());
         } else {
             context.fill(x, y, x + w, y + h, ThePrisonsColors.TOGGLE_OFF);
         }
@@ -945,15 +946,15 @@ public final class ConfigScreen extends Screen {
 
     private void box(DrawContext context, int x, int y, int w, int h, boolean focused) {
         context.fill(x, y, x + w, y + h, ThePrisonsColors.BG_INPUT);
-        context.drawStrokedRectangle(x, y, w, h, focused ? ThePrisonsColors.ACCENT_CYAN : ThePrisonsColors.BORDER_HI);
+        context.drawStrokedRectangle(x, y, w, h, focused ? accent() : ThePrisonsColors.BORDER_HI);
     }
 
     private int chip(DrawContext context, int mouseX, int mouseY, int x, int y, String label, boolean active, Runnable action) {
         int w = textRenderer.getWidth(label) + 10;
         boolean hover = inside(mouseX, mouseY, x, y, x + w, y + 12);
-        context.fill(x, y, x + w, y + 12, active ? ThePrisonsColors.SIDEBAR_ACTIVE : hover ? ThePrisonsColors.SIDEBAR_HOVER : ThePrisonsColors.BG_INPUT);
-        context.drawStrokedRectangle(x, y, w, 12, active ? ThePrisonsColors.ACCENT_VIOLET : ThePrisonsColors.BORDER);
-        context.drawText(textRenderer, label, x + 5, y + 2, active ? ThePrisonsColors.ACCENT_CYAN : ThePrisonsColors.FG_SECONDARY, false);
+        context.fill(x, y, x + w, y + 12, active ? tint(0x30) : hover ? ThePrisonsColors.SIDEBAR_HOVER : ThePrisonsColors.BG_INPUT);
+        context.drawStrokedRectangle(x, y, w, 12, active ? accent() : ThePrisonsColors.BORDER);
+        context.drawText(textRenderer, label, x + 5, y + 2, active ? accent() : ThePrisonsColors.FG_SECONDARY, false);
         hit(x, y, x + w, y + 12, (mx, my, b) -> action.run());
         return x + w + 4;
     }
@@ -963,7 +964,7 @@ public final class ConfigScreen extends Screen {
         int w = textRenderer.getWidth(label) + 12;
         int x = right - w;
         boolean hover = enabled && inside(mouseX, mouseY, x, y, right, y + 14);
-        context.fill(x, y, right, y + 14, hover ? ThePrisonsColors.ACCENT_VIOLET : ThePrisonsColors.BG_CARD_HOVER);
+        context.fill(x, y, right, y + 14, hover ? accent() : ThePrisonsColors.BG_CARD_HOVER);
         context.drawStrokedRectangle(x, y, w, 14, ThePrisonsColors.BORDER_HI);
         context.drawText(textRenderer, label, x + 6, y + 3, enabled ? ThePrisonsColors.FG_PRIMARY : ThePrisonsColors.FG_DISABLED, false);
         if (enabled) {
@@ -1105,6 +1106,19 @@ public final class ConfigScreen extends Screen {
             commitEdit();
         }
         selected = module;
+    }
+
+    /** Highlights follow the design theme (Settings > Design), like every HUD and overlay. */
+    private static int accent() {
+        return 0xFF000000 | Ui.theme().accent();
+    }
+
+    private static int title() {
+        return 0xFF000000 | Ui.theme().title();
+    }
+
+    private static int tint(int alpha) {
+        return Ui.argb(alpha, Ui.theme().accent());
     }
 
     private static FeatureProfile.Kind kindOf(Module module) {
