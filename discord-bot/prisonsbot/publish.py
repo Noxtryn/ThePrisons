@@ -23,7 +23,7 @@ def sync_messages(api, channel_id, desired, dry_run=False, log=print):
             log(f"  {key}: would post or edit ({len(payload['embeds'])} embeds)")
             log(json.dumps(payload, ensure_ascii=False, indent=2))
             continue
-        old = existing.get(key)
+        old = existing.get(key) or next((existing[a] for a in item.get("aliases", []) if a in existing), None)
         if old and K.same(old, payload):
             stats["unchanged"] += 1
             log(f"  {key}: unchanged")
@@ -32,7 +32,11 @@ def sync_messages(api, channel_id, desired, dry_run=False, log=print):
             stats["edited"] += 1
             log(f"  {key}: edited")
         else:
-            api.post(channel_id, payload)
+            # Discord enforces nonce uniqueness for recent messages; shared CI concurrency
+            # and complete history cover subsequent runs. Never retry an uncertain POST.
+            import hashlib
+            nonce = str(int.from_bytes(hashlib.sha256((str(channel_id) + ':' + key).encode()).digest()[:8], 'big'))
+            api.post(channel_id, dict(payload, nonce=nonce, enforce_nonce=True))
             stats["posted"] += 1
             log(f"  {key}: posted")
     return stats

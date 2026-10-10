@@ -29,7 +29,9 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Discord bot tests and content check (standard library only)
+      - name: Install Discord listener dependency
+        run: python3 -m pip install -r discord-bot/requirements.txt
+      - name: Discord bot tests and content check (offline)
         working-directory: discord-bot
         run: |
           python3 -m unittest discover -s tests -t .

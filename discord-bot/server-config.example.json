@@ -1,0 +1,23 @@
+{
+  "application_id": "1557515544230371338",
+  "guild_id": "1557507246848483431",
+  "roles": {},
+  "channels": {
+    "welcome": "1557507745643499642",
+    "rules": "1557507783765790761",
+    "get-started": "1557507807266341024",
+    "faq": "1557507830939127898",
+    "announcements": "1557507853382721636",
+    "changelog": "1557507875423780914",
+    "roadmap": "1557507895002660904",
+    "known-issues": "1557507924459397181",
+    "theprisons-updates": "1558269963301687407",
+    "theprisons-downloads": "1558269980804513883",
+    "theprisons-changelog": "1558270006863601694",
+    "sky-supra-updates": "1558270316709421106",
+    "sky-supra-downloads": "1558270342613696593",
+    "sky-supra-changelog": "1558270361047531531",
+    "support-development": "1558271146938339388"
+  },
+  "note": "User-provided IDs, not a live snapshot. Export as DISCORD_CHANNEL_<KEY> with uppercase and hyphens replaced by underscores. No credentials belong in this file."
+}

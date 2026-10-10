@@ -1,72 +1,76 @@
 name: Discord
-
-# Publishes / updates the official ThePrisons messages (welcome, rules, get-started, faq, roadmap, known-issues)
-# with the ThePrisons bot. Messages are edited in place, never duplicated (see discord-bot/README.md).
-#
-# MANUAL ONLY for now: nothing is published when content or code is merged into Release. Start it by hand
-# (Actions > Discord > Run workflow, first with dry_run). Without the secret DISCORD_BOT_TOKEN it only validates.
-# To automate later, after the first publish has been verified, add this under `on:`:
-#   push:
-#     branches: [Release]
-#     paths: ['discord-bot/content/**', 'discord-bot/prisonsbot/**', '.github/workflows/discord.yml']
 on:
   workflow_dispatch:
     inputs:
-      names:
-        description: 'Channels to publish (space separated, empty = all): welcome rules get-started faq roadmap known-issues'
-        required: false
+      action:
+        type: choice
+        options: [publish, register, release, panel]
+        default: publish
+      mod:
+        type: choice
+        options: [theprisons, sky-supra]
+        default: theprisons
+      version:
+        description: Release version (release action only)
+        type: string
         default: ''
-      register_commands:
-        description: 'Also (re-)register the slash commands'
-        type: boolean
-        default: false
+      names:
+        description: Content channels, space separated; empty means all
+        type: string
+        default: ''
       dry_run:
-        description: 'Only show what would happen (nothing is sent)'
+        description: Preview only; no Discord writes
         type: boolean
         default: true
-
 permissions:
   contents: read
-
 concurrency:
-  group: discord
+  group: nexora-discord
   cancel-in-progress: false
-
 jobs:
-  publish:
+  discord:
+    if: ${{ github.ref == 'refs/heads/dev' }}
+    environment: nexora-discord
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    env:
-      HAS_BOT: ${{ secrets.DISCORD_BOT_TOKEN != '' }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Validate content
+      - name: Install listener for offline tests
+        run: python3 -m pip install -r discord-bot/requirements.txt
+      - name: Test and validate offline
         working-directory: discord-bot
-        run: python3 -m prisonsbot check
-      - name: Publish official messages
-        if: ${{ env.HAS_BOT == 'true' }}
+        run: |
+          python3 -m unittest discover -s tests -t .
+          python3 -m prisonsbot check
+      - name: Approved operation or dry run
         working-directory: discord-bot
         env:
           DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
+          DISCORD_APPLICATION_ID: ${{ vars.DISCORD_APPLICATION_ID }}
+          DISCORD_GUILD_ID: ${{ vars.DISCORD_GUILD_ID }}
+          DISCORD_CHANNEL_MODS: ${{ vars.DISCORD_CHANNEL_MODS }}
+          NEXORA_PUBLISH_ENABLED: ${{ vars.NEXORA_PUBLISH_ENABLED }}
+          SKY_SUPRA_REPOSITORY: ${{ vars.SKY_SUPRA_REPOSITORY }}
+          ACTION: ${{ inputs.action }}
+          MOD: ${{ inputs.mod }}
+          VERSION: ${{ inputs.version }}
+          NAMES: ${{ inputs.names }}
+          DRY_RUN: ${{ inputs.dry_run }}
           DISCORD_CHANNEL_WELCOME: ${{ vars.DISCORD_CHANNEL_WELCOME }}
           DISCORD_CHANNEL_RULES: ${{ vars.DISCORD_CHANNEL_RULES }}
           DISCORD_CHANNEL_GET_STARTED: ${{ vars.DISCORD_CHANNEL_GET_STARTED }}
           DISCORD_CHANNEL_FAQ: ${{ vars.DISCORD_CHANNEL_FAQ }}
-          DISCORD_CHANNEL_ANNOUNCEMENTS: ${{ vars.DISCORD_CHANNEL_ANNOUNCEMENTS }}
-          DISCORD_CHANNEL_CHANGELOG: ${{ vars.DISCORD_CHANNEL_CHANGELOG }}
           DISCORD_CHANNEL_ROADMAP: ${{ vars.DISCORD_CHANNEL_ROADMAP }}
           DISCORD_CHANNEL_KNOWN_ISSUES: ${{ vars.DISCORD_CHANNEL_KNOWN_ISSUES }}
-          DISCORD_APPLICATION_ID: ${{ vars.DISCORD_APPLICATION_ID }}
-          DISCORD_GUILD_ID: ${{ vars.DISCORD_GUILD_ID }}
-          NAMES: ${{ github.event.inputs.names }}
-          DRY: ${{ github.event.inputs.dry_run == 'true' && '--dry-run' || '' }}
-          REGISTER: ${{ github.event.inputs.register_commands }}
-        run: |
-          python3 -m prisonsbot publish $NAMES $DRY
-          if [ "$REGISTER" = "true" ]; then python3 -m prisonsbot register $DRY; fi
-      - name: No bot token
-        if: ${{ env.HAS_BOT != 'true' }}
-        run: echo "DISCORD_BOT_TOKEN is not set - content was validated, nothing was published."
+          DISCORD_CHANNEL_ANNOUNCEMENTS: ${{ vars.DISCORD_CHANNEL_ANNOUNCEMENTS }}
+          DISCORD_CHANNEL_CHANGELOG: ${{ vars.DISCORD_CHANNEL_CHANGELOG }}
+          DISCORD_CHANNEL_THEPRISONS_UPDATES: ${{ vars.DISCORD_CHANNEL_THEPRISONS_UPDATES }}
+          DISCORD_CHANNEL_THEPRISONS_DOWNLOADS: ${{ vars.DISCORD_CHANNEL_THEPRISONS_DOWNLOADS }}
+          DISCORD_CHANNEL_THEPRISONS_CHANGELOG: ${{ vars.DISCORD_CHANNEL_THEPRISONS_CHANGELOG }}
+          DISCORD_CHANNEL_SKY_SUPRA_UPDATES: ${{ vars.DISCORD_CHANNEL_SKY_SUPRA_UPDATES }}
+          DISCORD_CHANNEL_SKY_SUPRA_DOWNLOADS: ${{ vars.DISCORD_CHANNEL_SKY_SUPRA_DOWNLOADS }}
+          DISCORD_CHANNEL_SKY_SUPRA_CHANGELOG: ${{ vars.DISCORD_CHANNEL_SKY_SUPRA_CHANGELOG }}
+        run: python3 -m prisonsbot.workflow

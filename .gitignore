@@ -40,6 +40,9 @@ replay_pid*
 # Python caches
 __pycache__/
 *.py[cod]
+discord-bot/state/
+discord-bot/.venv/
+discord-bot/.python/
 
 # Texture V4 import outputs are reviewed artifacts, never source assets.
 tools/textures/v4/output/

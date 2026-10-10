@@ -4,7 +4,7 @@ import time
 import urllib.error
 import urllib.request
 
-from .config import USER_AGENT
+from .config import USER_AGENT, redact
 
 API = "https://discord.com/api/v10"
 
@@ -48,7 +48,7 @@ class Discord:
             if status >= 300:
                 message = (parsed or {}).get("message", "request failed") if isinstance(parsed, dict) else "request failed"
                 code = (parsed or {}).get("code") if isinstance(parsed, dict) else None
-                raise DiscordError(status, str(message), code)
+                raise DiscordError(status, redact(message, self._token), code)
             return parsed
         raise DiscordError(429, "rate limited")
 
@@ -56,7 +56,17 @@ class Discord:
         return self.request("GET", "/users/@me")
 
     def channel_messages(self, channel_id, limit=100):
-        return self.request("GET", f"/channels/{channel_id}/messages?limit={limit}") or []
+        # Full history is required: an old release marker may be beyond the newest 100.
+        result, before = [], None
+        while True:
+            page = self.request("GET", f"/channels/{channel_id}/messages?limit={limit}" + (f"&before={before}" if before else "")) or []
+            result.extend(page)
+            if len(page) < limit:
+                return result
+            new_before = page[-1]["id"]
+            if new_before == before:
+                raise DiscordError(0, "message history pagination did not advance")
+            before = new_before
 
     def post(self, channel_id, payload):
         return self.request("POST", f"/channels/{channel_id}/messages", payload)
