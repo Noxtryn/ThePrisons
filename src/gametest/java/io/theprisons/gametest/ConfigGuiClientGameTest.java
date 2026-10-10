@@ -5,7 +5,9 @@ import io.theprisons.core.ThePrisonsCore;
 import io.theprisons.core.module.Module;
 import io.theprisons.core.setting.Setting;
 import io.theprisons.gui.config.ConfigCategory;
+import io.theprisons.core.module.AutomationModule;
 import io.theprisons.gui.config.ConfigScreen;
+import io.theprisons.modules.FeatureProfile;
 import net.fabricmc.fabric.api.client.gametest.v1.FabricClientGameTest;
 import net.fabricmc.fabric.api.client.gametest.v1.context.ClientGameTestContext;
 import net.minecraft.client.gui.screen.Screen;
@@ -37,6 +39,7 @@ public final class ConfigGuiClientGameTest implements FabricClientGameTest {
         List<String> problems = new ArrayList<>();
         checkInventory(core, problems);
         checkEntryPoints(context, core, problems);
+        context.runOnClient(client -> checkActivation(core, problems));
         if (!problems.isEmpty()) {
             throw new AssertionError("Config GUI check failed:\n - " + String.join("\n - ", problems));
         }
@@ -62,6 +65,9 @@ public final class ConfigGuiClientGameTest implements FabricClientGameTest {
                 problems.add("setting missing: " + key);
                 continue;
             }
+            if (!ConfigCategory.listed(module)) {
+                continue; // removed from this build (shown with the developer profile): checked by the dev run
+            }
             ConfigCategory category = ConfigCategory.of(module, setting.group());
             if (!ConfigCategory.modulesIn(core.modules().all(), category).contains(module)) {
                 problems.add(key + " is not listed in " + category);
@@ -79,6 +85,87 @@ public final class ConfigGuiClientGameTest implements FabricClientGameTest {
             }
         }
         LOGGER.info("[config-gui] {} documented settings checked, {} modules", documented.size(), core.modules().all().size());
+    }
+
+
+    /**
+     * The switches are real: every switchable module can be turned off and on again without losing or duplicating
+     * its event listeners, core services refuse to be switched, modules outside the build stay off, and the state
+     * survives saving and loading. Macros are left alone (enabling one starts it).
+     */
+    private static void checkActivation(ThePrisonsCore core, List<String> problems) {
+        for (Module module : new ArrayList<>(core.modules().all())) {
+            FeatureProfile.Kind kind = FeatureProfile.kind(module);
+            String id = module.id();
+            try {
+                switch (kind) {
+                    case SWITCHABLE -> {
+                        if (module instanceof AutomationModule || module.canEnable() != null) {
+                            continue; // macros start when enabled; some modules need a world or a route first
+                        }
+                        boolean before = module.enabled();
+                        int listeners = core.bus().listenerCount();
+                        if (!before) {
+                            core.modules().enable(module);
+                            listeners = core.bus().listenerCount();
+                        }
+                        for (int round = 0; round < 2; round++) {
+                            core.modules().toggle(module);
+                            if (module.enabled()) {
+                                problems.add(id + " stays enabled after toggle off");
+                            }
+                            core.modules().toggle(module);
+                            if (!module.enabled()) {
+                                problems.add(id + " does not come back on (" + module.lastStopReason() + ")");
+                            }
+                            if (core.bus().listenerCount() != listeners) {
+                                problems.add(id + " changes the listener count " + listeners + " -> " + core.bus().listenerCount());
+                            }
+                        }
+                        if (!before) {
+                            core.modules().disable(module);
+                        }
+                    }
+                    case CORE -> {
+                        if (core.modules().toggle(module) != module.enabled() || !module.enabled()) {
+                            problems.add(id + " (core) must stay on");
+                        }
+                    }
+                    case NOT_IN_BUILD -> {
+                        if (module.enabled()) {
+                            problems.add(id + " is not in this build but is enabled");
+                        }
+                    }
+                    case SETTINGS_ONLY -> {
+                    }
+                }
+            } catch (RuntimeException error) {
+                problems.add(id + " threw while switching: " + error);
+            }
+        }
+        // Persistence: a core module (modules.json) and a v1 module (theprisons.json) keep their state.
+        for (String id : new String[]{"scoreboard", "armor_hud"}) {
+            Module module = core.modules().get(id);
+            if (module == null || FeatureProfile.kind(module) != FeatureProfile.Kind.SWITCHABLE) {
+                continue;
+            }
+            core.modules().disable(module);
+            core.config().saveNow(false);
+            ThePrisonsClient.CONFIG.save();
+            ThePrisonsClient.CONFIG.load();
+            core.config().load(true);
+            if (module.enabled()) {
+                problems.add(id + " is on again after save and load");
+            }
+            core.modules().enable(module);
+            core.config().saveNow(false);
+            ThePrisonsClient.CONFIG.save();
+            ThePrisonsClient.CONFIG.load();
+            core.config().load(true);
+            if (!module.enabled()) {
+                problems.add(id + " is off again after save and load");
+            }
+        }
     }
 
     private static void checkEntryPoints(ClientGameTestContext context, ThePrisonsCore core, List<String> problems) {

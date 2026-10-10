@@ -8,6 +8,7 @@ import io.theprisons.core.module.Module;
 import io.theprisons.core.module.ModuleManager;
 import io.theprisons.core.setting.Setting;
 import io.theprisons.core.setting.Settings;
+import io.theprisons.modules.FeatureProfile;
 import io.theprisons.modules.ModuleRegistry;
 import io.theprisons.modules.general.ClickGuiModule;
 import io.theprisons.ui.ThePrisonsColors;
@@ -304,8 +305,9 @@ public final class ConfigScreen extends Screen {
         context.drawCenteredTextWithShadow(font, "T", x + 25, y + 6, ThePrisonsColors.ACCENT_CYAN);
         context.drawText(font, Text.literal("THEPRISONS").styled(style -> style.withBold(true)), x + 46, y, ThePrisonsColors.FG_PRIMARY, true);
         context.drawText(font, "CONFIG", x + 46, y + 12, ThePrisonsColors.ACCENT_CYAN, false);
-        long enabled = modules.all().stream().filter(Module::enabled).count();
-        context.drawText(font, I18n.f("%d / %d SYSTEMS ONLINE", enabled, modules.all().size()), x + 12, y + 35, ThePrisonsColors.FG_MUTED, false);
+        List<Module> listed = ConfigCategory.modulesIn(modules.all(), ConfigCategory.OVERVIEW);
+        long enabled = listed.stream().filter(Module::enabled).count();
+        context.drawText(font, I18n.f("%d / %d SYSTEMS ONLINE", enabled, listed.size()), x + 12, y + 35, ThePrisonsColors.FG_MUTED, false);
         // Language button (live): EN ⇄ DE
         String lang = I18n.lang().code();
         int lw = font.getWidth(lang) + 10;
@@ -503,7 +505,10 @@ public final class ConfigScreen extends Screen {
             select(module);
             showDetail = compact;
         });
-        if (module.toggleable()) {
+        if (kindOf(module) == FeatureProfile.Kind.CORE) {
+            context.drawText(font, I18n.t("CORE"), x + w - 12 - font.getWidth(I18n.t("CORE")), y + 12, ThePrisonsColors.FG_DISABLED, false);
+        }
+        if (kindOf(module) == FeatureProfile.Kind.SWITCHABLE) {
             int sx = x + w - 30;
             int sy = y + 12;
             toggle(context, sx, sy, module.enabled());
@@ -521,7 +526,10 @@ public final class ConfigScreen extends Screen {
         // rather than sending the player to a second, parallel settings renderer.
         boolean home = !search.isBlank() || tab == ConfigCategory.OVERVIEW || ConfigCategory.home(module) == tab;
         context.drawText(font, I18n.t(tab.label()) + " › " + I18n.t(module.group()), x, y + 11, ThePrisonsColors.FG_MUTED, false);
-        if (module.toggleable()) {
+        if (kindOf(module) == FeatureProfile.Kind.CORE) {
+            context.drawText(font, I18n.t("CORE"), x + w - font.getWidth(I18n.t("CORE")), y + 1, ThePrisonsColors.FG_DISABLED, false);
+        }
+        if (kindOf(module) == FeatureProfile.Kind.SWITCHABLE) {
             toggle(context, x + w - 22, y + 1, module.enabled());
             hit(x + w - 26, y - 2, x + w + 2, y + 13, (mx, my, b) -> modules.toggle(module));
         }
@@ -1051,7 +1059,7 @@ public final class ConfigScreen extends Screen {
 
     private List<Module> visibleModules() {
         if (!search.isBlank()) {
-            return modules.search(search);
+            return modules.search(search).stream().filter(m -> ConfigCategory.listed(m)).toList();
         }
         List<Module> list = new ArrayList<>();
         for (Module module : modulesIn(tab)) {
@@ -1097,6 +1105,10 @@ public final class ConfigScreen extends Screen {
             commitEdit();
         }
         selected = module;
+    }
+
+    private static FeatureProfile.Kind kindOf(Module module) {
+        return FeatureProfile.kind(module);
     }
 
     private void showToast(String text) {
@@ -1233,7 +1245,7 @@ public final class ConfigScreen extends Screen {
                 }
                 case GLFW.GLFW_KEY_ENTER, GLFW.GLFW_KEY_KP_ENTER -> {
                     searchFocused = false;
-                    List<Module> found = modules.search(search);
+                    List<Module> found = modules.search(search).stream().filter(m -> ConfigCategory.listed(m)).toList();
                     if (!found.isEmpty()) {
                         select(found.get(0));
                     }

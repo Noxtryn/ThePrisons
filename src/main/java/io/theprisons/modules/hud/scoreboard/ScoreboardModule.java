@@ -73,7 +73,7 @@ public final class ScoreboardModule extends Module implements HudElement {
     }
 
     public void register(EventBus bus) {
-        bus.subscribe(CoreEvents.ChatReceived.class, this, event -> {
+        observe(CoreEvents.ChatReceived.class, event -> {
             String line = event.message().getString().toLowerCase(java.util.Locale.ROOT);
             if (line.contains("levelcap") || line.contains("level cap")) {
                 levelCap = true;
@@ -81,12 +81,12 @@ public final class ScoreboardModule extends Module implements HudElement {
                 capLevel = client.player != null ? client.player.experienceLevel : -1;
             }
         });
-        bus.subscribe(CoreEvents.WorldChanged.class, this, event -> {
+        observe(CoreEvents.WorldChanged.class, event -> {
             if (event.previous() == null && event.current() != null) {
                 joinedMs = System.currentTimeMillis();
             }
         });
-        bus.subscribe(CoreEvents.TickEnd.class, this, event -> {
+        always(CoreEvents.TickEnd.class, event -> {
             if (!enabled() || ++ticks % 10 != 0) {
                 return;
             }

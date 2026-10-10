@@ -157,8 +157,14 @@ public final class TunnelVisionModule extends Module {
         return true;
     }
 
+    @Override
+    protected void onDisable() {
+        phase = Phase.OFF;
+        chordDown = false;
+    }
+
     public void register(EventBus bus) {
-        bus.subscribe(CoreEvents.TickEnd.class, this, e -> tick(e.client()));
+        always(CoreEvents.TickEnd.class, e -> tick(e.client()));
     }
 
     // ── State ────────────────────────────────────────────────────────────────

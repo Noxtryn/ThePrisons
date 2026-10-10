@@ -97,6 +97,12 @@ public final class StorageOverlayModule extends Module {
         return instance;
     }
 
+    /** Part of the shipped profile: on for a new player, who may switch it off in the config GUI. */
+    @Override
+    public boolean enabledByDefault() {
+        return true;
+    }
+
     @Override
     public boolean toggleable() {
         return false;
@@ -111,13 +117,13 @@ public final class StorageOverlayModule extends Module {
     /** Hooks the command, tick and chat listeners once; the module is always active. */
     public void register(EventBus bus) {
         ClientSendMessageEvents.ALLOW_COMMAND.register(this::allowCommand);
-        bus.subscribe(CoreEvents.TickEnd.class, this, event -> tick(event.client()));
-        bus.subscribe(CoreEvents.ChatReceived.class, this, event -> {
+        always(CoreEvents.TickEnd.class, event -> tick(event.client()));
+        always(CoreEvents.ChatReceived.class, event -> {
             if (!event.fromPlayer() && !event.overlay()) {
                 onChat(event.message());
             }
         });
-        bus.subscribe(CoreEvents.WorldChanged.class, this, event -> {
+        always(CoreEvents.WorldChanged.class, event -> {
             pending = null;
             scan = null;
         });
@@ -126,7 +132,7 @@ public final class StorageOverlayModule extends Module {
     // ── Command ──────────────────────────────────────────────────────────────
 
     private boolean allowCommand(String command) {
-        if (sendingInternally) {
+        if (!enabled() || sendingInternally) {
             return true;
         }
         String[] parts = command.trim().split("\\s+");
@@ -245,7 +251,7 @@ public final class StorageOverlayModule extends Module {
      */
     public boolean interceptOpen(ScreenHandlerType<?> type, MinecraftClient client, int syncId, Text title) {
         ClientPlayerEntity player = client.player;
-        if (player == null) {
+        if (!enabled() || player == null) {
             return false;
         }
         long now = Util.getMeasuringTimeMs();
@@ -285,7 +291,7 @@ public final class StorageOverlayModule extends Module {
     public boolean onServerClose() {
         MinecraftClient client = MinecraftClient.getInstance();
         ClientPlayerEntity player = client.player;
-        if (player == null || !(client.currentScreen instanceof StorageOverlayScreen screen)) {
+        if (!enabled() || player == null || !(client.currentScreen instanceof StorageOverlayScreen screen)) {
             return false;
         }
         if (screen.page() > 0) {

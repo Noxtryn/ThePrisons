@@ -282,12 +282,12 @@ public final class MarketModule extends Module {
 
     public void register(EventBus bus, CommandService commands) {
         new MenuRecorder().register(bus);
-        bus.subscribe(CoreEvents.TickEnd.class, this, e -> {
+        always(CoreEvents.TickEnd.class, e -> {
             if (enabled()) {
                 tick(e.client());
             }
         });
-        bus.subscribe(CoreEvents.ChatReceived.class, this, e -> {
+        always(CoreEvents.ChatReceived.class, e -> {
             String text = TextStrip.strip(e.message().getString()).toLowerCase(Locale.ROOT);
             if (!e.fromPlayer() && text.contains("you have entered combat")) {
                 combatUntilMs = System.currentTimeMillis() + 12_000L;
@@ -308,8 +308,8 @@ public final class MarketModule extends Module {
                 }
             }
         });
-        bus.subscribe(CoreEvents.PlayerHurt.class, this, e -> hurtAtMs = System.currentTimeMillis());
-        bus.subscribe(CoreEvents.WorldChanged.class, this, e -> {
+        always(CoreEvents.PlayerHurt.class, e -> hurtAtMs = System.currentTimeMillis());
+        always(CoreEvents.WorldChanged.class, e -> {
             if (e.previous() == null && e.current() != null) {
                 // Joined: soon a scan that reads the history as far back as it goes (the time offline).
                 joinedScan = true;

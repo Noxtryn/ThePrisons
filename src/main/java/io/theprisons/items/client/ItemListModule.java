@@ -23,6 +23,12 @@ public final class ItemListModule extends Module {
         return instance;
     }
 
+    /** Part of the shipped profile: on for a new player, who may switch it off in the config GUI. */
+    @Override
+    public boolean enabledByDefault() {
+        return true;
+    }
+
     @Override
     protected void onEnable() {
         // the inventory closed (not by Esc): the search is forgotten with it

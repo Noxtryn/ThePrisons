@@ -3,6 +3,7 @@ package io.theprisons.gui.config;
 import io.theprisons.core.module.Category;
 import io.theprisons.core.module.Module;
 import io.theprisons.core.setting.Setting;
+import io.theprisons.modules.FeatureProfile;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -92,14 +93,19 @@ public enum ConfigCategory {
         return category == OVERVIEW || of(module, setting.group()) == category;
     }
 
+    /** Modules that are not part of this build (removed, developer only) are not listed. */
+    public static boolean listed(Module module) {
+        return FeatureProfile.kind(module) != FeatureProfile.Kind.NOT_IN_BUILD;
+    }
+
     /** The modules a category lists, in registration order: its home modules and those with settings in it. */
     public static List<Module> modulesIn(Collection<Module> all, ConfigCategory category) {
-        if (category == OVERVIEW) {
-            return new ArrayList<>(all);
-        }
         List<Module> list = new ArrayList<>();
         for (Module module : all) {
-            if (home(module) == category) {
+            if (!listed(module)) {
+                continue;
+            }
+            if (category == OVERVIEW || home(module) == category) {
                 list.add(module);
                 continue;
             }
