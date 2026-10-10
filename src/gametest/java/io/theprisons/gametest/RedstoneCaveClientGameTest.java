@@ -110,6 +110,16 @@ public final class RedstoneCaveClientGameTest implements FabricClientGameTest {
 
             // A warden (guard NPC with 1000 HP) in the middle of the cave: the macro must keep 15 blocks away.
             if (!custom[0]) {
+                // Ordinary guards provide legal mining ground outside the warden's exclusion circle.
+                // With only the warden, "stay guarded" (radius 15, inset 2) and "stay 15 away"
+                // have no common return goal. Keep both safety rules enabled rather than testing an impossible mine.
+                for (int gx : new int[]{8, 32}) {
+                    for (int gz : new int[]{8, 32}) {
+                        server.runCommand(String.format(Locale.ROOT,
+                                "summon iron_golem %d %d %d {CustomName:\"100\u2764 Guard\",CustomNameVisible:1b,NoAI:1b,Invulnerable:1b,PersistenceRequired:1b}",
+                                ORIGIN.getX() + gx, ORIGIN.getY() + floor(gx, gz) + 1, ORIGIN.getZ() + gz));
+                    }
+                }
                 server.runCommand(String.format(Locale.ROOT,
                         "summon iron_golem %d %d %d {CustomName:\"1000\u2764 Warden\",CustomNameVisible:1b,NoAI:1b,Invulnerable:1b,PersistenceRequired:1b}",
                         ORIGIN.getX() + WARDEN_X, ORIGIN.getY() + floor(WARDEN_X, WARDEN_Z) + 1, ORIGIN.getZ() + WARDEN_Z));
@@ -138,6 +148,10 @@ public final class RedstoneCaveClientGameTest implements FabricClientGameTest {
                     if (!custom[0]) {
                         m[9] = Math.min(m[9], Math.hypot(client.player.getX() - (ORIGIN.getX() + WARDEN_X + 0.5D),
                                 client.player.getZ() - (ORIGIN.getZ() + WARDEN_Z + 0.5D)));
+                        // /summon uses the integer coordinates above, not the block centre. Retain the old
+                        // conservative check too, and also measure the actual fixture position.
+                        m[9] = Math.min(m[9], Math.hypot(client.player.getX() - (ORIGIN.getX() + WARDEN_X),
+                                client.player.getZ() - (ORIGIN.getZ() + WARDEN_Z)));
                     }
                     if (client.player.horizontalCollision) {
                         m[0]++;
